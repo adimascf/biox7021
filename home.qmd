@@ -1,0 +1,27 @@
+---
+title: "Computational Lab Logbook"
+project: "Evaluating Adapter Trimming and Demultiplexing Tools for Oxford Nanopore Sequencing"
+format:
+  html:
+    toc: true
+    toc-depth: 5
+editor: visual
+---
+
+
+
+# Project Overview {.unnumbered}
+This document records the computational work for the project: *Evaluating Adapter Trimming and Demultiplexing Tools for Oxford Nanopore Sequencing*.
+
+## Core Objectives
+1. **Systematic Benchmarking:** Evaluate fastplong, Porechop, Dorado, and Barbell on real bacterial ONT datasets.
+2. **Downstream Impact Assessment:** Measure the effect of the pre processing step on:
+   * Taxonomic classification (Kraken2 / Centrifuge)
+   * Variant calling (DeepVariant / Clair3)
+   * Assembly quality (Flye / Raven)
+3. **Novel Tool Development:** Prototype a k-mer/minimizer-based demultiplexing tool to handle high error rates and chimeras.
+
+## Metrics for Evaluation
+* **Variant Calling:** F1 score
+* **Assembly:** Misassemblies, completion, contiguity (N50)
+* **Classification:** Precision, recall, sensitivity, specificity

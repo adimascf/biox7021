@@ -1,0 +1,33 @@
+project:
+  type: website
+  title: "BIOX7021 LOGBOOK - 2026"
+
+editor: visual
+
+format:
+  html:
+    theme:
+      light: flatly
+      dark: darkly
+    toc: true
+    code-fold: true
+    code-copy: true
+    fig-align: center
+    link-external-newwindow: true
+    fontsize: "12"
+    page-layout: article
+    grid:
+      body-width: 1200px
+
+website:
+  search: true
+  page-footer: "BIOX7021 Logbook - 2026"
+  navbar:
+    background: primary
+    left:
+      - text: Home
+        href: home.qmd
+      - text: Weekly Logs
+        menu:
+          - text: Week 1
+            href: weekly-logbook/week01.qmd
