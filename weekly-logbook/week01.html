@@ -82,6 +82,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/bootstrap/bootstrap-e8a4c0895993354b54972b5f1e41c0e4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
 <link href="../site_libs/bootstrap/bootstrap-dark-58008ceab81c4fb57a6fd58a386c2ec9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="../site_libs/bootstrap/bootstrap-e8a4c0895993354b54972b5f1e41c0e4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -109,6 +112,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<style>html{ scroll-behavior: smooth; }</style>
 
 
 </head>
@@ -432,6 +436,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="summary-comparison-of-ont-preprocessing-tools" class="level2">
 <h2 class="anchored" data-anchor-id="summary-comparison-of-ont-preprocessing-tools">Summary Comparison of ONT Preprocessing Tools</h2>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 21%">
+<col style="width: 21%">
+<col style="width: 21%">
+<col style="width: 21%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>Tool</th>
@@ -559,7 +570,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/nbd110_workflow.svg" class="img-fluid figure-img" style="width:40.0%"></p>
+<p><a href="images/nbd110_workflow.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Ligation based kit workflow"><img src="images/nbd110_workflow.svg" class="img-fluid figure-img" style="width:40.0%" alt="Ligation based kit workflow"></a></p>
 <figcaption>Ligation based kit workflow</figcaption>
 </figure>
 </div>
@@ -583,7 +594,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/sqk-rbk110-96_gdna_workflow.svg" class="img-fluid figure-img" style="width:40.0%"></p>
+<p><a href="images/sqk-rbk110-96_gdna_workflow.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Rapid (tagmentation) based kit workflow"><img src="images/sqk-rbk110-96_gdna_workflow.svg" class="img-fluid figure-img" style="width:40.0%" alt="Rapid (tagmentation) based kit workflow"></a></p>
 <figcaption>Rapid (tagmentation) based kit workflow</figcaption>
 </figure>
 </div>
@@ -671,12 +682,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>barbell favor match taht generally tight together</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/barbell_formula.gif" class="img-fluid figure-img"></p>
+<p><a href="images/barbell_formula.gif" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Barbell formula"><img src="images/barbell_formula.gif" class="img-fluid figure-img" alt="Barbell formula"></a></p>
 <figcaption>Barbell formula</figcaption>
 </figure>
 </div>
 <p>using formula above, i write simple python implementation below:</p>
-<div id="0a669a3c" class="cell" data-execution_count="1">
+<div id="0f4e7db8" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> itertools</span>
@@ -736,7 +747,7 @@ Barcdoe 4 [1, 2, 4, 5, 6] -----&gt; 0.421875</code></pre>
 <p>Fastp automatically detects adapter sequences for illumina and ONT data, although for the later it is recommended to provide the sequence (if it is known). It search on both ends for ONT data. It uses edit distance (25% mismatch ratio), and by default it trim 10bp more connected to the adapter (why?)</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/adapter_discovery_fastp.png" class="img-fluid figure-img" style="width:50.0%"></p>
+<p><a href="images/adapter_discovery_fastp.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Adapter discover"><img src="images/adapter_discovery_fastp.png" class="img-fluid figure-img" style="width:50.0%" alt="Adapter discover"></a></p>
 <figcaption>Adapter discover</figcaption>
 </figure>
 </div>
@@ -1272,8 +1283,41 @@ Barcdoe 4 [1, 2, 4, 5, 6] -----&gt; 0.421875</code></pre>
     </div>
   </div>
 </footer>
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
 
 
 
 
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>
