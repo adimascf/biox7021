@@ -432,13 +432,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="summary-comparison-of-ont-preprocessing-tools" class="level2">
 <h2 class="anchored" data-anchor-id="summary-comparison-of-ont-preprocessing-tools">Summary Comparison of ONT Preprocessing Tools</h2>
 <table class="caption-top table">
-<colgroup>
-<col style="width: 11%">
-<col style="width: 21%">
-<col style="width: 21%">
-<col style="width: 21%">
-<col style="width: 21%">
-</colgroup>
 <thead>
 <tr class="header">
 <th>Tool</th>
@@ -495,8 +488,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td><a href="#barbell">Barbell</a></td>
 <td><strong>No</strong>, at least not its main use case.</td>
 <td><strong>No</strong></td>
-<td><strong>Yes</strong> (It uses subsequence kernel of Lodhi that favors matches that tighly together. Tag-based searching, look for flanking sequences Fl and Fr, locates masked tag (Fℓ–N</td>
-<td>B</td>
+<td><strong>Yes</strong> (Tag-based searching, look for flanking sequences Fl and Fr, locates masked tag (Fl–B–Fr). Then, it uses subsequence kernel of Lodhi that favors matches that tighly together )</td>
+<td>Detects unexpected barcode patterns (dual-end, multiple barcodes, inner barcodes). Uses score normalization (≥20% of perfect score, ≥10% difference to second best)</td>
 </tr>
 <tr class="even">
 <td><a href="#flexiplex">Flexiplex</a></td>
@@ -683,7 +676,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </figure>
 </div>
 <p>using formula above, i write simple python implementation below:</p>
-<div id="6fd244a9" class="cell" data-execution_count="1">
+<div id="0a669a3c" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> itertools</span>
