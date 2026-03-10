@@ -309,6 +309,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="../weekly-logbook/week01.html">
  <span class="dropdown-text">Week 1</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../weekly-logbook/week02.html">
+ <span class="dropdown-text">Week 2</span></a>
+  </li>  
     </ul>
   </li>
 </ul>
@@ -497,7 +501,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="odd">
 <td><a href="#barbell">Barbell</a></td>
-<td><strong>No</strong>, at least not its main use case.</td>
+<td><strong>Yes</strong>, but need manual intervention steps.</td>
 <td><strong>No</strong></td>
 <td><strong>Yes</strong> (Tag-based searching, look for flanking sequences Fl and Fr, locates masked tag (Fl–B–Fr). Then, it uses subsequence kernel of Lodhi that favors matches that tighly together )</td>
 <td>Detects unexpected barcode patterns (dual-end, multiple barcodes, inner barcodes). Uses score normalization (≥20% of perfect score, ≥10% difference to second best)</td>
@@ -687,7 +691,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </figure>
 </div>
 <p>using formula above, i write simple python implementation below:</p>
-<div id="0f4e7db8" class="cell" data-execution_count="1">
+<div id="ebb91165" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> itertools</span>
