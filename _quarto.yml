@@ -13,6 +13,8 @@ format:
     code-fold: true
     code-copy: true
     fig-align: center
+    smooth-scroll: true
+    lightbox: true
     link-external-newwindow: true
     fontsize: "12"
     page-layout: article
@@ -31,3 +33,5 @@ website:
         menu:
           - text: Week 1
             href: weekly-logbook/week01.qmd
+          - text: Week 2
+            href: weekly-logbook/week02.qmd
