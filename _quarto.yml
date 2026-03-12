@@ -35,3 +35,5 @@ website:
             href: weekly-logbook/week01.qmd
           - text: Week 2
             href: weekly-logbook/week02.qmd
+          - text: Week 3
+            href: weekly-logbook/week03.qmd
