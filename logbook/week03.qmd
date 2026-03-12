@@ -1,0 +1,20 @@
+---
+title: "Week 03: Project Plan Preparation and Pipeline Development"
+format:
+  html:
+    toc: true
+    toc-depth: 5
+editor: visual
+---
+
+## Overview
+
+------------------------------------------------------------------------
+
+## Weekly meeting and action items (11-03-2026)
+
+- We will be using Snakemake as worklfow management system
+- Dimas will go through the documentation and tutorials
+- Use `dorado` as our solely demultiplexer (with option `–-no-trim`), and we put barbell in the QC step as read trimming tool
+- include `porcechop_ABI` in the QC option
+- Dimas created shareable project plan draft on overleaf

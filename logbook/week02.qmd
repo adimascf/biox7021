@@ -1,5 +1,5 @@
 ---
-title: "Week 01: Downloading data and run basecalling"
+title: "Week 02: Downloading the dataset and run basecalling"
 format:
   html:
     toc: true
@@ -11,7 +11,7 @@ editor: visual
 
 ------------------------------------------------------------------------
 
-## Weekly meeting and action items (25-02-2026)
+## Weekly meeting and action items (25-04-2026)
 
 - Include `fitlong` for quality filtering in the benchmarking
 - Strip away the demultiplexing tools, focus on QC step
@@ -46,14 +46,14 @@ questions:
 
 - Include barbell in the benchmark as demultiplexing option?
 
-  If so, I think interesting to see if we find that: If dorado indeed has some issue (as mentioned in barbell paper), are standard QC sufficient to mitigate them?
-  If barbell already clear up any QC issue in our dataset, does QC step not really matter anymore? or still matter QC step does not matter regardless our choice of demultiplexing tool, or QC step does matter
+  If so, I think interesting to see if we find that: If dorado indeed has some issue (as mentioned in barbell paper), are standard QC sufficient to mitigate them? If barbell already clear up any QC issue in our dataset, does QC step not really matter anymore? or still matter QC step does not matter regardless our choice of demultiplexing tool, or QC step does matter
 
 - or include barbell in QC step, but it requires "manual" intervention?
 
 - is 24 total pipelines manageable?
 
 - And about our main aims:
+
   - Do we ask whether necessery or no to perform QC step given downstream analysis? (so we just run dorado with default settings with trim turn on) or
   - Do we ask whther or no adapter/barcode sequences impact downstram analysis? (so we left the adapater/barcode sequences, `--no-trim`) or
   - what kind of QC steps (With paramters) best for a given downstream analysis?
@@ -61,11 +61,13 @@ questions:
 Play around with barbel on our dataset
 
 basecall using dorado each of our sample:
+
 ```{{bash}}
 ssubmit -t 1d -m 16g basecall "dorado basecaller --no-trim --recursive sup $run_dir > basecalls.bam" -- --qos gpu -p gpu_cuda --gres=gpu:h100:1
 ```
 
 Scan for barcode masked tags over the reads, extract the barcode region, and assign a label for each barcode using subsequence matches
+
 ```{{bash}}
 barbell annotate --kit SQK-NBD114-96 -i input.fastq.gz -t 10 -o fastq_anno.tsv
 ```
@@ -80,8 +82,8 @@ Ftag[<<. rc, *, @right(0..250)]
 
 ![Example patterns observed in rapid barcoding data](images/rbk_tags_patterns.jpg){fig-align="center" width="80%"}
 
-Example result
-for MMC234__202311 (probably from single run):
+Example result for MMC234\_\_202311 (probably from single run):
+
 ```{{bash}}
 -rw-r--r-- 1 s4897040 qris-uq  85K Mar  8 16:19 NB14_fw.trimmed.fastq
 -rw-r--r-- 1 s4897040 qris-uq  93K Mar  8 16:19 NB11_fw.trimmed.fastq
@@ -92,7 +94,8 @@ for MMC234__202311 (probably from single run):
 -rw-r--r-- 1 s4897040 qris-uq 127K Mar  8 16:19 NB09_fw.trimmed.fastq
 ```
 
-for ATCC_35221__202309 (come from multiple runs):
+for ATCC_35221\_\_202309 (come from multiple runs):
+
 ```{{bash}}
 -rw-r----- 1 s4897040 qris-uq 2.7M Mar 11 05:13 NB83_fw.trimmed.fastq
 -rw-r----- 1 s4897040 qris-uq 1.4M Mar 11 05:13 NB80_fw.trimmed.fastq
@@ -127,9 +130,8 @@ for ATCC_35221__202309 (come from multiple runs):
 -rw-r----- 1 s4897040 qris-uq 106K Mar 11 05:13 NB66_fw.trimmed.fastq
 ```
 
-
 | Sample | NB01 | NB02 | NB04 | NB05 | NB06 | NB07 | NB08 | NB10 | NB11 | NB12 | NB14 | Dropped |
-|------------|------|------|-----|------|------|-----|-----|-----|------|------|------|------|
+|------|------|------|------|------|------|------|------|------|------|------|------|------|
 | ATCC_10708\_\_202309 |  |  |  |  |  |  |  |  |  |  |  |  |
 | ATCC_17802\_\_202309 |  |  |  |  |  |  |  |  |  |  |  |  |
 | ATCC_25922\_\_202309 |  |  |  |  |  |  |  |  |  |  |  |  |

@@ -70,7 +70,6 @@ question: How do we approach read trimming here? because only fastplong that can
 | [chopper](#chopper) | **No** | **Yes** (It can crop certain length of both ends, trim bases one by one until get higher than theshold, extract good quality segment of the reads, split reads by low quality segments). | **No** | It does not give any default argument for its paramters, so if no arguments given, the dataset will not change |
 | [Barbell](#barbell) | **Yes**, but need manual intervention steps. | **No** | **Yes** (Tag-based searching, look for flanking sequences Fl and Fr, locates masked tag (Fl–B–Fr). Then, it uses subsequence kernel of Lodhi that favors matches that tighly together ) | Detects unexpected barcode patterns (dual-end, multiple barcodes, inner barcodes). Uses score normalization (≥20% of perfect score, ≥10% difference to second best) |
 | [Flexiplex](#flexiplex) | **No** | **No** | **Yes** (It makes use of non variable barcode flank to search for barcode, and uses levenshtein distance.) | Support various barcode - UMI design, but it seems developed with focus on scRNA data. It doesn't support dual end barcode experiment |
-: {tbl-colwidths="[11, 21, 21, 21, 21]"}
 
 **Questions**: Do we consider filtering as trimming as well here? because these several tools perform both quality and/or adapter trimming and read filtering
 
