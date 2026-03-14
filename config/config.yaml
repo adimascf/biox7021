@@ -1,0 +1,10 @@
+pepfile: "config/pep/project_config.yaml"
+pepschema: "config/pep/pep_schema.yaml"
+
+trimming:
+  - fastplong
+  - porechop_abi
+
+filtering:
+  - fastplong
+  - filtlong

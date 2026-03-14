@@ -1,0 +1,33 @@
+from pathlib import Path
+import itertools
+
+
+WORKFLOW = Path("workflow").resolve()
+CONFIG = Path("config").resolve()
+RESULTS = Path("results").resolve()
+LOGS = Path("logs/rules").resolve()
+
+RULES = WORKFLOW / "rules"
+ENVS = WORKFLOW / "envs"
+
+configfile: CONFIG / "config.yaml"
+pepfile: str(CONFIG / "pep/project_config.yaml")
+pepschema: str(CONFIG / "pep/pep_schema.yaml")
+
+SAMPLES = pep.sample_table["sample_name"]
+TRIMMING = config["trimming"]
+
+
+target_files = set()
+
+for tool in TRIMMING:
+	for sample in SAMPLES:
+		target_files.add(RESULTS / f"QC/trimming/{tool}/{sample}.fastq.gz")
+
+rule all:
+    input:
+        target_files
+
+
+include: RULES / "common.smk"
+include: RULES / "trim.smk"

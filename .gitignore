@@ -3,3 +3,8 @@
 .DS_Store
 **/*.quarto_ipynb
 .Rhistory
+data/
+results/
+.snakemake/
+logs/
+tmp/
