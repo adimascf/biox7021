@@ -4,14 +4,14 @@
     "href": "home.html",
     "title": "Computational Lab Logbook",
     "section": "",
-    "text": "This document records the computational work for the project: Evaluating Adapter Trimming and Demultiplexing Tools for Oxford Nanopore Sequencing.\n\n\n\nSystematic Benchmarking: Evaluate fastplong, Porechop, Dorado, and Barbell on real bacterial ONT datasets.\nDownstream Impact Assessment: Measure the effect of the pre processing step on:\n\nTaxonomic classification (Kraken2 / Centrifuge)\nVariant calling (DeepVariant / Clair3)\nAssembly quality (Flye / Raven)\n\nNovel Tool Development: Prototype a k-mer/minimizer-based demultiplexing tool to handle high error rates and chimeras.\n\n\n\n\n\nVariant Calling: F1 score\nAssembly: Misassemblies, completion, contiguity (N50)\nClassification: Precision, recall, sensitivity, specificity"
+    "text": "This document records the computational work for the project: Evaluating Adapter Trimming and Demultiplexing Tools for Oxford Nanopore Sequencing.\n\n\n\nSystematic Benchmarking: Evaluate fastplong, Porechop, Dorado, and Barbell on real bacterial ONT datasets.\nDownstream Impact Assessment: Measure the effect of the pre processing step on:\n\nTaxonomic classification (Kraken2 / Centrifuge)\nVariant calling (DeepVariant / Clair3)\nAssembly quality (Flye / Raven)\n\n\n\n\n\n\nVariant Calling: F1 score\nAssembly: Misassemblies, completion, contiguity (N50)\nClassification: Precision, recall, sensitivity, specificity"
   },
   {
     "objectID": "home.html#core-objectives",
     "href": "home.html#core-objectives",
     "title": "Computational Lab Logbook",
     "section": "",
-    "text": "Systematic Benchmarking: Evaluate fastplong, Porechop, Dorado, and Barbell on real bacterial ONT datasets.\nDownstream Impact Assessment: Measure the effect of the pre processing step on:\n\nTaxonomic classification (Kraken2 / Centrifuge)\nVariant calling (DeepVariant / Clair3)\nAssembly quality (Flye / Raven)\n\nNovel Tool Development: Prototype a k-mer/minimizer-based demultiplexing tool to handle high error rates and chimeras."
+    "text": "Systematic Benchmarking: Evaluate fastplong, Porechop, Dorado, and Barbell on real bacterial ONT datasets.\nDownstream Impact Assessment: Measure the effect of the pre processing step on:\n\nTaxonomic classification (Kraken2 / Centrifuge)\nVariant calling (DeepVariant / Clair3)\nAssembly quality (Flye / Raven)"
   },
   {
     "objectID": "home.html#metrics-for-evaluation",
