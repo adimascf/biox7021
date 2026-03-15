@@ -4,6 +4,7 @@ pepschema: "config/pep/pep_schema.yaml"
 trimming:
   - fastplong
   - porechop_abi
+  - dorado
 
 filtering:
   - fastplong
