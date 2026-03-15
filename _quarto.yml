@@ -32,8 +32,8 @@ website:
       - text: Weekly Logs
         menu:
           - text: Week 1
-            href: weekly-logbook/week01.qmd
+            href: logbook/week01.qmd
           - text: Week 2
-            href: weekly-logbook/week02.qmd
+            href: logbook/week02.qmd
           - text: Week 3
-            href: weekly-logbook/week03.qmd
+            href: logbook/week03.qmd

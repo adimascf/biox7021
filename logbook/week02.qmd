@@ -29,15 +29,16 @@ editor: visual
 ```{python}
 import itertools
 
-demultiplexer = ["dorado", "barbell"]
-qc_tools = ["porechop/ABI", "fastplong", "fitlong", "none"]
+demultiplexer = ["dorado",]
+trimming_tools = ["porechop/ABI", "fastplong", "barbell", "dorado", "none"]
+filtering_tools = ["fastplong", "fitlong", "none"]
 applications = ["Assembly", "Variant calling", "Taxonomic assignment"]
 
 # all possible combinations
-pipelines = list(itertools.product(demultiplexer, qc_tools, applications))
+pipelines = list(itertools.product(demultiplexer, trimming_tools, filtering_tools, applications))
 
-for i, (demux, qc, app) in enumerate(pipelines, start=1):
-    print(f"Run {i:02}: {demux} -> {qc} -> {app}")
+for i, (demux, trim, filt, app) in enumerate(pipelines, start=1):
+    print(f"Run {i:02}: {demux} -> {trim} -> {filt} -> {app}")
 
 print(f"\nTotal pipeline to be benchmarked (single dataset): {len(pipelines)}")
 ```

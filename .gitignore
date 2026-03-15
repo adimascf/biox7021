@@ -8,3 +8,6 @@ results/
 .snakemake/
 logs/
 tmp/
+logbook/images/
+home.qmd
+_quarto.yml
