@@ -39,7 +39,14 @@
     "href": "logbook/week03.html#weekly-meeting-and-action-items-11-03-2026",
     "title": "Week 03: Pipeline Setup and Project Plan Preparation",
     "section": "Weekly meeting and action items (11-03-2026)",
-    "text": "Weekly meeting and action items (11-03-2026)\n\nWe are using Snakemake as worklfow management system\nDimas will go through the documentation and tutorials of snakemake\nSome samples in or ONT dataset were generated from possibly multiple runs pooling together, so non unique barcode is expected.\nAlso the datasets come from either Rapid Barcoding Kit V14 (SQK-RBK114.96) or Native Barcoding Kit V14 (SQK-NBD114.96).\nUse dorado as our solely demultiplexer (with option –-no-trim), and we put barbell in the QC step as read trimming tool\ninclude porcechop_ABI in the QC option\nDimas created shareable project plan draft on overleaf, draft needs to be ready on 21 April\nNeed to start thinking about the outline for the project plan\nWeek 3 Checkpoint Submission due on 16 March\n\nCurrent snakemake rulegraph:"
+    "text": "Weekly meeting and action items (11-03-2026)\n\nWe are using Snakemake as worklfow management system\nDimas will go through the documentation and tutorials of snakemake\nSome samples in or ONT dataset were generated from possibly multiple runs pooling together, so non unique barcode is expected.\nAlso the datasets come from either Rapid Barcoding Kit V14 (SQK-RBK114.96) or Native Barcoding Kit V14 (SQK-NBD114.96).\nUse dorado as our solely demultiplexer (with option –-no-trim), and we put barbell in the QC step as read trimming tool\ninclude porcechop_ABI in the QC option\nDimas created shareable project plan draft on overleaf, and the draft needs to be ready on 21 April\nNeed to start thinking about the outline for the project plan\nWeek 3 Checkpoint Submission is due on 16 March"
+  },
+  {
+    "objectID": "logbook/week03.html#current-snakemake-rulegraph",
+    "href": "logbook/week03.html#current-snakemake-rulegraph",
+    "title": "Week 03: Pipeline Setup and Project Plan Preparation",
+    "section": "Current snakemake rulegraph:",
+    "text": "Current snakemake rulegraph:"
   },
   {
     "objectID": "logbook/week01.html",
