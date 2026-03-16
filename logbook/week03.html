@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Week 03: Project Plan Preparation and Pipeline Development – BIOX7021 LOGBOOK - 2026</title>
+<title>Week 03: Pipeline Setup and Project Plan Preparation – BIOX7021 LOGBOOK - 2026</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -312,7 +312,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Week 03: Project Plan Preparation and Pipeline Development</h1>
+<h1 class="title">Week 03: Pipeline Setup and Project Plan Preparation</h1>
 </div>
 
 
@@ -331,19 +331,23 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="overview" class="level2">
 <h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p>The current project setup, including the Snakemake workflow, decisions from the weekly meeting, and the current pipeline structure.</p>
 <hr>
 </section>
 <section id="weekly-meeting-and-action-items-11-03-2026" class="level2">
 <h2 class="anchored" data-anchor-id="weekly-meeting-and-action-items-11-03-2026">Weekly meeting and action items (11-03-2026)</h2>
 <ul>
-<li>We will be using Snakemake as worklfow management system</li>
+<li>We are using Snakemake as worklfow management system</li>
 <li>Dimas will go through the documentation and tutorials of snakemake</li>
+<li>Some samples in or ONT dataset were generated from possibly multiple runs pooling together, so non unique barcode is expected.</li>
+<li>Also the datasets come from either Rapid Barcoding Kit V14 (SQK-RBK114.96) or Native Barcoding Kit V14 (SQK-NBD114.96).</li>
 <li>Use <code>dorado</code> as our solely demultiplexer (with option <code>–-no-trim</code>), and we put barbell in the QC step as read trimming tool</li>
 <li>include <code>porcechop_ABI</code> in the QC option</li>
 <li>Dimas created shareable project plan draft on overleaf, draft needs to be ready on 21 April</li>
+<li>Need to start thinking about the outline for the project plan</li>
 <li>Week 3 Checkpoint Submission due on 16 March</li>
 </ul>
-<p>Current rulegraph:</p>
+<p>Current snakemake rulegraph:</p>
 <p><a href="images/rulegraph.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="images/rulegraph.png" class="img-fluid"></a></p>
 
 

@@ -337,6 +337,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#aaction-items-related-to-qc-benchmarking-and-pipeline-development" id="toc-aaction-items-related-to-qc-benchmarking-and-pipeline-development" class="nav-link" data-scroll-target="#aaction-items-related-to-qc-benchmarking-and-pipeline-development">Aaction items related to QC benchmarking and pipeline development</a></li>
   <li><a href="#weekly-meeting-and-action-items-25-04-2026" id="toc-weekly-meeting-and-action-items-25-04-2026" class="nav-link" data-scroll-target="#weekly-meeting-and-action-items-25-04-2026">Weekly meeting and action items (25-04-2026)</a></li>
   </ul>
 </nav>
@@ -366,7 +367,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="overview" class="level2">
 <h2 class="anchored" data-anchor-id="overview">Overview</h2>
-<hr>
+</section>
+<section id="aaction-items-related-to-qc-benchmarking-and-pipeline-development" class="level2">
+<h2 class="anchored" data-anchor-id="aaction-items-related-to-qc-benchmarking-and-pipeline-development">Aaction items related to QC benchmarking and pipeline development</h2>
 </section>
 <section id="weekly-meeting-and-action-items-25-04-2026" class="level2">
 <h2 class="anchored" data-anchor-id="weekly-meeting-and-action-items-25-04-2026">Weekly meeting and action items (25-04-2026)</h2>
@@ -377,15 +380,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>QC step is including:
 <ul>
 <li>Adapter trimming (fastplong, barbell, porechop/ABI)</li>
-<li>Quality trimming (fastplong, chopper?, fitlong)</li>
+<li>Quality trimming (fastplong, chopper?, filtlong)</li>
 <li>and also quality filtering (fastp, fitlong)</li>
 </ul></li>
-<li>Dimas download raw signal (pod5 files) from Michael’s variant caller benchmark paper</li>
+<li>Dimas downloaded raw signal (pod5 files) from Michael’s variant caller benchmark paper</li>
 <li>Run basecalling using <code>sup</code> accuracy and <code>simplex</code> mode</li>
-<li>Need to start thinking about outline for my project plan</li>
 </ul>
 <p><a href="https://github.com/rrwick/Filtlong">fitlong</a> is a quality based long read filtering that select a subset of high quality reads based on weighted score of length and sequence identity. Rank reads either using phred score or kmer matches against reference sequence.</p>
-<div id="badccc31" class="cell" data-execution_count="1">
+<div id="f0c1a15b" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> itertools</span>
