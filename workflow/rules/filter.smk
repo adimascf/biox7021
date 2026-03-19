@@ -8,7 +8,7 @@ rule filter_fastplong:
 	threads: 8
 	resources:
 		mem_mb=64000,
-		runtime=f"{3 * REPEAT}m"
+		runtime=f"{5 * REPEAT}m"
 	conda: 
 		ENVS / "fastplong.yaml"
 	params:
@@ -32,7 +32,7 @@ rule filter_filtlong:
 		LOGS / "QC/filtering/fastplong/{trimmer}/{sample}.{trimmer}.filtlong.log"
 	resources:
 		mem_mb=128000,
-		runtime=f"{5 * REPEAT}m"
+		runtime=f"{20 * REPEAT}m"
 	conda:
 		ENVS / "filtlong.yaml"
 	params:

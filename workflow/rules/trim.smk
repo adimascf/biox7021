@@ -32,8 +32,8 @@ rule trim_porcechop_abi:
 		LOGS / "QC/trimming/porechop_abi/{sample}.log"
 	threads: 32
 	resources:
-		mem_mb=128000,
-		runtime=f"{150 * REPEAT}m"
+		mem_mb=256000,
+		runtime=f"{24 * REPEAT}h"
 	conda:
 		ENVS / "porechop_abi.yaml"
 	params:
