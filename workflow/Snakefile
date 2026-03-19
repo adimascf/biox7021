@@ -9,6 +9,7 @@ LOGS = Path("logs/rules").resolve()
 
 RULES = WORKFLOW / "rules"
 ENVS = WORKFLOW / "envs"
+BENCHMARK = RESULTS / "benchmark"
 
 configfile: CONFIG / "config.yaml"
 pepfile: str(CONFIG / "pep/project_config.yaml")
@@ -17,11 +18,14 @@ pepschema: str(CONFIG / "pep/pep_schema.yaml")
 SAMPLES = pep.sample_table["sample_name"]
 TRIMMING = config["trimming"]
 FILTERING = config["filtering"]
+REPEAT = config["repeat"]
+
+KITS = pep.sample_table["sequencing_kits"]
 
 target_files = set()
 for trimmer, filtering_tool in itertools.product(TRIMMING, FILTERING):
 	for sample in SAMPLES:
-		target_files.add(RESULTS / f"QC/filtering/{filtering_tool}/{trimmer}/{sample}.{trimmer}.{filtering_tool}.fastq.gz")
+		target_files.add(RESULTS / f"QC/filtering/{filtering_tool}/{trimmer}/{sample}.{trimmer}.{filtering_tool}.fastq")
 rule all:
     input:
         target_files

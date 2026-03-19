@@ -11,7 +11,7 @@ properties:
         sample_name:
           type: string
           description: "Name of the sample"
-        sequencing_kit:
+        sequencing_kits:
           type: string
           description: "Sequencing kit that generated the data"
         species:
