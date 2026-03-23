@@ -71,3 +71,23 @@ rule trim_dorado:
 		(dorado trim {params.output_fq} --sequencing-kit {params.kit1} {input.reads} > $tmp_fq) 2> {log}
 		(dorado trim {params.output_fq} --sequencing-kit {params.kit2} $tmp_fq > {output.reads}) 2>> {log} 
 		"""
+
+rule barbell_trim:
+	input:
+		reads=get_original_fastqs
+	log:
+		LOGS / "QC/trimming/barbell/{sample}.log"
+	resources:
+		mem_mb=32000,
+		runtime=f"{20 * REPEAT}h"
+	conda:
+		ENVS / "barbell_seqkit.yaml"
+	params:
+		kit1=lambda wildcards: get_sequencing_kits(wildcards)[0],
+		kit2=lambda wildcards: get_sequencing_kits(wildcards)[1]
+	output:
+		reads= RESULTS / "QC/trimming/barbell/{sample}.fastq"
+	benchmark:
+		repeat(BENCHMARK / "QC/trimming/barbell/{sample}.tsv", REPEAT)
+	script:
+		"../scripts/trimming/barbell_kit.sh"

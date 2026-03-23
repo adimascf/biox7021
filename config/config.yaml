@@ -7,6 +7,7 @@ trimming:
   - fastplong
   - porechop_abi
   - dorado
+  - barbell
 
 filtering:
   - fastplong
