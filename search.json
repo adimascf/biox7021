@@ -53,7 +53,7 @@
     "href": "logbook/week04.html#weekly-meeting-and-action-items-18-03-2026",
     "title": "Week 04: Continue building snakemake workflow and writing project plan",
     "section": "Weekly meeting and action items (18-03-2026)",
-    "text": "Weekly meeting and action items (18-03-2026)\n-   Run `doraro trim` twice, once with each barcode kits (SQK-RBK114.96 or SQK-NBD114.96). Using output from the first trimming as the input for the second trimming.\n-   Run `barbell kit` also twice, but because it is also demultiplexing, we use the same input file as for both trimming steps. Then combine all the outputs, and we remove the duplilcates after that.\n-   Add bechmark and resource derivatives, then install [plugin slurm](https://snakemake.github.io/snakemake-plugin-catalog/plugins/executor/slurm.html).\n-   Focus or limit the introduction in the scope of bacterial genomics in the project plan"
+    "text": "Weekly meeting and action items (18-03-2026)\n\nRun doraro trim twice, once with each barcode kits (SQK-RBK114.96 or SQK-NBD114.96). Using output from the first trimming as the input for the second trimming.\nRun barbell kit also twice, but because it is also demultiplexing, we use the same input file as for both trimming steps. Then combine all the outputs, and we remove the duplilcates after that.\nAdd bechmark and resource derivatives, then install plugin slurm.\nFocus or limit the introduction in the scope of bacterial genomics in the project plan"
   },
   {
     "objectID": "logbook/week04.html#snakemake-rulegraph",
