@@ -439,7 +439,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>Tool related parameters</td>
 <td>-</td>
 <td><p><code>--end_size</code> (number of bases at each end of the read which will be searched for adapter sequences, default 150bp)</p>
-<p><code>--end_threshold</code> threshold identity (default 75%) to be removed and <code>--adapter_threshold</code> (default 90%) to be identitfied as present in the dataset when it is searching.</p></td>
+<p><code>--end_threshold</code> threshold identity (default 75%) to be removed</p></td>
 <td><p><code>--maximize</code> adds “risky” pattern during demultiplexing, meaning more reads are retained or assigned.</p>
 <p>When scanning for barcode flanks, we can set <code>--flank-max-errors</code>. Other paramters related threshold <code>--min-score</code>,<code>--min-score-diff</code>, <code>--alpha</code></p></td>
 <td></td>
@@ -536,7 +536,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="odd">
 <td>How the tool performs the process</td>
 <td>Process each parameter in isolation</td>
-<td>Read are scored by some formula based on three separate metrics: length, mean quality and window quality</td>
+<td>Reads are scored using a weighted formula based on three separate metrics: read length, mean quality, and sliding window quality to determine threshold for <code>--keep_percent</code> and <code>--target_bases</code></td>
 <td>Process each parameter in isolation</td>
 </tr>
 <tr class="even">
