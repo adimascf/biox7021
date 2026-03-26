@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Week 05: Compile – BIOX7021 LOGBOOK - 2026</title>
+<title>Week 05: QC Tool Parameter Compilation – BIOX7021 LOGBOOK - 2026</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -349,6 +349,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#example-commands" id="toc-example-commands" class="nav-link" data-scroll-target="#example-commands">Example commands</a>
   <ul>
   <li><a href="#chopper---trim-approach-split-by-low-quality" id="toc-chopper---trim-approach-split-by-low-quality" class="nav-link" data-scroll-target="#chopper---trim-approach-split-by-low-quality">chopper (<code>--trim-approach</code> <code>split-by-low-quality)</code></a></li>
+  <li><a href="#fastplong" id="toc-fastplong" class="nav-link" data-scroll-target="#fastplong">fastplong</a></li>
   </ul></li>
   </ul></li>
   </ul>
@@ -360,7 +361,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Week 05: Compile</h1>
+<h1 class="title">Week 05: QC Tool Parameter Compilation</h1>
 </div>
 
 
@@ -384,18 +385,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="weekly-meeting-and-action-items-25-03-2026" class="level2">
 <h2 class="anchored" data-anchor-id="weekly-meeting-and-action-items-25-03-2026">Weekly meeting and action items (25-03-2026)</h2>
 <ul>
-<li><p>Succesfully run snakemake slurm plugin and adding the benchmark as well as the resource derivates in the rules</p></li>
-<li><p>Compile the paramters for each QC tools</p></li>
+<li><p>Succesfully run snakemake slurm plugin and adding the benchmark as well as the resource directive in the rules</p></li>
+<li><p>Include chopper in the read quality trimming/filtering evaluation</p></li>
+<li><p>Discussed Native vs.&nbsp;Rapid read anatomy structure.</p></li>
+<li><p>Compiled the paramters for each QC tool</p></li>
 </ul>
 <section id="adapter-trimming-tools" class="level3">
 <h3 class="anchored" data-anchor-id="adapter-trimming-tools">Adapter trimming tools</h3>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 7%">
-<col style="width: 11%">
-<col style="width: 36%">
-<col style="width: 16%">
-<col style="width: 27%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 30%">
+<col style="width: 26%">
+<col style="width: 23%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -436,15 +439,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>Not clear. But I think it uses edit distance (<code>--distance_threshold,</code>default=75% match), similar to original porechop</td>
 </tr>
 <tr class="odd">
-<td>Unique parameters</td>
+<td>Tool related parameters</td>
+<td>-</td>
+<td><p><code>--end_size</code> (number of bases at each end of the read which will be searched for adapter sequences, default 150bp)</p>
+<p><code>--end_threshold</code> threshold identity (default 75%) to be removed and <code>--adapter_threshold</code> (default 90%) to be identitfied as present in the dataset when it is searching.</p></td>
+<td><p><code>--maximize</code> adds “risky” pattern during demultiplexing, meaning more reads are retained or assigned.</p>
+<p>When scanning for barcode flanks, we can set <code>--flank-max-errors</code>. Other paramters related threshold <code>--min-score</code>,<code>--min-score-diff</code>, <code>--alpha</code></p></td>
 <td></td>
-<td></td>
-<td></td>
-<td></td>
+</tr>
+<tr class="even">
+<td>Multithreading support (for benchmarking maybe?)</td>
+<td><code>--threads</code> (deafult using all available threads)</td>
+<td><code>--threads</code> (default is 16)</td>
+<td><code>--threads</code> (default is 10)</td>
+<td><code>--thread</code> (default is 3)</td>
 </tr>
 </tbody>
 </table>
-<p>*: It doesn’t use proportion, meaning that different read depth will have different sampling representation. Is it better to perform downsampling before QC step instead of after to minimise bias across the samples?</p>
+<p>*: It doesn’t use proportion, meaning that different read depth will have different sampling representation to “guess” (ab initio) what the adapter sequence are. Is it better to perform downsampling before adapter trimming/QC steps instead of after to minimise bias across the samples?</p>
 </section>
 <section id="quality-filteringtrimming-tools" class="level3">
 <h3 class="anchored" data-anchor-id="quality-filteringtrimming-tools">Quality filtering/trimming tools</h3>
@@ -482,7 +494,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>It can also scan from the tail 3’</p></td>
 <td>Not specified</td>
 <td><p><code>--trim-approach trim-by-quality</code> will trim reads base per base until &gt;= <code>--cutoff</code> from the ends of the reads</p>
-<p><code>--trim-approach</code> uses more fancy approach, calculating the differences between <code>–-cut-off</code> and base quality to get sub-read that has highest cumulative score (read more <a href="https://github.com/wdecoster/chopper/pull/52">here</a>). In the example, the author combined this option with <code>--min-length</code></p></td>
+<p><code>--trim-approach best-read-segment</code> uses more fancy approach, calculating the differences between <code>–-cut-off</code> and base quality to get sub-read that has highest cumulative score (read more <a href="https://github.com/wdecoster/chopper/pull/52">here</a>). In the example, the author combined this option with <code>--min-length</code></p></td>
 </tr>
 <tr class="odd">
 <td>Fixed trimming</td>
@@ -492,14 +504,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td>Non random downsampling</td>
-<td><code>--reads_to_process</code> technically, I think, does this job</td>
+<td><p><code>--reads_to_process</code> technically, I think, can do this job</p>
+<p>because simply stops the tool after N reads</p></td>
 <td>Keeps the “best” reads up to target base count (<code>--target-base</code>) or proportion (<code>--keep_percent</code>)</td>
 <td>Not specified</td>
 </tr>
 <tr class="odd">
-<td>Low complexity/N base filtering</td>
+<td>Low complexity/N base filtering or trimming</td>
 <td><p><code>--low_complexity_filter</code> to enable it, checking <code>base[i]!=base[i+1]</code> with <code>--complexity_threshold</code>, default 30%)</p>
-<p>and limits N bases using <code>--n_base_limit</code></p></td>
+<p>and limits N bases using <code>--n_base_limit</code></p>
+<p>Also, <code>--trim_poly_x</code> to enable polyX trimming in 3’ ends</p></td>
 <td>Not specified</td>
 <td>Not specified</td>
 </tr>
@@ -508,7 +522,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td><code>--break</code> to discarding the low quality bases in the middle and break the read into two pieces, and we can adjust <code>--break_window_size</code> and <code>--break_mean_quality</code></td>
 <td>No, but it can break the read as well, see External reference support</td>
 <td><p>It can split reads by low-quality segments (dynamically by scanning the quality) using <code>--trim-approach</code> <code>split-by-low-quality</code></p>
-<p>Technically, it can split one read into multiple high quality shorter reads (see my example command below). In the example, the author combined this option with <code>--min-length</code></p></td>
+<p>Technically, it can split one read into multiple high quality shorter reads (proved it in the example command below). In the example, the author combined this option with <code>--min-length</code></p></td>
 </tr>
 <tr class="odd">
 <td>External reference support</td>
@@ -523,10 +537,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>Yes, <code>--mingc</code> and <code>--maxgc</code></td>
 </tr>
 <tr class="odd">
-<td>How the tools perform the process</td>
-<td>Proecess each parameter in isolation</td>
-<td>It is using some weighting formula</td>
-<td>Proecess each parameter in isolation</td>
+<td>How the tool performs the process</td>
+<td>Process each parameter in isolation</td>
+<td>Read are scored by some formula based on three separate metrics: length, mean quality and window quality</td>
+<td>Process each parameter in isolation</td>
+</tr>
+<tr class="even">
+<td>Multithreading support (for benchmarking maybe?)</td>
+<td>See <strong>adapter trimming tools</strong></td>
+<td>Not specified</td>
+<td><code>--threads</code> (default is 4)</td>
 </tr>
 </tbody>
 </table>
@@ -538,7 +558,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h4 class="anchored" data-anchor-id="chopper---trim-approach-split-by-low-quality">chopper (<code>--trim-approach</code> <code>split-by-low-quality)</code></h4>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">chopper-linux</span> <span class="at">--trim-approach</span> split-by-low-quality <span class="at">--cutoff</span> 15 <span class="at">-l</span> 50 <span class="at">-i</span> biox7021/data/fastqs/KPC2__202310.fastq <span class="op">&gt;</span> split_reads.fastq</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Kept</span> 1862406 reads out of 49458 reads</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The caluclate simple read stats using sekit:</p>
+<p>The caluclate simple read stats using seqkit:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">seqkit</span> stats biox7021/data/fastqs/KPC2__202310.fastq</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">file</span>                                     format  type  num_seqs      sum_len  min_len  avg_len  max_len</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">biox7021/data/fastqs/KPC2__202310.fastq</span>  FASTQ   DNA     49,458  431,184,574       11  8,718.2  195,090</span>
@@ -546,6 +566,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">file</span>               format  type   num_seqs      sum_len  min_len  avg_len  max_len</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="ex">split_reads.fastq</span>  FASTQ   DNA   1,862,406  338,902,877       50      182    6,901</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>It reduced <code>avg_len</code> and <code>max_len</code> significantly</p>
+</section>
+<section id="fastplong" class="level4">
+<h4 class="anchored" data-anchor-id="fastplong">fastplong</h4>
+<p>This command will only perform adapter trimming without quality and length filtering</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">fastplong</span> <span class="at">-i</span> {input.reads} <span class="at">-o</span> {output.reads} <span class="at">--disable_quality_filtering</span> <span class="at">--disable_length_filtering</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 
 </section>
