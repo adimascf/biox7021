@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Computational Lab Logbook – BIOX7021 LOGBOOK - 2026</title>
+<title>Week 05: Compile – BIOX7021 LOGBOOK - 2026</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -23,30 +23,65 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-adfb2833bc15652ec5881dc6381ea988.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-60eb8141d3f50090c0f52d36a83ed331.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-adfb2833bc15652ec5881dc6381ea988.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-e8a4c0895993354b54972b5f1e41c0e4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-58008ceab81c4fb57a6fd58a386c2ec9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-e8a4c0895993354b54972b5f1e41c0e4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-adfb2833bc15652ec5881dc6381ea988.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-60eb8141d3f50090c0f52d36a83ed331.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-adfb2833bc15652ec5881dc6381ea988.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-e8a4c0895993354b54972b5f1e41c0e4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-58008ceab81c4fb57a6fd58a386c2ec9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-e8a4c0895993354b54972b5f1e41c0e4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -248,7 +283,7 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">BIOX7021 LOGBOOK - 2026</span>
     </a>
   </div>
@@ -259,7 +294,7 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./home.html" aria-current="page"> 
+    <a class="nav-link" href="../home.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -268,23 +303,23 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-weekly-logs">    
         <li>
-    <a class="dropdown-item" href="./logbook/week01.html">
+    <a class="dropdown-item" href="../logbook/week01.html">
  <span class="dropdown-text">Week 1</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./logbook/week02.html">
+    <a class="dropdown-item" href="../logbook/week02.html">
  <span class="dropdown-text">Week 2</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./logbook/week03.html">
+    <a class="dropdown-item" href="../logbook/week03.html">
  <span class="dropdown-text">Week 3</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./logbook/week04.html">
+    <a class="dropdown-item" href="../logbook/week04.html">
  <span class="dropdown-text">Week 4</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./logbook/week05.html">
+    <a class="dropdown-item" href="../logbook/week05.html">
  <span class="dropdown-text">Week 5</span></a>
   </li>  
     </ul>
@@ -306,10 +341,15 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#project-overview" id="toc-project-overview" class="nav-link active" data-scroll-target="#project-overview">Project Overview</a>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#weekly-meeting-and-action-items-25-03-2026" id="toc-weekly-meeting-and-action-items-25-03-2026" class="nav-link" data-scroll-target="#weekly-meeting-and-action-items-25-03-2026">Weekly meeting and action items (25-03-2026)</a>
   <ul>
-  <li><a href="#core-objectives" id="toc-core-objectives" class="nav-link" data-scroll-target="#core-objectives">Core Objectives</a></li>
-  <li><a href="#metrics-for-evaluation" id="toc-metrics-for-evaluation" class="nav-link" data-scroll-target="#metrics-for-evaluation">Metrics for Evaluation</a></li>
+  <li><a href="#adapter-trimming-tools" id="toc-adapter-trimming-tools" class="nav-link" data-scroll-target="#adapter-trimming-tools">Adapter trimming tools</a></li>
+  <li><a href="#quality-filteringtrimming-tools" id="toc-quality-filteringtrimming-tools" class="nav-link" data-scroll-target="#quality-filteringtrimming-tools">Quality filtering/trimming tools</a></li>
+  <li><a href="#example-commands" id="toc-example-commands" class="nav-link" data-scroll-target="#example-commands">Example commands</a>
+  <ul>
+  <li><a href="#chopper---trim-approach-split-by-low-quality" id="toc-chopper---trim-approach-split-by-low-quality" class="nav-link" data-scroll-target="#chopper---trim-approach-split-by-low-quality">chopper (<code>--trim-approach</code> <code>split-by-low-quality)</code></a></li>
+  </ul></li>
   </ul></li>
   </ul>
 </nav>
@@ -320,7 +360,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Computational Lab Logbook</h1>
+<h1 class="title">Week 05: Compile</h1>
 </div>
 
 
@@ -337,30 +377,178 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="project-overview" class="level1 unnumbered">
-<h1 class="unnumbered">Project Overview</h1>
-<p>This document records the computational work for the project: <em>Evaluating Adapter Trimming and Demultiplexing Tools for Oxford Nanopore Sequencing</em>.</p>
-<section id="core-objectives" class="level2">
-<h2 class="anchored" data-anchor-id="core-objectives">Core Objectives</h2>
-<ol type="1">
-<li><strong>Systematic Benchmarking:</strong> Evaluate fastplong, Porechop, Dorado, and Barbell on real bacterial ONT datasets.</li>
-<li><strong>Downstream Impact Assessment:</strong> Measure the effect of the pre processing step on:
-<ul>
-<li>Taxonomic classification (Kraken2 / Centrifuge)</li>
-<li>Variant calling (DeepVariant / Clair3)</li>
-<li>Assembly quality (Flye / Raven)</li>
-</ul></li>
-</ol>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<hr>
 </section>
-<section id="metrics-for-evaluation" class="level2">
-<h2 class="anchored" data-anchor-id="metrics-for-evaluation">Metrics for Evaluation</h2>
+<section id="weekly-meeting-and-action-items-25-03-2026" class="level2">
+<h2 class="anchored" data-anchor-id="weekly-meeting-and-action-items-25-03-2026">Weekly meeting and action items (25-03-2026)</h2>
 <ul>
-<li><strong>Variant Calling:</strong> F1 score</li>
-<li><strong>Assembly:</strong> Misassemblies, completion, contiguity (N50)</li>
-<li><strong>Classification:</strong> Precision, recall, sensitivity, specificity</li>
+<li><p>Succesfully run snakemake slurm plugin and adding the benchmark as well as the resource derivates in the rules</p></li>
+<li><p>Compile the paramters for each QC tools</p></li>
 </ul>
+<section id="adapter-trimming-tools" class="level3">
+<h3 class="anchored" data-anchor-id="adapter-trimming-tools">Adapter trimming tools</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 7%">
+<col style="width: 11%">
+<col style="width: 36%">
+<col style="width: 16%">
+<col style="width: 27%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Feature</th>
+<th><code>dorado trim</code></th>
+<th><code>porechop_abi</code></th>
+<th><code>barbell kit</code></th>
+<th><code>fastplong</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Adapter input</td>
+<td>It requires one kit name (<code>--sequencing-kit</code>)</td>
+<td>It can detect adapter from the read set, de novo (<code>--ab_initio)</code>. One adapter will be selected.</td>
+<td>It requires one kit name (<code>--kit</code>)</td>
+<td>Detect automatically, but the author recommends to specify the sequence (<code>start_adapter</code>, <code>end_adapter</code> and <code>adapter_fasta)</code></td>
+</tr>
+<tr class="even">
+<td>Adapter trimming extension</td>
+<td>Not specified</td>
+<td><code>--extra_end_trim,</code> (default on, = 2bp)</td>
+<td>Not specified</td>
+<td><code>--trimming_extension</code>(default on, =10bp)</td>
+</tr>
+<tr class="odd">
+<td>Middle adapter detection</td>
+<td>Not specified</td>
+<td>Yes, it can split into two reads (default, to disable searching = <code>--no_split</code>) or discard them ( <code>--discard_middle</code>).</td>
+<td>It seems <code>–-use-extended</code> option can do this ( detect fusions, breaks)</td>
+<td>No, it searches adapter at start and and of the reads</td>
+</tr>
+<tr class="even">
+<td>How does the tool find adapter</td>
+<td>Corresponding adapter sequence of the specified kit</td>
+<td>Sample the reads (<code>--check_reads</code>, default 10Kb)*, then will use kmer + graph based method to find consensus (<code>--abi</code>), or match them to static db (original impl)</td>
+<td>Corresponding adapter sequence of the specified kit</td>
+<td>Not clear. But I think it uses edit distance (<code>--distance_threshold,</code>default=75% match), similar to original porechop</td>
+</tr>
+<tr class="odd">
+<td>Unique parameters</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>*: It doesn’t use proportion, meaning that different read depth will have different sampling representation. Is it better to perform downsampling before QC step instead of after to minimise bias across the samples?</p>
+</section>
+<section id="quality-filteringtrimming-tools" class="level3">
+<h3 class="anchored" data-anchor-id="quality-filteringtrimming-tools">Quality filtering/trimming tools</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Feature</th>
+<th><code>fastplong</code></th>
+<th><code>filtlong</code></th>
+<th><code>chopper</code>*</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Filter based on read length</td>
+<td>Yes, minimum length (<code>--length_required</code>, default=20bp) and maximum length (<code>--length_limit</code>, default=no limitation)</td>
+<td>Yes (<code>--min_length</code>, <code>--max_length</code>) with no default values (not required)</td>
+<td><code>--min-length</code>, default=1bp and <code>--maxlength</code> with default INF</td>
+</tr>
+<tr class="even">
+<td>Filter based on average quality</td>
+<td>Yes (<code>--mean_qual</code>, default=no requirement)</td>
+<td>Yes (<code>--min_mean_q</code>, <code>—min_window_q</code>) with no default values (not required)</td>
+<td>minimum average quality score (<code>--quality</code>, default=0) and maximum (<code>--maxqual</code>, default 1000)</td>
+</tr>
+<tr class="odd">
+<td>Masking</td>
+<td><code>--mask</code> to enable this feature, then we can adjust the paramters <code>--mask_window_size</code>, <code>--mask_mean_quality</code>.</td>
+<td>Not specified</td>
+<td>Not specified</td>
+</tr>
+<tr class="even">
+<td>Trim from front and/or tail by quality</td>
+<td><p><code>--cut_front</code> to enable scan per window (<code>--cut_window_size</code>) from 5’ end, and drop it if the per window quality below (–cut_front_mean_quality).</p>
+<p>It can also scan from the tail 3’</p></td>
+<td>Not specified</td>
+<td><p><code>--trim-approach trim-by-quality</code> will trim reads base per base until &gt;= <code>--cutoff</code> from the ends of the reads</p>
+<p><code>--trim-approach</code> uses more fancy approach, calculating the differences between <code>–-cut-off</code> and base quality to get sub-read that has highest cumulative score (read more <a href="https://github.com/wdecoster/chopper/pull/52">here</a>). In the example, the author combined this option with <code>--min-length</code></p></td>
+</tr>
+<tr class="odd">
+<td>Fixed trimming</td>
+<td><code>--trim_front N</code> and <code>--trim_tail N</code> to enable</td>
+<td>Not specified</td>
+<td><code>--trim-approach fixed-crop</code>, then specify N bases to trim from the start (<code>--headcrop</code>)and and from the end (<code>--tailcrop</code>)</td>
+</tr>
+<tr class="even">
+<td>Non random downsampling</td>
+<td><code>--reads_to_process</code> technically, I think, does this job</td>
+<td>Keeps the “best” reads up to target base count (<code>--target-base</code>) or proportion (<code>--keep_percent</code>)</td>
+<td>Not specified</td>
+</tr>
+<tr class="odd">
+<td>Low complexity/N base filtering</td>
+<td><p><code>--low_complexity_filter</code> to enable it, checking <code>base[i]!=base[i+1]</code> with <code>--complexity_threshold</code>, default 30%)</p>
+<p>and limits N bases using <code>--n_base_limit</code></p></td>
+<td>Not specified</td>
+<td>Not specified</td>
+</tr>
+<tr class="even">
+<td>Read splitting by quality</td>
+<td><code>--break</code> to discarding the low quality bases in the middle and break the read into two pieces, and we can adjust <code>--break_window_size</code> and <code>--break_mean_quality</code></td>
+<td>No, but it can break the read as well, see External reference support</td>
+<td><p>It can split reads by low-quality segments (dynamically by scanning the quality) using <code>--trim-approach</code> <code>split-by-low-quality</code></p>
+<p>Technically, it can split one read into multiple high quality shorter reads (see my example command below). In the example, the author combined this option with <code>--min-length</code></p></td>
+</tr>
+<tr class="odd">
+<td>External reference support</td>
+<td>Not specified</td>
+<td>Yes. Can use short reads or an assembly to determine quality instead of phred score. It does trimming (<code>--trim</code>) and splitting (<code>--split</code>) by reference kmer matches.</td>
+<td>Yes, we can specify “contaminant” sequences using <code>--contam</code>, to be filtered out</td>
+</tr>
+<tr class="even">
+<td>Filter by GC content</td>
+<td>Not specified</td>
+<td>Not specified</td>
+<td>Yes, <code>--mingc</code> and <code>--maxgc</code></td>
+</tr>
+<tr class="odd">
+<td>How the tools perform the process</td>
+<td>Proecess each parameter in isolation</td>
+<td>It is using some weighting formula</td>
+<td>Proecess each parameter in isolation</td>
+</tr>
+</tbody>
+</table>
+<p>*: <code>chopper</code> does not perform any adapter preprocessing, as the author said <a href="https://github.com/wdecoster/chopper/issues/16">here</a></p>
+</section>
+<section id="example-commands" class="level3">
+<h3 class="anchored" data-anchor-id="example-commands">Example commands</h3>
+<section id="chopper---trim-approach-split-by-low-quality" class="level4">
+<h4 class="anchored" data-anchor-id="chopper---trim-approach-split-by-low-quality">chopper (<code>--trim-approach</code> <code>split-by-low-quality)</code></h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">chopper-linux</span> <span class="at">--trim-approach</span> split-by-low-quality <span class="at">--cutoff</span> 15 <span class="at">-l</span> 50 <span class="at">-i</span> biox7021/data/fastqs/KPC2__202310.fastq <span class="op">&gt;</span> split_reads.fastq</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Kept</span> 1862406 reads out of 49458 reads</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The caluclate simple read stats using sekit:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">seqkit</span> stats biox7021/data/fastqs/KPC2__202310.fastq</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">file</span>                                     format  type  num_seqs      sum_len  min_len  avg_len  max_len</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">biox7021/data/fastqs/KPC2__202310.fastq</span>  FASTQ   DNA     49,458  431,184,574       11  8,718.2  195,090</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="ex">seqkit</span> stats split_reads.fastq </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">file</span>               format  type   num_seqs      sum_len  min_len  avg_len  max_len</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="ex">split_reads.fastq</span>  FASTQ   DNA   1,862,406  338,902,877       50      182    6,901</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>It reduced <code>avg_len</code> and <code>max_len</code> significantly</p>
 
 
+</section>
 </section>
 </section>
 
@@ -801,5 +989,5 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>
