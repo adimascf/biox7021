@@ -397,13 +397,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="adapter-trimming-tools" class="level3">
 <h3 class="anchored" data-anchor-id="adapter-trimming-tools">Adapter trimming tools</h3>
 <table class="caption-top table">
-<colgroup>
-<col style="width: 9%">
-<col style="width: 9%">
-<col style="width: 30%">
-<col style="width: 26%">
-<col style="width: 23%">
-</colgroup>
 <thead>
 <tr class="header">
 <th>Feature</th>
@@ -440,7 +433,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>Corresponding adapter sequence of the specified kit</td>
 <td>Sample the reads (<code>--check_reads</code>, default 10Kb)*, then will use kmer + graph based method to find consensus (<code>--abi</code>), or match them to static db (original impl)</td>
 <td>Corresponding adapter sequence of the specified kit</td>
-<td>Not clear. But I think it uses edit distance (<code>--distance_threshold,</code>default=75% match), similar to original porechop</td>
+<td>Not clear. A static database seems to be expected (similar to original porechop), but the nanopore adapter is not included here in their <a href="https://github.com/OpenGene/fastplong/blob/main/src/knownadapters.h">knownadapters.h</a> file. Maybe we need to specify adapter sequence afterall.</td>
 </tr>
 <tr class="odd">
 <td>Tool related parameters</td>
