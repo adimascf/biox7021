@@ -83,6 +83,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/bootstrap/bootstrap-dark-58008ceab81c4fb57a6fd58a386c2ec9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="../site_libs/bootstrap/bootstrap-e8a4c0895993354b54972b5f1e41c0e4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <link href="../site_libs/quarto-contrib/carousel-0.1.0/quarto-carousel.css" rel="stylesheet">
+<script src="../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -396,7 +399,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="trimming-only-assessement">Trimming only assessement</h2>
 <section id="snakemake-rulegraph" class="level3">
 <h3 class="anchored" data-anchor-id="snakemake-rulegraph">Snakemake rulegraph</h3>
-<p><img src="images/trimming_rulegraph_horisontal.png" class="img-fluid" style="width:85.0%" alt="Trimming only rulegraph"> Code for ariant calling assessment and the visualisation mostly copied <a href="https://github.com/mbhall88/NanoVarBench/blob/main/workflow/scripts/best_f1.py">Michael’s Nanovar repo</a></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="images/trimming_rulegraph_horisontal.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Trimming only rulegraph"><img src="images/trimming_rulegraph_horisontal.png" class="img-fluid figure-img" style="width:85.0%" alt="Trimming only rulegraph"></a></p>
+<figcaption>Trimming only rulegraph</figcaption>
+</figure>
+</div>
+<p>The code for ariant calling assessment and the visualisation mostly copied from <a href="https://github.com/mbhall88/NanoVarBench/blob/main/workflow/scripts/best_f1.py">Michael’s Nanovar repo</a> with slight modification so that it works in this benchmark</p>
 </section>
 <section id="f1-precision-and-recall-plots" class="level3">
 <h3 class="anchored" data-anchor-id="f1-precision-and-recall-plots">F1, Precision, and Recall plots</h3>
@@ -435,7 +444,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="performance-stats-in-average" class="level3">
 <h3 class="anchored" data-anchor-id="performance-stats-in-average">Performance stats in average</h3>
 <p>From the best_f1 rule csv output, I just calculate the average per tool and per SNP type:</p>
-<div id="cafa6d10" class="cell" data-execution_count="1">
+<div id="f1e8ed67" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -1034,6 +1043,38 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </div>
   </div>
 </footer>
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
 
 
 
