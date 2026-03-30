@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Week 01: ONT Chemistry Fundamentals and Preprocessing Tool Review – BIOX7021 LOGBOOK - 2026</title>
+<title>week01 – BIOX7021 LOGBOOK - 2026</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -22,41 +22,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -82,9 +47,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/bootstrap/bootstrap-e8a4c0895993354b54972b5f1e41c0e4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
 <link href="../site_libs/bootstrap/bootstrap-dark-58008ceab81c4fb57a6fd58a386c2ec9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="../site_libs/bootstrap/bootstrap-e8a4c0895993354b54972b5f1e41c0e4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
-<script src="../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
-<link href="../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
-<link href="../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -306,12 +268,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-weekly-logs">    
         <li>
-    <a class="dropdown-item" href="../weekly-logbook/week01.html">
+    <a class="dropdown-item" href="../logbook/week01.html">
  <span class="dropdown-text">Week 1</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../weekly-logbook/week02.html">
+    <a class="dropdown-item" href="../logbook/week02.html">
  <span class="dropdown-text">Week 2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../logbook/week03.html">
+ <span class="dropdown-text">Week 3</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../logbook/week04.html">
+ <span class="dropdown-text">Week 4</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../logbook/week05.html">
+ <span class="dropdown-text">Week 5</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../logbook/week05.html">
+ <span class="dropdown-text">Week 6</span></a>
   </li>  
     </ul>
   </li>
@@ -327,532 +305,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
-  <li><a href="#weekly-meeting-and-action-items-25-02-2026" id="toc-weekly-meeting-and-action-items-25-02-2026" class="nav-link" data-scroll-target="#weekly-meeting-and-action-items-25-02-2026">Weekly meeting and action items (25-02-2026)</a></li>
-  <li><a href="#adapter-trimming-benchmarking-on-illumina-short-read-data" id="toc-adapter-trimming-benchmarking-on-illumina-short-read-data" class="nav-link" data-scroll-target="#adapter-trimming-benchmarking-on-illumina-short-read-data">Adapter Trimming Benchmarking on Illumina short read data</a>
-  <ul>
-  <li><a href="#read-trimming-has-minimal-effect-on-bacterial-snp-calling-accuracy" id="toc-read-trimming-has-minimal-effect-on-bacterial-snp-calling-accuracy" class="nav-link" data-scroll-target="#read-trimming-has-minimal-effect-on-bacterial-snp-calling-accuracy">Read trimming has minimal effect on bacterial SNP-calling accuracy</a></li>
-  </ul></li>
-  <li><a href="#summary-comparison-of-ont-preprocessing-tools" id="toc-summary-comparison-of-ont-preprocessing-tools" class="nav-link" data-scroll-target="#summary-comparison-of-ont-preprocessing-tools">Summary Comparison of ONT Preprocessing Tools</a></li>
-  <li><a href="#ont-doc" id="toc-ont-doc" class="nav-link" data-scroll-target="#ont-doc">ONT Technical Chemistry Document and Dorado</a></li>
-  <li><a href="#detailed-algorithm-review-trimming-demultiplexing" id="toc-detailed-algorithm-review-trimming-demultiplexing" class="nav-link" data-scroll-target="#detailed-algorithm-review-trimming-demultiplexing">Detailed Algorithm Review: Trimming &amp; Demultiplexing</a>
-  <ul>
-  <li><a href="#barbell" id="toc-barbell" class="nav-link" data-scroll-target="#barbell">Barbell</a></li>
-  <li><a href="#fastplong" id="toc-fastplong" class="nav-link" data-scroll-target="#fastplong">fastplong</a></li>
-  <li><a href="#prowler" id="toc-prowler" class="nav-link" data-scroll-target="#prowler">Prowler</a></li>
-  <li><a href="#chopper" id="toc-chopper" class="nav-link" data-scroll-target="#chopper">Chopper</a></li>
-  <li><a href="#porechop" id="toc-porechop" class="nav-link" data-scroll-target="#porechop">Porechop</a></li>
-  <li><a href="#porechop_ABI" id="toc-porechop_ABI" class="nav-link" data-scroll-target="#porechop_ABI">Porechop_ABI</a></li>
-  <li><a href="#flexiplex" id="toc-flexiplex" class="nav-link" data-scroll-target="#flexiplex">Flexiplex</a></li>
-  <li><a href="#splitcode" id="toc-splitcode" class="nav-link" data-scroll-target="#splitcode">Splitcode</a></li>
-  </ul></li>
-  </ul>
-</nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Week 01: ONT Chemistry Fundamentals and Preprocessing Tool Review</h1>
-</div>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
 
 
 
-<div class="quarto-title-meta">
-
-    
-  
-    
-  </div>
-  
 
 
-</header>
 
 
-<section id="overview" class="level2">
-<h2 class="anchored" data-anchor-id="overview">Overview</h2>
-<p>Understanding Oxford Nanopore Technology (ONT) Chemistry, especially the flow of rapid and ligation-based kits. I also did some exploration of various current read trimming and demultiplexing tools to understand their approaches.</p>
-<hr>
-</section>
-<section id="weekly-meeting-and-action-items-25-02-2026" class="level2">
-<h2 class="anchored" data-anchor-id="weekly-meeting-and-action-items-25-02-2026">Weekly meeting and action items (25-02-2026)</h2>
-<p>Weekly meeting with Michael and Leah:</p>
-<ul>
-<li>Focus more on the adapter trimming stuff, assessing demultiplexer will come later.</li>
-<li>Need to have truth datasets (for now look at the dataset from <a href="https://elifesciences.org/articles/98300#data">Michael’s paper</a>).
-<ul>
-<li>The relevant projects are PRJNA1087001 and PRJNA1042815. Several samples were basecalled using the fast, hac, and sup models, each in both simplex and duplex modes.</li>
-<li>The experiments were performed using the native barcode kit.</li>
-<li>Do we only choose the fastqs file from <code>sup</code> model?</li>
-</ul></li>
-<li>Demultiplexing tools: Dorado, Porechop, Barbell.. may we can cut away Porechop.. do we need to explore other tools? we have flexiplex</li>
-<li>Adapter trimming tools: Dorado, Porechop, Barbell, fastplong</li>
-<li>Application on Assembly, variant calling, and Taxomomic assignment</li>
-<li>We will be using workflow management system snakemake</li>
-<li>For the rest of the week, Dimas needs to study about ONT technical chemistry documentation and also reads paper related to adapter trimming and/or demultiplexing tools</li>
-<li>Explore other adapter trimming tools:
-<ul>
-<li>We have <code>chopper</code>, but it doesn’t implement <a href="https://github.com/wdecoster/chopper/issues/16">adapter trimming</a>. It only perfomrs quality trimming and osort of reads trimming.</li>
-<li>There is <a href="https://github.com/bonsai-team/Porechop_ABI">porechop_abi</a>, it is a fork from original <a href="https://github.com/rrwick/Porechop">porechop</a> that is no longer being mantained.
-<ul>
-<li>Only perfomrs adapter trimming, no demultiplexing supported.</li>
-<li><code>porechop_abi</code> doesn’t use reference to search adapter sequence, instead it uses k-mers counting and assembly</li>
-</ul></li>
-<li><a href="https://doi.org/10.1093/bioinformatics/btab630">Prowler</a>, trimming and filtering ONT data</li>
-</ul></li>
-</ul>
-</section>
-<section id="adapter-trimming-benchmarking-on-illumina-short-read-data" class="level2">
-<h2 class="anchored" data-anchor-id="adapter-trimming-benchmarking-on-illumina-short-read-data">Adapter Trimming Benchmarking on Illumina short read data</h2>
-<section id="read-trimming-has-minimal-effect-on-bacterial-snp-calling-accuracy" class="level3">
-<h3 class="anchored" data-anchor-id="read-trimming-has-minimal-effect-on-bacterial-snp-calling-accuracy"><a href="https://doi.org/10.1099/mgen.0.000434">Read trimming has minimal effect on bacterial SNP-calling accuracy</a></h3>
-<p><strong>Method</strong>:</p>
-<ul>
-<li>He used this Gram-negative dataset to generate truth sets of SNPs.
-<ul>
-<li>Enterobacter spp., four Klebsiella spp., four Citrobacter spp. and three E. coli (all environmentally sourced),Klebsiella pneumoniae subsp. pneumoniae MGH 78578 and E. coli CFT073</li>
-</ul></li>
-<li>He considered trimming as two simultaneous preprocessing operations: removal of adapter sequence (using default setting) as well as 3’ quality trimming.</li>
-<li>Compare the result of before and after (adapter and quality) trimming dataset on the SNP calling in large Illumina dataset. Used precision (positive predictive value), recall (sensitivity) and F-score as the metrics.</li>
-<li>bwa-mem v0.7.17, and three variant callers, LoFreq, mpileup, and Strelka v2.9.2</li>
-<li>Reanalysed and evaluating effect of adapter trimming in diverse range public archive: 1661 E. coli , 4416 M . tuberculosis and 1156 S . aureus sequencing reads. It produced 17 million SNPs and approx. 250 000 indels in total.</li>
-</ul>
-<p><strong>Result</strong></p>
-<ul>
-<li>He found that there is minimal impact of whether we do trim or do not on SNP varian calling accuracy. Only insignificant changes observed in F-score relative to untrimmed data (in <code>fastp</code>).</li>
-<li>Trimming increased proportion of reads that are aligned, although SNP calling was not substantially altered. Most of SNPs (&gt;99 %) called irrespective of trimming.</li>
-<li>In few cases, quality trimming reduced sequencing depth and SNP call, although actually 99.1 % of the total set of 53 701 SNPs could still be called.</li>
-<li>A proportion of mixed SNP (&lt;100% suported allele) calls is marginally higher (10.26 % vs 9.05 %) for raw than trimmed data.</li>
-<li>Trimming rarely changes the variant base called, but alter the level of support for a given variant in approximately 1 % of cases.</li>
-<li>Trimming had slightly greater impact on indels calling (91.9 % called irrespective trimming), he interprete this with caution because he said fewer indels per sample than there are SNPs and the majority of indel calls are mixed. A greater proportion of the indel calls are incorrect, irrespective of whether reads are trimmed or not.</li>
-</ul>
-<p>question: How do we approach read trimming here? because only fastplong that can performs both adapter and quality trimming simultinously. Other tools only perfoms either of those two types of trimming</p>
-</section>
-</section>
-<section id="summary-comparison-of-ont-preprocessing-tools" class="level2">
-<h2 class="anchored" data-anchor-id="summary-comparison-of-ont-preprocessing-tools">Summary Comparison of ONT Preprocessing Tools</h2>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 11%">
-<col style="width: 21%">
-<col style="width: 21%">
-<col style="width: 21%">
-<col style="width: 21%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Tool</th>
-<th>Adapter trimming</th>
-<th>Quality trimming</th>
-<th>Demultiplexing</th>
-<th>Note</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><a href="#ont-doc">dorado</a></td>
-<td><strong>Yes</strong> (Detects adapter sequences at both ends, given user provided sequencing kit, how is done not clearly documented, maybe it seems to use local aligment)</td>
-<td>No</td>
-<td><strong>Yes</strong> (using barcode flank sequences as anchor, and using levenshtein distance)</td>
-<td>it can automatically perform adapter trimming and demultiplexing on the fly with basecalling</td>
-</tr>
-<tr class="even">
-<td><a href="#fastplong">fastplong</a></td>
-<td><strong>Yes</strong> (It searches at both ends, using seed and extend. Using Trie, it extends to the left and right of the seed to see what is the dominant base (&gt;=90%))</td>
-<td><strong>Yes</strong> (It can performs quality trimming by cut front and cut tail, break reads, mask quality region. But all those features are disabled by default)</td>
-<td><strong>No</strong></td>
-<td>Although it can identify automatically, the authors recommend the user to provide adapter sequence for ONT datasets. It also performs quality filtering by default.</td>
-</tr>
-<tr class="odd">
-<td><a href="#porechop">porechop</a></td>
-<td><strong>Yes</strong> (To identify adapter, it performs semi global alignment between (subsampled) reads an collection of static adapter sequences)</td>
-<td><strong>No</strong></td>
-<td><strong>No</strong></td>
-<td>After the barcode sequence is detected, it uses local alignment to detect and trim the barcode contaminant. It is abandonware since 2018</td>
-</tr>
-<tr class="even">
-<td><a href="#porechop_ABI">porechop_ABI</a></td>
-<td><strong>Yes</strong> (After select some of reads from the sample, it generates kmers (16-mer) from both ends of those reads, and count the frequency. Get the top N most kmers to build assembly graph, then it reconstructs the path to get the barcode sequence (the heaviest path))</td>
-<td><strong>No</strong></td>
-<td><strong>No</strong></td>
-<td>After the barcode sequence is detected, it uses local alignment to detect and trim the barcode contaminant</td>
-</tr>
-<tr class="odd">
-<td><a href="#prowler">Prowler</a></td>
-<td><strong>No</strong></td>
-<td><strong>Yes</strong> (It breaks reads into non overlapping windows. Then it remove low quality windows. Output unfragmented reads with low quality windows are masked (with N) or fragmented)</td>
-<td><strong>No</strong></td>
-<td>It has two stratgies: remove segments below threshhold, or progressively remove the lowest qality and recalculating whole read quality. Very confusing interpretation in their benchmarking results</td>
-</tr>
-<tr class="even">
-<td><a href="#chopper">chopper</a></td>
-<td><strong>No</strong></td>
-<td><strong>Yes</strong> (It can crop certain length of both ends, trim bases one by one until get higher than theshold, extract good quality segment of the reads, split reads by low quality segments).</td>
-<td><strong>No</strong></td>
-<td>It does not give any default argument for its paramters, so if no arguments given, the dataset will not change</td>
-</tr>
-<tr class="odd">
-<td><a href="#barbell">Barbell</a></td>
-<td><strong>Yes</strong>, but need manual intervention steps.</td>
-<td><strong>No</strong></td>
-<td><strong>Yes</strong> (Tag-based searching, look for flanking sequences Fl and Fr, locates masked tag (Fl–B–Fr). Then, it uses subsequence kernel of Lodhi that favors matches that tighly together )</td>
-<td>Detects unexpected barcode patterns (dual-end, multiple barcodes, inner barcodes). Uses score normalization (≥20% of perfect score, ≥10% difference to second best)</td>
-</tr>
-<tr class="even">
-<td><a href="#flexiplex">Flexiplex</a></td>
-<td><strong>No</strong></td>
-<td><strong>No</strong></td>
-<td><strong>Yes</strong> (It makes use of non variable barcode flank to search for barcode, and uses levenshtein distance.)</td>
-<td>Support various barcode - UMI design, but it seems developed with focus on scRNA data. It doesn’t support dual end barcode experiment</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Questions</strong>: Do we consider filtering as trimming as well here? because these several tools perform both quality and/or adapter trimming and read filtering</p>
-</section>
-<section id="ont-doc" class="level2">
-<h2 class="anchored" data-anchor-id="ont-doc">ONT Technical Chemistry Document and Dorado</h2>
-<ul>
-<li><p>Started reading the following papers/documentation:</p>
-<ol type="1">
-<li><p><a href="https://nanoporetech.com/document/chemistry-technical-document">ONT Chemistry Technical Document</a></p>
-<p>Sequencing adapters -&gt; oligonucleotides that are loaded with a motor protein, attached at the both ends of the DNA. They help to control the DNA or RNA strand movement through the nanopores, while also guide the molecule to the pore. In other words, They help DNA template to be sequenced. They have a motor protein that help unzip the dpouble standed DNA and feed a single strand through the nanopore.</p>
-<p>Pore occupancy -&gt; percentage of pores is used to sequence DNA strands. If it is low, there might not be enough adapter - read library?</p>
-<p>The pore reads only one strand of the double helix, from 5’ to 3’.</p>
-<p>ONT sequencing kit convention. Using SQK-RBK114.96 as an example:</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 25%">
-<col style="width: 25%">
-<col style="width: 50%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Segment</th>
-<th>Component</th>
-<th>Meaning</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>SQK</td>
-<td>Category</td>
-<td>Sequencing Kit</td>
-</tr>
-<tr class="even">
-<td>RBK</td>
-<td>Chemistry Type</td>
-<td>The method used for library prep (e.g., Rapid Barcoding Kit).</td>
-</tr>
-<tr class="odd">
-<td>114</td>
-<td>Version &amp; Flow Cell</td>
-<td>Designed for R10.4.1 flow cells (V14 Chemistry).</td>
-</tr>
-<tr class="even">
-<td>.96</td>
-<td>Multiplex Count</td>
-<td>The number of unique barcodes included (number of samples).</td>
-</tr>
-</tbody>
-</table>
-<p>There are at least two different chemistry:</p>
-<ol type="1">
-<li><p>Ligation-based sequencing kits</p>
-<ul>
-<li><p>Optimised for output and accuracy (e.g.&nbsp;Native Barcoding Kit 96 V14 (SQK-NBD114.96)).</p></li>
-<li><p>Ligation based enzyme is used to attach the sequencing adapters (by ligation) to the ends.</p></li>
-<li><p>Reltively higher input, longer lib prep, hgiher accuracy</p></li>
-<li><p>Uses “Native Barcodes” (NB) and PCR barcodes</p></li>
-</ul>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="images/nbd110_workflow.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Ligation based kit workflow"><img src="images/nbd110_workflow.svg" class="img-fluid figure-img" style="width:40.0%" alt="Ligation based kit workflow"></a></p>
-<figcaption>Ligation based kit workflow</figcaption>
-</figure>
-</div>
-<p>The libprep involves three enzymatic steps to prepare DNA ends for sequencing:</p>
-<ol type="1">
-<li>Repeair any damage in the DNA molecule and add a single adenide (A) overhang to the 3’ends of the double stranded DNA.</li>
-<li>The ‘A’ i the DNA fragment pairs with the ‘T’ on the barcode, and ligase bonds glue together, resulting in a double stranded DNA fragment with a barcode on both ends.</li>
-<li>After pooling the barcide samples together, adapater is then attached, it has also T tail to ligate onto barcode ends. my note: <em>this kit has risk when adappter attached on DNA fragment (has A tail), but no barcode attached, resulting to high undetermined reads. Why don’t they attach barcode and adapter in the kit, then user just attach them in the sample DNA? does it change much?</em></li>
-</ol>
-<p>Final structure: [Adapter]-[Barcode]-[sample DNA]-[Barcode]-[Adapter]</p>
-<p>Native barcode: Forward sequence: 5’ - AAGGTTAA - barcode - CAGCACCT - 3’</p>
-<p>Reverse sequence: 5’ - GGTGCTG - barcode - TTAACCTTAGCAAT - 3’</p>
-<p>[Adapter]-[Flanking Sequence]-[Barcode]-[Flanking Sequence]-[sample DNA]</p>
-<p>Both ends of the read are attached by the barcode.</p></li>
-<li><p>Rapid-based sequencing kits</p>
-<ul>
-<li><p>Optimised for speed and simplicity or for applications where turnaround times are more critical or laboratory equipment is limited (e.g.&nbsp;Rapid Barcoding Kit 96 V14 (SQK-RBK114.96)).</p></li>
-<li><p>sample DNA is cut and the adpter is attached at the same time without any ligation enzyme</p></li>
-<li><p>low input, very fast lib prep, low output accuracy due to lack of cleanup steps</p></li>
-<li><p>Uses “Rapid Barcodes” (RB).</p></li>
-</ul>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="images/sqk-rbk110-96_gdna_workflow.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Rapid (tagmentation) based kit workflow"><img src="images/sqk-rbk110-96_gdna_workflow.svg" class="img-fluid figure-img" style="width:40.0%" alt="Rapid (tagmentation) based kit workflow"></a></p>
-<figcaption>Rapid (tagmentation) based kit workflow</figcaption>
-</figure>
-</div>
-<p>It skips “repair and ligate” steps. It uses Transposase or Tagmentation technique.</p>
-<ul>
-<li>Transposase (hold rapid barcode) cut and glue the barcode simultaneously, how?</li>
-<li>Sequencing adapters are then attached to the transposase adapters in an enzyme-free reaction (?). It is like simply click onto some tags in tranposase?</li>
-</ul>
-<p>Rapid barcode: 5’ - GGTGCTG - barcode - TTAACCT - 3’</p></li>
-</ol>
-<p>Dorado can be used for both basecalling and barcdoe demultiplexing:</p>
-<ul>
-<li>For demultiplexing, Dorado uses a modified Needlemen-Wunsch, each barcode is aligned to barcode section, then is assigned a score based on the alignment. The highest score that pass the certain threshold is chosen as the read barcode, and that can be trimmed.</li>
-</ul>
-<p>The this that i am confused are:</p>
-<ul>
-<li><p>Both native and rapid kits attach barcode at both ends, but why people for instance like Barbell paper said; “<em>Rapid barcoding is designed to attach a single barcode to one end of the read</em>” later at the stat, they said <em>6.1% (299,766) of reads carried barcodes on both ends</em>… 🙄</p></li>
-<li><p>If both kits attach barcode and adpater on both ends, then why Rapid reads usually only show a barcode at one end? Rapid kits do not use some clean up steps in the prep, still setaining ultra long DNA. The nanopore get block or stop reading read before it can finish read the fragment, so some of the 3’ (tail) barcode is never sequenced?</p></li>
-<li><p>Point two implies that, we found barcode at the both ends of reads from native kit becuase they are generally shorter. It has longer prep steps and take longer, why produce shorter reads? Because it performs several washing steps, the longer DNA fragments get lost or throw away?</p></li>
-<li><p>Why aren’t native reverse flanking sequence perfect reverse complement of the forwards? On the right flank of the forward barcode, it seems that the left flank of the reverse barcode just missing the ‘A’ that the physical dA-tail added during lib prep. I have no idea on why the right flank is much longer?</p></li>
-<li><p>Different basecalling models model names convention: <code>{analyte}_{pore}_{chemistry}_{speed}_{model@version}</code></p>
-<ul>
-<li><code>analyte</code> -&gt; type substance that was being sequenced, DNA will be <code>dna</code>, direct RNA will be <code>rna004</code></li>
-<li><code>pore</code> type -&gt; the type of flow cell was used</li>
-<li><code>chemistry</code> type -&gt; kit used for sequencing</li>
-<li>Translocation <code>speed</code> -&gt; rate the molecule pass trhough a nanopore, 130bps / 260bps / 400bps.’’</li>
-<li><code>model</code> -&gt; 3 models are available and are named fast, hac (high-accuracy), and sup (super-accurate). On dorado, we can follow these three group of machine learning models:
-<ul>
-<li><code>fast</code> -&gt; fastest and effiecent computation, but least accurate (?). Compatible with real time basecalling on all nanopore devices with compute.</li>
-<li><code>hac</code> -&gt; highly accurate, intermediate speed and cimputation. Compatible with real-time basecalling on GridION and PromethION devices with compute.</li>
-<li><code>sup</code> -&gt; the most accurate, but computationally expensive. Recommended for de novo assembly projects and low-frequency variant analysis (e.g.&nbsp;somatic variation and single-cell applications).</li>
-</ul></li>
-</ul></li>
-<li><p>Simplex and duplex basecalling</p>
-<ul>
-<li>Simplex</li>
-<li>Duplex -&gt; combine information about basecalls, Q-scores and, signal from both template and its complement strand, and pass these trhough a stereo model. my note: how does it know a strand complement to which template strand? base on <a href="https://youtu.be/8DVMG7FEBys?si=8I53JyfE1AtieTC9">this video</a>, both strand will be sequenced, by some likelihood. This imples this duplex is not designed by chemistry or sequencing technique. Dorado will identify which strand complement to which strand, if any.. and in simple terms it will combine them as single segemt that has higher quality. Also, dorado will report the duplex rate. <em>fast model is not recommended for duplex</em> <code>dx</code> tag on BAM output can be used to identified simlex and duplex reads:
-<ul>
-<li><code>1</code> -&gt; a duplex read</li>
-<li><code>0</code> -&gt; a standard simplex read that does not have a matching pair</li>
-<li><code>-1</code> -&gt; a simplex read (template or complement) that was successfully paired to create duplex offspring.</li>
-</ul></li>
-</ul></li>
-</ul></li>
-</ol></li>
-</ul>
-</section>
-<section id="detailed-algorithm-review-trimming-demultiplexing" class="level2">
-<h2 class="anchored" data-anchor-id="detailed-algorithm-review-trimming-demultiplexing">Detailed Algorithm Review: Trimming &amp; Demultiplexing</h2>
-<section id="barbell" class="level3">
-<h3 class="anchored" data-anchor-id="barbell"><a href="https://doi.org/10.1101/2025.10.22.683865">Barbell</a></h3>
-<ul>
-<li>Demultiplexing -&gt; Group reads back to the original samples based the attched unique barcode.</li>
-<li>Demultiplexer also perform adapter trimming but often left residual adpater in the reads. in ONT data, untrimmed adapters often received low basecalling scores.</li>
-<li>barcoded are often flanked by spcific (identical across sample) sequences. Dorado and Flexiplex locate the flanking regions, then search the barcode sequence within them. These two tools use Levenshtein edit distance (number of edits required to transfrom one sequence to another) after perform semi global alignment.</li>
-<li>Barbell uses the subsequence kernel (a match between two strings is better if it is consecitve or close to each other). <code>gen</code> to <code>genomic</code> and <code>gen</code> <code>gnoeminc</code> have the same edit distanc eof three, but under the subsequence of kernel, the first alignment scores higher. Using CIGAR representation of an edit distance alignment.
-<ul>
-<li>My note: In pairwise alignment, we learn about affine gap penalty where we punish open gap more</li>
-</ul></li>
-<li>They found that in reality only ~80% of the reads actually contain the expected barcode pattern (a single left side barcode)</li>
-<li>They ran SQK-RBK110.96 kit, where it sequenced 66 diagnostic samples (BC01 to BC66) and a negative control (BC67). Rapid barci=dong is designed to attach a single barcode to one end of the read.</li>
-<li>In the experiment, Barbell found 82.8% reads had a single left side barcode patter, and 17.2% of total reads deviated from the expected design. 6.1% of reads had barcodes on both read ends, 3.5% carried two barcodes on the left, adn 1% caried both two left and a single right end barcode. Some reads also end up with up to eight barcode (just barcode sequence).</li>
-<li>after the demultiplexing process, only 0.004% of reads are contaminated (barcode left over), 10% in Dorado, and 8.8% in Flexiplex.</li>
-<li>Dorado and Flexiplex retain short reads (&lt;= 250 bp) uch more than Barbell after trimming. These reads are mostly adapter contaminated. They argued it is because Dorado and Flexiplex trimmed only one of the barcodes, additional copies remained.</li>
-<li>Longer reads (&gt;250 bp) were not trimmed consistently by the different tools. 423,908 reads trimmed by Dorado and 402,780 reads trimmed by Flexiplex were longer than those trimmed by Barbell.</li>
-<li>Overall, incorrect trimming affected &gt;8% of reads when using Dorado and Flexiplex.</li>
-<li>Falling to detect the second barcode would be an issue when the two batcode are different. I guess the “inner” barcode is the correct one, as it attahced before multiplexing and adpater attachment. 99.5% contained the same barcode twice though.</li>
-<li>Contamination from incomplete trimming affected the taxonomic classification. Barbell trimmed reads remain unclassified while Dorado reads were assigned to Enterobacteriaceae. It turned out, they found Mu transposon from tagmentation caysed artifical alignments, leading to misleading taxonomix assignments.</li>
-<li>Incomplete trimming also affected assemblies. They found Saccharomyces cerevisiae assembly in their experiment is contaminated at three locations, with double left barcode leftover reads that Dorado failed to trim. Barbell correctly trimm that. They found further that that first ~90 bp of the contig are indeed absent from S cervicae genemoe, instead mathcd contamination Mu transposons.</li>
-<li>Dorado demultiplexed 459,987 more than Barbel, most of them are annotated by Barbell but excluded in the final output.</li>
-</ul>
-<p><strong>Barbell adapter searching:</strong></p>
-<ul>
-<li><p>They denote a tag as Flanking (<em>Fleft</em>) - barcode - Flanking (<em>Fright</em>). τ = Fℓ ∘ B ∘ Fr.&nbsp;The barcode B, typically 24 bp, comes from a set of g known barcodes, β = {b1, b2, …, bg}, whereas Fℓ and Fr are fixed strings.</p></li>
-<li><p>Tags defines as collection of tag (Fℓ ∘ B ∘ Fr) with length of less or equal than 250bp.</p></li>
-<li><p>It first locate flanking sequences Fℓ and Fr, and mask the B sequence. Tag with mask barcode: τN:= Fℓ ∘ N|B| ∘ Fr</p></li>
-<li><p>It uses edit distance to locate flank - mask barcode flank (τN) in reads. Then after it knows the barcode location (using flank sequences), Barbell utilises subsequence barcode scoring scheme:</p></li>
-<li><p>It uses CIGAR string, C, of an edit-distance-based alignment. From this Barbell extract position where the barcode march perfectly. It rewards consecutive matches.</p></li>
-<li><p>It uses decay parameter λ (0–1):</p>
-<ul>
-<li>Small λ -&gt; strong penalty for gaps (expects tight clusters).</li>
-</ul></li>
-<li><p>High score -&gt; many compact match clusters → likely true barcode with local error bursts.</p></li>
-<li><p>Low score → sparse/interleaved matches → errors spread across barcode → less reliable match.</p></li>
-<li><p>barbell favor match taht generally tight together</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="images/barbell_formula.gif" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Barbell formula"><img src="images/barbell_formula.gif" class="img-fluid figure-img" alt="Barbell formula"></a></p>
-<figcaption>Barbell formula</figcaption>
-</figure>
-</div>
-<p>using formula above, i write simple python implementation below:</p>
-<div id="ebb91165" class="cell" data-execution_count="1">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> itertools</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> barbell_score(match_pos: <span class="bu">list</span>[<span class="bu">int</span>], lambda_decay: <span class="bu">float</span>, k: <span class="bu">int</span> <span class="op">=</span> <span class="dv">2</span>):</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    total_score <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(match_pos) <span class="op">&lt;</span> k:</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> total_score</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># generate every possible combination</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> group <span class="kw">in</span> itertools.combinations(match_pos, k):</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        first_match <span class="op">=</span> group[<span class="dv">0</span>]</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>        last_match <span class="op">=</span> group[<span class="op">-</span><span class="dv">1</span>]</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>        span <span class="op">=</span> last_match <span class="op">-</span> first_match <span class="op">+</span> <span class="dv">1</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>        total_score <span class="op">+=</span> (lambda_decay) <span class="op">**</span> span</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> total_score</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co"># the match positions need to be sorted</span></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>barcodes <span class="op">=</span> {</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Barcode 1"</span>: [<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">8</span>],</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Barcode 2"</span>: [<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">10</span>],</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Barcode 3"</span>: [<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">8</span>],</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Barcdoe 4"</span>: [<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>],</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> name, positions <span class="kw">in</span> barcodes.items():</span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    score <span class="op">=</span> barbell_score(positions, <span class="fl">0.5</span>, <span class="dv">3</span>)</span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>name<span class="sc">}</span><span class="ss"> </span><span class="sc">{</span>positions<span class="sc">}</span><span class="ss"> -----&gt; </span><span class="sc">{</span>score<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>Barcode 1 [1, 2, 3, 4, 8] -----&gt; 0.41796875
-Barcode 2 [1, 3, 5, 7, 8, 10] -----&gt; 0.29296875
-Barcode 3 [2, 4, 6, 7, 8] -----&gt; 0.3359375
-Barcdoe 4 [1, 2, 4, 5, 6] -----&gt; 0.421875</code></pre>
-</div>
-</div>
-<p>Those four barcodes have the same number of matches, but they have different score by the formula above. Higher score means the match is tighter (Barcode 4).</p>
-<p>in their tool <a href="https://github.com/rickbeeloo/cigar-lodhi-rs/blob/master/src/lib.rs">here</a>, i think they use some sort of dynamic programming to make the calculation efficient.</p></li>
-</ul>
-<p><strong>Demultiplexing</strong> Annotating -&gt; locate and score barcodes in the reads (all barcode are supported). given fasta file containing tag sequences, barbell extracts the masked region and compare it to barcde using subsequence score. By default, the score for b should be &gt;20% of the perfect score, and the difference between the top two should be &gt;10%. barbell uses sassy here.</p>
-<p>Inspect -&gt; groups reads into human-readable patterns. here, Barbell focuses on the locations of the tags in the reads, and does not report the barcode labels.</p>
-<p>Filter -&gt; extract the read annotations from annotate that match specific pattern</p>
-<p>Barbell recomends two patterns safe: one tag on the left and pattern one tag on the left and right. If we find muultiple tags on either or both ends, always determibne the sample base on the inner barcode. Using maximize patterns will give most yield and should be used for tasks such as assembly, however for diagnostics and quantification, where false positives may affect the outcome, it might be better to use just the safe patterns.</p>
-<p>trim -&gt; reatain the non tag reads sequence</p>
-<p>Barbell use edit distance to find the flank, constant sequence of DNA that sits right next to the barcode with the cut off error threshold 20 (~70% accuracy threshold)</p>
-<p>then barbell use subsequence score to assign barcode, and setting a cut-off is not strighforward. It requires some sort of normalisation.</p>
-<p>Flexiplex using a maximum edit distance (6 in barbell manuscript). and if two barcodes have the same cost, none is returned. allowing up to 9 edits for the top hit, and being at least 3 edits from the second-best hit. If the top barcode has more than 9 edits, it should be 6 edits apart from the second barcode.</p>
-<p>Dorado uses more sophisticated heuristic where barcode are only search at some expected locations (&lt;= 180 bases from the end)</p>
-</section>
-<section id="fastplong" class="level3">
-<h3 class="anchored" data-anchor-id="fastplong"><a href="https://doi.org/10.1093/bioinformatics/bty560">fastplong</a></h3>
-<p>It is designed with multithreading processing feature</p>
-<p>Fastp automatically detects adapter sequences for illumina and ONT data, although for the later it is recommended to provide the sequence (if it is known). It search on both ends for ONT data. It uses edit distance (25% mismatch ratio), and by default it trim 10bp more connected to the adapter (why?)</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="images/adapter_discovery_fastp.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Adapter discover"><img src="images/adapter_discovery_fastp.png" class="img-fluid figure-img" style="width:50.0%" alt="Adapter discover"></a></p>
-<figcaption>Adapter discover</figcaption>
-</figure>
-</div>
-<p>From the paper above whiich seems to talk exculsively for illumina data. If the user, doesn’t prove adapter sequences, fastp discover adapter by looking high frequency pattern that consistently appear across the reads. It uses seed and extend, after seed is generated it extend the sequence before and after to see what is the most dominant base ((&gt;90%)), it is using trie data structure. Nevertheless, i think for fastlong, it relies on the alignment to known adapter.</p>
-<p>Quality filtering is also enabled by default, it has various quality filtering types: filter ambigious base (N) in reads, quality filtering by qscore (by default &gt;=Q15), also the user can use average quality</p>
-<p>It also has length filtering by default, the minimum length to retain the reads (by default is &gt;=20bp)</p>
-</section>
-<section id="prowler" class="level3">
-<h3 class="anchored" data-anchor-id="prowler"><a href="https://doi.org/10.1093/bioinformatics/btab630">Prowler</a></h3>
-<p>They said: “<em>Trimming and filtering tools are useful in DNA sequencing analysis because they increase the accuracy of sequence alignments and thus the reliability of results.</em>”</p>
-<p>Powler is desiged to remove low average Qscore segmennts (default= 100bp windows), instead of average Phred Quality Score of the entire read. It breaks reads into non overlapping windows. Then it remove low quality windows. It has two strategies, either it removes all windows that have avergre quality below certain threshold (default=7) (static) or progresivelly remove the lowest quality windoes. If the total number of remaining bases falls below a minimum number, then the reads are discarded.</p>
-<p>It can output unfragmented reads with low quality windows ara masked (with N) or fragmented to only keep the good quality windows or regions in reads.</p>
-<p>The authors benchmarked the tool against Nanofilt (no repaled by chopper) on mammalian (<em>Bos indicus</em>) read alignemtt. They claimed both strategies produced more reads mapped (because it retained more), static had lowe r alignment error rates.</p>
-<p>They used bacterial (<em>Mesoplasma syrphidae</em>) dataset on genome assembly. The figure although it improved the error rates (by very tiny margin), but it made the NG50 (continuity) much worse &lt;50% vs &gt;95% of genome length (compared to nanofilt). The author said: <em>Prowler maintained a high NG50 (&gt;95% of genome length), while achieving the lowest error rate (2.14%).</em> Either they put the wrong figure, or misinterpreted the figure, idk…</p>
-<p>This tool only works on quality trimming</p>
-</section>
-<section id="chopper" class="level3">
-<h3 class="anchored" data-anchor-id="chopper"><a href="https://doi.org/10.1093/bioinformatics/btad311">Chopper</a></h3>
-<ul>
-<li><p>The paper does not tell much about the metod on how trim the reads, instead i look on the README</p></li>
-<li><p>on the code example, the input needs to be unzip first then process it and zip again.</p></li>
-<li><p>It is quality trimming and filtering tools</p></li>
-<li><p>Trimming strategies:</p>
-<ul>
-<li>Fixed cropping (head crop at the start of the read and tail crop at the end)</li>
-<li>Quality-based trimming using a threshold</li>
-<li>Extracting the highest-quality sub-read based on a quality score</li>
-<li>Splitting reads by low-quality segments and outputting high-quality parts.</li>
-</ul></li>
-</ul>
-<p>it also identified contamination, filter contaminant against fasta (can it be used for detecting adapaters)</p>
-<ul>
-<li>It doesn’t seem to give the users default parameters</li>
-</ul>
-</section>
-<section id="porechop" class="level3">
-<h3 class="anchored" data-anchor-id="porechop"><a href="https://github.com/rrwick/Porechop">Porechop</a></h3>
-<p>It is adapter trimming and demultiplexing tool, and i thik it uses smith waterman algortihm to perform pairwise sequence alignment.</p>
-<p>Adapter trimming:</p>
-<ul>
-<li>Find matching adapter It aligns a subset of reads (deault 10_0000) to all known adapter sets (seems to be harcoded in its codebase). Adapter sets is present in the sample if at least one has identity match 90%. by default it uses schoring scheme <code>match = 3, mismatch = -6, gap open = -5, gap extend = -2</code></li>
-<li>Trim adapter from read ends By default it consider 150bp first and last read sequences to be aligned to sets of adapters. The adapter (sub)sequence will be trimmed, if it detected in the reads with 75% identity match.</li>
-<li>Chimeric reads the entirety of each read is aligned to the present adapter identified at the point 1. If strong match is found (default 85%), the read is split or discarded (an option). my note: is it iterative process? what happen if we have three adapters in one read? we only split once?. Also, is this process expesive?, because we align a whole read</li>
-</ul>
-<p>Demultiplexing:</p>
-<ul>
-<li>Porechop can also look barcodes at the start and end the read, and bin them. A barcode sequence is found if its match strong enough (75%) and is better, et least 5%, tot the second best.</li>
-<li>By default it only looks a single barcode to bin a read, but it also has option two use both barcode at the start and end reads. For rapid kit, barcode usually only appear at the start of the reads.</li>
-</ul>
-</section>
-<section id="porechop_ABI" class="level3">
-<h3 class="anchored" data-anchor-id="porechop_ABI"><a href="https://doi.org/10.1093/bioadv/vbac085">Porechop_ABI</a></h3>
-<p>Instead scan for known adapter in reads, this tool use approximate k-mers and assembly graph, and is able to discover adapter sequences based on their frequency alone.</p>
-<ul>
-<li>Sampling It randomly selects 10 datasets of 40_000 reads with length at least 200bp to search for adapter sequence</li>
-<li>The most frequent k-mers:
-<ul>
-<li>It first search fro frequesnt k-mers at the start of the reads (first 100 bp) or at the end of the read (last 100 bp) where adapter “located”, and assumes that there two regions have much high biological variation.</li>
-<li>For each two region, it search for the 500 most frequent k-mers (value from 2 to 32, default 16). It filters ou low complexity k-mers.</li>
-</ul></li>
-<li>2-errors frequency It expects the adapter sequences in reads have some degree of errors, so it performs a second count and compute for each k-mer its number of occurrences with up to two errors (substitutions, insertions or deletions).</li>
-<li>Reconstruction of the adapter sequence
-<ul>
-<li><p>Using de brujin graph, it initates 500 the 500 most frequent k-mers weighted by their 2-errors frequency as <em>nodes</em>. There is some connection between nodes, if two node overlap of length k-1.</p></li>
-<li><p>Path construction to search the heaviest path where the weight of a path is the sum of the weights of the nodes composing path.</p></li>
-<li><p>The path construction produced sequence that is longer than the actual adapter sequence, so the adapter is the substring of the path. To find boundaries, use sliding windows to search for consecutive positions in the path with higher contrast.</p>
-<ul>
-<li>For every nodes in the path bin into 7 nodes windows, and caluclate the median as f.</li>
-<li>the adapter boundaries is marked by a steep drop in these smoothed frequencies. It looks for step by step differences Fj − Fj+1 accross the whole path.</li>
-<li>It select largest indext of j that step by step difference is higher than threshold.</li>
-<li>the threshold is caluclated by median of Fj − Fj+1 plus 0.075 x maximum count as buffer. <img src="images/porechop_abi-boundariessearching.png" class="img-fluid" alt="Boundaries of the adapter sequence within a path"></li>
-</ul>
-<p><em>my note: when finding the overlaping nodes, does it consider the 2-errors as well?</em></p></li>
-</ul></li>
-<li>When the 2-errors frequency of the k-mer with the highest 2-errors frequency is smaller than 10% of the total number of sequences of the sample (by default 40,000), the program outputs a low frequency warning message, meaning that the adapter may be unstable or that the dataset is not suitable for trimming.</li>
-<li>consensus It cluster resulted sequences from 10 samples according their similarity score. It computes all pairwise alignment of semi-global mode, and build the cosensus sequence. A pair of sequences is considered compatible if the alignement is above 85% identity.</li>
-</ul>
-</section>
-<section id="flexiplex" class="level3">
-<h3 class="anchored" data-anchor-id="flexiplex"><a href="https://doi.org/10.1093/bioinformatics/btae102">Flexiplex</a></h3>
-<p>It uses Levenshtein distance or normal “edit distance”, a minimum number of edits required to make sequence A identical to sequence B. It assumes, all errors are equally likely. It is versitile, can work for illumina and nanopore datasets, also it is designed to demultiplex single cell long read RNA-Seq data. It can be used to identify barcode and unified Molecular Identifier.</p>
-<ul>
-<li>It makes used of falnking sequence (similar to Barbell and Dorado). It locates the flanking regions and search for barcode sequences within them. The intermediate sequence, which contains the barcode and UMI, is initially left as a wildcard (default length of 28 bp).</li>
-<li>Then it perfoms semi global alignmend for each barcode and calculate the Levenshtein distance.</li>
-<li>The best matching barcode equal or less than a specified distance (default of two) is reported, but only if no other barcode has equal lowest distance.</li>
-<li>To identify, it perfomed iteratively flank and barcode search witj previously found barcode, until no new barcode are found in the read.</li>
-<li>The flank and barcode sequence are customisable.</li>
-<li>If no, barcode list is provided, the sequence following the left flank is assumed as the barcode, and those will be reported aloingside the their frequency.</li>
-<li>It seems that flexiplex does not support dual end barcode searching, but it can do it in a two-step approach to demux the 5’-end barcode then set up the second round to demux the 3’-end from each of the 5’-end subsets of files <a href="https://github.com/DavidsonGroup/flexiplex/issues/34">see here</a></li>
-</ul>
-</section>
-<section id="splitcode" class="level3">
-<h3 class="anchored" data-anchor-id="splitcode"><a href="https://doi.org/10.1093/bioinformatics/btae331">Splitcode</a></h3>
-<ul>
-<li>Splitcode is versatile for general preprocessing needs, inlcuding demultplexing tool</li>
-<li>It’s developed for short read data, did not mention anything abour long read data/ONT</li>
-</ul>
-
-
-</section>
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -1287,38 +751,6 @@ Barcdoe 4 [1, 2, 4, 5, 6] -----&gt; 0.421875</code></pre>
     </div>
   </div>
 </footer>
-<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
-(function() {
-  let previousOnload = window.onload;
-  window.onload = () => {
-    if (previousOnload) {
-      previousOnload();
-    }
-    lightboxQuarto.on('slide_before_load', (data) => {
-      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
-      const href = trigger.getAttribute('href');
-      if (href !== null) {
-        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
-        if (imgEl !== null) {
-          const srcAttr = imgEl.getAttribute("src");
-          if (srcAttr && srcAttr.startsWith("data:")) {
-            slideConfig.href = srcAttr;
-          }
-        }
-      } 
-    });
-  
-    lightboxQuarto.on('slide_after_load', (data) => {
-      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(slideNode);
-      }
-    });
-  
-  };
-  
-})();
-          </script>
 
 
 

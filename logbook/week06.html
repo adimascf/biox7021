@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Week 01: Downloading data and run basecalling – BIOX7021 LOGBOOK - 2026</title>
+<title>Week 06: Trimming only assessment – BIOX7021 LOGBOOK - 2026</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -61,7 +61,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -82,6 +82,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/bootstrap/bootstrap-e8a4c0895993354b54972b5f1e41c0e4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
 <link href="../site_libs/bootstrap/bootstrap-dark-58008ceab81c4fb57a6fd58a386c2ec9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="../site_libs/bootstrap/bootstrap-e8a4c0895993354b54972b5f1e41c0e4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/quarto-contrib/carousel-0.1.0/quarto-carousel.css" rel="stylesheet">
 <script src="../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
@@ -113,6 +114,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 </head>
@@ -306,12 +310,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-weekly-logs">    
         <li>
-    <a class="dropdown-item" href="../weekly-logbook/week01.html">
+    <a class="dropdown-item" href="../logbook/week01.html">
  <span class="dropdown-text">Week 1</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../weekly-logbook/week02.html">
+    <a class="dropdown-item" href="../logbook/week02.html">
  <span class="dropdown-text">Week 2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../logbook/week03.html">
+ <span class="dropdown-text">Week 3</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../logbook/week04.html">
+ <span class="dropdown-text">Week 4</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../logbook/week05.html">
+ <span class="dropdown-text">Week 5</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../logbook/week05.html">
+ <span class="dropdown-text">Week 6</span></a>
   </li>  
     </ul>
   </li>
@@ -333,7 +353,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
-  <li><a href="#weekly-meeting-and-action-items-25-02-2026" id="toc-weekly-meeting-and-action-items-25-02-2026" class="nav-link" data-scroll-target="#weekly-meeting-and-action-items-25-02-2026">Weekly meeting and action items (25-02-2026)</a></li>
+  <li><a href="#weekly-meeting-and-action-items-01-04-2026" id="toc-weekly-meeting-and-action-items-01-04-2026" class="nav-link" data-scroll-target="#weekly-meeting-and-action-items-01-04-2026">Weekly meeting and action items (01-04-2026)</a></li>
+  <li><a href="#trimming-only-assessement" id="toc-trimming-only-assessement" class="nav-link" data-scroll-target="#trimming-only-assessement">Trimming only assessement</a>
+  <ul>
+  <li><a href="#snakemake-rulegraph" id="toc-snakemake-rulegraph" class="nav-link" data-scroll-target="#snakemake-rulegraph">Snakemake rulegraph</a></li>
+  <li><a href="#f1-precision-and-recall-plots" id="toc-f1-precision-and-recall-plots" class="nav-link" data-scroll-target="#f1-precision-and-recall-plots">F1, Precision, and Recall plots</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -343,7 +368,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Week 01: Downloading data and run basecalling</h1>
+<h1 class="title">Week 06: Trimming only assessment</h1>
 </div>
 
 
@@ -362,416 +387,225 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="overview" class="level2">
 <h2 class="anchored" data-anchor-id="overview">Overview</h2>
-<hr>
-</section>
-<section id="weekly-meeting-and-action-items-25-02-2026" class="level2">
-<h2 class="anchored" data-anchor-id="weekly-meeting-and-action-items-25-02-2026">Weekly meeting and action items (25-02-2026)</h2>
 <ul>
-<li>Include <code>fitlong</code> for quality filtering in the benchmarking</li>
-<li>Strip away the demultiplexing tools, focus on QC step</li>
-<li>Just used dorado for demultiplexing step</li>
-<li>QC step is including:
-<ul>
-<li>Adapter trimming (fastplong, barbell, porechop/ABI)</li>
-<li>Quality trimming (fastplong, chopper?, fitlong)</li>
-<li>and also quality filtering (fastp, fitlong)</li>
-</ul></li>
-<li>Dimas download raw signal (pod5 files) from Michael’s variant caller benchmark paper</li>
-<li>Run basecalling using <code>sup</code> accuracy and <code>simplex</code> mode</li>
-<li>Need to start thinking about outline for my project plan</li>
+<li>Isolate the adapter trimming only step, and assess them on the varriant calling</li>
+<li>Explore several possible paramters for each of the adapter trimming tool</li>
 </ul>
-<p><a href="https://github.com/rrwick/Filtlong">fitlong</a> is a quality based long read filtering that select a subset of high quality reads based on weighted score of length and sequence identity. Rank reads either using phred score or kmer matches against reference sequence.</p>
-<div id="81848e2e" class="cell" data-execution_count="1">
+</section>
+<section id="weekly-meeting-and-action-items-01-04-2026" class="level2">
+<h2 class="anchored" data-anchor-id="weekly-meeting-and-action-items-01-04-2026">Weekly meeting and action items (01-04-2026)</h2>
+</section>
+<section id="trimming-only-assessement" class="level2">
+<h2 class="anchored" data-anchor-id="trimming-only-assessement">Trimming only assessement</h2>
+<section id="snakemake-rulegraph" class="level3">
+<h3 class="anchored" data-anchor-id="snakemake-rulegraph">Snakemake rulegraph</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="images/trimming_rulegraph_horisontal.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Trimming only rulegraph"><img src="images/trimming_rulegraph_horisontal.png" class="img-fluid figure-img" style="width:80.0%" alt="Trimming only rulegraph"></a></p>
+<figcaption>Trimming only rulegraph</figcaption>
+</figure>
+</div>
+</section>
+<section id="f1-precision-and-recall-plots" class="level3">
+<h3 class="anchored" data-anchor-id="f1-precision-and-recall-plots">F1, Precision, and Recall plots</h3>
+<div style="max-width: 800px; margin: auto;">
+<div id="quarto-carousel-1" class="carousel slide" data-bs-ride="carousel">
+<div class="carousel-indicators">
+  <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="0" class=" active" aria-current="true" aria-label="Slide 1"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="1" class="" aria-label="Slide 2"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="2" class="" aria-label="Slide 3"></button>
+  
+</div>
+<div class="carousel-inner">
+<div class="carousel-item active" data-bs-interval="3000">
+<img src="images/trimming_f1.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item" data-bs-interval="3000">
+<img src="images/trimming_precision.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item" data-bs-interval="3000">
+<img src="images/trimming_recall.png" class="d-block mx-auto">
+</div>
+</div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#quarto-carousel-1" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+      </button>
+    
+      <button class="carousel-control-next" type="button" data-bs-target="#quarto-carousel-1" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+      </button>
+    
+</div>
+<section id="performance-stats-in-average" class="level3">
+<h3 class="anchored" data-anchor-id="performance-stats-in-average">Performance stats in average</h3>
+<div id="60b3cc36" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> itertools</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>demultiplexer <span class="op">=</span> [<span class="st">"dorado"</span>, <span class="st">"barbell"</span>]</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>qc_tools <span class="op">=</span> [<span class="st">"porechop/ABI"</span>, <span class="st">"fastplong"</span>, <span class="st">"fitlong"</span>, <span class="st">"none"</span>]</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>applications <span class="op">=</span> [<span class="st">"Assembly"</span>, <span class="st">"Variant calling"</span>, <span class="st">"Taxonomic assignment"</span>]</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># all possible combinations</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>pipelines <span class="op">=</span> <span class="bu">list</span>(itertools.product(demultiplexer, qc_tools, applications))</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, (demux, qc, app) <span class="kw">in</span> <span class="bu">enumerate</span>(pipelines, start<span class="op">=</span><span class="dv">1</span>):</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Run </span><span class="sc">{</span>i<span class="sc">:02}</span><span class="ss">: </span><span class="sc">{</span>demux<span class="sc">}</span><span class="ss"> -&gt; </span><span class="sc">{</span>qc<span class="sc">}</span><span class="ss"> -&gt; </span><span class="sc">{</span>app<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Total pipeline to be benchmarked (single dataset): </span><span class="sc">{</span><span class="bu">len</span>(pipelines)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"images/trimming_summary_averages.csv"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-<div class="cell-output cell-output-stdout">
-<pre><code>Run 01: dorado -&gt; porechop/ABI -&gt; Assembly
-Run 02: dorado -&gt; porechop/ABI -&gt; Variant calling
-Run 03: dorado -&gt; porechop/ABI -&gt; Taxonomic assignment
-Run 04: dorado -&gt; fastplong -&gt; Assembly
-Run 05: dorado -&gt; fastplong -&gt; Variant calling
-Run 06: dorado -&gt; fastplong -&gt; Taxonomic assignment
-Run 07: dorado -&gt; fitlong -&gt; Assembly
-Run 08: dorado -&gt; fitlong -&gt; Variant calling
-Run 09: dorado -&gt; fitlong -&gt; Taxonomic assignment
-Run 10: dorado -&gt; none -&gt; Assembly
-Run 11: dorado -&gt; none -&gt; Variant calling
-Run 12: dorado -&gt; none -&gt; Taxonomic assignment
-Run 13: barbell -&gt; porechop/ABI -&gt; Assembly
-Run 14: barbell -&gt; porechop/ABI -&gt; Variant calling
-Run 15: barbell -&gt; porechop/ABI -&gt; Taxonomic assignment
-Run 16: barbell -&gt; fastplong -&gt; Assembly
-Run 17: barbell -&gt; fastplong -&gt; Variant calling
-Run 18: barbell -&gt; fastplong -&gt; Taxonomic assignment
-Run 19: barbell -&gt; fitlong -&gt; Assembly
-Run 20: barbell -&gt; fitlong -&gt; Variant calling
-Run 21: barbell -&gt; fitlong -&gt; Taxonomic assignment
-Run 22: barbell -&gt; none -&gt; Assembly
-Run 23: barbell -&gt; none -&gt; Variant calling
-Run 24: barbell -&gt; none -&gt; Taxonomic assignment
+<div class="cell-output cell-output-display" data-execution_count="1">
+<div>
 
-Total pipeline to be benchmarked (single dataset): 24</code></pre>
-</div>
-</div>
-<p>questions:</p>
-<ul>
-<li><p>Include barbell in the benchmark as demultiplexing option?</p>
-<p>If so, I think interesting to see if we find that: If dorado indeed has some issue (as mentioned in barbell paper), are standard QC sufficient to mitigate them? If barbell already clear up any QC issue in our dataset, does QC step not really matter anymore? or still matter QC step does not matter regardless our choice of demultiplexing tool, or QC step does matter</p></li>
-<li><p>or include barbell in QC step, but it requires “manual” intervention?</p></li>
-<li><p>is 24 total pipelines manageable?</p></li>
-<li><p>And about our main aims:</p>
-<ul>
-<li>Do we ask whether necessery or no to perform QC step given downstream analysis? (so we just run dorado with default settings with trim turn on) or</li>
-<li>Do we ask whther or no adapter/barcode sequences impact downstram analysis? (so we left the adapater/barcode sequences, <code>--no-trim</code>) or</li>
-<li>what kind of QC steps (With paramters) best for a given downstream analysis?</li>
-</ul></li>
-</ul>
-<p>Play around with barbel on our dataset</p>
-<p>basecall using dorado each of our sample:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{bash}</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">ssubmit</span> <span class="at">-t</span> 1d <span class="at">-m</span> 16g basecall <span class="st">"dorado basecaller --no-trim --recursive sup </span><span class="va">$run_dir</span><span class="st"> &gt; basecalls.bam"</span> <span class="at">--</span> <span class="at">--qos</span> gpu <span class="at">-p</span> gpu_cuda <span class="at">--gres</span><span class="op">=</span>gpu:h100:1</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Scan for barcode masked tags over the reads, extract the barcode region, and assign a label for each barcode using subsequence matches</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{bash}</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">barbell</span> annotate <span class="at">--kit</span> SQK-NBD114-96 <span class="at">-i</span> input.fastq.gz <span class="at">-t</span> 10 <span class="at">-o</span> fastq_anno.tsv</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Then to trim, we need to specify wwhat kind of patterns in our dataset, we want to filter and trim the tags (filters.txt):</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{bash}</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="va">Ftag</span><span class="op">[</span>fw, <span class="pp">*</span>, @left(0..250), &gt;&gt;<span class="op">]</span><span class="va">__Ftag</span><span class="op">[</span>&lt;&lt;. rc, <span class="pp">*</span>, @right(0..250)<span class="op">]</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="va">Ftag</span><span class="op">[</span>fw, <span class="pp">*</span>, @left(0..250), &gt;&gt;<span class="op">]</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="va">Ftag</span><span class="op">[</span>&lt;&lt;. rc, <span class="pp">*</span>, @right(0..250)<span class="op">]</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="images/rbk_tags_patterns.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Example patterns observed in rapid barcoding data"><img src="images/rbk_tags_patterns.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%" alt="Example patterns observed in rapid barcoding data"></a></p>
-</figure>
-</div>
-<figcaption>Example patterns observed in rapid barcoding data</figcaption>
-</figure>
-</div>
-<p>Example result for MMC234__202311 (probably from single run):</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{bash}</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">-rw-r--r--</span> 1 s4897040 qris-uq  85K Mar  8 16:19 NB14_fw.trimmed.fastq</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="ex">-rw-r--r--</span> 1 s4897040 qris-uq  93K Mar  8 16:19 NB11_fw.trimmed.fastq</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="ex">-rw-r--r--</span> 1 s4897040 qris-uq  19K Mar  8 16:19 NB13_fw.trimmed.fastq</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="ex">-rw-r--r--</span> 1 s4897040 qris-uq 101K Mar  8 16:19 NB12_fw.trimmed.fastq</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="ex">-rw-r--r--</span> 1 s4897040 qris-uq 1.7G Mar  8 16:19 NB10_fw.trimmed.fastq</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="ex">-rw-r--r--</span> 1 s4897040 qris-uq  77K Mar  8 16:19 NB08_fw.trimmed.fastq</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="ex">-rw-r--r--</span> 1 s4897040 qris-uq 127K Mar  8 16:19 NB09_fw.trimmed.fastq</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>for ATCC_35221__202309 (come from multiple runs):</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{bash}</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="ex">-rw-r-----</span> 1 s4897040 qris-uq 2.7M Mar 11 05:13 NB83_fw.trimmed.fastq</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="ex">-rw-r-----</span> 1 s4897040 qris-uq 1.4M Mar 11 05:13 NB80_fw.trimmed.fastq</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="ex">-rw-r-----</span> 1 s4897040 qris-uq 2.4K Mar 11 05:13 NB11_fw.trimmed.fastq</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="ex">-rw-r-----</span> 1 s4897040 qris-uq 4.9K Mar 11 05:13 NB59_fw.trimmed.fastq</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="ex">-rw-r-----</span> 1 s4897040 qris-uq 192K Mar 11 05:13 NB71_fw.trimmed.fastq</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="ex">-rw-r-----</span> 1 s4897040 qris-uq 1.4M Mar 11 05:13 NB78_fw.trimmed.fastq</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="ex">-rw-r-----</span> 1 s4897040 qris-uq 192K Mar 11 05:13 NB72_fw.trimmed.fastq</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="ex">-rw-r-----</span> 1 s4897040 qris-uq 4.5M Mar 11 05:13 NB86_fw.trimmed.fastq</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="ex">-rw-r-----</span> 1 s4897040 qris-uq 1.4M Mar 11 05:13 NB79_fw.trimmed.fastq</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="ex">-rw-r-----</span> 1 s4897040 qris-uq 7.7K Mar 11 05:13 NB94_fw.trimmed.fastq</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="ex">-rw-r-----</span> 1 s4897040 qris-uq  11M Mar 11 05:13 NB73_fw.trimmed.fastq</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="ex">-rw-r-----</span> 1 s4897040 qris-uq 130K Mar 11 05:13 NB70_fw.trimmed.fastq</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="ex">-rw-r-----</span> 1 s4897040 qris-uq 2.7M Mar 11 05:13 NB82_fw.trimmed.fastq</span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="ex">-rw-r-----</span> 1 s4897040 qris-uq 1.3K Mar 11 05:13 NB58_fw.trimmed.fastq</span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="ex">-rw-r-----</span> 1 s4897040 qris-uq 3.0M Mar 11 05:13 NB65_fw.trimmed.fastq</span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="ex">-rw-r-----</span> 1 s4897040 qris-uq  68K Mar 11 05:13 NB69_fw.trimmed.fastq</span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="ex">-rw-r-----</span> 1 s4897040 qris-uq 1.3M Mar 11 05:13 NB74_fw.trimmed.fastq</span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="ex">-rw-r-----</span> 1 s4897040 qris-uq  17M Mar 11 05:13 NB81_fw.trimmed.fastq</span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="ex">-rw-r-----</span> 1 s4897040 qris-uq 3.7K Mar 11 05:13 NB45_fw.trimmed.fastq</span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="ex">-rw-r-----</span> 1 s4897040 qris-uq 1.3G Mar 11 05:13 NB76_fw.trimmed.fastq</span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="ex">-rw-r-----</span> 1 s4897040 qris-uq  49M Mar 11 05:13 NB68_fw.trimmed.fastq</span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="ex">-rw-r-----</span> 1 s4897040 qris-uq 3.9M Mar 11 05:13 NB89_fw.trimmed.fastq</span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="ex">-rw-r-----</span> 1 s4897040 qris-uq 804K Mar 11 05:13 NB77_fw.trimmed.fastq</span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="ex">-rw-r-----</span> 1 s4897040 qris-uq 3.7M Mar 11 05:13 NB87_fw.trimmed.fastq</span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a><span class="ex">-rw-r-----</span> 1 s4897040 qris-uq 3.0M Mar 11 05:13 NB88_fw.trimmed.fastq</span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a><span class="ex">-rw-r-----</span> 1 s4897040 qris-uq 1.3G Mar 11 05:13 NB84_fw.trimmed.fastq</span>
-<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a><span class="ex">-rw-r-----</span> 1 s4897040 qris-uq 3.4M Mar 11 05:13 NB85_fw.trimmed.fastq</span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="ex">-rw-r-----</span> 1 s4897040 qris-uq  11M Mar 11 05:13 NB75_fw.trimmed.fastq</span>
-<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a><span class="ex">-rw-r-----</span> 1 s4897040 qris-uq 7.4M Mar 11 05:13 NB90_fw.trimmed.fastq</span>
-<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a><span class="ex">-rw-r-----</span> 1 s4897040 qris-uq 1.4M Mar 11 05:13 NB67_fw.trimmed.fastq</span>
-<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a><span class="ex">-rw-r-----</span> 1 s4897040 qris-uq 106K Mar 11 05:13 NB66_fw.trimmed.fastq</span>
-<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 15%">
-<col style="width: 7%">
-<col style="width: 7%">
-<col style="width: 6%">
-<col style="width: 7%">
-<col style="width: 7%">
-<col style="width: 6%">
-<col style="width: 6%">
-<col style="width: 6%">
-<col style="width: 7%">
-<col style="width: 7%">
-<col style="width: 7%">
-<col style="width: 7%">
-</colgroup>
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
 <thead>
 <tr class="header">
-<th>Sample</th>
-<th>NB01</th>
-<th>NB02</th>
-<th>NB04</th>
-<th>NB05</th>
-<th>NB06</th>
-<th>NB07</th>
-<th>NB08</th>
-<th>NB10</th>
-<th>NB11</th>
-<th>NB12</th>
-<th>NB14</th>
-<th>Dropped</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">trimmer</th>
+<th data-quarto-table-cell-role="th">VAR_TYPE</th>
+<th data-quarto-table-cell-role="th">PREC</th>
+<th data-quarto-table-cell-role="th">RECALL</th>
+<th data-quarto-table-cell-role="th">F1_SCORE</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>ATCC_10708__202309</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<th data-quarto-table-cell-role="th">0</th>
+<td>barbell_default</td>
+<td>INDEL</td>
+<td>0.9997</td>
+<td>0.9875</td>
+<td>0.9936</td>
 </tr>
 <tr class="even">
-<td>ATCC_17802__202309</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<th data-quarto-table-cell-role="th">1</th>
+<td>barbell_default</td>
+<td>SNP</td>
+<td>1.0000</td>
+<td>0.9977</td>
+<td>0.9989</td>
 </tr>
 <tr class="odd">
-<td>ATCC_25922__202309</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<th data-quarto-table-cell-role="th">2</th>
+<td>barbell_max</td>
+<td>INDEL</td>
+<td>0.9999</td>
+<td>0.9857</td>
+<td>0.9927</td>
 </tr>
 <tr class="even">
-<td>ATCC_33560__202309</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<th data-quarto-table-cell-role="th">3</th>
+<td>barbell_max</td>
+<td>SNP</td>
+<td>1.0000</td>
+<td>0.9978</td>
+<td>0.9989</td>
 </tr>
 <tr class="odd">
-<td>ATCC_35221__202309</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<th data-quarto-table-cell-role="th">4</th>
+<td>dorado</td>
+<td>INDEL</td>
+<td>0.9985</td>
+<td>0.9869</td>
+<td>0.9926</td>
 </tr>
 <tr class="even">
-<td>ATCC_19119__202309</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<th data-quarto-table-cell-role="th">5</th>
+<td>dorado</td>
+<td>SNP</td>
+<td>1.0000</td>
+<td>0.9979</td>
+<td>0.9989</td>
 </tr>
 <tr class="odd">
-<td>ATCC_35897__202309</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<th data-quarto-table-cell-role="th">6</th>
+<td>fastplong</td>
+<td>INDEL</td>
+<td>0.9992</td>
+<td>0.9878</td>
+<td>0.9935</td>
 </tr>
 <tr class="even">
-<td>ATCC_BAA-679__202309</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<th data-quarto-table-cell-role="th">7</th>
+<td>fastplong</td>
+<td>SNP</td>
+<td>1.0000</td>
+<td>0.9980</td>
+<td>0.9990</td>
 </tr>
 <tr class="odd">
-<td>BPH2947__202310</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<th data-quarto-table-cell-role="th">8</th>
+<td>porechop_abi_discard</td>
+<td>INDEL</td>
+<td>0.9997</td>
+<td>0.9860</td>
+<td>0.9927</td>
 </tr>
 <tr class="even">
-<td>AJ292__202310</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<th data-quarto-table-cell-role="th">9</th>
+<td>porechop_abi_discard</td>
+<td>SNP</td>
+<td>1.0000</td>
+<td>0.9977</td>
+<td>0.9988</td>
 </tr>
 <tr class="odd">
-<td>KPC2__202310</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<th data-quarto-table-cell-role="th">10</th>
+<td>porechop_abi_nocheck</td>
+<td>INDEL</td>
+<td>0.9990</td>
+<td>0.9866</td>
+<td>0.9927</td>
 </tr>
 <tr class="even">
-<td>RDH275__202311</td>
-<td>137</td>
-<td>24</td>
-<td>196</td>
-<td>34</td>
-<td>914928</td>
-<td>32</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<th data-quarto-table-cell-role="th">11</th>
+<td>porechop_abi_nocheck</td>
+<td>SNP</td>
+<td>1.0000</td>
+<td>0.9978</td>
+<td>0.9989</td>
 </tr>
 <tr class="odd">
-<td>MMC234__202311</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td>17</td>
-<td>214957</td>
-<td>47</td>
-<td>60</td>
-<td>17</td>
-<td></td>
+<th data-quarto-table-cell-role="th">12</th>
+<td>porechop_abi_split</td>
+<td>INDEL</td>
+<td>0.9995</td>
+<td>0.9898</td>
+<td>0.9946</td>
 </tr>
 <tr class="even">
-<td>AMtb_1__202402</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<th data-quarto-table-cell-role="th">13</th>
+<td>porechop_abi_split</td>
+<td>SNP</td>
+<td>1.0000</td>
+<td>0.9979</td>
+<td>0.9989</td>
 </tr>
 <tr class="odd">
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<th data-quarto-table-cell-role="th">14</th>
+<td>untrimmed</td>
+<td>INDEL</td>
+<td>0.9998</td>
+<td>0.9856</td>
+<td>0.9926</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">15</th>
+<td>untrimmed</td>
+<td>SNP</td>
+<td>1.0000</td>
+<td>0.9979</td>
+<td>0.9989</td>
 </tr>
 </tbody>
 </table>
 
+</div>
+</div>
+</div>
 
+
+</section>
+</div>
+</section>
 </section>
 
 </main> <!-- /main -->
