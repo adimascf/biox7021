@@ -54,7 +54,8 @@ rule all:
 		FIGURES / "assess/mutref/plots/trimming_f1.png",
 		FIGURES / "assess/mutref/plots/trimming_recall.png",
 		FIGURES / "assess/mutref/plots/trimming_precision.png",
-		TABLES / "assess/mutref/plots/trimming_summary.csv"
+		TABLES / "assess/mutref/plots/trimming_summary.csv",
+		TABLES / "assess/mutref/plots/trimming_summary_averages.csv"
 
 include: RULES / "common.smk"
 include: RULES / "trim.smk"

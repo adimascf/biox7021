@@ -66,4 +66,20 @@ rule best_f1:
 	script:
 		"../scripts/best_f1.py"
 
+rule best_f1_average:
+	input:
+		csv=rules.best_f1.output.csv
+	log:
+		LOGS / "visualisation/f1_average_trimming_only.log"
+	resources:
+		mem="2GiB",
+		runtime="5m"
+	conda:
+		ENVS / "f1_score.yaml"
+	output:
+		csv=TABLES / "assess/mutref/plots/trimming_summary_averages.csv"
+	script:
+		"../scripts/f1_average.py"
+
+
 
