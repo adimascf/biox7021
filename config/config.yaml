@@ -1,7 +1,7 @@
 pepfile: "config/pep/project_config.yaml"
 pepschema: "config/pep/pep_schema.yaml"
 
-repeat: 3
+repeat: 1
 
 trimming:
   - fastplong

@@ -5,6 +5,8 @@ import itertools
 WORKFLOW = Path("workflow").resolve()
 CONFIG = Path("config").resolve()
 RESULTS = Path("results").resolve()
+FIGURES = RESULTS / "figures"
+TABLES = RESULTS / "tables"
 LOGS = Path("logs/rules").resolve()
 
 RULES = WORKFLOW / "rules"
@@ -22,15 +24,40 @@ REPEAT = config["repeat"]
 
 KITS = pep.sample_table["sequencing_kits"]
 
-target_files = set()
-for trimmer, filtering_tool in itertools.product(TRIMMING, FILTERING):
-	for sample in SAMPLES:
-		target_files.add(RESULTS / f"QC/filtering/{filtering_tool}/{trimmer}/{sample}.{trimmer}.{filtering_tool}.fastq")
-rule all:
-    input:
-        target_files
+PORECHOP_ABI_SETTINGS = ["nocheck", "discard", "split"]
+BARBELL_KIT_SETTINGS = ["default", "max"]
 
+target_files = set()
+pr_files= set()
+TRIMMING.append("untrimmed")
+for trimmer in TRIMMING:
+	if trimmer == "porechop_abi":
+		for setting in PORECHOP_ABI_SETTINGS:
+			current_trimmer = trimmer + "_" + setting
+			for sample in SAMPLES:
+				target_files.add(RESULTS / f"assess/mutref/{current_trimmer}/{sample}/{sample}.precision-recall-summary.tsv")
+				pr_files.add(RESULTS / f"assess/mutref/{current_trimmer}/{sample}/{sample}.precision-recall.tsv")
+	elif trimmer == "barbell":   
+		for setting in BARBELL_KIT_SETTINGS: 
+			current_trimmer = trimmer + "_" + setting
+			for sample in SAMPLES:
+				target_files.add(RESULTS / f"assess/mutref/{current_trimmer}/{sample}/{sample}.precision-recall-summary.tsv")
+				pr_files.add(RESULTS / f"assess/mutref/{current_trimmer}/{sample}/{sample}.precision-recall.tsv")
+	else:   
+		for sample in SAMPLES:
+			target_files.add(RESULTS / f"assess/mutref/{trimmer}/{sample}/{sample}.precision-recall-summary.tsv")
+			pr_files.add(RESULTS / f"assess/mutref/{trimmer}/{sample}/{sample}.precision-recall.tsv")
+  
+rule all:
+	input:
+		target_files,
+		FIGURES / "assess/mutref/plots/trimming_f1.png",
+		FIGURES / "assess/mutref/plots/trimming_recall.png",
+		FIGURES / "assess/mutref/plots/trimming_precision.png",
+		TABLES / "assess/mutref/plots/trimming_summary.csv"
 
 include: RULES / "common.smk"
 include: RULES / "trim.smk"
-include: RULES / "filter.smk"
+include: RULES / "downsample.smk"
+include: RULES / "call.smk"
+include: RULES / "assess.smk"

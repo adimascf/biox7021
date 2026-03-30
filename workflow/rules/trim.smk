@@ -1,94 +1,183 @@
 REPEAT = int(config.get("repeat", 1))
 
+trimmer = "fastplong"
 rule trim_fastplong:
 	input:
 		reads=get_original_fastqs
 	log:
-		LOGS / "QC/trimming/fastplong/{sample}.log"
+		LOGS / f"QC/trimming/{trimmer}/{{sample}}.log"
 	threads: 8
 	resources:
-		mem_mb=64000,
+		mem="64GiB",
 		runtime=f"{4 * REPEAT}m",
-	conda: 
+	conda:
 		ENVS / "fastplong.yaml"
 	params:
 		nofilter="--disable_quality_filtering --disable_length_filtering"
 	output:
-		reads=RESULTS / "QC/trimming/fastplong/{sample}.fastq",
-		json=RESULTS / "QC/trimming/fastplong/{sample}.json",
-		html=RESULTS / "QC/trimming/fastplong/{sample}.html"
+		reads=temp(RESULTS / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}.fastq"),
+		json=RESULTS / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}.json",
+		html=RESULTS / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}.html"
 	benchmark:
-		repeat(BENCHMARK / "QC/trimming/fastplong/{sample}.tsv", REPEAT)
+		repeat(BENCHMARK / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}.tsv", REPEAT)
 	shell:
 		"""
 		fastplong -i {input.reads} -o {output.reads} {params.nofilter} --thread {threads} \
 				-s TTTTTTTTCCTGTACTTCGTTCAGTTACGTATTGCT -e ACGTAACTGAACGAAGTACAGG \
-				--json {output.json} --html {output.html} 2> {log}
+				--json {output.json} --html {output.html} --verbose 2> {log}
 		"""
 
-rule trim_porcechop_abi:
+trimmer = "porechop_abi_split"
+# by default, it will split reads when an adapter is found in the middle
+rule trim_porcechop_abi_split:
 	input:
 		reads=get_original_fastqs
 	log:
-		LOGS / "QC/trimming/porechop_abi/{sample}.log"
+		LOGS / f"QC/trimming/{trimmer}/{{sample}}.log"
+	threads: 32 
+	resources:
+		mem="256GiB",
+		runtime=f"{24 * REPEAT}h"
+	conda:
+		ENVS / "porechop_abi.yaml"
+	output:
+		reads=temp(RESULTS / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}.fastq")
+	benchmark: 
+		repeat(BENCHMARK / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}.tsv", REPEAT)
+	shell: 
+		"""
+		porechop_abi -abi -t {threads} -i {input.reads} -o {output.reads} 2> {log}
+		"""
+
+trimmer = "porechop_abi_discard"
+rule trim_porcechop_abi_discard:
+	input:
+		reads=get_original_fastqs
+	log:
+		LOGS / f"QC/trimming/{trimmer}/{{sample}}.log"
 	threads: 32
 	resources:
-		mem_mb=256000,
+		mem="256GiB",
 		runtime=f"{24 * REPEAT}h"
 	conda:
 		ENVS / "porechop_abi.yaml"
 	params:
 		nochimera="--discard_middle"
 	output:
-		reads=RESULTS / "QC/trimming/porechop_abi/{sample}.fastq"
-	benchmark:
-		repeat(BENCHMARK / "QC/trimming/porechop_abi/{sample}.tsv", REPEAT)
-	shell:
+		reads=temp(RESULTS / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}.fastq")
+	benchmark: 
+		repeat(BENCHMARK / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}.tsv", REPEAT)
+	shell: 
 		"""
 		porechop_abi -abi -t {threads} {params.nochimera} -i {input.reads} -o {output.reads} 2> {log}
 		"""
 
-rule trim_dorado:
+trimmer = "porechop_abi_nocheck"
+rule trim_porcechop_abi_nocheck:
 	input:
 		reads=get_original_fastqs
 	log:
-		LOGS / "QC/trimming/dorado/{sample}.log"
+		LOGS / f"QC/trimming/{trimmer}/{{sample}}.log"
+	threads: 32
 	resources:
-		mem_mb=32000,
-		runtime=f"{15 * REPEAT}m"
-	container:
-		"docker://nanoporetech/dorado:shac8f356489fa8b44b31beba841b84d2879de2088e"
+		mem="256GiB",
+		runtime=f"{24 * REPEAT}h"
+	conda:
+		ENVS / "porechop_abi.yaml"
 	params:
-		kit1=lambda wildcards: get_sequencing_kits(wildcards)[0],
-		kit2=lambda wildcards: get_sequencing_kits(wildcards)[1],
-		output_fq="--emit-fastq"
+		nocheck="--no_split" # will skip chimera searching
 	output:
-		reads=RESULTS / "QC/trimming/dorado/{sample}.fastq"
-	benchmark:
-		repeat(BENCHMARK / "QC/trimming/dorado/{sample}.tsv", REPEAT)
-	shell:
+		reads=temp(RESULTS / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}.fastq")
+	benchmark: 
+		repeat(BENCHMARK / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}.tsv", REPEAT)
+	shell:  
+		""" 
+		porechop_abi -abi -t {threads} {params.nocheck} -i {input.reads} -o {output.reads} 2> {log}
+		"""  
+
+trimmer = "dorado"
+rule trim_dorado:  
+	input:  
+		reads=get_original_fastqs  
+	log:  
+		LOGS / f"QC/trimming/{trimmer}/{{sample}}.log"  
+	resources:  
+		mem="32GiB",  
+		runtime=f"{15 * REPEAT}m"  
+	container:  
+		"docker://nanoporetech/dorado:shac8f356489fa8b44b31beba841b84d2879de2088e"
+	params:  
+		kit1=lambda wildcards: get_sequencing_kits(wildcards)[0],  
+		kit2=lambda wildcards: get_sequencing_kits(wildcards)[1],  
+		output_fq="--emit-fastq"  
+	output:  
+		reads=temp(RESULTS / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}.fastq")
+	benchmark:  
+		repeat(BENCHMARK / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}.tsv", REPEAT)
+	shell: 
 		"""
 		tmp_fq=$(mktemp -u).fastq
 		(dorado trim {params.output_fq} --sequencing-kit {params.kit1} {input.reads} > $tmp_fq) 2> {log}
 		(dorado trim {params.output_fq} --sequencing-kit {params.kit2} $tmp_fq > {output.reads}) 2>> {log} 
 		"""
 
+trimmer = "barbell_default"
 rule barbell_trim:
 	input:
 		reads=get_original_fastqs
 	log:
-		LOGS / "QC/trimming/barbell/{sample}.log"
+		LOGS / f"QC/trimming/{trimmer}/{{sample}}.log"
 	resources:
-		mem_mb=32000,
+		mem="32GiB",
 		runtime=f"{20 * REPEAT}h"
 	conda:
 		ENVS / "barbell_seqkit.yaml"
 	params:
 		kit1=lambda wildcards: get_sequencing_kits(wildcards)[0],
-		kit2=lambda wildcards: get_sequencing_kits(wildcards)[1]
+		kit2=lambda wildcards: get_sequencing_kits(wildcards)[1],
+		maximize="no"
 	output:
-		reads= RESULTS / "QC/trimming/barbell/{sample}.fastq"
+		reads=temp(RESULTS / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}.fastq")
 	benchmark:
-		repeat(BENCHMARK / "QC/trimming/barbell/{sample}.tsv", REPEAT)
+		repeat(BENCHMARK / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}.tsv", REPEAT)
 	script:
 		"../scripts/trimming/barbell_kit.sh"
+
+trimmer = "barbell_max"
+rule barbell_trim_max:
+	input:
+		reads=get_original_fastqs
+	log:
+		LOGS / f"QC/trimming/{trimmer}/{{sample}}.log"
+	resources:
+		mem="32GiB",
+		runtime=f"{20 * REPEAT}h"
+	conda:
+		ENVS / "barbell_seqkit.yaml"
+	params:
+		kit1=lambda wildcards: get_sequencing_kits(wildcards)[0],
+		kit2=lambda wildcards: get_sequencing_kits(wildcards)[1],
+		maximize="yes"
+	output:
+		reads=temp(RESULTS / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}.fastq")
+	benchmark:
+		repeat(BENCHMARK / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}.tsv", REPEAT)
+	script:
+		"../scripts/trimming/barbell_kit.sh"
+
+trimmer = "untrimmed"
+rule trim_notrim:
+	input:
+		reads=get_original_fastqs
+	log:
+		LOGS / f"QC/trimming/{trimmer}/{{sample}}.log"
+	resources:
+		mem="8GiB",
+		runtime="10m"
+	output:
+		reads=temp(RESULTS / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}.fastq")
+	shell:
+		"""
+		# here we just copy the input file, no trimming process being perfomed
+		cp {input.reads} {output.reads}
+		"""

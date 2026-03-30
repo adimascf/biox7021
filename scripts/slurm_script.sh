@@ -15,7 +15,7 @@ THREADS=2
 BINDS="/scratch/user/s4897040"
 SINGULARITY_ARGS="-B $BINDS"
 DEFAULT_TMP="slurm_account=a_uqccr"
-CMD="snakemake --sdm conda apptainer --executor slurm --jobs 500 --default-resources $DEFAULT_TMP --slurm-init-seconds-before-status-checks=20 --rerun-incomplete --local-cores $THREADS $* --singularity-args '$SINGULARITY_ARGS'"
+CMD="snakemake --logger snakesee --sdm conda apptainer --executor slurm --jobs 500 --default-resources $DEFAULT_TMP --slurm-init-seconds-before-status-checks=20 --rerun-incomplete --local-cores $THREADS $* --singularity-args '$SINGULARITY_ARGS'"
 
 ssubmit -t "$TIME" -m "$MEMORY" -o "$LOG_DIR"/"$JOB_NAME".o \
-    -e "$LOG_DIR"/"$JOB_NAME".e "$JOB_NAME" "$CMD" -- -c "$THREADS"
+    -e "$LOG_DIR"/"$JOB_NAME".e "$JOB_NAME" "$CMD" -- -c "$THREADS" 
