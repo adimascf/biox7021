@@ -31,18 +31,17 @@ rule downsample_rasusa:
 		reads=RESULTS / "QC/trimming/{trimmer}/{sample}.{trimmer}.fastq",
 		faidx=rules.faidx_self.output.faidx
 	log:
-		LOGS / "QC/downsampling/{trimmer}/{sample}.{trimmer}.rasusa.log"
+		LOGS / "QC/downsampling/{trimmer}/{depth}x/{sample}.{trimmer}.rasusa.log"
 	resources:
 		mem="64GiB",
 		runtime="30m"
 	conda:
 		ENVS / "rasusa.yaml"
 	params:
-		depth="100",
 		seed="1"
 	output:
-		reads=temp(RESULTS / "QC/downsampling/{trimmer}/{sample}.{trimmer}.rasusa.fastq"),
+		reads=RESULTS / "QC/downsampling/{trimmer}/{depth}x/{sample}.{trimmer}.rasusa.fastq",
 	shell:
 		"""
-		rasusa reads -c {params.depth} -g {input.faidx} -s {params.seed} -o {output.reads} {input.reads} 2> {log}
+		rasusa reads -c {wildcards.depth} -g {input.faidx} -s {params.seed} -o {output.reads} {input.reads} 2> {log}
 		"""

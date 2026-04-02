@@ -29,7 +29,8 @@ for p in map(Path, snakemake.input.pr):
     # In results/assess/mutref/{trimmer}/{sample}/file.tsv
     # p.parts[-2] is the sample, p.parts[-3] is the trimmer
     df["sample"] = p.parts[-2]
-    df["trimmer"] = p.parts[-3]
+    df["depth"] = p.parts[-3]
+    df["trimmer"] = p.parts[-4]
     frames.append(df)
 
 pr_df = pd.concat(frames)
@@ -37,20 +38,22 @@ pr_df.reset_index(inplace=True, drop=True)
 
 metrics = ["F1_SCORE", "PREC", "RECALL"]
 x = "trimmer"
+hue = "depth"
 rows = ("SNP", "INDEL")
 nrows = len(rows)
 
 # Get the row with the maximum F1 score for each combination
-dataix = pr_df.groupby([x, "VAR_TYPE", "sample"])["F1_SCORE"].idxmax()
+dataix = pr_df.groupby([x, hue, "VAR_TYPE", "sample"])["F1_SCORE"].idxmax()
 data = pr_df.iloc[dataix]
 order = sorted(set(data[x]))
+hue_order = ["100x", "50x", "20x"]
 
 # Generate the plots
 for y in metrics:
     fig, axes = plt.subplots(
         nrows=nrows,
         ncols=1,
-        figsize=(10, 10),
+        figsize=(12, 10),
         dpi=300,
         sharex=True,
         sharey=True,
@@ -67,12 +70,12 @@ for y in metrics:
         yticklabels = [f"{yval:.2%}" for yval in yticks]
 
         sns.boxplot(
-            data=df, x=x, y=y, order=order, ax=ax,
-            fill=False, fliersize=0, color="black", gap=0.2
+            data=df, x=x, y=y, hue=hue, order=order, hue_order=hue_order, 
+            ax=ax, fliersize=0, gap=0.2
         )
         sns.stripplot(
-            data=df, x=x, y=y, order=order, ax=ax, hue=x,
-            alpha=0.6, dodge=False, linewidth=0.5, edgecolor="black", legend=False
+            data=df, x=x, y=y, hue=hue, order=order, hue_order=hue_order, ax=ax,
+            alpha=0.6, dodge=True, linewidth=0.5, edgecolor="black", legend=False
         )
 
         ax.set_yscale("logit", nonpositive="clip")
@@ -84,6 +87,13 @@ for y in metrics:
         ax.tick_params(axis="x", labelrotation=45, labelsize=10)
         ax.set_xlabel("")
         ax.set_title(f"{vartype} {ylabel}")
+
+        # only show the legend on the top plot to save space
+        if i == 0:
+            ax.legend(title="Depth", loc="lower right")
+        else:
+            if ax.get_legend() is not None:
+                ax.get_legend().remove()
 
         i += 1
 

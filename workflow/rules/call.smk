@@ -3,7 +3,7 @@ rule align_self:
 		reads=rules.downsample_rasusa.output.reads,
 		reference=rules.faidx_self.output.fasta,
 	log:
-		LOGS / "alignment/self/{trimmer}/{sample}.{trimmer}.minimap2.log"
+		LOGS / "alignment/self/{trimmer}/{depth}x/{sample}.{trimmer}.minimap2.log"
 	threads: 4
 	resources:
 		mem="32GiB",
@@ -14,8 +14,8 @@ rule align_self:
 		preset="map-ont",
 		opts="-aL --cs --MD"
 	output:
-		bam=temp(RESULTS / "alignment/self/{trimmer}/{sample}.{trimmer}.minimap2.sorted.bam"),
-		bai=temp(RESULTS / "alignment/self/{trimmer}/{sample}.{trimmer}.minimap2.sorted.bam.bai")
+		bam=temp(RESULTS / "alignment/self/{trimmer}/{depth}x/{sample}.{trimmer}.minimap2.sorted.bam"),
+		bai=temp(RESULTS / "alignment/self/{trimmer}/{depth}x/{sample}.{trimmer}.minimap2.sorted.bam.bai")
 	shell:
 		"""
 		(minimap2 {params.opts} -t {threads} -x {params.preset} {input.reference} {input.reads} | \
@@ -28,10 +28,10 @@ use rule align_self as align_mutref with:
 		reads=rules.downsample_rasusa.output.reads,
 		reference=rules.faidx_mutref.output.fasta
 	log:
-		LOGS / "alignment/mutref/{trimmer}/{sample}.{trimmer}.minimap2.log"
+		LOGS / "alignment/mutref/{trimmer}/{depth}x/{sample}.{trimmer}.minimap2.log"
 	output:
-		bam=temp(RESULTS / "alignment/mutref/{trimmer}/{sample}.{trimmer}.minimap2.sorted.bam"),
-		bai=temp(RESULTS / "alignment/mutref/{trimmer}/{sample}.{trimmer}.minimap2.sorted.bam.bai")
+		bam=temp(RESULTS / "alignment/mutref/{trimmer}/{depth}x/{sample}.{trimmer}.minimap2.sorted.bam"),
+		bai=temp(RESULTS / "alignment/mutref/{trimmer}/{depth}x/{sample}.{trimmer}.minimap2.sorted.bam.bai")
 
 rule call_self:
 	input:
@@ -40,7 +40,7 @@ rule call_self:
 		reference=rules.align_self.input.reference,
 		faidx=rules.faidx_self.output.faidx
 	log:
-		LOGS / "calling/self/{trimmer}/{sample}.{trimmer}.clair3.log"
+		LOGS / "calling/self/{trimmer}/{depth}x/{sample}.{trimmer}.clair3.log"
 	threads: 4
 	resources:
 		mem="128GiB",
@@ -50,7 +50,7 @@ rule call_self:
 	shadow:
 		"shallow"
 	output:
-		vcf=RESULTS / "calling/self/{trimmer}/{sample}.{trimmer}.clair3.vcf.gz"
+		vcf=RESULTS / "calling/self/{trimmer}/{depth}x/{sample}.{trimmer}.clair3.vcf.gz"
 	script:
 		"../scripts/calling/clair3.sh"
 
@@ -61,7 +61,6 @@ use rule call_self as call_mutref with:
 		reference=rules.align_mutref.input.reference,
 		faidx=rules.faidx_mutref.output.faidx
 	log:
-		LOGS / "calling/mutref/{trimmer}/{sample}.{trimmer}.clair3.log"
+		LOGS / "calling/mutref/{trimmer}/{depth}x/{sample}.{trimmer}.clair3.log"
 	output:
-		vcf=RESULTS / "calling/mutref/{trimmer}/{sample}.{trimmer}.clair3.vcf.gz"
-
+		vcf=RESULTS / "calling/mutref/{trimmer}/{depth}x/{sample}.{trimmer}.clair3.vcf.gz"

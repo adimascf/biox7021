@@ -3,6 +3,11 @@ pepschema: "config/pep/pep_schema.yaml"
 
 repeat: 1
 
+depth:
+  - 20
+  - 50
+  - 100
+
 trimming:
   - fastplong
   - porechop_abi
