@@ -31,38 +31,56 @@ BARBELL_KIT_SETTINGS = ["default", "max"]
 target_files = set()
 pr_files= set()
 TRIMMING.append("untrimmed")
+# for trimmer in TRIMMING:
+# 	if trimmer == "porechop_abi":
+# 		for setting in PORECHOP_ABI_SETTINGS:
+# 			current_trimmer = trimmer + "_" + setting
+# 			for depth in DEPTHS:
+# 				for sample in SAMPLES:
+# 					target_files.add(RESULTS / f"assess/mutref/{current_trimmer}/{depth}x/{sample}/{sample}.precision-recall-summary.tsv")
+# 					pr_files.add(RESULTS / f"assess/mutref/{current_trimmer}/{depth}x/{sample}/{sample}.precision-recall.tsv")
+# 	elif trimmer == "barbell":   
+# 		for setting in BARBELL_KIT_SETTINGS: 
+# 			current_trimmer = trimmer + "_" + setting
+# 			for depth in DEPTHS:
+# 				for sample in SAMPLES:
+# 					target_files.add(RESULTS / f"assess/mutref/{current_trimmer}/{depth}x/{sample}/{sample}.precision-recall-summary.tsv")
+# 					pr_files.add(RESULTS / f"assess/mutref/{current_trimmer}/{depth}x/{sample}/{sample}.precision-recall.tsv")
+# 	else:
+# 		for depth in DEPTHS:
+# 			for sample in SAMPLES:
+# 				target_files.add(RESULTS / f"assess/mutref/{trimmer}/{depth}x/{sample}/{sample}.precision-recall-summary.tsv")
+# 				pr_files.add(RESULTS / f"assess/mutref/{trimmer}/{depth}x/{sample}/{sample}.precision-recall.tsv")
+
+qends_files = []
+
 for trimmer in TRIMMING:
 	if trimmer == "porechop_abi":
-		for setting in PORECHOP_ABI_SETTINGS:
+		current_trimmer = trimmer + "_" + "nocheck"
+		for sample in SAMPLES:
+			qends_files.append(RESULTS / f"QC/ends/{current_trimmer}/{sample}.{current_trimmer}.ends.tsv")
+	elif trimmer == "barbell":
+		for setting in BARBELL_KIT_SETTINGS:
 			current_trimmer = trimmer + "_" + setting
-			for depth in DEPTHS:
-				for sample in SAMPLES:
-					target_files.add(RESULTS / f"assess/mutref/{current_trimmer}/{depth}x/{sample}/{sample}.precision-recall-summary.tsv")
-					pr_files.add(RESULTS / f"assess/mutref/{current_trimmer}/{depth}x/{sample}/{sample}.precision-recall.tsv")
-	elif trimmer == "barbell":   
-		for setting in BARBELL_KIT_SETTINGS: 
-			current_trimmer = trimmer + "_" + setting
-			for depth in DEPTHS:
-				for sample in SAMPLES:
-					target_files.add(RESULTS / f"assess/mutref/{current_trimmer}/{depth}x/{sample}/{sample}.precision-recall-summary.tsv")
-					pr_files.add(RESULTS / f"assess/mutref/{current_trimmer}/{depth}x/{sample}/{sample}.precision-recall.tsv")
-	else:
-		for depth in DEPTHS:
 			for sample in SAMPLES:
-				target_files.add(RESULTS / f"assess/mutref/{trimmer}/{depth}x/{sample}/{sample}.precision-recall-summary.tsv")
-				pr_files.add(RESULTS / f"assess/mutref/{trimmer}/{depth}x/{sample}/{sample}.precision-recall.tsv")
-  
+				qends_files.append(RESULTS / f"QC/ends/{current_trimmer}/{sample}.{current_trimmer}.ends.tsv")
+	else:
+		for sample in SAMPLES:
+			qends_files.append(RESULTS / f"QC/ends/{trimmer}/{sample}.{trimmer}.ends.tsv")
+
 rule all:
 	input:
-		target_files,
-		FIGURES / "assess/mutref/metrics/trimming_variant_f1.png",
-		FIGURES / "assess/mutref/metrics/trimming_variant_recall.png",
-		FIGURES / "assess/mutref/metrics/trimming_variant_precision.png",
-		TABLES / "assess/mutref/metrics/trimming_variant_summary.csv",
-		TABLES / "assess/mutref/metrics/trimming_variant_summary_averages.csv"
+		# target_files,
+		# FIGURES / "assess/mutref/metrics/trimming_variant_f1.png",
+		# FIGURES / "assess/mutref/metrics/trimming_variant_recall.png",
+		# FIGURES / "assess/mutref/metrics/trimming_variant_precision.png",
+		# TABLES / "assess/mutref/metrics/trimming_variant_summary.csv",
+		# TABLES / "assess/mutref/metrics/trimming_variant_summary_averages.csv",
+		FIGURES / "QC/ends/trimming_plot_quality_ends.png"
 
 include: RULES / "common.smk"
 include: RULES / "trim.smk"
+include: RULES / "check.smk"
 include: RULES / "downsample.smk"
 include: RULES / "call.smk"
 include: RULES / "assess.smk"
