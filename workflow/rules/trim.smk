@@ -121,6 +121,39 @@ rule trim_dorado:
 		(dorado trim {params.output_fq} --sequencing-kit {params.kit2} $tmp_fq > {output.reads}) 2>> {log} 
 		"""
 
+trimmer = "dorado_demux"
+rule trim_dorado_demux:  
+	input:  
+		reads=get_original_fastqs  
+	log:  
+		LOGS / f"QC/trimming/{trimmer}/{{sample}}.log"  
+	resources:  
+		mem="32GiB",  
+		runtime=f"{12 * REPEAT}h"  
+	container:  
+		"docker://nanoporetech/dorado:shac8f356489fa8b44b31beba841b84d2879de2088e"
+	params:  
+		kit1=lambda wildcards: get_sequencing_kits(wildcards)[0],  
+		kit2=lambda wildcards: get_sequencing_kits(wildcards)[1],  
+	output:  
+		reads=temp(RESULTS / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}_raw.fastq")
+	benchmark:  
+		repeat(BENCHMARK / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}.tsv", REPEAT)
+	script: 
+		"../scripts/trimming/dorado_demux.sh"
+
+rule seqkit_dedup:
+    input:
+        reads=rules.trim_dorado_demux.output.reads
+    log:
+        LOGS / f"QC/trimming/{trimmer}/{{sample}}_seqkit.log"
+    conda:
+        ENVS / "barbell_seqkit.yaml"
+    output:
+        reads=RESULTS / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}.fastq" 
+    shell:
+        "seqkit rmdup -n -o {output.reads} {input.reads} 2> {log}"
+
 trimmer = "barbell_default"
 rule barbell_trim:
 	input:
