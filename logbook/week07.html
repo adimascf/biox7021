@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Week 07: Trimming only assessment on multiple subsampling depths – BIOX7021 LOGBOOK - 2026</title>
+<title>Week 07: Trimming Assessment Across Multiple Subsampling Depths and Read Ends Quality – BIOX7021 LOGBOOK - 2026</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -370,7 +370,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Week 07: Trimming only assessment on multiple subsampling depths</h1>
+<h1 class="title">Week 07: Trimming Assessment Across Multiple Subsampling Depths and Read Ends Quality</h1>
 </div>
 
 
@@ -389,11 +389,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="overview" class="level2">
 <h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p>I added two downsampling depths (50× and 20×) and assessed their impact on variant calling performance. I also investigated read quality at the first and last 150 bp, before and after trimming with several tools.</p>
 </section>
 <section id="weekly-meeting-and-action-items-01-04-2026" class="level2">
 <h2 class="anchored" data-anchor-id="weekly-meeting-and-action-items-01-04-2026">## Weekly meeting and action items (01-04-2026)</h2>
 <p>The result directory was structured like this: <code>results/assess/mutref/{trimmer}/{depth}x/{sample}/{sample}.precision-recall-summary.tsv</code> Get the input files, put them in the list:</p>
-<div id="4697d583" class="cell" data-execution_count="1">
+<div id="f8f51a7b" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
@@ -405,7 +406,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>../results/assess/porechop_abi_nocheck/50x/RDH275__202311/RDH275__202311.precision-recall-summary.tsv</code></pre>
 </div>
 </div>
-<div id="e0b143f5" class="cell" data-execution_count="2">
+<div id="89334110" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -443,7 +444,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>    fig, axes <span class="op">=</span> plt.subplots(</span>
 <span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>        nrows<span class="op">=</span>nrows,</span>
 <span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>        ncols<span class="op">=</span><span class="dv">1</span>,</span>
-<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>        figsize<span class="op">=</span>(<span class="fl">9.0</span>, <span class="fl">7.5</span>),</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>        figsize<span class="op">=</span>(<span class="fl">8.0</span>, <span class="fl">6.6</span>),</span>
 <span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>        dpi<span class="op">=</span><span class="dv">150</span>,</span>
 <span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>        sharex<span class="op">=</span><span class="va">True</span>,</span>
 <span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>        sharey<span class="op">=</span><span class="va">True</span>,</span>
@@ -491,31 +492,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a>    fig.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stderr">
-<pre><code>/var/folders/9k/2nw2rdmn6sd9mf0_6lg3bnqm0000gn/T/ipykernel_40375/242596975.py:81: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+<pre><code>/var/folders/9k/2nw2rdmn6sd9mf0_6lg3bnqm0000gn/T/ipykernel_47415/1330721750.py:81: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
   fig.show()
-/var/folders/9k/2nw2rdmn6sd9mf0_6lg3bnqm0000gn/T/ipykernel_40375/242596975.py:81: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+/var/folders/9k/2nw2rdmn6sd9mf0_6lg3bnqm0000gn/T/ipykernel_47415/1330721750.py:81: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
   fig.show()
-/var/folders/9k/2nw2rdmn6sd9mf0_6lg3bnqm0000gn/T/ipykernel_40375/242596975.py:81: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+/var/folders/9k/2nw2rdmn6sd9mf0_6lg3bnqm0000gn/T/ipykernel_47415/1330721750.py:81: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
   fig.show()</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="week07_files/figure-html/cell-3-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="week07_files/figure-html/cell-3-output-2.png" width="1325" height="1100" class="figure-img"></a></p>
+<p><a href="week07_files/figure-html/cell-3-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="week07_files/figure-html/cell-3-output-2.png" width="1175" height="965" class="figure-img"></a></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="week07_files/figure-html/cell-3-output-3.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="week07_files/figure-html/cell-3-output-3.png" width="1325" height="1100" class="figure-img"></a></p>
+<p><a href="week07_files/figure-html/cell-3-output-3.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="week07_files/figure-html/cell-3-output-3.png" width="1175" height="965" class="figure-img"></a></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="week07_files/figure-html/cell-3-output-4.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="week07_files/figure-html/cell-3-output-4.png" width="1325" height="1100" class="figure-img"></a></p>
+<p><a href="week07_files/figure-html/cell-3-output-4.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="week07_files/figure-html/cell-3-output-4.png" width="1175" height="965" class="figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -523,7 +524,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="is-there-any-difference-between-depth" class="level3">
 <h3 class="anchored" data-anchor-id="is-there-any-difference-between-depth">Is there any difference between depth?</h3>
 <p>Based on the plots above, it seems that 20x depth consistanly perfomed worst than the other two depths, both on SNP and INDEL. I further performed a statistical test to confirm whether sequencing depth leads to differences in performance. The data is not normally distributed, instead, they are clustered right at the top (skewed).Therefore, I used a non parametric Kruskal–Wallis test, which ranks the data rather than relying on their raw values. This method is also robust in the small size dataset.</p>
-<div id="267f9249" class="cell" data-execution_count="3">
+<div id="a80ec86a" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy.stats <span class="im">as</span> stats</span>
@@ -548,7 +549,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="based-f1-score" class="level4">
 <h4 class="anchored" data-anchor-id="based-f1-score">based F1 score</h4>
-<div id="8c86961a" class="cell" data-execution_count="4">
+<div id="fbca8ae9" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>kruskall_test(data, <span class="st">"F1_SCORE"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -563,7 +564,7 @@ P-value: 1.5651e-24</code></pre>
 </div>
 </div>
 <p>So, based on the test, different depth has a significant impact on both SNP and INDEL F1 scores. Those depths are not perfomring equally. But where is the difference? To identify which depth different (already seems obvious from the plot 😅), I performed a <em>post hoc test</em>, comparing each depth pairwise to determine which ones contribute to the observed differences.</p>
-<div id="076da6c8" class="cell" data-execution_count="5">
+<div id="e091f536" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scikit_posthocs <span class="im">as</span> sp</span>
@@ -579,7 +580,7 @@ P-value: 1.5651e-24</code></pre>
 <span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(p_values.<span class="bu">round</span>(<span class="dv">5</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="77f162d4" class="cell" data-execution_count="6">
+<div id="206e9b31" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>post_hoc(data, <span class="st">"F1_SCORE"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -600,7 +601,7 @@ Testing for INDEL
 <p>There is <strong>no sigficant difference</strong> between 100x and 50x depth. Statistically, they perform roughly the same. However, there are siginificant difference between 100x and 20x and 50x and 20x. 20x perform much worst in this case.</p>
 <p>So statitically, we can reduce our sequencing depth from 100x to 50x without sufferring a significant drop in the F1 score.</p>
 <p>Let’s take a loock on precision and recall score as well:</p>
-<div id="bd8a991d" class="cell" data-execution_count="7">
+<div id="01e64b58" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"PRECISION"</span>)</span>
@@ -628,7 +629,7 @@ Kruskal-Wallis Statistic: 108.7812
 P-value: 2.3904e-24</code></pre>
 </div>
 </div>
-<div id="671bfa7e" class="cell" data-execution_count="8">
+<div id="65e539ad" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"PRECISION"</span>)</span>
@@ -670,7 +671,7 @@ Testing for INDEL
 <section id="check-quality-at-both-ends-of-reads" class="level3">
 <h3 class="anchored" data-anchor-id="check-quality-at-both-ends-of-reads">Check quality at both ends of reads</h3>
 <p>I first calculated the median Phred score at the start and end of the reads, position by position, for both pre- and post-adapter trimming steps. I excluded the <code>porechop_abi_discard</code> and <code>porechop_abi_split</code>, and ran <code>porechop_abi_nocheck</code> that does not search for the chimeric reads. Those two option will behave similar to <code>--no-split</code> option on triming adapter at both ends of the reads:</p>
-<div id="05654f07" class="cell" data-execution_count="9">
+<div id="d04e7848" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>head ..<span class="op">/</span>results<span class="op">/</span>ends<span class="op">/</span>untrimmed<span class="op">/</span>AJ292__202310.untrimmed.ends.tsv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -689,7 +690,7 @@ Testing for INDEL
 </div>
 </div>
 <p>The file structure is ../results/ends/{trimmer}/{sample}.{trimmer}.ends.tsv</p>
-<div id="9e226bbe" class="cell" data-execution_count="10">
+<div id="4f12ba19" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>input_files <span class="op">=</span> <span class="bu">list</span>(Path(<span class="st">'.'</span>).glob(<span class="st">"../results/ends/*/*ends.tsv"</span>))</span>
@@ -700,7 +701,7 @@ Testing for INDEL
 </div>
 </div>
 <p>Median Phred score was calculated per position from both the start and end of the reads, and then averaged across all samples for plotting.</p>
-<div id="8393a07c" class="cell" data-execution_count="11">
+<div id="642d7878" class="cell" data-execution_count="11">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>frames <span class="op">=</span> []</span>
@@ -725,88 +726,217 @@ Testing for INDEL
 <span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Start_MedianQ"</span>: <span class="st">"Read Start (First 150bp)"</span>,</span>
 <span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">"End_MedianQ"</span>: <span class="st">"Read End (Last 150bp)"</span>})</span>
 <span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Generating the plot</span></span>
-<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>sns.set_theme(style<span class="op">=</span><span class="st">"whitegrid"</span>)</span>
-<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a><span class="co"># I am using relationship plot phred score to base position</span></span>
-<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a><span class="co"># https://seaborn.pydata.org/generated/seaborn.relplot.html</span></span>
-<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>plot <span class="op">=</span> sns.relplot(</span>
-<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a>        data<span class="op">=</span>df_longer,</span>
-<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>        x<span class="op">=</span><span class="st">"Position"</span>,</span>
-<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a>        y<span class="op">=</span><span class="st">"Median_Quality"</span>,</span>
-<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a>        hue<span class="op">=</span><span class="st">"trimmer"</span>,</span>
-<span id="cb19-32"><a href="#cb19-32" aria-hidden="true" tabindex="-1"></a>        col<span class="op">=</span><span class="st">"End_Type"</span>,</span>
-<span id="cb19-33"><a href="#cb19-33" aria-hidden="true" tabindex="-1"></a>        kind<span class="op">=</span><span class="st">"line"</span>,</span>
-<span id="cb19-34"><a href="#cb19-34" aria-hidden="true" tabindex="-1"></a>        height<span class="op">=</span><span class="dv">4</span>,</span>
-<span id="cb19-35"><a href="#cb19-35" aria-hidden="true" tabindex="-1"></a>        aspect<span class="op">=</span><span class="fl">1.2</span>,</span>
-<span id="cb19-36"><a href="#cb19-36" aria-hidden="true" tabindex="-1"></a>        linewidth<span class="op">=</span><span class="dv">2</span>,</span>
-<span id="cb19-37"><a href="#cb19-37" aria-hidden="true" tabindex="-1"></a>        facet_kws<span class="op">=</span>{<span class="st">'sharex'</span>: <span class="va">False</span>, <span class="st">'sharey'</span>: <span class="va">True</span>})</span>
-<span id="cb19-38"><a href="#cb19-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-39"><a href="#cb19-39" aria-hidden="true" tabindex="-1"></a>plot.set_axis_labels(<span class="st">"Position from Read End (bp)"</span>, <span class="st">"Phred Quality Score (Median)"</span>)</span>
-<span id="cb19-40"><a href="#cb19-40" aria-hidden="true" tabindex="-1"></a>plot.set_titles(<span class="st">"</span><span class="sc">{col_name}</span><span class="st">"</span>)</span>
-<span id="cb19-41"><a href="#cb19-41" aria-hidden="true" tabindex="-1"></a>plot.<span class="bu">set</span>(ylim<span class="op">=</span>(<span class="dv">0</span>, <span class="dv">50</span>)) <span class="co"># cap at Q50</span></span>
-<span id="cb19-42"><a href="#cb19-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-43"><a href="#cb19-43" aria-hidden="true" tabindex="-1"></a><span class="co"># move legends to the bottom</span></span>
-<span id="cb19-44"><a href="#cb19-44" aria-hidden="true" tabindex="-1"></a>sns.move_legend(plot, </span>
-<span id="cb19-45"><a href="#cb19-45" aria-hidden="true" tabindex="-1"></a>                <span class="st">"lower center"</span>, </span>
-<span id="cb19-46"><a href="#cb19-46" aria-hidden="true" tabindex="-1"></a>                bbox_to_anchor<span class="op">=</span>(<span class="fl">0.45</span>, <span class="op">-</span><span class="fl">0.0</span>), </span>
-<span id="cb19-47"><a href="#cb19-47" aria-hidden="true" tabindex="-1"></a>                ncol<span class="op">=</span><span class="dv">3</span>, title<span class="op">=</span><span class="va">None</span>, frameon<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb19-48"><a href="#cb19-48" aria-hidden="true" tabindex="-1"></a>plot.figure.subplots_adjust(bottom<span class="op">=</span><span class="fl">0.2</span>)</span>
-<span id="cb19-49"><a href="#cb19-49" aria-hidden="true" tabindex="-1"></a>plot.fig.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a><span class="co"># just give the proper name</span></span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>df_longer[<span class="st">"trimmer"</span>] <span class="op">=</span> df_longer[<span class="st">"trimmer"</span>].replace({</span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">"porechop_abi_nocheck"</span>: <span class="st">"porechop_abi_nosplit"</span></span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a>trimmer_colors <span class="op">=</span> {</span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>    <span class="st">"fastplong"</span>: <span class="st">"#1f77b4"</span>,</span>
+<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a>    <span class="st">"barbell_default"</span>: <span class="st">"#ff7f0e"</span>,</span>
+<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a>    <span class="st">"porechop_abi_nosplit"</span>: <span class="st">"#2ca02c"</span>,</span>
+<span id="cb19-32"><a href="#cb19-32" aria-hidden="true" tabindex="-1"></a>    <span class="st">"barbell_max"</span>: <span class="st">"#d62728"</span>,</span>
+<span id="cb19-33"><a href="#cb19-33" aria-hidden="true" tabindex="-1"></a>    <span class="st">"dorado"</span> :<span class="st">"#9467bd"</span>,</span>
+<span id="cb19-34"><a href="#cb19-34" aria-hidden="true" tabindex="-1"></a>    <span class="st">"untrimmed"</span>: <span class="st">"#7f7f7f"</span></span>
+<span id="cb19-35"><a href="#cb19-35" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb19-36"><a href="#cb19-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-37"><a href="#cb19-37" aria-hidden="true" tabindex="-1"></a><span class="co"># Generating the plot</span></span>
+<span id="cb19-38"><a href="#cb19-38" aria-hidden="true" tabindex="-1"></a>sns.set_theme(style<span class="op">=</span><span class="st">"whitegrid"</span>)</span>
+<span id="cb19-39"><a href="#cb19-39" aria-hidden="true" tabindex="-1"></a><span class="co"># I am using relationship plot phred score to base position</span></span>
+<span id="cb19-40"><a href="#cb19-40" aria-hidden="true" tabindex="-1"></a><span class="co"># https://seaborn.pydata.org/generated/seaborn.relplot.html</span></span>
+<span id="cb19-41"><a href="#cb19-41" aria-hidden="true" tabindex="-1"></a>plot <span class="op">=</span> sns.relplot(</span>
+<span id="cb19-42"><a href="#cb19-42" aria-hidden="true" tabindex="-1"></a>        data<span class="op">=</span>df_longer,</span>
+<span id="cb19-43"><a href="#cb19-43" aria-hidden="true" tabindex="-1"></a>        x<span class="op">=</span><span class="st">"Position"</span>,</span>
+<span id="cb19-44"><a href="#cb19-44" aria-hidden="true" tabindex="-1"></a>        y<span class="op">=</span><span class="st">"Median_Quality"</span>,</span>
+<span id="cb19-45"><a href="#cb19-45" aria-hidden="true" tabindex="-1"></a>        hue<span class="op">=</span><span class="st">"trimmer"</span>,</span>
+<span id="cb19-46"><a href="#cb19-46" aria-hidden="true" tabindex="-1"></a>        palette<span class="op">=</span>trimmer_colors,</span>
+<span id="cb19-47"><a href="#cb19-47" aria-hidden="true" tabindex="-1"></a>        col<span class="op">=</span><span class="st">"End_Type"</span>,</span>
+<span id="cb19-48"><a href="#cb19-48" aria-hidden="true" tabindex="-1"></a>        kind<span class="op">=</span><span class="st">"line"</span>,</span>
+<span id="cb19-49"><a href="#cb19-49" aria-hidden="true" tabindex="-1"></a>        height<span class="op">=</span><span class="dv">5</span>,</span>
+<span id="cb19-50"><a href="#cb19-50" aria-hidden="true" tabindex="-1"></a>        aspect<span class="op">=</span><span class="fl">1.2</span>,</span>
+<span id="cb19-51"><a href="#cb19-51" aria-hidden="true" tabindex="-1"></a>        linewidth<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb19-52"><a href="#cb19-52" aria-hidden="true" tabindex="-1"></a>        facet_kws<span class="op">=</span>{<span class="st">'sharex'</span>: <span class="va">False</span>, <span class="st">'sharey'</span>: <span class="va">True</span>})</span>
+<span id="cb19-53"><a href="#cb19-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-54"><a href="#cb19-54" aria-hidden="true" tabindex="-1"></a>plot.set_axis_labels(<span class="st">"Position from Read End (bp)"</span>, <span class="st">"Phred Quality Score (Median)"</span>)</span>
+<span id="cb19-55"><a href="#cb19-55" aria-hidden="true" tabindex="-1"></a>plot.set_titles(<span class="st">"</span><span class="sc">{col_name}</span><span class="st">"</span>)</span>
+<span id="cb19-56"><a href="#cb19-56" aria-hidden="true" tabindex="-1"></a>plot.<span class="bu">set</span>(ylim<span class="op">=</span>(<span class="dv">0</span>, <span class="dv">50</span>)) <span class="co"># cap at Q50</span></span>
+<span id="cb19-57"><a href="#cb19-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-58"><a href="#cb19-58" aria-hidden="true" tabindex="-1"></a><span class="co"># move legends to the bottom</span></span>
+<span id="cb19-59"><a href="#cb19-59" aria-hidden="true" tabindex="-1"></a>sns.move_legend(plot, </span>
+<span id="cb19-60"><a href="#cb19-60" aria-hidden="true" tabindex="-1"></a>                <span class="st">"lower center"</span>, </span>
+<span id="cb19-61"><a href="#cb19-61" aria-hidden="true" tabindex="-1"></a>                bbox_to_anchor<span class="op">=</span>(<span class="fl">0.45</span>, <span class="op">-</span><span class="fl">0.1</span>), </span>
+<span id="cb19-62"><a href="#cb19-62" aria-hidden="true" tabindex="-1"></a>                ncol<span class="op">=</span><span class="dv">3</span>, title<span class="op">=</span><span class="va">None</span>, frameon<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb19-63"><a href="#cb19-63" aria-hidden="true" tabindex="-1"></a>plot.figure.subplots_adjust(bottom<span class="op">=</span><span class="fl">0.2</span>)</span>
+<span id="cb19-64"><a href="#cb19-64" aria-hidden="true" tabindex="-1"></a>plot.fig.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stderr">
-<pre><code>/var/folders/9k/2nw2rdmn6sd9mf0_6lg3bnqm0000gn/T/ipykernel_40375/2865707885.py:49: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+<pre><code>/var/folders/9k/2nw2rdmn6sd9mf0_6lg3bnqm0000gn/T/ipykernel_47415/3090216651.py:64: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
   plot.fig.show()</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="week07_files/figure-html/cell-12-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="week07_files/figure-html/cell-12-output-2.png" width="897" height="378" class="figure-img"></a></p>
+<p><a href="week07_files/figure-html/cell-12-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="week07_files/figure-html/cell-12-output-2.png" width="1129" height="522" class="figure-img"></a></p>
 </figure>
 </div>
 </div>
 </div>
 <p>The solid lines represent the mean of per base quality across the samples, and the shaded color represent 95% confidence interval.</p>
 <p>The start of the reads appears to have lower quality compared to the end. Adapter trimming tools improves the quality at the read start, but not equally. Barbell kit both default and with <code>--maximize</code> option perfomed much better than others.</p>
-<p>At the read end (3′), trimming shows a similar improvement pattern across tools, except for <code>dorado trim</code>, which has a quality profile similar to the untrimmed reads.</p>
+<p>At the read end (3′), trimming shows a similar improvement pattern across tools, except for <code>dorado trim</code> and <code>fastplong</code>, which have a quality profile similar to the untrimmed reads.</p>
 <p><code>barbell kit</code> seems to make the read start (but not read end) much better in quality compared to other trimmer or pre trimming step reads.</p>
 <p>This raises several questions. Is it because I ran <code>barbell kit</code> techincally twice, on different kits? and technically we performed demultiplexing in barbell, concatenate all of the reads into one sample.</p>
 <p>Also, accorading the documentation <a href="https://software-docs.nanoporetech.com/dorado/latest/basecaller/read_trimming/">here</a>, they say that <code>dorado trim</code> only trim adapter, they do not mention whether that command trimn the barcode as well.</p>
 <p>What happens if I ran the dorado demux instead? to better match our barbell apporach and assess whether the resulst lead to similar improvements in the quality of read ends.</p>
-<div id="61203662" class="cell" data-execution_count="12">
+<p>Add result from <code>dorado demux</code></p>
+<div id="1838a0d4" class="cell" data-execution_count="12">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_longer)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>input_files_add <span class="op">=</span> input_files <span class="op">+</span> <span class="bu">list</span>(Path(<span class="st">'.'</span>).glob(<span class="st">"../results/new-ends/*/*ends.tsv"</span>))</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>frames <span class="op">=</span> []</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> p <span class="kw">in</span> <span class="bu">map</span>(Path, input_files_add):</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> pd.read_csv(p, sep<span class="op">=</span><span class="st">"</span><span class="ch">\t</span><span class="st">"</span>)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># extract wildcard from Path</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"sample"</span>] <span class="op">=</span> p.stem.split(<span class="st">"."</span>)[<span class="dv">0</span>]</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"trimmer"</span>] <span class="op">=</span> p.parts[<span class="op">-</span><span class="dv">2</span>]</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    frames.append(df)</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.concat(frames)</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>df.reset_index(inplace<span class="op">=</span><span class="va">True</span>, drop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a><span class="co"># pivot longer</span></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>df_longer <span class="op">=</span> df.melt(</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>        id_vars<span class="op">=</span>[<span class="st">"Position"</span>, <span class="st">"sample"</span>, <span class="st">"trimmer"</span>],</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>        value_vars<span class="op">=</span>[<span class="st">"Start_MedianQ"</span>, <span class="st">"End_MedianQ"</span>],</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>        var_name<span class="op">=</span><span class="st">"End_Type"</span>, value_name<span class="op">=</span><span class="st">"Median_Quality"</span>)</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a><span class="co"># for labeling</span></span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>df_longer[<span class="st">"End_Type"</span>] <span class="op">=</span> df_longer[<span class="st">"End_Type"</span>].replace({</span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Start_MedianQ"</span>: <span class="st">"Read Start (First 150bp)"</span>,</span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">"End_MedianQ"</span>: <span class="st">"Read End (Last 150bp)"</span>})</span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a><span class="co"># just give the proper name</span></span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>df_longer[<span class="st">"trimmer"</span>] <span class="op">=</span> df_longer[<span class="st">"trimmer"</span>].replace({</span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a>    <span class="st">"dorado"</span>: <span class="st">"dorado_trim"</span>,</span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">"porechop_abi_nocheck"</span>: <span class="st">"porechop_abi_nosplit"</span></span>
+<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a>trimmer_colors <span class="op">=</span> {</span>
+<span id="cb21-32"><a href="#cb21-32" aria-hidden="true" tabindex="-1"></a>    <span class="st">"fastplong"</span>: <span class="st">"#1f77b4"</span>,</span>
+<span id="cb21-33"><a href="#cb21-33" aria-hidden="true" tabindex="-1"></a>    <span class="st">"barbell_default"</span>: <span class="st">"#ff7f0e"</span>,</span>
+<span id="cb21-34"><a href="#cb21-34" aria-hidden="true" tabindex="-1"></a>    <span class="st">"porechop_abi_nosplit"</span>: <span class="st">"#2ca02c"</span>,</span>
+<span id="cb21-35"><a href="#cb21-35" aria-hidden="true" tabindex="-1"></a>    <span class="st">"barbell_max"</span>: <span class="st">"#d62728"</span>,</span>
+<span id="cb21-36"><a href="#cb21-36" aria-hidden="true" tabindex="-1"></a>    <span class="st">"dorado_trim"</span>: <span class="st">"#9467bd"</span>,</span>
+<span id="cb21-37"><a href="#cb21-37" aria-hidden="true" tabindex="-1"></a>    <span class="st">"dorado_demux"</span>: <span class="st">"#e377c2"</span>,</span>
+<span id="cb21-38"><a href="#cb21-38" aria-hidden="true" tabindex="-1"></a>    <span class="st">"untrimmed"</span>: <span class="st">"#7f7f7f"</span></span>
+<span id="cb21-39"><a href="#cb21-39" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb21-40"><a href="#cb21-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-41"><a href="#cb21-41" aria-hidden="true" tabindex="-1"></a><span class="co"># Generating the plot</span></span>
+<span id="cb21-42"><a href="#cb21-42" aria-hidden="true" tabindex="-1"></a>sns.set_theme(style<span class="op">=</span><span class="st">"whitegrid"</span>)</span>
+<span id="cb21-43"><a href="#cb21-43" aria-hidden="true" tabindex="-1"></a><span class="co"># I am using relationship plot phred score to base position</span></span>
+<span id="cb21-44"><a href="#cb21-44" aria-hidden="true" tabindex="-1"></a><span class="co"># https://seaborn.pydata.org/generated/seaborn.relplot.html</span></span>
+<span id="cb21-45"><a href="#cb21-45" aria-hidden="true" tabindex="-1"></a>plot <span class="op">=</span> sns.relplot(</span>
+<span id="cb21-46"><a href="#cb21-46" aria-hidden="true" tabindex="-1"></a>        data<span class="op">=</span>df_longer,</span>
+<span id="cb21-47"><a href="#cb21-47" aria-hidden="true" tabindex="-1"></a>        x<span class="op">=</span><span class="st">"Position"</span>,</span>
+<span id="cb21-48"><a href="#cb21-48" aria-hidden="true" tabindex="-1"></a>        y<span class="op">=</span><span class="st">"Median_Quality"</span>,</span>
+<span id="cb21-49"><a href="#cb21-49" aria-hidden="true" tabindex="-1"></a>        hue<span class="op">=</span><span class="st">"trimmer"</span>,</span>
+<span id="cb21-50"><a href="#cb21-50" aria-hidden="true" tabindex="-1"></a>        palette<span class="op">=</span>trimmer_colors,</span>
+<span id="cb21-51"><a href="#cb21-51" aria-hidden="true" tabindex="-1"></a>        col<span class="op">=</span><span class="st">"End_Type"</span>,</span>
+<span id="cb21-52"><a href="#cb21-52" aria-hidden="true" tabindex="-1"></a>        kind<span class="op">=</span><span class="st">"line"</span>,</span>
+<span id="cb21-53"><a href="#cb21-53" aria-hidden="true" tabindex="-1"></a>        height<span class="op">=</span><span class="dv">5</span>,</span>
+<span id="cb21-54"><a href="#cb21-54" aria-hidden="true" tabindex="-1"></a>        aspect<span class="op">=</span><span class="fl">1.2</span>,</span>
+<span id="cb21-55"><a href="#cb21-55" aria-hidden="true" tabindex="-1"></a>        linewidth<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb21-56"><a href="#cb21-56" aria-hidden="true" tabindex="-1"></a>        facet_kws<span class="op">=</span>{<span class="st">'sharex'</span>: <span class="va">False</span>, <span class="st">'sharey'</span>: <span class="va">True</span>})</span>
+<span id="cb21-57"><a href="#cb21-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-58"><a href="#cb21-58" aria-hidden="true" tabindex="-1"></a>plot.set_axis_labels(<span class="st">"Position from Read End (bp)"</span>, <span class="st">"Phred Quality Score (Median)"</span>)</span>
+<span id="cb21-59"><a href="#cb21-59" aria-hidden="true" tabindex="-1"></a>plot.set_titles(<span class="st">"</span><span class="sc">{col_name}</span><span class="st">"</span>)</span>
+<span id="cb21-60"><a href="#cb21-60" aria-hidden="true" tabindex="-1"></a>plot.<span class="bu">set</span>(ylim<span class="op">=</span>(<span class="dv">0</span>, <span class="dv">50</span>)) <span class="co"># cap at Q50</span></span>
+<span id="cb21-61"><a href="#cb21-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-62"><a href="#cb21-62" aria-hidden="true" tabindex="-1"></a><span class="co"># move legends to the bottom</span></span>
+<span id="cb21-63"><a href="#cb21-63" aria-hidden="true" tabindex="-1"></a>sns.move_legend(plot,</span>
+<span id="cb21-64"><a href="#cb21-64" aria-hidden="true" tabindex="-1"></a>                <span class="st">"lower center"</span>,</span>
+<span id="cb21-65"><a href="#cb21-65" aria-hidden="true" tabindex="-1"></a>                bbox_to_anchor<span class="op">=</span>(<span class="fl">0.45</span>, <span class="op">-</span><span class="fl">0.1</span>),</span>
+<span id="cb21-66"><a href="#cb21-66" aria-hidden="true" tabindex="-1"></a>                ncol<span class="op">=</span><span class="dv">3</span>, title<span class="op">=</span><span class="va">None</span>, frameon<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb21-67"><a href="#cb21-67" aria-hidden="true" tabindex="-1"></a>plot.figure.subplots_adjust(bottom<span class="op">=</span><span class="fl">0.2</span>)</span>
+<span id="cb21-68"><a href="#cb21-68" aria-hidden="true" tabindex="-1"></a>plot.fig.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>/var/folders/9k/2nw2rdmn6sd9mf0_6lg3bnqm0000gn/T/ipykernel_47415/1055078710.py:68: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+  plot.fig.show()</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="week07_files/figure-html/cell-13-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="week07_files/figure-html/cell-13-output-2.png" width="1129" height="522" class="figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Which trimmer that trimmed sequence the most?</p>
+<div id="a10d5805" class="cell" data-execution_count="13">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>input_files <span class="op">=</span> <span class="bu">list</span>(Path(<span class="st">'.'</span>).glob(<span class="st">"../results/stats/*/*stats.tsv"</span>))</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(input_files[<span class="dv">1</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>       Position              sample               trimmer  \
-0             1      MMC234__202311  porechop_abi_nocheck   
-1             2      MMC234__202311  porechop_abi_nocheck   
-2             3      MMC234__202311  porechop_abi_nocheck   
-3             4      MMC234__202311  porechop_abi_nocheck   
-4             5      MMC234__202311  porechop_abi_nocheck   
-...         ...                 ...                   ...   
-25195       146  ATCC_35221__202309           barbell_max   
-25196       147  ATCC_35221__202309           barbell_max   
-25197       148  ATCC_35221__202309           barbell_max   
-25198       149  ATCC_35221__202309           barbell_max   
-25199       150  ATCC_35221__202309           barbell_max   
-
-                       End_Type  Median_Quality  
-0      Read Start (First 150bp)            38.0  
-1      Read Start (First 150bp)            39.0  
-2      Read Start (First 150bp)            40.0  
-3      Read Start (First 150bp)            40.0  
-4      Read Start (First 150bp)            41.0  
-...                         ...             ...  
-25195     Read End (Last 150bp)            46.0  
-25196     Read End (Last 150bp)            46.0  
-25197     Read End (Last 150bp)            46.0  
-25198     Read End (Last 150bp)            46.0  
-25199     Read End (Last 150bp)            46.0  
-
-[25200 rows x 5 columns]</code></pre>
+<pre><code>../results/stats/porechop_abi_nocheck/ATCC_19119__202309.porechop_abi_nocheck.stats.tsv</code></pre>
 </div>
 </div>
+<div id="bf91c56f" class="cell" data-execution_count="14">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>frames <span class="op">=</span> []</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> p <span class="kw">in</span> <span class="bu">map</span>(Path, input_files):</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> pd.read_csv(p, sep<span class="op">=</span><span class="vs">r"</span><span class="dv">\s</span><span class="op">+</span><span class="vs">"</span>, thousands<span class="op">=</span><span class="st">","</span>)</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># extract wildcard from Path</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"sample"</span>] <span class="op">=</span> p.stem.split(<span class="st">"."</span>)[<span class="dv">0</span>]</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"trimmer"</span>] <span class="op">=</span> p.parts[<span class="op">-</span><span class="dv">2</span>]</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># keep only relevant columns</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    frames.append(df[[<span class="st">"sample"</span>, <span class="st">"trimmer"</span>, <span class="st">"num_seqs"</span>, <span class="st">"sum_len"</span>]])</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>df_stats <span class="op">=</span> pd.concat(frames).reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a><span class="co"># create a baseline dataframe of untrimmed counts</span></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>baseline <span class="op">=</span> df_stats[df_stats[<span class="st">"trimmer"</span>] <span class="op">==</span> <span class="st">"untrimmed"</span>][[<span class="st">"sample"</span>, <span class="st">"num_seqs"</span>, <span class="st">"sum_len"</span>]]</span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>baseline <span class="op">=</span> baseline.rename(columns<span class="op">=</span>{<span class="st">"num_seqs"</span>: <span class="st">"raw_seqs"</span>, <span class="st">"sum_len"</span>: <span class="st">"raw_len"</span>})</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a><span class="co"># merge baseline back to the main dataframe</span></span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>df_comparison <span class="op">=</span> df_stats.merge(baseline, on<span class="op">=</span><span class="st">"sample"</span>)</span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate discarded amounts</span></span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>df_comparison[<span class="st">"base_discarded"</span>] <span class="op">=</span> df_comparison[<span class="st">"raw_len"</span>] <span class="op">-</span> df_comparison[<span class="st">"sum_len"</span>]</span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>df_comparison[<span class="st">"percent_base_discarded"</span>] <span class="op">=</span> (df_comparison[<span class="st">"base_discarded"</span>] <span class="op">/</span> df_comparison[<span class="st">"raw_len"</span>]) <span class="op">*</span> <span class="dv">100</span></span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a>df_comparison[<span class="st">"base_discarded"</span>] <span class="op">=</span> df_comparison[<span class="st">"raw_len"</span>] <span class="op">-</span> df_comparison[<span class="st">"sum_len"</span>]</span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a>df_comparison[<span class="st">"percent_base_discarded"</span>] <span class="op">=</span> (df_comparison[<span class="st">"base_discarded"</span>] <span class="op">/</span> df_comparison[<span class="st">"raw_len"</span>]) <span class="op">*</span> <span class="dv">100</span></span>
+<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a><span class="co"># just give the proper name</span></span>
+<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a>df_comparison[<span class="st">"trimmer"</span>] <span class="op">=</span> df_comparison[<span class="st">"trimmer"</span>].replace({</span>
+<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">"dorado"</span>: <span class="st">"dorado_trim"</span>,</span>
+<span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a>    <span class="st">"porechop_abi_nocheck"</span>: <span class="st">"porechop_abi_nosplit"</span></span>
+<span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb25-31"><a href="#cb25-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-32"><a href="#cb25-32" aria-hidden="true" tabindex="-1"></a><span class="co"># aggregate results to see which trimmer discards the most on average</span></span>
+<span id="cb25-33"><a href="#cb25-33" aria-hidden="true" tabindex="-1"></a>summary <span class="op">=</span> df_comparison.groupby(<span class="st">"trimmer"</span>)[[<span class="st">"base_discarded"</span>, <span class="st">"percent_base_discarded"</span>]].mean().sort_values(<span class="st">"percent_base_discarded"</span>, ascending<span class="op">=</span><span class="va">False</span>).<span class="bu">round</span>(<span class="dv">2</span>)</span>
+<span id="cb25-34"><a href="#cb25-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-35"><a href="#cb25-35" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(summary)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>                      base_discarded  percent_base_discarded
+trimmer                                                     
+barbell_default         6.439593e+08                   10.07
+barbell_max             6.026358e+08                    9.26
+dorado_demux            2.700086e+08                    3.59
+porechop_abi_nosplit    2.110122e+08                    3.07
+dorado_trim             1.039823e+08                    1.49
+fastplong               8.258937e+07                    1.07
+untrimmed               0.000000e+00                    0.00</code></pre>
+</div>
+</div>
+<p><code>barbell default</code> discard more bases (we can say reads also in this case). This is expected, as it uses a more conservative assignment strategy. In contrast, running it with <code>maximize</code> option where it looks also unusual patterns so that more reads will be assigned and less reads being discarded.</p>
+<p>However, both barbell modes discarded about three times more bases than <code>dorado demux</code>, which itself discards more reads than <code>dorado trim</code>.</p>
 
 
 </section>
