@@ -80,3 +80,19 @@ rule assess_variant_average:
 		csv=TABLES / "assess/mutref/metrics/trimming_variant_summary_averages.csv"
 	script:
 		"../scripts/average_variant_metrics.py"
+
+rule assess_variant_fnfp:
+	input:
+		pr=list(pr_files)
+	log:
+		LOGS / "assess_mutref_calls/trimming_variant_fnfp.log"
+	resources:
+		mem="16GiB",
+		runtime="15m"
+	conda:
+		ENVS / "assess_variant_python.yaml"
+	output:
+		csv=TABLES / "assess/mutref/metrics/trimming_variant_fnfp.csv"
+	script:
+		"../scripts/extract_fnfp_numbers.py"
+
