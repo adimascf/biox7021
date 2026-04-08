@@ -143,16 +143,22 @@ rule trim_dorado_demux:
 		"../scripts/trimming/dorado_demux.sh"
 
 rule seqkit_dedup:
-    input:
-        reads=rules.trim_dorado_demux.output.reads
-    log:
-        LOGS / f"QC/trimming/{trimmer}/{{sample}}_seqkit.log"
-    conda:
-        ENVS / "barbell_seqkit.yaml"
-    output:
-        reads=RESULTS / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}.fastq" 
-    shell:
-        "seqkit rmdup -n -o {output.reads} {input.reads} 2> {log}"
+	input:
+		reads=rules.trim_dorado_demux.output.reads
+	log:
+		LOGS / f"QC/trimming/{trimmer}/{{sample}}_seqkit.log"
+	resources:
+		mem="32GiB",
+		runtime=f"{30*REPEAT}h"
+	conda:
+		ENVS / "barbell_seqkit.yaml"
+	output:
+		reads=RESULTS / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}.fastq" 
+	shell:
+		"""
+		# remove duplicates by read ID
+		seqkit rmdup -o {output.reads} {input.reads} 2> {log}
+		"""
 
 trimmer = "barbell_default"
 rule barbell_trim:
