@@ -19,8 +19,8 @@ if [[ "$max" == "yes" ]]; then
 	barbell kit --maximize --kit "$kit1" --input "$reads" --output "$outdir"
 	barbell kit --maximize --kit "$kit2" --input "$reads" --output "$outdir"
 
-	# concatenate all of the "demultiplexed" output files, and the we remove the duplicate by read name
-	cat "$outdir"/*.fastq | seqkit rmdup -n -o "$output"
+	# concatenate all of the "demultiplexed" output files, and the we remove the duplicate by read id
+	cat "$outdir"/*.fastq | seqkit rmdup -o "$output"
 
 elif [[ "$max" == "no" ]]; then
  
@@ -30,7 +30,7 @@ elif [[ "$max" == "no" ]]; then
 	barbell kit --kit "$kit1" --input "$reads" --output "$outdir"
 	barbell kit --kit "$kit2" --input "$reads" --output "$outdir"
 
-	# concatenate all of the "demultiplexed" output files, and the we remove the duplicate by read name
-	cat "$outdir"/*.fastq | seqkit rmdup -n -o "$output"
+	# concatenate all of the "demultiplexed" output files, and the we remove the duplicate by read id
+	cat "$outdir"/*.fastq | seqkit rmdup -o "$output"
 fi
 
