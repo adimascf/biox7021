@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Week 08: Trimming assessment on Variant calling and genome assembly – BIOX7021 LOGBOOK - 2026</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-adfb2833bc15652ec5881dc6381ea988.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-60eb8141d3f50090c0f52d36a83ed331.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-adfb2833bc15652ec5881dc6381ea988.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-e8a4c0895993354b54972b5f1e41c0e4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-58008ceab81c4fb57a6fd58a386c2ec9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-e8a4c0895993354b54972b5f1e41c0e4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+</head>
+
+<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">BIOX7021 LOGBOOK - 2026</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../home.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-weekly-logs" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Weekly Logs</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-weekly-logs">    
+        <li>
+    <a class="dropdown-item" href="../logbook/week01.html">
+ <span class="dropdown-text">Week 1</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../logbook/week02.html">
+ <span class="dropdown-text">Week 2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../logbook/week03.html">
+ <span class="dropdown-text">Week 3</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../logbook/week04.html">
+ <span class="dropdown-text">Week 4</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../logbook/week05.html">
+ <span class="dropdown-text">Week 5</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../logbook/week06.html">
+ <span class="dropdown-text">Week 6</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../logbook/week07.html">
+ <span class="dropdown-text">Week 7</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../logbook/week08.html">
+ <span class="dropdown-text">Week 8</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#weekly-meeting-and-action-items-15-04-2026" id="toc-weekly-meeting-and-action-items-15-04-2026" class="nav-link" data-scroll-target="#weekly-meeting-and-action-items-15-04-2026">Weekly meeting and action items (15-04-2026)</a></li>
+  <li><a href="#further-assessment-on-variant-calling" id="toc-further-assessment-on-variant-calling" class="nav-link" data-scroll-target="#further-assessment-on-variant-calling">Further assessment on variant calling</a>
+  <ul>
+  <li><a href="#looking-into-false-positive-and-false-negative-number" id="toc-looking-into-false-positive-and-false-negative-number" class="nav-link" data-scroll-target="#looking-into-false-positive-and-false-negative-number">Looking into false positive and false negative number</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Week 08: Trimming assessment on Variant calling and genome assembly</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p>I</p>
+</section>
+<section id="weekly-meeting-and-action-items-15-04-2026" class="level2">
+<h2 class="anchored" data-anchor-id="weekly-meeting-and-action-items-15-04-2026">Weekly meeting and action items (15-04-2026)</h2>
+<ul>
+<li></li>
+</ul>
+</section>
+<section id="further-assessment-on-variant-calling" class="level2">
+<h2 class="anchored" data-anchor-id="further-assessment-on-variant-calling">Further assessment on variant calling</h2>
+<section id="looking-into-false-positive-and-false-negative-number" class="level3">
+<h3 class="anchored" data-anchor-id="looking-into-false-positive-and-false-negative-number">Looking into false positive and false negative number</h3>
+<div id="48377822" class="cell" data-execution_count="1">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>input_files <span class="op">=</span> <span class="bu">list</span>(Path(<span class="st">'.'</span>).glob(<span class="st">"../results/assess/mutref/*/*/*/*precision-recall.tsv"</span>))</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(input_files[<span class="dv">5</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>../results/assess/mutref/porechop_abi_nocheck/50x/RDH275__202311/RDH275__202311.precision-recall.tsv</code></pre>
+</div>
+</div>
+<div id="f3be98be" class="cell" data-execution_count="2">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>sns.set_theme(style<span class="op">=</span><span class="st">"whitegrid"</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Load all TSV files </span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>frames <span class="op">=</span> []</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> p <span class="kw">in</span> <span class="bu">map</span>(Path, input_files):</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> pd.read_csv(p, sep<span class="op">=</span><span class="st">"</span><span class="ch">\t</span><span class="st">"</span>)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"sample"</span>] <span class="op">=</span> p.parts[<span class="op">-</span><span class="dv">2</span>]</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"depth"</span>] <span class="op">=</span> p.parts[<span class="op">-</span><span class="dv">3</span>]</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"trimmer"</span>] <span class="op">=</span> p.parts[<span class="op">-</span><span class="dv">4</span>]</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    frames.append(df)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>pr_df <span class="op">=</span> pd.concat(frames)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>pr_df.reset_index(inplace<span class="op">=</span><span class="va">True</span>, drop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>metrics <span class="op">=</span> [<span class="st">"TRUTH_FN"</span>, <span class="st">"QUERY_FP"</span>]</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="st">"trimmer"</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>hue <span class="op">=</span> <span class="st">"depth"</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> (<span class="st">"SNP"</span>, <span class="st">"INDEL"</span>)</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>nrows <span class="op">=</span> <span class="bu">len</span>(rows)</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the row with the maximum F1 score for each combination</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>dataix <span class="op">=</span> pr_df.groupby([x, hue, <span class="st">"VAR_TYPE"</span>, <span class="st">"sample"</span>])[<span class="st">"F1_SCORE"</span>].idxmax()</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pr_df.iloc[dataix]</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>data_fnfp <span class="op">=</span> data[[<span class="st">'trimmer'</span>, <span class="st">'depth'</span>, <span class="st">'sample'</span>, <span class="st">'VAR_TYPE'</span>, <span class="st">'TRUTH_FN'</span>, <span class="st">'QUERY_FP'</span>, <span class="st">'F1_SCORE'</span>]].copy()</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>data_fnfp <span class="op">=</span> data_fnfp[(data_fnfp[<span class="st">"VAR_TYPE"</span>] <span class="op">==</span> <span class="st">"SNP"</span>) <span class="op">|</span> (data_fnfp[<span class="st">"VAR_TYPE"</span>] <span class="op">==</span> <span class="st">"INDEL"</span>)]</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>depth_order <span class="op">=</span> {<span class="st">"100x"</span>: <span class="dv">1</span>, <span class="st">"50x"</span>: <span class="dv">2</span>, <span class="st">"20x"</span>: <span class="dv">3</span>}</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>data_fnfp[<span class="st">'depth_sort'</span>] <span class="op">=</span> data_fnfp[<span class="st">'depth'</span>].<span class="bu">map</span>(depth_order)</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>trimmer_order <span class="op">=</span> {t: i <span class="cf">for</span> i, t <span class="kw">in</span> <span class="bu">enumerate</span>(<span class="bu">sorted</span>(data_fnfp[<span class="st">'trimmer'</span>].unique())) <span class="cf">if</span> t <span class="op">!=</span> <span class="st">'untrimmed'</span>}</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>trimmer_order[<span class="st">'untrimmed'</span>] <span class="op">=</span> <span class="dv">999</span> <span class="co"># force to the end</span></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>data_fnfp[<span class="st">'trimmer_sort'</span>] <span class="op">=</span> data_fnfp[<span class="st">'trimmer'</span>].<span class="bu">map</span>(trimmer_order)</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a><span class="co"># sort the data_fnfp: sample -&gt; depth -&gt; variant type -&gt; trimmer</span></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>data_fnfp <span class="op">=</span> data_fnfp.sort_values(</span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>    by<span class="op">=</span>[<span class="st">'sample'</span>, <span class="st">'depth_sort'</span>, <span class="st">'VAR_TYPE'</span>, <span class="st">'trimmer_sort'</span>]</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>).drop(columns<span class="op">=</span>[<span class="st">'depth_sort'</span>, <span class="st">'trimmer_sort'</span>])</span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a><span class="co"># reset the index so it looks clean</span></span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>data_fnfp.reset_index(drop<span class="op">=</span><span class="va">True</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itables <span class="im">import</span> show</span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>show(data_fnfp, scrollX<span class="op">=</span><span class="va">True</span>, scrollY<span class="op">=</span><span class="st">"300px"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<!--| quarto-html-table-processing: none -->
+<table id="itables_233b1e41_9d03_40d1_81f4_3959c1a1b9a6">
+  <tbody>
+    <tr>
+      <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
+    <g style="fill:#d9d7fc">
+        <path d="M100,400H500V357H100Z"></path>
+        <path d="M100,300H400V257H100Z"></path>
+        <path d="M0,200H400V157H0Z"></path>
+        <path d="M100,100H500V57H100Z"></path>
+        <path d="M100,350H500V307H100Z"></path>
+        <path d="M100,250H400V207H100Z"></path>
+        <path d="M0,150H400V107H0Z"></path>
+        <path d="M100,50H500V7H100Z"></path>
+    </g>
+    <g style="fill:#1a1366;stroke:#1a1366;">
+   <rect x="100" y="7" width="400" height="43">
+    <animate attributename="width" values="0;400;0" dur="5s" repeatcount="indefinite"></animate>
+      <animate attributename="x" values="100;100;500" dur="5s" repeatcount="indefinite"></animate>
+  </rect>
+        <rect x="0" y="107" width="400" height="43">
+    <animate attributename="width" values="0;400;0" dur="3.5s" repeatcount="indefinite"></animate>
+    <animate attributename="x" values="0;0;400" dur="3.5s" repeatcount="indefinite"></animate>
+  </rect>
+        <rect x="100" y="207" width="300" height="43">
+    <animate attributename="width" values="0;300;0" dur="3s" repeatcount="indefinite"></animate>
+    <animate attributename="x" values="100;100;400" dur="3s" repeatcount="indefinite"></animate>
+  </rect>
+        <rect x="100" y="307" width="400" height="43">
+    <animate attributename="width" values="0;400;0" dur="4s" repeatcount="indefinite"></animate>
+      <animate attributename="x" values="100;100;500" dur="4s" repeatcount="indefinite"></animate>
+  </rect>
+        <g style="fill:transparent;stroke-width:8; stroke-linejoin:round" rx="5">
+            <g transform="translate(45 50) rotate(-45)">
+                <circle r="33" cx="0" cy="0"></circle>
+                <rect x="-8" y="32" width="16" height="30"></rect>
+            </g>
+
+            <g transform="translate(450 152)">
+                <polyline points="-15,-20 -35,-20 -35,40 25,40 25,20"></polyline>
+                <rect x="-15" y="-40" width="60" height="60"></rect>
+            </g>
+
+            <g transform="translate(50 352)">
+                <polygon points="-35,-5 0,-40 35,-5"></polygon>
+                <polygon points="-35,10 0,45 35,10"></polygon>
+            </g>
+
+            <g transform="translate(75 250)">
+                <polyline points="-30,30 -60,0 -30,-30"></polyline>
+                <polyline points="0,30 -30,0 0,-30"></polyline>
+            </g>
+
+            <g transform="translate(425 250) rotate(180)">
+                <polyline points="-30,30 -60,0 -30,-30"></polyline>
+                <polyline points="0,30 -30,0 0,-30"></polyline>
+            </g>
+        </g>
+    </g>
+</svg>
+</a>
+        Loading ITables v2.7.3 from the internet...
+        (need <a href="https://mwouts.github.io/itables/troubleshooting.html">help</a>?)
+      </td>
+    </tr>
+  </tbody>
+</table>
+<link href="https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.css" rel="stylesheet">
+<script type="module">
+    import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
+
+    document.querySelectorAll("#itables_233b1e41_9d03_40d1_81f4_3959c1a1b9a6:not(.dataTable)").forEach(table => {
+        if (!(table instanceof HTMLTableElement))
+            return;
+
+        let dt_args = {
+          "classes": ["display", "nowrap", "compact"],
+          "columnDefs": [{"render": "function (data, type, row, meta) { return type === 'sort' || type === 'type' ? data[1] : data[0]; }", "targets": [6]}],
+          "data_json": "[[\"barbell_default\", \"100x\", \"AJ292__202310\", \"INDEL\", 2, 0, [\"0.994792\", 0.994792]], [\"barbell_max\", \"100x\", \"AJ292__202310\", \"INDEL\", 2, 0, [\"0.994792\", 0.994792]], [\"dorado\", \"100x\", \"AJ292__202310\", \"INDEL\", 2, 0, [\"0.994792\", 0.994792]], [\"fastplong\", \"100x\", \"AJ292__202310\", \"INDEL\", 2, 0, [\"0.994792\", 0.994792]], [\"porechop_abi_discard\", \"100x\", \"AJ292__202310\", \"INDEL\", 2, 0, [\"0.994792\", 0.994792]], [\"porechop_abi_nocheck\", \"100x\", \"AJ292__202310\", \"INDEL\", 2, 0, [\"0.994792\", 0.994792]], [\"porechop_abi_split\", \"100x\", \"AJ292__202310\", \"INDEL\", 2, 0, [\"0.994792\", 0.994792]], [\"untrimmed\", \"100x\", \"AJ292__202310\", \"INDEL\", 2, 0, [\"0.994792\", 0.994792]], [\"barbell_default\", \"100x\", \"AJ292__202310\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"barbell_max\", \"100x\", \"AJ292__202310\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"dorado\", \"100x\", \"AJ292__202310\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"fastplong\", \"100x\", \"AJ292__202310\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"porechop_abi_discard\", \"100x\", \"AJ292__202310\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"porechop_abi_nocheck\", \"100x\", \"AJ292__202310\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"porechop_abi_split\", \"100x\", \"AJ292__202310\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"untrimmed\", \"100x\", \"AJ292__202310\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"barbell_default\", \"50x\", \"AJ292__202310\", \"INDEL\", 2, 0, [\"0.994792\", 0.994792]], [\"barbell_max\", \"50x\", \"AJ292__202310\", \"INDEL\", 2, 0, [\"0.994792\", 0.994792]], [\"dorado\", \"50x\", \"AJ292__202310\", \"INDEL\", 1, 0, [\"0.997403\", 0.997403]], [\"fastplong\", \"50x\", \"AJ292__202310\", \"INDEL\", 2, 0, [\"0.994792\", 0.994792]], [\"porechop_abi_discard\", \"50x\", \"AJ292__202310\", \"INDEL\", 1, 0, [\"0.997403\", 0.997403]], [\"porechop_abi_nocheck\", \"50x\", \"AJ292__202310\", \"INDEL\", 2, 0, [\"0.994792\", 0.994792]], [\"porechop_abi_split\", \"50x\", \"AJ292__202310\", \"INDEL\", 2, 0, [\"0.994792\", 0.994792]], [\"untrimmed\", \"50x\", \"AJ292__202310\", \"INDEL\", 2, 0, [\"0.994792\", 0.994792]], [\"barbell_default\", \"50x\", \"AJ292__202310\", \"SNP\", 2, 0, [\"0.999956\", 0.999956]], [\"barbell_max\", \"50x\", \"AJ292__202310\", \"SNP\", 4, 0, [\"0.999912\", 0.999912]], [\"dorado\", \"50x\", \"AJ292__202310\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"fastplong\", \"50x\", \"AJ292__202310\", \"SNP\", 1, 0, [\"0.999978\", 0.999978]], [\"porechop_abi_discard\", \"50x\", \"AJ292__202310\", \"SNP\", 1, 0, [\"0.999978\", 0.999978]], [\"porechop_abi_nocheck\", \"50x\", \"AJ292__202310\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"porechop_abi_split\", \"50x\", \"AJ292__202310\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"untrimmed\", \"50x\", \"AJ292__202310\", \"SNP\", 1, 0, [\"0.999978\", 0.999978]], [\"barbell_default\", \"20x\", \"AJ292__202310\", \"INDEL\", 3, 0, [\"0.992167\", 0.992167]], [\"barbell_max\", \"20x\", \"AJ292__202310\", \"INDEL\", 3, 0, [\"0.992167\", 0.992167]], [\"dorado\", \"20x\", \"AJ292__202310\", \"INDEL\", 6, 1, [\"0.981627\", 0.981627]], [\"fastplong\", \"20x\", \"AJ292__202310\", \"INDEL\", 3, 0, [\"0.992167\", 0.992167]], [\"porechop_abi_discard\", \"20x\", \"AJ292__202310\", \"INDEL\", 4, 0, [\"0.989529\", 0.989529]], [\"porechop_abi_nocheck\", \"20x\", \"AJ292__202310\", \"INDEL\", 5, 1, [\"0.984293\", 0.984293]], [\"porechop_abi_split\", \"20x\", \"AJ292__202310\", \"INDEL\", 4, 0, [\"0.989529\", 0.989529]], [\"untrimmed\", \"20x\", \"AJ292__202310\", \"INDEL\", 1, 0, [\"0.997403\", 0.997403]], [\"barbell_default\", \"20x\", \"AJ292__202310\", \"SNP\", 166, 2, [\"0.996311\", 0.996311]], [\"barbell_max\", \"20x\", \"AJ292__202310\", \"SNP\", 107, 0, [\"0.997653\", 0.997653]], [\"dorado\", \"20x\", \"AJ292__202310\", \"SNP\", 234, 0, [\"0.994853\", 0.994853]], [\"fastplong\", \"20x\", \"AJ292__202310\", \"SNP\", 121, 0, [\"0.997345\", 0.997345]], [\"porechop_abi_discard\", \"20x\", \"AJ292__202310\", \"SNP\", 113, 1, [\"0.997499\", 0.997499]], [\"porechop_abi_nocheck\", \"20x\", \"AJ292__202310\", \"SNP\", 188, 0, [\"0.995869\", 0.995869]], [\"porechop_abi_split\", \"20x\", \"AJ292__202310\", \"SNP\", 199, 0, [\"0.995626\", 0.995626]], [\"untrimmed\", \"20x\", \"AJ292__202310\", \"SNP\", 144, 1, [\"0.996817\", 0.996817]], [\"barbell_default\", \"100x\", \"AMtb_1__202402\", \"INDEL\", 1, 0, [\"0.997199\", 0.997199]], [\"barbell_max\", \"100x\", \"AMtb_1__202402\", \"INDEL\", 1, 0, [\"0.997199\", 0.997199]], [\"dorado\", \"100x\", \"AMtb_1__202402\", \"INDEL\", 0, 0, [\"1.000000\", 1.0]], [\"fastplong\", \"100x\", \"AMtb_1__202402\", \"INDEL\", 0, 0, [\"1.000000\", 1.0]], [\"porechop_abi_discard\", \"100x\", \"AMtb_1__202402\", \"INDEL\", 0, 0, [\"1.000000\", 1.0]], [\"porechop_abi_nocheck\", \"100x\", \"AMtb_1__202402\", \"INDEL\", 0, 0, [\"1.000000\", 1.0]], [\"porechop_abi_split\", \"100x\", \"AMtb_1__202402\", \"INDEL\", 0, 0, [\"1.000000\", 1.0]], [\"untrimmed\", \"100x\", \"AMtb_1__202402\", \"INDEL\", 1, 0, [\"0.997199\", 0.997199]], [\"barbell_default\", \"100x\", \"AMtb_1__202402\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"barbell_max\", \"100x\", \"AMtb_1__202402\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"dorado\", \"100x\", \"AMtb_1__202402\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"fastplong\", \"100x\", \"AMtb_1__202402\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"porechop_abi_discard\", \"100x\", \"AMtb_1__202402\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"porechop_abi_nocheck\", \"100x\", \"AMtb_1__202402\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"porechop_abi_split\", \"100x\", \"AMtb_1__202402\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"untrimmed\", \"100x\", \"AMtb_1__202402\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"barbell_default\", \"50x\", \"AMtb_1__202402\", \"INDEL\", 3, 0, [\"0.991549\", 0.991549]], [\"barbell_max\", \"50x\", \"AMtb_1__202402\", \"INDEL\", 2, 0, [\"0.994382\", 0.994382]], [\"dorado\", \"50x\", \"AMtb_1__202402\", \"INDEL\", 1, 0, [\"0.997199\", 0.997199]], [\"fastplong\", \"50x\", \"AMtb_1__202402\", \"INDEL\", 0, 0, [\"1.000000\", 1.0]], [\"porechop_abi_discard\", \"50x\", \"AMtb_1__202402\", \"INDEL\", 1, 0, [\"0.997199\", 0.997199]], [\"porechop_abi_nocheck\", \"50x\", \"AMtb_1__202402\", \"INDEL\", 2, 0, [\"0.994382\", 0.994382]], [\"porechop_abi_split\", \"50x\", \"AMtb_1__202402\", \"INDEL\", 1, 0, [\"0.997199\", 0.997199]], [\"untrimmed\", \"50x\", \"AMtb_1__202402\", \"INDEL\", 1, 0, [\"0.997199\", 0.997199]], [\"barbell_default\", \"50x\", \"AMtb_1__202402\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"barbell_max\", \"50x\", \"AMtb_1__202402\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"dorado\", \"50x\", \"AMtb_1__202402\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"fastplong\", \"50x\", \"AMtb_1__202402\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"porechop_abi_discard\", \"50x\", \"AMtb_1__202402\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"porechop_abi_nocheck\", \"50x\", \"AMtb_1__202402\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"porechop_abi_split\", \"50x\", \"AMtb_1__202402\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"untrimmed\", \"50x\", \"AMtb_1__202402\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"barbell_default\", \"20x\", \"AMtb_1__202402\", \"INDEL\", 8, 0, [\"0.977143\", 0.977143]], [\"barbell_max\", \"20x\", \"AMtb_1__202402\", \"INDEL\", 4, 0, [\"0.988701\", 0.988701]], [\"dorado\", \"20x\", \"AMtb_1__202402\", \"INDEL\", 5, 0, [\"0.985836\", 0.985836]], [\"fastplong\", \"20x\", \"AMtb_1__202402\", \"INDEL\", 5, 0, [\"0.985836\", 0.985836]], [\"porechop_abi_discard\", \"20x\", \"AMtb_1__202402\", \"INDEL\", 7, 0, [\"0.980057\", 0.980057]], [\"porechop_abi_nocheck\", \"20x\", \"AMtb_1__202402\", \"INDEL\", 3, 0, [\"0.991549\", 0.991549]], [\"porechop_abi_split\", \"20x\", \"AMtb_1__202402\", \"INDEL\", 4, 0, [\"0.988701\", 0.988701]], [\"untrimmed\", \"20x\", \"AMtb_1__202402\", \"INDEL\", 4, 0, [\"0.988701\", 0.988701]], [\"barbell_default\", \"20x\", \"AMtb_1__202402\", \"SNP\", 5, 0, [\"0.998809\", 0.998809]], [\"barbell_max\", \"20x\", \"AMtb_1__202402\", \"SNP\", 1, 0, [\"0.999762\", 0.999762]], [\"dorado\", \"20x\", \"AMtb_1__202402\", \"SNP\", 1, 0, [\"0.999762\", 0.999762]], [\"fastplong\", \"20x\", \"AMtb_1__202402\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"porechop_abi_discard\", \"20x\", \"AMtb_1__202402\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"porechop_abi_nocheck\", \"20x\", \"AMtb_1__202402\", \"SNP\", 3, 0, [\"0.999286\", 0.999286]], [\"porechop_abi_split\", \"20x\", \"AMtb_1__202402\", \"SNP\", 3, 0, [\"0.999286\", 0.999286]], [\"untrimmed\", \"20x\", \"AMtb_1__202402\", \"SNP\", 1, 0, [\"0.999762\", 0.999762]], [\"barbell_default\", \"100x\", \"ATCC_10708__202309\", \"INDEL\", 8, 0, [\"0.989873\", 0.989873]], [\"barbell_max\", \"100x\", \"ATCC_10708__202309\", \"INDEL\", 9, 0, [\"0.988593\", 0.988593]], [\"dorado\", \"100x\", \"ATCC_10708__202309\", \"INDEL\", 7, 1, [\"0.989921\", 0.989921]], [\"fastplong\", \"100x\", \"ATCC_10708__202309\", \"INDEL\", 8, 1, [\"0.988644\", 0.988644]], [\"porechop_abi_discard\", \"100x\", \"ATCC_10708__202309\", \"INDEL\", 11, 1, [\"0.984794\", 0.984794]], [\"porechop_abi_nocheck\", \"100x\", \"ATCC_10708__202309\", \"INDEL\", 7, 1, [\"0.989921\", 0.989921]], [\"porechop_abi_split\", \"100x\", \"ATCC_10708__202309\", \"INDEL\", 9, 1, [\"0.987364\", 0.987364]], [\"untrimmed\", \"100x\", \"ATCC_10708__202309\", \"INDEL\", 7, 0, [\"0.991150\", 0.99115]], [\"barbell_default\", \"100x\", \"ATCC_10708__202309\", \"SNP\", 3, 0, [\"0.999920\", 0.99992]], [\"barbell_max\", \"100x\", \"ATCC_10708__202309\", \"SNP\", 3, 0, [\"0.999920\", 0.99992]], [\"dorado\", \"100x\", \"ATCC_10708__202309\", \"SNP\", 3, 0, [\"0.999920\", 0.99992]], [\"fastplong\", \"100x\", \"ATCC_10708__202309\", \"SNP\", 5, 0, [\"0.999867\", 0.999867]], [\"porechop_abi_discard\", \"100x\", \"ATCC_10708__202309\", \"SNP\", 3, 0, [\"0.999920\", 0.99992]], [\"porechop_abi_nocheck\", \"100x\", \"ATCC_10708__202309\", \"SNP\", 3, 0, [\"0.999920\", 0.99992]], [\"porechop_abi_split\", \"100x\", \"ATCC_10708__202309\", \"SNP\", 4, 0, [\"0.999893\", 0.999893]], [\"untrimmed\", \"100x\", \"ATCC_10708__202309\", \"SNP\", 3, 0, [\"0.999920\", 0.99992]], [\"barbell_default\", \"50x\", \"ATCC_10708__202309\", \"INDEL\", 12, 1, [\"0.983504\", 0.983504]], [\"barbell_max\", \"50x\", \"ATCC_10708__202309\", \"INDEL\", 10, 0, [\"0.987310\", 0.98731]], [\"dorado\", \"50x\", \"ATCC_10708__202309\", \"INDEL\", 8, 0, [\"0.989873\", 0.989873]], [\"fastplong\", \"50x\", \"ATCC_10708__202309\", \"INDEL\", 12, 0, [\"0.984733\", 0.984733]], [\"porechop_abi_discard\", \"50x\", \"ATCC_10708__202309\", \"INDEL\", 12, 1, [\"0.983501\", 0.983501]], [\"porechop_abi_nocheck\", \"50x\", \"ATCC_10708__202309\", \"INDEL\", 10, 1, [\"0.986080\", 0.98608]], [\"porechop_abi_split\", \"50x\", \"ATCC_10708__202309\", \"INDEL\", 12, 0, [\"0.984733\", 0.984733]], [\"untrimmed\", \"50x\", \"ATCC_10708__202309\", \"INDEL\", 10, 0, [\"0.987310\", 0.98731]], [\"barbell_default\", \"50x\", \"ATCC_10708__202309\", \"SNP\", 7, 0, [\"0.999814\", 0.999814]], [\"barbell_max\", \"50x\", \"ATCC_10708__202309\", \"SNP\", 5, 0, [\"0.999867\", 0.999867]], [\"dorado\", \"50x\", \"ATCC_10708__202309\", \"SNP\", 5, 0, [\"0.999867\", 0.999867]], [\"fastplong\", \"50x\", \"ATCC_10708__202309\", \"SNP\", 5, 0, [\"0.999867\", 0.999867]], [\"porechop_abi_discard\", \"50x\", \"ATCC_10708__202309\", \"SNP\", 4, 0, [\"0.999893\", 0.999893]], [\"porechop_abi_nocheck\", \"50x\", \"ATCC_10708__202309\", \"SNP\", 5, 0, [\"0.999867\", 0.999867]], [\"porechop_abi_split\", \"50x\", \"ATCC_10708__202309\", \"SNP\", 7, 0, [\"0.999814\", 0.999814]], [\"untrimmed\", \"50x\", \"ATCC_10708__202309\", \"SNP\", 4, 0, [\"0.999893\", 0.999893]], [\"barbell_default\", \"20x\", \"ATCC_10708__202309\", \"INDEL\", 18, 2, [\"0.974469\", 0.974469]], [\"barbell_max\", \"20x\", \"ATCC_10708__202309\", \"INDEL\", 17, 3, [\"0.974548\", 0.974548]], [\"dorado\", \"20x\", \"ATCC_10708__202309\", \"INDEL\", 23, 1, [\"0.969092\", 0.969092]], [\"fastplong\", \"20x\", \"ATCC_10708__202309\", \"INDEL\", 27, 2, [\"0.962530\", 0.96253]], [\"porechop_abi_discard\", \"20x\", \"ATCC_10708__202309\", \"INDEL\", 20, 1, [\"0.973065\", 0.973065]], [\"porechop_abi_nocheck\", \"20x\", \"ATCC_10708__202309\", \"INDEL\", 21, 1, [\"0.971745\", 0.971745]], [\"porechop_abi_split\", \"20x\", \"ATCC_10708__202309\", \"INDEL\", 25, 1, [\"0.966431\", 0.966431]], [\"untrimmed\", \"20x\", \"ATCC_10708__202309\", \"INDEL\", 19, 1, [\"0.974378\", 0.974378]], [\"barbell_default\", \"20x\", \"ATCC_10708__202309\", \"SNP\", 93, 0, [\"0.997518\", 0.997518]], [\"barbell_max\", \"20x\", \"ATCC_10708__202309\", \"SNP\", 96, 0, [\"0.997438\", 0.997438]], [\"dorado\", \"20x\", \"ATCC_10708__202309\", \"SNP\", 132, 2, [\"0.996421\", 0.996421]], [\"fastplong\", \"20x\", \"ATCC_10708__202309\", \"SNP\", 154, 1, [\"0.995857\", 0.995857]], [\"porechop_abi_discard\", \"20x\", \"ATCC_10708__202309\", \"SNP\", 88, 1, [\"0.997625\", 0.997625]], [\"porechop_abi_nocheck\", \"20x\", \"ATCC_10708__202309\", \"SNP\", 187, 1, [\"0.994971\", 0.994971]], [\"porechop_abi_split\", \"20x\", \"ATCC_10708__202309\", \"SNP\", 162, 0, [\"0.995669\", 0.995669]], [\"untrimmed\", \"20x\", \"ATCC_10708__202309\", \"SNP\", 156, 1, [\"0.995804\", 0.995804]], [\"barbell_default\", \"100x\", \"ATCC_17802__202309\", \"INDEL\", 6, 1, [\"0.993991\", 0.993991]], [\"barbell_max\", \"100x\", \"ATCC_17802__202309\", \"INDEL\", 6, 1, [\"0.993991\", 0.993991]], [\"dorado\", \"100x\", \"ATCC_17802__202309\", \"INDEL\", 7, 1, [\"0.993126\", 0.993126]], [\"fastplong\", \"100x\", \"ATCC_17802__202309\", \"INDEL\", 7, 1, [\"0.993126\", 0.993126]], [\"porechop_abi_discard\", \"100x\", \"ATCC_17802__202309\", \"INDEL\", 6, 0, [\"0.994836\", 0.994836]], [\"porechop_abi_nocheck\", \"100x\", \"ATCC_17802__202309\", \"INDEL\", 7, 1, [\"0.993126\", 0.993126]], [\"porechop_abi_split\", \"100x\", \"ATCC_17802__202309\", \"INDEL\", 8, 1, [\"0.992255\", 0.992255]], [\"untrimmed\", \"100x\", \"ATCC_17802__202309\", \"INDEL\", 7, 0, [\"0.993971\", 0.993971]], [\"barbell_default\", \"100x\", \"ATCC_17802__202309\", \"SNP\", 9, 2, [\"0.999905\", 0.999905]], [\"barbell_max\", \"100x\", \"ATCC_17802__202309\", \"SNP\", 9, 2, [\"0.999905\", 0.999905]], [\"dorado\", \"100x\", \"ATCC_17802__202309\", \"SNP\", 9, 2, [\"0.999905\", 0.999905]], [\"fastplong\", \"100x\", \"ATCC_17802__202309\", \"SNP\", 15, 4, [\"0.999836\", 0.999836]], [\"porechop_abi_discard\", \"100x\", \"ATCC_17802__202309\", \"SNP\", 8, 2, [\"0.999914\", 0.999914]], [\"porechop_abi_nocheck\", \"100x\", \"ATCC_17802__202309\", \"SNP\", 8, 2, [\"0.999914\", 0.999914]], [\"porechop_abi_split\", \"100x\", \"ATCC_17802__202309\", \"SNP\", 13, 3, [\"0.999862\", 0.999862]], [\"untrimmed\", \"100x\", \"ATCC_17802__202309\", \"SNP\", 10, 2, [\"0.999896\", 0.999896]], [\"barbell_default\", \"50x\", \"ATCC_17802__202309\", \"INDEL\", 7, 1, [\"0.993126\", 0.993126]], [\"barbell_max\", \"50x\", \"ATCC_17802__202309\", \"INDEL\", 7, 0, [\"0.993971\", 0.993971]], [\"dorado\", \"50x\", \"ATCC_17802__202309\", \"INDEL\", 8, 0, [\"0.993103\", 0.993103]], [\"fastplong\", \"50x\", \"ATCC_17802__202309\", \"INDEL\", 9, 1, [\"0.991392\", 0.991392]], [\"porechop_abi_discard\", \"50x\", \"ATCC_17802__202309\", \"INDEL\", 7, 0, [\"0.993971\", 0.993971]], [\"porechop_abi_nocheck\", \"50x\", \"ATCC_17802__202309\", \"INDEL\", 8, 0, [\"0.993103\", 0.993103]], [\"porechop_abi_split\", \"50x\", \"ATCC_17802__202309\", \"INDEL\", 7, 0, [\"0.993971\", 0.993971]], [\"untrimmed\", \"50x\", \"ATCC_17802__202309\", \"INDEL\", 8, 2, [\"0.991415\", 0.991415]], [\"barbell_default\", \"50x\", \"ATCC_17802__202309\", \"SNP\", 12, 2, [\"0.999879\", 0.999879]], [\"barbell_max\", \"50x\", \"ATCC_17802__202309\", \"SNP\", 11, 0, [\"0.999905\", 0.999905]], [\"dorado\", \"50x\", \"ATCC_17802__202309\", \"SNP\", 6, 0, [\"0.999948\", 0.999948]], [\"fastplong\", \"50x\", \"ATCC_17802__202309\", \"SNP\", 12, 1, [\"0.999888\", 0.999888]], [\"porechop_abi_discard\", \"50x\", \"ATCC_17802__202309\", \"SNP\", 5, 1, [\"0.999948\", 0.999948]], [\"porechop_abi_nocheck\", \"50x\", \"ATCC_17802__202309\", \"SNP\", 6, 1, [\"0.999940\", 0.99994]], [\"porechop_abi_split\", \"50x\", \"ATCC_17802__202309\", \"SNP\", 2, 1, [\"0.999974\", 0.999974]], [\"untrimmed\", \"50x\", \"ATCC_17802__202309\", \"SNP\", 15, 2, [\"0.999853\", 0.999853]], [\"barbell_default\", \"20x\", \"ATCC_17802__202309\", \"INDEL\", 16, 3, [\"0.983598\", 0.983598]], [\"barbell_max\", \"20x\", \"ATCC_17802__202309\", \"INDEL\", 12, 1, [\"0.988786\", 0.988786]], [\"dorado\", \"20x\", \"ATCC_17802__202309\", \"INDEL\", 17, 3, [\"0.982709\", 0.982709]], [\"fastplong\", \"20x\", \"ATCC_17802__202309\", \"INDEL\", 16, 2, [\"0.984429\", 0.984429]], [\"porechop_abi_discard\", \"20x\", \"ATCC_17802__202309\", \"INDEL\", 25, 0, [\"0.978128\", 0.978128]], [\"porechop_abi_nocheck\", \"20x\", \"ATCC_17802__202309\", \"INDEL\", 16, 2, [\"0.984429\", 0.984429]], [\"porechop_abi_split\", \"20x\", \"ATCC_17802__202309\", \"INDEL\", 19, 0, [\"0.983464\", 0.983464]], [\"untrimmed\", \"20x\", \"ATCC_17802__202309\", \"INDEL\", 16, 2, [\"0.984429\", 0.984429]], [\"barbell_default\", \"20x\", \"ATCC_17802__202309\", \"SNP\", 56, 4, [\"0.999481\", 0.999481]], [\"barbell_max\", \"20x\", \"ATCC_17802__202309\", \"SNP\", 77, 2, [\"0.999317\", 0.999317]], [\"dorado\", \"20x\", \"ATCC_17802__202309\", \"SNP\", 97, 2, [\"0.999144\", 0.999144]], [\"fastplong\", \"20x\", \"ATCC_17802__202309\", \"SNP\", 132, 8, [\"0.998789\", 0.998789]], [\"porechop_abi_discard\", \"20x\", \"ATCC_17802__202309\", \"SNP\", 91, 2, [\"0.999196\", 0.999196]], [\"porechop_abi_nocheck\", \"20x\", \"ATCC_17802__202309\", \"SNP\", 110, 4, [\"0.999014\", 0.999014]], [\"porechop_abi_split\", \"20x\", \"ATCC_17802__202309\", \"SNP\", 79, 3, [\"0.999291\", 0.999291]], [\"untrimmed\", \"20x\", \"ATCC_17802__202309\", \"SNP\", 122, 4, [\"0.998910\", 0.99891]], [\"barbell_default\", \"100x\", \"ATCC_19119__202309\", \"INDEL\", 6, 1, [\"0.992113\", 0.992113]], [\"barbell_max\", \"100x\", \"ATCC_19119__202309\", \"INDEL\", 5, 0, [\"0.994363\", 0.994363]], [\"dorado\", \"100x\", \"ATCC_19119__202309\", \"INDEL\", 8, 2, [\"0.988723\", 0.988723]], [\"fastplong\", \"100x\", \"ATCC_19119__202309\", \"INDEL\", 7, 1, [\"0.990976\", 0.990976]], [\"porechop_abi_discard\", \"100x\", \"ATCC_19119__202309\", \"INDEL\", 6, 1, [\"0.992113\", 0.992113]], [\"porechop_abi_nocheck\", \"100x\", \"ATCC_19119__202309\", \"INDEL\", 7, 2, [\"0.989864\", 0.989864]], [\"porechop_abi_split\", \"100x\", \"ATCC_19119__202309\", \"INDEL\", 8, 2, [\"0.988723\", 0.988723]], [\"untrimmed\", \"100x\", \"ATCC_19119__202309\", \"INDEL\", 10, 0, [\"0.988662\", 0.988662]], [\"barbell_default\", \"100x\", \"ATCC_19119__202309\", \"SNP\", 1, 0, [\"0.999941\", 0.999941]], [\"barbell_max\", \"100x\", \"ATCC_19119__202309\", \"SNP\", 1, 1, [\"0.999882\", 0.999882]], [\"dorado\", \"100x\", \"ATCC_19119__202309\", \"SNP\", 1, 1, [\"0.999882\", 0.999882]], [\"fastplong\", \"100x\", \"ATCC_19119__202309\", \"SNP\", 1, 0, [\"0.999941\", 0.999941]], [\"porechop_abi_discard\", \"100x\", \"ATCC_19119__202309\", \"SNP\", 1, 1, [\"0.999882\", 0.999882]], [\"porechop_abi_nocheck\", \"100x\", \"ATCC_19119__202309\", \"SNP\", 1, 1, [\"0.999882\", 0.999882]], [\"porechop_abi_split\", \"100x\", \"ATCC_19119__202309\", \"SNP\", 1, 0, [\"0.999941\", 0.999941]], [\"untrimmed\", \"100x\", \"ATCC_19119__202309\", \"SNP\", 1, 1, [\"0.999882\", 0.999882]], [\"barbell_default\", \"50x\", \"ATCC_19119__202309\", \"INDEL\", 7, 0, [\"0.992090\", 0.99209]], [\"barbell_max\", \"50x\", \"ATCC_19119__202309\", \"INDEL\", 6, 0, [\"0.993228\", 0.993228]], [\"dorado\", \"50x\", \"ATCC_19119__202309\", \"INDEL\", 10, 1, [\"0.987548\", 0.987548]], [\"fastplong\", \"50x\", \"ATCC_19119__202309\", \"INDEL\", 7, 1, [\"0.990976\", 0.990976]], [\"porechop_abi_discard\", \"50x\", \"ATCC_19119__202309\", \"INDEL\", 10, 0, [\"0.988662\", 0.988662]], [\"porechop_abi_nocheck\", \"50x\", \"ATCC_19119__202309\", \"INDEL\", 9, 1, [\"0.988693\", 0.988693]], [\"porechop_abi_split\", \"50x\", \"ATCC_19119__202309\", \"INDEL\", 9, 2, [\"0.987581\", 0.987581]], [\"untrimmed\", \"50x\", \"ATCC_19119__202309\", \"INDEL\", 7, 3, [\"0.988754\", 0.988754]], [\"barbell_default\", \"50x\", \"ATCC_19119__202309\", \"SNP\", 2, 1, [\"0.999822\", 0.999822]], [\"barbell_max\", \"50x\", \"ATCC_19119__202309\", \"SNP\", 2, 1, [\"0.999822\", 0.999822]], [\"dorado\", \"50x\", \"ATCC_19119__202309\", \"SNP\", 1, 1, [\"0.999882\", 0.999882]], [\"fastplong\", \"50x\", \"ATCC_19119__202309\", \"SNP\", 1, 0, [\"0.999941\", 0.999941]], [\"porechop_abi_discard\", \"50x\", \"ATCC_19119__202309\", \"SNP\", 1, 0, [\"0.999941\", 0.999941]], [\"porechop_abi_nocheck\", \"50x\", \"ATCC_19119__202309\", \"SNP\", 1, 1, [\"0.999882\", 0.999882]], [\"porechop_abi_split\", \"50x\", \"ATCC_19119__202309\", \"SNP\", 1, 1, [\"0.999882\", 0.999882]], [\"untrimmed\", \"50x\", \"ATCC_19119__202309\", \"SNP\", 1, 1, [\"0.999882\", 0.999882]], [\"barbell_default\", \"20x\", \"ATCC_19119__202309\", \"INDEL\", 16, 0, [\"0.981735\", 0.981735]], [\"barbell_max\", \"20x\", \"ATCC_19119__202309\", \"INDEL\", 11, 2, [\"0.985288\", 0.985288]], [\"dorado\", \"20x\", \"ATCC_19119__202309\", \"INDEL\", 14, 2, [\"0.981829\", 0.981829]], [\"fastplong\", \"20x\", \"ATCC_19119__202309\", \"INDEL\", 11, 1, [\"0.986400\", 0.9864]], [\"porechop_abi_discard\", \"20x\", \"ATCC_19119__202309\", \"INDEL\", 15, 2, [\"0.980670\", 0.98067]], [\"porechop_abi_nocheck\", \"20x\", \"ATCC_19119__202309\", \"INDEL\", 18, 2, [\"0.977179\", 0.977179]], [\"porechop_abi_split\", \"20x\", \"ATCC_19119__202309\", \"INDEL\", 10, 1, [\"0.987548\", 0.987548]], [\"untrimmed\", \"20x\", \"ATCC_19119__202309\", \"INDEL\", 15, 0, [\"0.982896\", 0.982896]], [\"barbell_default\", \"20x\", \"ATCC_19119__202309\", \"SNP\", 16, 1, [\"0.998993\", 0.998993]], [\"barbell_max\", \"20x\", \"ATCC_19119__202309\", \"SNP\", 30, 1, [\"0.998163\", 0.998163]], [\"dorado\", \"20x\", \"ATCC_19119__202309\", \"SNP\", 29, 2, [\"0.998163\", 0.998163]], [\"fastplong\", \"20x\", \"ATCC_19119__202309\", \"SNP\", 12, 0, [\"0.999290\", 0.99929]], [\"porechop_abi_discard\", \"20x\", \"ATCC_19119__202309\", \"SNP\", 14, 1, [\"0.999112\", 0.999112]], [\"porechop_abi_nocheck\", \"20x\", \"ATCC_19119__202309\", \"SNP\", 25, 1, [\"0.998460\", 0.99846]], [\"porechop_abi_split\", \"20x\", \"ATCC_19119__202309\", \"SNP\", 29, 1, [\"0.998222\", 0.998222]], [\"untrimmed\", \"20x\", \"ATCC_19119__202309\", \"SNP\", 23, 2, [\"0.998519\", 0.998519]], [\"barbell_default\", \"100x\", \"ATCC_25922__202309\", \"INDEL\", 0, 0, [\"1.000000\", 1.0]], [\"barbell_max\", \"100x\", \"ATCC_25922__202309\", \"INDEL\", 3, 0, [\"0.995828\", 0.995828]], [\"dorado\", \"100x\", \"ATCC_25922__202309\", \"INDEL\", 3, 1, [\"0.994448\", 0.994448]], [\"fastplong\", \"100x\", \"ATCC_25922__202309\", \"INDEL\", 1, 0, [\"0.998613\", 0.998613]], [\"porechop_abi_discard\", \"100x\", \"ATCC_25922__202309\", \"INDEL\", 1, 0, [\"0.998613\", 0.998613]], [\"porechop_abi_nocheck\", \"100x\", \"ATCC_25922__202309\", \"INDEL\", 2, 0, [\"0.997222\", 0.997222]], [\"porechop_abi_split\", \"100x\", \"ATCC_25922__202309\", \"INDEL\", 0, 0, [\"1.000000\", 1.0]], [\"untrimmed\", \"100x\", \"ATCC_25922__202309\", \"INDEL\", 3, 1, [\"0.994448\", 0.994448]], [\"barbell_default\", \"100x\", \"ATCC_25922__202309\", \"SNP\", 133, 0, [\"0.985105\", 0.985105]], [\"barbell_max\", \"100x\", \"ATCC_25922__202309\", \"SNP\", 132, 0, [\"0.985218\", 0.985218]], [\"dorado\", \"100x\", \"ATCC_25922__202309\", \"SNP\", 121, 0, [\"0.986467\", 0.986467]], [\"fastplong\", \"100x\", \"ATCC_25922__202309\", \"SNP\", 118, 0, [\"0.986807\", 0.986807]], [\"porechop_abi_discard\", \"100x\", \"ATCC_25922__202309\", \"SNP\", 132, 0, [\"0.985218\", 0.985218]], [\"porechop_abi_nocheck\", \"100x\", \"ATCC_25922__202309\", \"SNP\", 124, 1, [\"0.986016\", 0.986016]], [\"porechop_abi_split\", \"100x\", \"ATCC_25922__202309\", \"SNP\", 124, 0, [\"0.986127\", 0.986127]], [\"untrimmed\", \"100x\", \"ATCC_25922__202309\", \"SNP\", 125, 0, [\"0.986013\", 0.986013]], [\"barbell_default\", \"50x\", \"ATCC_25922__202309\", \"INDEL\", 0, 0, [\"1.000000\", 1.0]], [\"barbell_max\", \"50x\", \"ATCC_25922__202309\", \"INDEL\", 3, 0, [\"0.995828\", 0.995828]], [\"dorado\", \"50x\", \"ATCC_25922__202309\", \"INDEL\", 0, 0, [\"1.000000\", 1.0]], [\"fastplong\", \"50x\", \"ATCC_25922__202309\", \"INDEL\", 1, 0, [\"0.998613\", 0.998613]], [\"porechop_abi_discard\", \"50x\", \"ATCC_25922__202309\", \"INDEL\", 1, 0, [\"0.998613\", 0.998613]], [\"porechop_abi_nocheck\", \"50x\", \"ATCC_25922__202309\", \"INDEL\", 1, 0, [\"0.998613\", 0.998613]], [\"porechop_abi_split\", \"50x\", \"ATCC_25922__202309\", \"INDEL\", 0, 0, [\"1.000000\", 1.0]], [\"untrimmed\", \"50x\", \"ATCC_25922__202309\", \"INDEL\", 0, 0, [\"1.000000\", 1.0]], [\"barbell_default\", \"50x\", \"ATCC_25922__202309\", \"SNP\", 136, 1, [\"0.984653\", 0.984653]], [\"barbell_max\", \"50x\", \"ATCC_25922__202309\", \"SNP\", 136, 0, [\"0.984764\", 0.984764]], [\"dorado\", \"50x\", \"ATCC_25922__202309\", \"SNP\", 124, 1, [\"0.986016\", 0.986016]], [\"fastplong\", \"50x\", \"ATCC_25922__202309\", \"SNP\", 108, 1, [\"0.987828\", 0.987828]], [\"porechop_abi_discard\", \"50x\", \"ATCC_25922__202309\", \"SNP\", 141, 0, [\"0.984195\", 0.984195]], [\"porechop_abi_nocheck\", \"50x\", \"ATCC_25922__202309\", \"SNP\", 121, 1, [\"0.986357\", 0.986357]], [\"porechop_abi_split\", \"50x\", \"ATCC_25922__202309\", \"SNP\", 150, 2, [\"0.982948\", 0.982948]], [\"untrimmed\", \"50x\", \"ATCC_25922__202309\", \"SNP\", 136, 0, [\"0.984764\", 0.984764]], [\"barbell_default\", \"20x\", \"ATCC_25922__202309\", \"INDEL\", 3, 1, [\"0.994448\", 0.994448]], [\"barbell_max\", \"20x\", \"ATCC_25922__202309\", \"INDEL\", 3, 0, [\"0.995828\", 0.995828]], [\"dorado\", \"20x\", \"ATCC_25922__202309\", \"INDEL\", 7, 0, [\"0.990210\", 0.99021]], [\"fastplong\", \"20x\", \"ATCC_25922__202309\", \"INDEL\", 5, 0, [\"0.993027\", 0.993027]], [\"porechop_abi_discard\", \"20x\", \"ATCC_25922__202309\", \"INDEL\", 3, 0, [\"0.995828\", 0.995828]], [\"porechop_abi_nocheck\", \"20x\", \"ATCC_25922__202309\", \"INDEL\", 12, 3, [\"0.978974\", 0.978974]], [\"porechop_abi_split\", \"20x\", \"ATCC_25922__202309\", \"INDEL\", 0, 0, [\"1.000000\", 1.0]], [\"untrimmed\", \"20x\", \"ATCC_25922__202309\", \"INDEL\", 8, 0, [\"0.988796\", 0.988796]], [\"barbell_default\", \"20x\", \"ATCC_25922__202309\", \"SNP\", 215, 1, [\"0.975588\", 0.975588]], [\"barbell_max\", \"20x\", \"ATCC_25922__202309\", \"SNP\", 206, 1, [\"0.976629\", 0.976629]], [\"dorado\", \"20x\", \"ATCC_25922__202309\", \"SNP\", 209, 3, [\"0.976061\", 0.976061]], [\"fastplong\", \"20x\", \"ATCC_25922__202309\", \"SNP\", 183, 3, [\"0.979059\", 0.979059]], [\"porechop_abi_discard\", \"20x\", \"ATCC_25922__202309\", \"SNP\", 191, 1, [\"0.978359\", 0.978359]], [\"porechop_abi_nocheck\", \"20x\", \"ATCC_25922__202309\", \"SNP\", 175, 1, [\"0.980198\", 0.980198]], [\"porechop_abi_split\", \"20x\", \"ATCC_25922__202309\", \"SNP\", 203, 1, [\"0.976975\", 0.976975]], [\"untrimmed\", \"20x\", \"ATCC_25922__202309\", \"SNP\", 249, 7, [\"0.970975\", 0.970975]], [\"barbell_default\", \"100x\", \"ATCC_33560__202309\", \"INDEL\", 6, 0, [\"0.986364\", 0.986364]], [\"barbell_max\", \"100x\", \"ATCC_33560__202309\", \"INDEL\", 4, 0, [\"0.990950\", 0.99095]], [\"dorado\", \"100x\", \"ATCC_33560__202309\", \"INDEL\", 6, 0, [\"0.986364\", 0.986364]], [\"fastplong\", \"100x\", \"ATCC_33560__202309\", \"INDEL\", 7, 1, [\"0.981849\", 0.981849]], [\"porechop_abi_discard\", \"100x\", \"ATCC_33560__202309\", \"INDEL\", 7, 0, [\"0.984055\", 0.984055]], [\"porechop_abi_nocheck\", \"100x\", \"ATCC_33560__202309\", \"INDEL\", 7, 0, [\"0.984055\", 0.984055]], [\"porechop_abi_split\", \"100x\", \"ATCC_33560__202309\", \"INDEL\", 6, 0, [\"0.986364\", 0.986364]], [\"untrimmed\", \"100x\", \"ATCC_33560__202309\", \"INDEL\", 6, 0, [\"0.986364\", 0.986364]], [\"barbell_default\", \"100x\", \"ATCC_33560__202309\", \"SNP\", 4, 0, [\"0.999686\", 0.999686]], [\"barbell_max\", \"100x\", \"ATCC_33560__202309\", \"SNP\", 3, 0, [\"0.999764\", 0.999764]], [\"dorado\", \"100x\", \"ATCC_33560__202309\", \"SNP\", 5, 0, [\"0.999607\", 0.999607]], [\"fastplong\", \"100x\", \"ATCC_33560__202309\", \"SNP\", 3, 0, [\"0.999764\", 0.999764]], [\"porechop_abi_discard\", \"100x\", \"ATCC_33560__202309\", \"SNP\", 3, 0, [\"0.999764\", 0.999764]], [\"porechop_abi_nocheck\", \"100x\", \"ATCC_33560__202309\", \"SNP\", 4, 0, [\"0.999686\", 0.999686]], [\"porechop_abi_split\", \"100x\", \"ATCC_33560__202309\", \"SNP\", 5, 0, [\"0.999607\", 0.999607]], [\"untrimmed\", \"100x\", \"ATCC_33560__202309\", \"SNP\", 2, 0, [\"0.999843\", 0.999843]], [\"barbell_default\", \"50x\", \"ATCC_33560__202309\", \"INDEL\", 10, 0, [\"0.977064\", 0.977064]], [\"barbell_max\", \"50x\", \"ATCC_33560__202309\", \"INDEL\", 6, 0, [\"0.986364\", 0.986364]], [\"dorado\", \"50x\", \"ATCC_33560__202309\", \"INDEL\", 10, 0, [\"0.977064\", 0.977064]], [\"fastplong\", \"50x\", \"ATCC_33560__202309\", \"INDEL\", 9, 0, [\"0.979405\", 0.979405]], [\"porechop_abi_discard\", \"50x\", \"ATCC_33560__202309\", \"INDEL\", 7, 0, [\"0.984055\", 0.984055]], [\"porechop_abi_nocheck\", \"50x\", \"ATCC_33560__202309\", \"INDEL\", 7, 0, [\"0.984055\", 0.984055]], [\"porechop_abi_split\", \"50x\", \"ATCC_33560__202309\", \"INDEL\", 10, 0, [\"0.977064\", 0.977064]], [\"untrimmed\", \"50x\", \"ATCC_33560__202309\", \"INDEL\", 10, 0, [\"0.977064\", 0.977064]], [\"barbell_default\", \"50x\", \"ATCC_33560__202309\", \"SNP\", 3, 0, [\"0.999764\", 0.999764]], [\"barbell_max\", \"50x\", \"ATCC_33560__202309\", \"SNP\", 3, 0, [\"0.999764\", 0.999764]], [\"dorado\", \"50x\", \"ATCC_33560__202309\", \"SNP\", 5, 0, [\"0.999607\", 0.999607]], [\"fastplong\", \"50x\", \"ATCC_33560__202309\", \"SNP\", 3, 0, [\"0.999764\", 0.999764]], [\"porechop_abi_discard\", \"50x\", \"ATCC_33560__202309\", \"SNP\", 2, 0, [\"0.999843\", 0.999843]], [\"porechop_abi_nocheck\", \"50x\", \"ATCC_33560__202309\", \"SNP\", 10, 1, [\"0.999136\", 0.999136]], [\"porechop_abi_split\", \"50x\", \"ATCC_33560__202309\", \"SNP\", 5, 0, [\"0.999607\", 0.999607]], [\"untrimmed\", \"50x\", \"ATCC_33560__202309\", \"SNP\", 3, 0, [\"0.999764\", 0.999764]], [\"barbell_default\", \"20x\", \"ATCC_33560__202309\", \"INDEL\", 11, 0, [\"0.974713\", 0.974713]], [\"barbell_max\", \"20x\", \"ATCC_33560__202309\", \"INDEL\", 11, 0, [\"0.974713\", 0.974713]], [\"dorado\", \"20x\", \"ATCC_33560__202309\", \"INDEL\", 11, 1, [\"0.972508\", 0.972508]], [\"fastplong\", \"20x\", \"ATCC_33560__202309\", \"INDEL\", 11, 2, [\"0.970314\", 0.970314]], [\"porechop_abi_discard\", \"20x\", \"ATCC_33560__202309\", \"INDEL\", 12, 0, [\"0.972350\", 0.97235]], [\"porechop_abi_nocheck\", \"20x\", \"ATCC_33560__202309\", \"INDEL\", 14, 4, [\"0.958840\", 0.95884]], [\"porechop_abi_split\", \"20x\", \"ATCC_33560__202309\", \"INDEL\", 7, 1, [\"0.981849\", 0.981849]], [\"untrimmed\", \"20x\", \"ATCC_33560__202309\", \"INDEL\", 13, 1, [\"0.967773\", 0.967773]], [\"barbell_default\", \"20x\", \"ATCC_33560__202309\", \"SNP\", 7, 1, [\"0.999372\", 0.999372]], [\"barbell_max\", \"20x\", \"ATCC_33560__202309\", \"SNP\", 13, 4, [\"0.998664\", 0.998664]], [\"dorado\", \"20x\", \"ATCC_33560__202309\", \"SNP\", 8, 1, [\"0.999293\", 0.999293]], [\"fastplong\", \"20x\", \"ATCC_33560__202309\", \"SNP\", 8, 1, [\"0.999293\", 0.999293]], [\"porechop_abi_discard\", \"20x\", \"ATCC_33560__202309\", \"SNP\", 5, 3, [\"0.999372\", 0.999372]], [\"porechop_abi_nocheck\", \"20x\", \"ATCC_33560__202309\", \"SNP\", 14, 1, [\"0.998821\", 0.998821]], [\"porechop_abi_split\", \"20x\", \"ATCC_33560__202309\", \"SNP\", 13, 0, [\"0.998978\", 0.998978]], [\"untrimmed\", \"20x\", \"ATCC_33560__202309\", \"SNP\", 8, 1, [\"0.999293\", 0.999293]], [\"barbell_default\", \"100x\", \"ATCC_35221__202309\", \"INDEL\", 2, 0, [\"0.991870\", 0.99187]], [\"barbell_max\", \"100x\", \"ATCC_35221__202309\", \"INDEL\", 4, 0, [\"0.983607\", 0.983607]], [\"dorado\", \"100x\", \"ATCC_35221__202309\", \"INDEL\", 1, 0, [\"0.995951\", 0.995951]], [\"fastplong\", \"100x\", \"ATCC_35221__202309\", \"INDEL\", 2, 0, [\"0.991870\", 0.99187]], [\"porechop_abi_discard\", \"100x\", \"ATCC_35221__202309\", \"INDEL\", 3, 0, [\"0.987755\", 0.987755]], [\"porechop_abi_nocheck\", \"100x\", \"ATCC_35221__202309\", \"INDEL\", 2, 1, [\"0.988318\", 0.988318]], [\"porechop_abi_split\", \"100x\", \"ATCC_35221__202309\", \"INDEL\", 2, 0, [\"0.991870\", 0.99187]], [\"untrimmed\", \"100x\", \"ATCC_35221__202309\", \"INDEL\", 4, 0, [\"0.983607\", 0.983607]], [\"barbell_default\", \"100x\", \"ATCC_35221__202309\", \"SNP\", 5, 0, [\"0.999849\", 0.999849]], [\"barbell_max\", \"100x\", \"ATCC_35221__202309\", \"SNP\", 4, 0, [\"0.999879\", 0.999879]], [\"dorado\", \"100x\", \"ATCC_35221__202309\", \"SNP\", 6, 0, [\"0.999819\", 0.999819]], [\"fastplong\", \"100x\", \"ATCC_35221__202309\", \"SNP\", 8, 0, [\"0.999758\", 0.999758]], [\"porechop_abi_discard\", \"100x\", \"ATCC_35221__202309\", \"SNP\", 4, 2, [\"0.999818\", 0.999818]], [\"porechop_abi_nocheck\", \"100x\", \"ATCC_35221__202309\", \"SNP\", 10, 3, [\"0.999607\", 0.999607]], [\"porechop_abi_split\", \"100x\", \"ATCC_35221__202309\", \"SNP\", 8, 0, [\"0.999758\", 0.999758]], [\"untrimmed\", \"100x\", \"ATCC_35221__202309\", \"SNP\", 5, 0, [\"0.999849\", 0.999849]], [\"barbell_default\", \"50x\", \"ATCC_35221__202309\", \"INDEL\", 2, 0, [\"0.991870\", 0.99187]], [\"barbell_max\", \"50x\", \"ATCC_35221__202309\", \"INDEL\", 4, 0, [\"0.983607\", 0.983607]], [\"dorado\", \"50x\", \"ATCC_35221__202309\", \"INDEL\", 2, 0, [\"0.991870\", 0.99187]], [\"fastplong\", \"50x\", \"ATCC_35221__202309\", \"INDEL\", 5, 1, [\"0.975935\", 0.975935]], [\"porechop_abi_discard\", \"50x\", \"ATCC_35221__202309\", \"INDEL\", 3, 0, [\"0.987755\", 0.987755]], [\"porechop_abi_nocheck\", \"50x\", \"ATCC_35221__202309\", \"INDEL\", 2, 0, [\"0.991870\", 0.99187]], [\"porechop_abi_split\", \"50x\", \"ATCC_35221__202309\", \"INDEL\", 2, 0, [\"0.991870\", 0.99187]], [\"untrimmed\", \"50x\", \"ATCC_35221__202309\", \"INDEL\", 5, 0, [\"0.979424\", 0.979424]], [\"barbell_default\", \"50x\", \"ATCC_35221__202309\", \"SNP\", 11, 5, [\"0.999516\", 0.999516]], [\"barbell_max\", \"50x\", \"ATCC_35221__202309\", \"SNP\", 7, 1, [\"0.999758\", 0.999758]], [\"dorado\", \"50x\", \"ATCC_35221__202309\", \"SNP\", 7, 2, [\"0.999728\", 0.999728]], [\"fastplong\", \"50x\", \"ATCC_35221__202309\", \"SNP\", 7, 1, [\"0.999758\", 0.999758]], [\"porechop_abi_discard\", \"50x\", \"ATCC_35221__202309\", \"SNP\", 6, 3, [\"0.999728\", 0.999728]], [\"porechop_abi_nocheck\", \"50x\", \"ATCC_35221__202309\", \"SNP\", 8, 0, [\"0.999758\", 0.999758]], [\"porechop_abi_split\", \"50x\", \"ATCC_35221__202309\", \"SNP\", 8, 0, [\"0.999758\", 0.999758]], [\"untrimmed\", \"50x\", \"ATCC_35221__202309\", \"SNP\", 9, 3, [\"0.999637\", 0.999637]], [\"barbell_default\", \"20x\", \"ATCC_35221__202309\", \"INDEL\", 4, 1, [\"0.980062\", 0.980062]], [\"barbell_max\", \"20x\", \"ATCC_35221__202309\", \"INDEL\", 6, 0, [\"0.975207\", 0.975207]], [\"dorado\", \"20x\", \"ATCC_35221__202309\", \"INDEL\", 5, 0, [\"0.979424\", 0.979424]], [\"fastplong\", \"20x\", \"ATCC_35221__202309\", \"INDEL\", 8, 0, [\"0.966667\", 0.966667]], [\"porechop_abi_discard\", \"20x\", \"ATCC_35221__202309\", \"INDEL\", 5, 0, [\"0.979424\", 0.979424]], [\"porechop_abi_nocheck\", \"20x\", \"ATCC_35221__202309\", \"INDEL\", 6, 0, [\"0.975207\", 0.975207]], [\"porechop_abi_split\", \"20x\", \"ATCC_35221__202309\", \"INDEL\", 6, 0, [\"0.975207\", 0.975207]], [\"untrimmed\", \"20x\", \"ATCC_35221__202309\", \"INDEL\", 7, 1, [\"0.967423\", 0.967423]], [\"barbell_default\", \"20x\", \"ATCC_35221__202309\", \"SNP\", 24, 10, [\"0.998971\", 0.998971]], [\"barbell_max\", \"20x\", \"ATCC_35221__202309\", \"SNP\", 13, 7, [\"0.999395\", 0.999395]], [\"dorado\", \"20x\", \"ATCC_35221__202309\", \"SNP\", 22, 6, [\"0.999153\", 0.999153]], [\"fastplong\", \"20x\", \"ATCC_35221__202309\", \"SNP\", 18, 5, [\"0.999304\", 0.999304]], [\"porechop_abi_discard\", \"20x\", \"ATCC_35221__202309\", \"SNP\", 13, 3, [\"0.999516\", 0.999516]], [\"porechop_abi_nocheck\", \"20x\", \"ATCC_35221__202309\", \"SNP\", 27, 7, [\"0.998971\", 0.998971]], [\"porechop_abi_split\", \"20x\", \"ATCC_35221__202309\", \"SNP\", 14, 15, [\"0.999122\", 0.999122]], [\"untrimmed\", \"20x\", \"ATCC_35221__202309\", \"SNP\", 22, 4, [\"0.999213\", 0.999213]], [\"barbell_default\", \"100x\", \"ATCC_35897__202309\", \"INDEL\", 3, 0, [\"0.994264\", 0.994264]], [\"barbell_max\", \"100x\", \"ATCC_35897__202309\", \"INDEL\", 2, 0, [\"0.996183\", 0.996183]], [\"dorado\", \"100x\", \"ATCC_35897__202309\", \"INDEL\", 3, 0, [\"0.994264\", 0.994264]], [\"fastplong\", \"100x\", \"ATCC_35897__202309\", \"INDEL\", 2, 0, [\"0.996183\", 0.996183]], [\"porechop_abi_discard\", \"100x\", \"ATCC_35897__202309\", \"INDEL\", 4, 0, [\"0.992337\", 0.992337]], [\"porechop_abi_nocheck\", \"100x\", \"ATCC_35897__202309\", \"INDEL\", 4, 0, [\"0.992337\", 0.992337]], [\"porechop_abi_split\", \"100x\", \"ATCC_35897__202309\", \"INDEL\", 4, 0, [\"0.992337\", 0.992337]], [\"untrimmed\", \"100x\", \"ATCC_35897__202309\", \"INDEL\", 3, 0, [\"0.994264\", 0.994264]], [\"barbell_default\", \"100x\", \"ATCC_35897__202309\", \"SNP\", 3, 1, [\"0.999882\", 0.999882]], [\"barbell_max\", \"100x\", \"ATCC_35897__202309\", \"SNP\", 1, 1, [\"0.999941\", 0.999941]], [\"dorado\", \"100x\", \"ATCC_35897__202309\", \"SNP\", 1, 1, [\"0.999941\", 0.999941]], [\"fastplong\", \"100x\", \"ATCC_35897__202309\", \"SNP\", 1, 0, [\"0.999970\", 0.99997]], [\"porechop_abi_discard\", \"100x\", \"ATCC_35897__202309\", \"SNP\", 1, 1, [\"0.999941\", 0.999941]], [\"porechop_abi_nocheck\", \"100x\", \"ATCC_35897__202309\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"porechop_abi_split\", \"100x\", \"ATCC_35897__202309\", \"SNP\", 2, 1, [\"0.999911\", 0.999911]], [\"untrimmed\", \"100x\", \"ATCC_35897__202309\", \"SNP\", 1, 1, [\"0.999941\", 0.999941]], [\"barbell_default\", \"50x\", \"ATCC_35897__202309\", \"INDEL\", 3, 0, [\"0.994264\", 0.994264]], [\"barbell_max\", \"50x\", \"ATCC_35897__202309\", \"INDEL\", 5, 0, [\"0.990403\", 0.990403]], [\"dorado\", \"50x\", \"ATCC_35897__202309\", \"INDEL\", 3, 0, [\"0.994264\", 0.994264]], [\"fastplong\", \"50x\", \"ATCC_35897__202309\", \"INDEL\", 4, 0, [\"0.992337\", 0.992337]], [\"porechop_abi_discard\", \"50x\", \"ATCC_35897__202309\", \"INDEL\", 3, 0, [\"0.994264\", 0.994264]], [\"porechop_abi_nocheck\", \"50x\", \"ATCC_35897__202309\", \"INDEL\", 4, 0, [\"0.992337\", 0.992337]], [\"porechop_abi_split\", \"50x\", \"ATCC_35897__202309\", \"INDEL\", 7, 0, [\"0.986513\", 0.986513]], [\"untrimmed\", \"50x\", \"ATCC_35897__202309\", \"INDEL\", 4, 0, [\"0.992337\", 0.992337]], [\"barbell_default\", \"50x\", \"ATCC_35897__202309\", \"SNP\", 2, 1, [\"0.999911\", 0.999911]], [\"barbell_max\", \"50x\", \"ATCC_35897__202309\", \"SNP\", 1, 1, [\"0.999941\", 0.999941]], [\"dorado\", \"50x\", \"ATCC_35897__202309\", \"SNP\", 1, 0, [\"0.999970\", 0.99997]], [\"fastplong\", \"50x\", \"ATCC_35897__202309\", \"SNP\", 3, 1, [\"0.999882\", 0.999882]], [\"porechop_abi_discard\", \"50x\", \"ATCC_35897__202309\", \"SNP\", 3, 0, [\"0.999911\", 0.999911]], [\"porechop_abi_nocheck\", \"50x\", \"ATCC_35897__202309\", \"SNP\", 2, 1, [\"0.999911\", 0.999911]], [\"porechop_abi_split\", \"50x\", \"ATCC_35897__202309\", \"SNP\", 3, 1, [\"0.999882\", 0.999882]], [\"untrimmed\", \"50x\", \"ATCC_35897__202309\", \"SNP\", 3, 1, [\"0.999882\", 0.999882]], [\"barbell_default\", \"20x\", \"ATCC_35897__202309\", \"INDEL\", 5, 0, [\"0.990403\", 0.990403]], [\"barbell_max\", \"20x\", \"ATCC_35897__202309\", \"INDEL\", 14, 0, [\"0.972656\", 0.972656]], [\"dorado\", \"20x\", \"ATCC_35897__202309\", \"INDEL\", 9, 0, [\"0.982592\", 0.982592]], [\"fastplong\", \"20x\", \"ATCC_35897__202309\", \"INDEL\", 9, 0, [\"0.982592\", 0.982592]], [\"porechop_abi_discard\", \"20x\", \"ATCC_35897__202309\", \"INDEL\", 8, 0, [\"0.984556\", 0.984556]], [\"porechop_abi_nocheck\", \"20x\", \"ATCC_35897__202309\", \"INDEL\", 9, 0, [\"0.982592\", 0.982592]], [\"porechop_abi_split\", \"20x\", \"ATCC_35897__202309\", \"INDEL\", 11, 0, [\"0.978641\", 0.978641]], [\"untrimmed\", \"20x\", \"ATCC_35897__202309\", \"INDEL\", 7, 0, [\"0.986513\", 0.986513]], [\"barbell_default\", \"20x\", \"ATCC_35897__202309\", \"SNP\", 10, 1, [\"0.999676\", 0.999676]], [\"barbell_max\", \"20x\", \"ATCC_35897__202309\", \"SNP\", 15, 1, [\"0.999528\", 0.999528]], [\"dorado\", \"20x\", \"ATCC_35897__202309\", \"SNP\", 16, 2, [\"0.999469\", 0.999469]], [\"fastplong\", \"20x\", \"ATCC_35897__202309\", \"SNP\", 19, 1, [\"0.999410\", 0.99941]], [\"porechop_abi_discard\", \"20x\", \"ATCC_35897__202309\", \"SNP\", 29, 1, [\"0.999115\", 0.999115]], [\"porechop_abi_nocheck\", \"20x\", \"ATCC_35897__202309\", \"SNP\", 29, 1, [\"0.999115\", 0.999115]], [\"porechop_abi_split\", \"20x\", \"ATCC_35897__202309\", \"SNP\", 36, 1, [\"0.998908\", 0.998908]], [\"untrimmed\", \"20x\", \"ATCC_35897__202309\", \"SNP\", 19, 2, [\"0.999380\", 0.99938]], [\"barbell_default\", \"100x\", \"ATCC_BAA-679__202309\", \"INDEL\", 1, 0, [\"0.996516\", 0.996516]], [\"barbell_max\", \"100x\", \"ATCC_BAA-679__202309\", \"INDEL\", 2, 0, [\"0.993007\", 0.993007]], [\"dorado\", \"100x\", \"ATCC_BAA-679__202309\", \"INDEL\", 1, 0, [\"0.996516\", 0.996516]], [\"fastplong\", \"100x\", \"ATCC_BAA-679__202309\", \"INDEL\", 1, 0, [\"0.996516\", 0.996516]], [\"porechop_abi_discard\", \"100x\", \"ATCC_BAA-679__202309\", \"INDEL\", 1, 0, [\"0.996516\", 0.996516]], [\"porechop_abi_nocheck\", \"100x\", \"ATCC_BAA-679__202309\", \"INDEL\", 2, 0, [\"0.993007\", 0.993007]], [\"porechop_abi_split\", \"100x\", \"ATCC_BAA-679__202309\", \"INDEL\", 1, 0, [\"0.996516\", 0.996516]], [\"untrimmed\", \"100x\", \"ATCC_BAA-679__202309\", \"INDEL\", 1, 0, [\"0.996516\", 0.996516]], [\"barbell_default\", \"100x\", \"ATCC_BAA-679__202309\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"barbell_max\", \"100x\", \"ATCC_BAA-679__202309\", \"SNP\", 1, 0, [\"0.999945\", 0.999945]], [\"dorado\", \"100x\", \"ATCC_BAA-679__202309\", \"SNP\", 1, 0, [\"0.999945\", 0.999945]], [\"fastplong\", \"100x\", \"ATCC_BAA-679__202309\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"porechop_abi_discard\", \"100x\", \"ATCC_BAA-679__202309\", \"SNP\", 1, 0, [\"0.999945\", 0.999945]], [\"porechop_abi_nocheck\", \"100x\", \"ATCC_BAA-679__202309\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"porechop_abi_split\", \"100x\", \"ATCC_BAA-679__202309\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"untrimmed\", \"100x\", \"ATCC_BAA-679__202309\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"barbell_default\", \"50x\", \"ATCC_BAA-679__202309\", \"INDEL\", 1, 0, [\"0.996516\", 0.996516]], [\"barbell_max\", \"50x\", \"ATCC_BAA-679__202309\", \"INDEL\", 2, 0, [\"0.993007\", 0.993007]], [\"dorado\", \"50x\", \"ATCC_BAA-679__202309\", \"INDEL\", 1, 0, [\"0.996516\", 0.996516]], [\"fastplong\", \"50x\", \"ATCC_BAA-679__202309\", \"INDEL\", 2, 1, [\"0.989641\", 0.989641]], [\"porechop_abi_discard\", \"50x\", \"ATCC_BAA-679__202309\", \"INDEL\", 1, 0, [\"0.996516\", 0.996516]], [\"porechop_abi_nocheck\", \"50x\", \"ATCC_BAA-679__202309\", \"INDEL\", 4, 0, [\"0.985915\", 0.985915]], [\"porechop_abi_split\", \"50x\", \"ATCC_BAA-679__202309\", \"INDEL\", 1, 0, [\"0.996516\", 0.996516]], [\"untrimmed\", \"50x\", \"ATCC_BAA-679__202309\", \"INDEL\", 1, 0, [\"0.996516\", 0.996516]], [\"barbell_default\", \"50x\", \"ATCC_BAA-679__202309\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"barbell_max\", \"50x\", \"ATCC_BAA-679__202309\", \"SNP\", 2, 0, [\"0.999890\", 0.99989]], [\"dorado\", \"50x\", \"ATCC_BAA-679__202309\", \"SNP\", 2, 0, [\"0.999890\", 0.99989]], [\"fastplong\", \"50x\", \"ATCC_BAA-679__202309\", \"SNP\", 1, 0, [\"0.999945\", 0.999945]], [\"porechop_abi_discard\", \"50x\", \"ATCC_BAA-679__202309\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"porechop_abi_nocheck\", \"50x\", \"ATCC_BAA-679__202309\", \"SNP\", 1, 0, [\"0.999945\", 0.999945]], [\"porechop_abi_split\", \"50x\", \"ATCC_BAA-679__202309\", \"SNP\", 1, 0, [\"0.999945\", 0.999945]], [\"untrimmed\", \"50x\", \"ATCC_BAA-679__202309\", \"SNP\", 1, 0, [\"0.999945\", 0.999945]], [\"barbell_default\", \"20x\", \"ATCC_BAA-679__202309\", \"INDEL\", 3, 1, [\"0.986109\", 0.986109]], [\"barbell_max\", \"20x\", \"ATCC_BAA-679__202309\", \"INDEL\", 5, 0, [\"0.982332\", 0.982332]], [\"dorado\", \"20x\", \"ATCC_BAA-679__202309\", \"INDEL\", 5, 1, [\"0.978970\", 0.97897]], [\"fastplong\", \"20x\", \"ATCC_BAA-679__202309\", \"INDEL\", 6, 0, [\"0.978723\", 0.978723]], [\"porechop_abi_discard\", \"20x\", \"ATCC_BAA-679__202309\", \"INDEL\", 3, 1, [\"0.986109\", 0.986109]], [\"porechop_abi_nocheck\", \"20x\", \"ATCC_BAA-679__202309\", \"INDEL\", 6, 0, [\"0.978723\", 0.978723]], [\"porechop_abi_split\", \"20x\", \"ATCC_BAA-679__202309\", \"INDEL\", 6, 0, [\"0.978723\", 0.978723]], [\"untrimmed\", \"20x\", \"ATCC_BAA-679__202309\", \"INDEL\", 5, 1, [\"0.978970\", 0.97897]], [\"barbell_default\", \"20x\", \"ATCC_BAA-679__202309\", \"SNP\", 32, 0, [\"0.998237\", 0.998237]], [\"barbell_max\", \"20x\", \"ATCC_BAA-679__202309\", \"SNP\", 15, 0, [\"0.999174\", 0.999174]], [\"dorado\", \"20x\", \"ATCC_BAA-679__202309\", \"SNP\", 29, 1, [\"0.998347\", 0.998347]], [\"fastplong\", \"20x\", \"ATCC_BAA-679__202309\", \"SNP\", 11, 0, [\"0.999395\", 0.999395]], [\"porechop_abi_discard\", \"20x\", \"ATCC_BAA-679__202309\", \"SNP\", 18, 0, [\"0.999009\", 0.999009]], [\"porechop_abi_nocheck\", \"20x\", \"ATCC_BAA-679__202309\", \"SNP\", 14, 0, [\"0.999229\", 0.999229]], [\"porechop_abi_split\", \"20x\", \"ATCC_BAA-679__202309\", \"SNP\", 24, 1, [\"0.998623\", 0.998623]], [\"untrimmed\", \"20x\", \"ATCC_BAA-679__202309\", \"SNP\", 27, 1, [\"0.998458\", 0.998458]], [\"barbell_default\", \"100x\", \"BPH2947__202310\", \"INDEL\", 1, 0, [\"0.996825\", 0.996825]], [\"barbell_max\", \"100x\", \"BPH2947__202310\", \"INDEL\", 2, 0, [\"0.993631\", 0.993631]], [\"dorado\", \"100x\", \"BPH2947__202310\", \"INDEL\", 1, 0, [\"0.996825\", 0.996825]], [\"fastplong\", \"100x\", \"BPH2947__202310\", \"INDEL\", 1, 0, [\"0.996825\", 0.996825]], [\"porechop_abi_discard\", \"100x\", \"BPH2947__202310\", \"INDEL\", 1, 0, [\"0.996825\", 0.996825]], [\"porechop_abi_nocheck\", \"100x\", \"BPH2947__202310\", \"INDEL\", 1, 0, [\"0.996825\", 0.996825]], [\"porechop_abi_split\", \"100x\", \"BPH2947__202310\", \"INDEL\", 1, 0, [\"0.996825\", 0.996825]], [\"untrimmed\", \"100x\", \"BPH2947__202310\", \"INDEL\", 1, 0, [\"0.996825\", 0.996825]], [\"barbell_default\", \"100x\", \"BPH2947__202310\", \"SNP\", 1, 0, [\"0.999937\", 0.999937]], [\"barbell_max\", \"100x\", \"BPH2947__202310\", \"SNP\", 1, 0, [\"0.999937\", 0.999937]], [\"dorado\", \"100x\", \"BPH2947__202310\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"fastplong\", \"100x\", \"BPH2947__202310\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"porechop_abi_discard\", \"100x\", \"BPH2947__202310\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"porechop_abi_nocheck\", \"100x\", \"BPH2947__202310\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"porechop_abi_split\", \"100x\", \"BPH2947__202310\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"untrimmed\", \"100x\", \"BPH2947__202310\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"barbell_default\", \"50x\", \"BPH2947__202310\", \"INDEL\", 2, 0, [\"0.993631\", 0.993631]], [\"barbell_max\", \"50x\", \"BPH2947__202310\", \"INDEL\", 4, 0, [\"0.987179\", 0.987179]], [\"dorado\", \"50x\", \"BPH2947__202310\", \"INDEL\", 1, 0, [\"0.996825\", 0.996825]], [\"fastplong\", \"50x\", \"BPH2947__202310\", \"INDEL\", 1, 0, [\"0.996825\", 0.996825]], [\"porechop_abi_discard\", \"50x\", \"BPH2947__202310\", \"INDEL\", 1, 0, [\"0.996825\", 0.996825]], [\"porechop_abi_nocheck\", \"50x\", \"BPH2947__202310\", \"INDEL\", 2, 0, [\"0.993631\", 0.993631]], [\"porechop_abi_split\", \"50x\", \"BPH2947__202310\", \"INDEL\", 1, 0, [\"0.996825\", 0.996825]], [\"untrimmed\", \"50x\", \"BPH2947__202310\", \"INDEL\", 1, 0, [\"0.996825\", 0.996825]], [\"barbell_default\", \"50x\", \"BPH2947__202310\", \"SNP\", 5, 0, [\"0.999683\", 0.999683]], [\"barbell_max\", \"50x\", \"BPH2947__202310\", \"SNP\", 4, 0, [\"0.999747\", 0.999747]], [\"dorado\", \"50x\", \"BPH2947__202310\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"fastplong\", \"50x\", \"BPH2947__202310\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"porechop_abi_discard\", \"50x\", \"BPH2947__202310\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"porechop_abi_nocheck\", \"50x\", \"BPH2947__202310\", \"SNP\", 1, 0, [\"0.999937\", 0.999937]], [\"porechop_abi_split\", \"50x\", \"BPH2947__202310\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"untrimmed\", \"50x\", \"BPH2947__202310\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"barbell_default\", \"20x\", \"BPH2947__202310\", \"INDEL\", 4, 0, [\"0.987179\", 0.987179]], [\"barbell_max\", \"20x\", \"BPH2947__202310\", \"INDEL\", 6, 0, [\"0.980645\", 0.980645]], [\"dorado\", \"20x\", \"BPH2947__202310\", \"INDEL\", 2, 0, [\"0.993631\", 0.993631]], [\"fastplong\", \"20x\", \"BPH2947__202310\", \"INDEL\", 4, 0, [\"0.987179\", 0.987179]], [\"porechop_abi_discard\", \"20x\", \"BPH2947__202310\", \"INDEL\", 2, 0, [\"0.993631\", 0.993631]], [\"porechop_abi_nocheck\", \"20x\", \"BPH2947__202310\", \"INDEL\", 1, 0, [\"0.996825\", 0.996825]], [\"porechop_abi_split\", \"20x\", \"BPH2947__202310\", \"INDEL\", 1, 0, [\"0.996825\", 0.996825]], [\"untrimmed\", \"20x\", \"BPH2947__202310\", \"INDEL\", 2, 0, [\"0.993631\", 0.993631]], [\"barbell_default\", \"20x\", \"BPH2947__202310\", \"SNP\", 35, 0, [\"0.997778\", 0.997778]], [\"barbell_max\", \"20x\", \"BPH2947__202310\", \"SNP\", 29, 0, [\"0.998160\", 0.99816]], [\"dorado\", \"20x\", \"BPH2947__202310\", \"SNP\", 25, 0, [\"0.998414\", 0.998414]], [\"fastplong\", \"20x\", \"BPH2947__202310\", \"SNP\", 26, 0, [\"0.998350\", 0.99835]], [\"porechop_abi_discard\", \"20x\", \"BPH2947__202310\", \"SNP\", 42, 0, [\"0.997333\", 0.997333]], [\"porechop_abi_nocheck\", \"20x\", \"BPH2947__202310\", \"SNP\", 8, 0, [\"0.999493\", 0.999493]], [\"porechop_abi_split\", \"20x\", \"BPH2947__202310\", \"SNP\", 11, 0, [\"0.999303\", 0.999303]], [\"untrimmed\", \"20x\", \"BPH2947__202310\", \"SNP\", 10, 0, [\"0.999366\", 0.999366]], [\"barbell_default\", \"100x\", \"KPC2__202310\", \"INDEL\", 3, 0, [\"0.990991\", 0.990991]], [\"barbell_max\", \"100x\", \"KPC2__202310\", \"INDEL\", 3, 0, [\"0.990991\", 0.990991]], [\"dorado\", \"100x\", \"KPC2__202310\", \"INDEL\", 2, 0, [\"0.994012\", 0.994012]], [\"fastplong\", \"100x\", \"KPC2__202310\", \"INDEL\", 2, 0, [\"0.994012\", 0.994012]], [\"porechop_abi_discard\", \"100x\", \"KPC2__202310\", \"INDEL\", 2, 0, [\"0.994012\", 0.994012]], [\"porechop_abi_nocheck\", \"100x\", \"KPC2__202310\", \"INDEL\", 2, 0, [\"0.994012\", 0.994012]], [\"porechop_abi_split\", \"100x\", \"KPC2__202310\", \"INDEL\", 2, 0, [\"0.994012\", 0.994012]], [\"untrimmed\", \"100x\", \"KPC2__202310\", \"INDEL\", 2, 0, [\"0.994012\", 0.994012]], [\"barbell_default\", \"100x\", \"KPC2__202310\", \"SNP\", 2, 0, [\"0.999937\", 0.999937]], [\"barbell_max\", \"100x\", \"KPC2__202310\", \"SNP\", 2, 0, [\"0.999937\", 0.999937]], [\"dorado\", \"100x\", \"KPC2__202310\", \"SNP\", 2, 0, [\"0.999937\", 0.999937]], [\"fastplong\", \"100x\", \"KPC2__202310\", \"SNP\", 2, 0, [\"0.999937\", 0.999937]], [\"porechop_abi_discard\", \"100x\", \"KPC2__202310\", \"SNP\", 2, 0, [\"0.999937\", 0.999937]], [\"porechop_abi_nocheck\", \"100x\", \"KPC2__202310\", \"SNP\", 3, 0, [\"0.999906\", 0.999906]], [\"porechop_abi_split\", \"100x\", \"KPC2__202310\", \"SNP\", 3, 0, [\"0.999906\", 0.999906]], [\"untrimmed\", \"100x\", \"KPC2__202310\", \"SNP\", 2, 0, [\"0.999937\", 0.999937]], [\"barbell_default\", \"50x\", \"KPC2__202310\", \"INDEL\", 2, 0, [\"0.994012\", 0.994012]], [\"barbell_max\", \"50x\", \"KPC2__202310\", \"INDEL\", 4, 0, [\"0.987952\", 0.987952]], [\"dorado\", \"50x\", \"KPC2__202310\", \"INDEL\", 3, 0, [\"0.990991\", 0.990991]], [\"fastplong\", \"50x\", \"KPC2__202310\", \"INDEL\", 4, 0, [\"0.987952\", 0.987952]], [\"porechop_abi_discard\", \"50x\", \"KPC2__202310\", \"INDEL\", 5, 0, [\"0.984894\", 0.984894]], [\"porechop_abi_nocheck\", \"50x\", \"KPC2__202310\", \"INDEL\", 3, 0, [\"0.990991\", 0.990991]], [\"porechop_abi_split\", \"50x\", \"KPC2__202310\", \"INDEL\", 4, 0, [\"0.987952\", 0.987952]], [\"untrimmed\", \"50x\", \"KPC2__202310\", \"INDEL\", 4, 0, [\"0.987952\", 0.987952]], [\"barbell_default\", \"50x\", \"KPC2__202310\", \"SNP\", 5, 0, [\"0.999843\", 0.999843]], [\"barbell_max\", \"50x\", \"KPC2__202310\", \"SNP\", 6, 0, [\"0.999811\", 0.999811]], [\"dorado\", \"50x\", \"KPC2__202310\", \"SNP\", 2, 0, [\"0.999937\", 0.999937]], [\"fastplong\", \"50x\", \"KPC2__202310\", \"SNP\", 3, 0, [\"0.999906\", 0.999906]], [\"porechop_abi_discard\", \"50x\", \"KPC2__202310\", \"SNP\", 1, 0, [\"0.999968\", 0.999968]], [\"porechop_abi_nocheck\", \"50x\", \"KPC2__202310\", \"SNP\", 4, 0, [\"0.999874\", 0.999874]], [\"porechop_abi_split\", \"50x\", \"KPC2__202310\", \"SNP\", 2, 0, [\"0.999937\", 0.999937]], [\"untrimmed\", \"50x\", \"KPC2__202310\", \"SNP\", 2, 0, [\"0.999937\", 0.999937]], [\"barbell_default\", \"20x\", \"KPC2__202310\", \"INDEL\", 6, 0, [\"0.981818\", 0.981818]], [\"barbell_max\", \"20x\", \"KPC2__202310\", \"INDEL\", 11, 1, [\"0.963246\", 0.963246]], [\"dorado\", \"20x\", \"KPC2__202310\", \"INDEL\", 7, 0, [\"0.978723\", 0.978723]], [\"fastplong\", \"20x\", \"KPC2__202310\", \"INDEL\", 7, 0, [\"0.978723\", 0.978723]], [\"porechop_abi_discard\", \"20x\", \"KPC2__202310\", \"INDEL\", 10, 0, [\"0.969325\", 0.969325]], [\"porechop_abi_nocheck\", \"20x\", \"KPC2__202310\", \"INDEL\", 8, 0, [\"0.975610\", 0.97561]], [\"porechop_abi_split\", \"20x\", \"KPC2__202310\", \"INDEL\", 7, 0, [\"0.978723\", 0.978723]], [\"untrimmed\", \"20x\", \"KPC2__202310\", \"INDEL\", 7, 1, [\"0.975812\", 0.975812]], [\"barbell_default\", \"20x\", \"KPC2__202310\", \"SNP\", 119, 1, [\"0.996207\", 0.996207]], [\"barbell_max\", \"20x\", \"KPC2__202310\", \"SNP\", 173, 0, [\"0.994522\", 0.994522]], [\"dorado\", \"20x\", \"KPC2__202310\", \"SNP\", 167, 2, [\"0.994650\", 0.99465]], [\"fastplong\", \"20x\", \"KPC2__202310\", \"SNP\", 73, 0, [\"0.997696\", 0.997696]], [\"porechop_abi_discard\", \"20x\", \"KPC2__202310\", \"SNP\", 192, 0, [\"0.993917\", 0.993917]], [\"porechop_abi_nocheck\", \"20x\", \"KPC2__202310\", \"SNP\", 145, 1, [\"0.995381\", 0.995381]], [\"porechop_abi_split\", \"20x\", \"KPC2__202310\", \"SNP\", 149, 2, [\"0.995223\", 0.995223]], [\"untrimmed\", \"20x\", \"KPC2__202310\", \"SNP\", 183, 1, [\"0.994172\", 0.994172]], [\"barbell_default\", \"100x\", \"MMC234__202311\", \"INDEL\", 4, 0, [\"0.988889\", 0.988889]], [\"barbell_max\", \"100x\", \"MMC234__202311\", \"INDEL\", 4, 0, [\"0.988889\", 0.988889]], [\"dorado\", \"100x\", \"MMC234__202311\", \"INDEL\", 5, 1, [\"0.983451\", 0.983451]], [\"fastplong\", \"100x\", \"MMC234__202311\", \"INDEL\", 4, 0, [\"0.988889\", 0.988889]], [\"porechop_abi_discard\", \"100x\", \"MMC234__202311\", \"INDEL\", 4, 0, [\"0.988889\", 0.988889]], [\"porechop_abi_nocheck\", \"100x\", \"MMC234__202311\", \"INDEL\", 4, 0, [\"0.988889\", 0.988889]], [\"porechop_abi_split\", \"100x\", \"MMC234__202311\", \"INDEL\", 4, 0, [\"0.988889\", 0.988889]], [\"untrimmed\", \"100x\", \"MMC234__202311\", \"INDEL\", 4, 0, [\"0.988889\", 0.988889]], [\"barbell_default\", \"100x\", \"MMC234__202311\", \"SNP\", 4, 1, [\"0.999761\", 0.999761]], [\"barbell_max\", \"100x\", \"MMC234__202311\", \"SNP\", 7, 1, [\"0.999618\", 0.999618]], [\"dorado\", \"100x\", \"MMC234__202311\", \"SNP\", 4, 0, [\"0.999809\", 0.999809]], [\"fastplong\", \"100x\", \"MMC234__202311\", \"SNP\", 5, 0, [\"0.999761\", 0.999761]], [\"porechop_abi_discard\", \"100x\", \"MMC234__202311\", \"SNP\", 5, 0, [\"0.999761\", 0.999761]], [\"porechop_abi_nocheck\", \"100x\", \"MMC234__202311\", \"SNP\", 4, 0, [\"0.999809\", 0.999809]], [\"porechop_abi_split\", \"100x\", \"MMC234__202311\", \"SNP\", 5, 0, [\"0.999761\", 0.999761]], [\"untrimmed\", \"100x\", \"MMC234__202311\", \"SNP\", 5, 0, [\"0.999761\", 0.999761]], [\"barbell_default\", \"50x\", \"MMC234__202311\", \"INDEL\", 5, 0, [\"0.986072\", 0.986072]], [\"barbell_max\", \"50x\", \"MMC234__202311\", \"INDEL\", 5, 1, [\"0.983451\", 0.983451]], [\"dorado\", \"50x\", \"MMC234__202311\", \"INDEL\", 7, 1, [\"0.977773\", 0.977773]], [\"fastplong\", \"50x\", \"MMC234__202311\", \"INDEL\", 6, 0, [\"0.983240\", 0.98324]], [\"porechop_abi_discard\", \"50x\", \"MMC234__202311\", \"INDEL\", 4, 0, [\"0.988889\", 0.988889]], [\"porechop_abi_nocheck\", \"50x\", \"MMC234__202311\", \"INDEL\", 5, 1, [\"0.983451\", 0.983451]], [\"porechop_abi_split\", \"50x\", \"MMC234__202311\", \"INDEL\", 6, 0, [\"0.983240\", 0.98324]], [\"untrimmed\", \"50x\", \"MMC234__202311\", \"INDEL\", 9, 0, [\"0.974648\", 0.974648]], [\"barbell_default\", \"50x\", \"MMC234__202311\", \"SNP\", 5, 1, [\"0.999713\", 0.999713]], [\"barbell_max\", \"50x\", \"MMC234__202311\", \"SNP\", 6, 0, [\"0.999714\", 0.999714]], [\"dorado\", \"50x\", \"MMC234__202311\", \"SNP\", 4, 0, [\"0.999809\", 0.999809]], [\"fastplong\", \"50x\", \"MMC234__202311\", \"SNP\", 5, 0, [\"0.999761\", 0.999761]], [\"porechop_abi_discard\", \"50x\", \"MMC234__202311\", \"SNP\", 6, 0, [\"0.999714\", 0.999714]], [\"porechop_abi_nocheck\", \"50x\", \"MMC234__202311\", \"SNP\", 4, 1, [\"0.999761\", 0.999761]], [\"porechop_abi_split\", \"50x\", \"MMC234__202311\", \"SNP\", 7, 1, [\"0.999618\", 0.999618]], [\"untrimmed\", \"50x\", \"MMC234__202311\", \"SNP\", 2, 2, [\"0.999809\", 0.999809]], [\"barbell_default\", \"20x\", \"MMC234__202311\", \"INDEL\", 6, 0, [\"0.983240\", 0.98324]], [\"barbell_max\", \"20x\", \"MMC234__202311\", \"INDEL\", 8, 1, [\"0.974910\", 0.97491]], [\"dorado\", \"20x\", \"MMC234__202311\", \"INDEL\", 10, 1, [\"0.969135\", 0.969135]], [\"fastplong\", \"20x\", \"MMC234__202311\", \"INDEL\", 9, 0, [\"0.974648\", 0.974648]], [\"porechop_abi_discard\", \"20x\", \"MMC234__202311\", \"INDEL\", 11, 1, [\"0.966224\", 0.966224]], [\"porechop_abi_nocheck\", \"20x\", \"MMC234__202311\", \"INDEL\", 14, 1, [\"0.957389\", 0.957389]], [\"porechop_abi_split\", \"20x\", \"MMC234__202311\", \"INDEL\", 11, 1, [\"0.966194\", 0.966194]], [\"untrimmed\", \"20x\", \"MMC234__202311\", \"INDEL\", 9, 2, [\"0.969428\", 0.969428]], [\"barbell_default\", \"20x\", \"MMC234__202311\", \"SNP\", 12, 5, [\"0.999188\", 0.999188]], [\"barbell_max\", \"20x\", \"MMC234__202311\", \"SNP\", 52, 0, [\"0.997511\", 0.997511]], [\"dorado\", \"20x\", \"MMC234__202311\", \"SNP\", 14, 5, [\"0.999092\", 0.999092]], [\"fastplong\", \"20x\", \"MMC234__202311\", \"SNP\", 12, 2, [\"0.999331\", 0.999331]], [\"porechop_abi_discard\", \"20x\", \"MMC234__202311\", \"SNP\", 9, 3, [\"0.999427\", 0.999427]], [\"porechop_abi_nocheck\", \"20x\", \"MMC234__202311\", \"SNP\", 13, 3, [\"0.999236\", 0.999236]], [\"porechop_abi_split\", \"20x\", \"MMC234__202311\", \"SNP\", 13, 2, [\"0.999283\", 0.999283]], [\"untrimmed\", \"20x\", \"MMC234__202311\", \"SNP\", 12, 4, [\"0.999236\", 0.999236]], [\"barbell_default\", \"100x\", \"RDH275__202311\", \"INDEL\", 1, 0, [\"0.996078\", 0.996078]], [\"barbell_max\", \"100x\", \"RDH275__202311\", \"INDEL\", 1, 0, [\"0.996078\", 0.996078]], [\"dorado\", \"100x\", \"RDH275__202311\", \"INDEL\", 1, 0, [\"0.996078\", 0.996078]], [\"fastplong\", \"100x\", \"RDH275__202311\", \"INDEL\", 1, 0, [\"0.996078\", 0.996078]], [\"porechop_abi_discard\", \"100x\", \"RDH275__202311\", \"INDEL\", 1, 0, [\"0.996078\", 0.996078]], [\"porechop_abi_nocheck\", \"100x\", \"RDH275__202311\", \"INDEL\", 1, 0, [\"0.996078\", 0.996078]], [\"porechop_abi_split\", \"100x\", \"RDH275__202311\", \"INDEL\", 2, 0, [\"0.992126\", 0.992126]], [\"untrimmed\", \"100x\", \"RDH275__202311\", \"INDEL\", 1, 0, [\"0.996078\", 0.996078]], [\"barbell_default\", \"100x\", \"RDH275__202311\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"barbell_max\", \"100x\", \"RDH275__202311\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"dorado\", \"100x\", \"RDH275__202311\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"fastplong\", \"100x\", \"RDH275__202311\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"porechop_abi_discard\", \"100x\", \"RDH275__202311\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"porechop_abi_nocheck\", \"100x\", \"RDH275__202311\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"porechop_abi_split\", \"100x\", \"RDH275__202311\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"untrimmed\", \"100x\", \"RDH275__202311\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"barbell_default\", \"50x\", \"RDH275__202311\", \"INDEL\", 2, 0, [\"0.992126\", 0.992126]], [\"barbell_max\", \"50x\", \"RDH275__202311\", \"INDEL\", 1, 0, [\"0.996078\", 0.996078]], [\"dorado\", \"50x\", \"RDH275__202311\", \"INDEL\", 1, 0, [\"0.996078\", 0.996078]], [\"fastplong\", \"50x\", \"RDH275__202311\", \"INDEL\", 0, 0, [\"1.000000\", 1.0]], [\"porechop_abi_discard\", \"50x\", \"RDH275__202311\", \"INDEL\", 2, 0, [\"0.992126\", 0.992126]], [\"porechop_abi_nocheck\", \"50x\", \"RDH275__202311\", \"INDEL\", 1, 0, [\"0.996078\", 0.996078]], [\"porechop_abi_split\", \"50x\", \"RDH275__202311\", \"INDEL\", 1, 0, [\"0.996078\", 0.996078]], [\"untrimmed\", \"50x\", \"RDH275__202311\", \"INDEL\", 1, 0, [\"0.996078\", 0.996078]], [\"barbell_default\", \"50x\", \"RDH275__202311\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"barbell_max\", \"50x\", \"RDH275__202311\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"dorado\", \"50x\", \"RDH275__202311\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"fastplong\", \"50x\", \"RDH275__202311\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"porechop_abi_discard\", \"50x\", \"RDH275__202311\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"porechop_abi_nocheck\", \"50x\", \"RDH275__202311\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"porechop_abi_split\", \"50x\", \"RDH275__202311\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"untrimmed\", \"50x\", \"RDH275__202311\", \"SNP\", 0, 0, [\"1.000000\", 1.0]], [\"barbell_default\", \"20x\", \"RDH275__202311\", \"INDEL\", 4, 0, [\"0.984127\", 0.984127]], [\"barbell_max\", \"20x\", \"RDH275__202311\", \"INDEL\", 3, 0, [\"0.988142\", 0.988142]], [\"dorado\", \"20x\", \"RDH275__202311\", \"INDEL\", 3, 0, [\"0.988142\", 0.988142]], [\"fastplong\", \"20x\", \"RDH275__202311\", \"INDEL\", 1, 0, [\"0.996078\", 0.996078]], [\"porechop_abi_discard\", \"20x\", \"RDH275__202311\", \"INDEL\", 5, 0, [\"0.980080\", 0.98008]], [\"porechop_abi_nocheck\", \"20x\", \"RDH275__202311\", \"INDEL\", 1, 0, [\"0.996078\", 0.996078]], [\"porechop_abi_split\", \"20x\", \"RDH275__202311\", \"INDEL\", 4, 0, [\"0.984127\", 0.984127]], [\"untrimmed\", \"20x\", \"RDH275__202311\", \"INDEL\", 3, 0, [\"0.988142\", 0.988142]], [\"barbell_default\", \"20x\", \"RDH275__202311\", \"SNP\", 4, 1, [\"0.999533\", 0.999533]], [\"barbell_max\", \"20x\", \"RDH275__202311\", \"SNP\", 7, 0, [\"0.999347\", 0.999347]], [\"dorado\", \"20x\", \"RDH275__202311\", \"SNP\", 2, 0, [\"0.999813\", 0.999813]], [\"fastplong\", \"20x\", \"RDH275__202311\", \"SNP\", 1, 0, [\"0.999907\", 0.999907]], [\"porechop_abi_discard\", \"20x\", \"RDH275__202311\", \"SNP\", 2, 0, [\"0.999813\", 0.999813]], [\"porechop_abi_nocheck\", \"20x\", \"RDH275__202311\", \"SNP\", 10, 0, [\"0.999066\", 0.999066]], [\"porechop_abi_split\", \"20x\", \"RDH275__202311\", \"SNP\", 15, 1, [\"0.998506\", 0.998506]], [\"untrimmed\", \"20x\", \"RDH275__202311\", \"SNP\", 1, 0, [\"0.999907\", 0.999907]]]",
+          "keys_to_be_evaluated": [["columnDefs", 0, "render"]],
+          "layout": {"bottomEnd": "paging", "bottomStart": "info", "topEnd": "search", "topStart": "pageLength"},
+          "order": [],
+          "scrollX": true,
+          "scrollY": "300px",
+          "style": {"caption-side": "bottom", "margin": "0", "table-layout": "auto", "width": "auto"},
+          "table_html": "<table><thead>\n    <tr style=\"text-align: right;\">\n      \n      <th>trimmer</th>\n      <th>depth</th>\n      <th>sample</th>\n      <th>VAR_TYPE</th>\n      <th>TRUTH_FN</th>\n      <th>QUERY_FP</th>\n      <th>F1_SCORE</th>\n    </tr>\n  </thead></table>",
+          "text_in_header_can_be_selected": true
+        };
+        new ITable(table, dt_args);
+    });
+</script>
+</div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/adimascf\.github\.io\/biox7021\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>BIOX7021 Logbook - 2026</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
