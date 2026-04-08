@@ -403,7 +403,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Assess assembly performance using QUAST</li>
 </ul>
 <p>The result directory was structured like this: <code>results/assess/mutref/{trimmer}/{depth}x/{sample}/{sample}.precision-recall-summary.tsv</code> Get the input files, put them in the list:</p>
-<div id="382069d2" class="cell" data-execution_count="1">
+<div id="e8bf3153" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
@@ -415,7 +415,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>../results/assess/mutref/porechop_abi_nocheck/50x/RDH275__202311/RDH275__202311.precision-recall.tsv</code></pre>
 </div>
 </div>
-<div id="8d8da7bf" class="cell" data-execution_count="2">
+<div id="52fd8b27" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -501,11 +501,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a>    fig.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stderr">
-<pre><code>/var/folders/9k/2nw2rdmn6sd9mf0_6lg3bnqm0000gn/T/ipykernel_63705/4042143908.py:81: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+<pre><code>/var/folders/9k/2nw2rdmn6sd9mf0_6lg3bnqm0000gn/T/ipykernel_64110/4042143908.py:81: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
   fig.show()
-/var/folders/9k/2nw2rdmn6sd9mf0_6lg3bnqm0000gn/T/ipykernel_63705/4042143908.py:81: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+/var/folders/9k/2nw2rdmn6sd9mf0_6lg3bnqm0000gn/T/ipykernel_64110/4042143908.py:81: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
   fig.show()
-/var/folders/9k/2nw2rdmn6sd9mf0_6lg3bnqm0000gn/T/ipykernel_63705/4042143908.py:81: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+/var/folders/9k/2nw2rdmn6sd9mf0_6lg3bnqm0000gn/T/ipykernel_64110/4042143908.py:81: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
   fig.show()</code></pre>
 </div>
 <div class="cell-output cell-output-display">
@@ -533,7 +533,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="is-there-any-difference-between-depth" class="level3">
 <h3 class="anchored" data-anchor-id="is-there-any-difference-between-depth">Is there any difference between depth?</h3>
 <p>Based on the plots above, it seems that 20x depth consistanly perfomed worst than the other two depths, both on SNP and INDEL. I further performed a statistical test to confirm whether sequencing depth leads to differences in performance. The data is not normally distributed, instead, they are clustered right at the top (skewed).Therefore, I used a non parametric Kruskal–Wallis test, which ranks the data rather than relying on their raw values. This method is also robust in the small size dataset.</p>
-<div id="cbd5c6c3" class="cell" data-execution_count="3">
+<div id="8646453d" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy.stats <span class="im">as</span> stats</span>
@@ -558,7 +558,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="based-f1-score" class="level4">
 <h4 class="anchored" data-anchor-id="based-f1-score">based F1 score</h4>
-<div id="da448d4d" class="cell" data-execution_count="4">
+<div id="f53f0511" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>kruskall_test(data, <span class="st">"F1_SCORE"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -573,7 +573,7 @@ P-value: 1.5651e-24</code></pre>
 </div>
 </div>
 <p>So, based on the test, different depth has a significant impact on both SNP and INDEL F1 scores. Those depths are not perfomring equally. But where is the difference? To identify which depth different (already seems obvious from the plot 😅), I performed a <em>post hoc test</em>, comparing each depth pairwise to determine which ones contribute to the observed differences.</p>
-<div id="409bc89f" class="cell" data-execution_count="5">
+<div id="acfa0dbb" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scikit_posthocs <span class="im">as</span> sp</span>
@@ -589,7 +589,7 @@ P-value: 1.5651e-24</code></pre>
 <span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(p_values.<span class="bu">round</span>(<span class="dv">5</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="89245c06" class="cell" data-execution_count="6">
+<div id="9839bde7" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>post_hoc(data, <span class="st">"F1_SCORE"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -610,7 +610,7 @@ Testing for INDEL
 <p>There is <strong>no sigficant difference</strong> between 100x and 50x depth. Statistically, they perform roughly the same. However, there are siginificant difference between 100x and 20x and 50x and 20x. 20x perform much worst in this case.</p>
 <p>So statitically, we can reduce our sequencing depth from 100x to 50x without sufferring a significant drop in the F1 score.</p>
 <p>Let’s take a loock on precision and recall score as well:</p>
-<div id="fa042d5b" class="cell" data-execution_count="7">
+<div id="5b810e1b" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"PRECISION"</span>)</span>
@@ -638,7 +638,7 @@ Kruskal-Wallis Statistic: 108.7812
 P-value: 2.3904e-24</code></pre>
 </div>
 </div>
-<div id="61298110" class="cell" data-execution_count="8">
+<div id="65cc98b6" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"PRECISION"</span>)</span>
@@ -680,7 +680,7 @@ Testing for INDEL
 <section id="check-quality-at-both-ends-of-reads" class="level3">
 <h3 class="anchored" data-anchor-id="check-quality-at-both-ends-of-reads">Check quality at both ends of reads</h3>
 <p>I first calculated the median Phred score at the start and end of the reads, position by position, for both pre- and post-adapter trimming steps. I excluded the <code>porechop_abi_discard</code> and <code>porechop_abi_split</code>, and ran <code>porechop_abi_nocheck</code> that does not search for the chimeric reads. Those two option will behave similar to <code>--no-split</code> option on triming adapter at both ends of the reads:</p>
-<div id="7cecc54e" class="cell" data-execution_count="9">
+<div id="3a4f1201" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>head ..<span class="op">/</span>results<span class="op">/</span>ends<span class="op">/</span>untrimmed<span class="op">/</span>AJ292__202310.untrimmed.ends.tsv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -699,7 +699,7 @@ Testing for INDEL
 </div>
 </div>
 <p>The file structure is ../results/ends/{trimmer}/{sample}.{trimmer}.ends.tsv</p>
-<div id="bb98b12e" class="cell" data-execution_count="10">
+<div id="51a05a73" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>input_files <span class="op">=</span> <span class="bu">list</span>(Path(<span class="st">'.'</span>).glob(<span class="st">"../results/ends/*/*ends.tsv"</span>))</span>
@@ -710,7 +710,7 @@ Testing for INDEL
 </div>
 </div>
 <p>Median Phred score was calculated per position from both the start and end of the reads, and then averaged across all samples for plotting.</p>
-<div id="a5ebb452" class="cell" data-execution_count="11">
+<div id="5f394767" class="cell" data-execution_count="11">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>frames <span class="op">=</span> []</span>
@@ -779,7 +779,7 @@ Testing for INDEL
 <span id="cb19-64"><a href="#cb19-64" aria-hidden="true" tabindex="-1"></a>plot.fig.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stderr">
-<pre><code>/var/folders/9k/2nw2rdmn6sd9mf0_6lg3bnqm0000gn/T/ipykernel_63705/3090216651.py:64: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+<pre><code>/var/folders/9k/2nw2rdmn6sd9mf0_6lg3bnqm0000gn/T/ipykernel_64110/3090216651.py:64: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
   plot.fig.show()</code></pre>
 </div>
 <div class="cell-output cell-output-display">
@@ -798,7 +798,7 @@ Testing for INDEL
 <p>Also, accorading the documentation <a href="https://software-docs.nanoporetech.com/dorado/latest/basecaller/read_trimming/">here</a>, they say that <code>dorado trim</code> only trim adapter, they do not mention whether that command trimn the barcode as well.</p>
 <p>What happens if I ran the dorado demux instead? to better match our barbell apporach and assess whether the resulst lead to similar improvements in the quality of read ends.</p>
 <p>Add result from <code>dorado demux</code></p>
-<div id="c22d5c85" class="cell" data-execution_count="12">
+<div id="ac6e23d2" class="cell" data-execution_count="12">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>input_files_add <span class="op">=</span> input_files <span class="op">+</span> <span class="bu">list</span>(Path(<span class="st">'.'</span>).glob(<span class="st">"../results/new-ends/*/*ends.tsv"</span>))</span>
@@ -871,7 +871,7 @@ Testing for INDEL
 <span id="cb21-68"><a href="#cb21-68" aria-hidden="true" tabindex="-1"></a>plot.fig.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stderr">
-<pre><code>/var/folders/9k/2nw2rdmn6sd9mf0_6lg3bnqm0000gn/T/ipykernel_63705/1055078710.py:68: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+<pre><code>/var/folders/9k/2nw2rdmn6sd9mf0_6lg3bnqm0000gn/T/ipykernel_64110/1055078710.py:68: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
   plot.fig.show()</code></pre>
 </div>
 <div class="cell-output cell-output-display">
@@ -883,7 +883,7 @@ Testing for INDEL
 </div>
 </div>
 <p>Which trimmer that trimmed sequence the most?</p>
-<div id="2f5c09c8" class="cell" data-execution_count="13">
+<div id="4e9ecb08" class="cell" data-execution_count="13">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>input_files <span class="op">=</span> <span class="bu">list</span>(Path(<span class="st">'.'</span>).glob(<span class="st">"../results/stats/*/*stats.tsv"</span>))</span>
@@ -893,7 +893,7 @@ Testing for INDEL
 <pre><code>../results/stats/porechop_abi_nocheck/ATCC_19119__202309.porechop_abi_nocheck.stats.tsv</code></pre>
 </div>
 </div>
-<div id="c3ca2dcd" class="cell" data-execution_count="14">
+<div id="fbdfe7b3" class="cell" data-execution_count="14">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>frames <span class="op">=</span> []</span>

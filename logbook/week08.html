@@ -402,73 +402,65 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="further-assessment-on-variant-calling">Further assessment on variant calling</h2>
 <section id="looking-into-false-positive-and-false-negative-number" class="level3">
 <h3 class="anchored" data-anchor-id="looking-into-false-positive-and-false-negative-number">Looking into false positive and false negative number</h3>
-<div id="48377822" class="cell" data-execution_count="1">
+<div id="ecafe92e" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>input_files <span class="op">=</span> <span class="bu">list</span>(Path(<span class="st">'.'</span>).glob(<span class="st">"../results/assess/mutref/*/*/*/*precision-recall.tsv"</span>))</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(input_files[<span class="dv">5</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>../results/assess/mutref/porechop_abi_nocheck/50x/RDH275__202311/RDH275__202311.precision-recall.tsv</code></pre>
-</div>
-</div>
-<div id="f3be98be" class="cell" data-execution_count="2">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>sns.set_theme(style<span class="op">=</span><span class="st">"whitegrid"</span>)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Load all TSV files </span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>frames <span class="op">=</span> []</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> p <span class="kw">in</span> <span class="bu">map</span>(Path, input_files):</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> pd.read_csv(p, sep<span class="op">=</span><span class="st">"</span><span class="ch">\t</span><span class="st">"</span>)</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"sample"</span>] <span class="op">=</span> p.parts[<span class="op">-</span><span class="dv">2</span>]</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"depth"</span>] <span class="op">=</span> p.parts[<span class="op">-</span><span class="dv">3</span>]</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"trimmer"</span>] <span class="op">=</span> p.parts[<span class="op">-</span><span class="dv">4</span>]</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    frames.append(df)</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>pr_df <span class="op">=</span> pd.concat(frames)</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>pr_df.reset_index(inplace<span class="op">=</span><span class="va">True</span>, drop<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>metrics <span class="op">=</span> [<span class="st">"TRUTH_FN"</span>, <span class="st">"QUERY_FP"</span>]</span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="st">"trimmer"</span></span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>hue <span class="op">=</span> <span class="st">"depth"</span></span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> (<span class="st">"SNP"</span>, <span class="st">"INDEL"</span>)</span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>nrows <span class="op">=</span> <span class="bu">len</span>(rows)</span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the row with the maximum F1 score for each combination</span></span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>dataix <span class="op">=</span> pr_df.groupby([x, hue, <span class="st">"VAR_TYPE"</span>, <span class="st">"sample"</span>])[<span class="st">"F1_SCORE"</span>].idxmax()</span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pr_df.iloc[dataix]</span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>data_fnfp <span class="op">=</span> data[[<span class="st">'trimmer'</span>, <span class="st">'depth'</span>, <span class="st">'sample'</span>, <span class="st">'VAR_TYPE'</span>, <span class="st">'TRUTH_FN'</span>, <span class="st">'QUERY_FP'</span>, <span class="st">'F1_SCORE'</span>]].copy()</span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>data_fnfp <span class="op">=</span> data_fnfp[(data_fnfp[<span class="st">"VAR_TYPE"</span>] <span class="op">==</span> <span class="st">"SNP"</span>) <span class="op">|</span> (data_fnfp[<span class="st">"VAR_TYPE"</span>] <span class="op">==</span> <span class="st">"INDEL"</span>)]</span>
-<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>depth_order <span class="op">=</span> {<span class="st">"100x"</span>: <span class="dv">1</span>, <span class="st">"50x"</span>: <span class="dv">2</span>, <span class="st">"20x"</span>: <span class="dv">3</span>}</span>
-<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>data_fnfp[<span class="st">'depth_sort'</span>] <span class="op">=</span> data_fnfp[<span class="st">'depth'</span>].<span class="bu">map</span>(depth_order)</span>
-<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>trimmer_order <span class="op">=</span> {t: i <span class="cf">for</span> i, t <span class="kw">in</span> <span class="bu">enumerate</span>(<span class="bu">sorted</span>(data_fnfp[<span class="st">'trimmer'</span>].unique())) <span class="cf">if</span> t <span class="op">!=</span> <span class="st">'untrimmed'</span>}</span>
-<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>trimmer_order[<span class="st">'untrimmed'</span>] <span class="op">=</span> <span class="dv">999</span> <span class="co"># force to the end</span></span>
-<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>data_fnfp[<span class="st">'trimmer_sort'</span>] <span class="op">=</span> data_fnfp[<span class="st">'trimmer'</span>].<span class="bu">map</span>(trimmer_order)</span>
-<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a><span class="co"># sort the data_fnfp: sample -&gt; depth -&gt; variant type -&gt; trimmer</span></span>
-<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>data_fnfp <span class="op">=</span> data_fnfp.sort_values(</span>
-<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>    by<span class="op">=</span>[<span class="st">'sample'</span>, <span class="st">'depth_sort'</span>, <span class="st">'VAR_TYPE'</span>, <span class="st">'trimmer_sort'</span>]</span>
-<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>).drop(columns<span class="op">=</span>[<span class="st">'depth_sort'</span>, <span class="st">'trimmer_sort'</span>])</span>
-<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a><span class="co"># reset the index so it looks clean</span></span>
-<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>data_fnfp.reset_index(drop<span class="op">=</span><span class="va">True</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itables <span class="im">import</span> show</span>
-<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>show(data_fnfp, scrollX<span class="op">=</span><span class="va">True</span>, scrollY<span class="op">=</span><span class="st">"300px"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>sns.set_theme(style<span class="op">=</span><span class="st">"whitegrid"</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Load all TSV files </span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>frames <span class="op">=</span> []</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> p <span class="kw">in</span> <span class="bu">map</span>(Path, input_files):</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> pd.read_csv(p, sep<span class="op">=</span><span class="st">"</span><span class="ch">\t</span><span class="st">"</span>)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"sample"</span>] <span class="op">=</span> p.parts[<span class="op">-</span><span class="dv">2</span>]</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"depth"</span>] <span class="op">=</span> p.parts[<span class="op">-</span><span class="dv">3</span>]</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"trimmer"</span>] <span class="op">=</span> p.parts[<span class="op">-</span><span class="dv">4</span>]</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    frames.append(df)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>pr_df <span class="op">=</span> pd.concat(frames)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>pr_df.reset_index(inplace<span class="op">=</span><span class="va">True</span>, drop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>metrics <span class="op">=</span> [<span class="st">"TRUTH_FN"</span>, <span class="st">"QUERY_FP"</span>]</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="st">"trimmer"</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>hue <span class="op">=</span> <span class="st">"depth"</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> (<span class="st">"SNP"</span>, <span class="st">"INDEL"</span>)</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>nrows <span class="op">=</span> <span class="bu">len</span>(rows)</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the row with the maximum F1 score for each combination</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>dataix <span class="op">=</span> pr_df.groupby([x, hue, <span class="st">"VAR_TYPE"</span>, <span class="st">"sample"</span>])[<span class="st">"F1_SCORE"</span>].idxmax()</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pr_df.iloc[dataix]</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>data_fnfp <span class="op">=</span> data[[<span class="st">'trimmer'</span>, <span class="st">'depth'</span>, <span class="st">'sample'</span>, <span class="st">'VAR_TYPE'</span>, <span class="st">'TRUTH_FN'</span>, <span class="st">'QUERY_FP'</span>, <span class="st">'F1_SCORE'</span>]].copy()</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>data_fnfp <span class="op">=</span> data_fnfp[(data_fnfp[<span class="st">"VAR_TYPE"</span>] <span class="op">==</span> <span class="st">"SNP"</span>) <span class="op">|</span> (data_fnfp[<span class="st">"VAR_TYPE"</span>] <span class="op">==</span> <span class="st">"INDEL"</span>)]</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>depth_order <span class="op">=</span> {<span class="st">"100x"</span>: <span class="dv">1</span>, <span class="st">"50x"</span>: <span class="dv">2</span>, <span class="st">"20x"</span>: <span class="dv">3</span>}</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>data_fnfp[<span class="st">'depth_sort'</span>] <span class="op">=</span> data_fnfp[<span class="st">'depth'</span>].<span class="bu">map</span>(depth_order)</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>trimmer_order <span class="op">=</span> {t: i <span class="cf">for</span> i, t <span class="kw">in</span> <span class="bu">enumerate</span>(<span class="bu">sorted</span>(data_fnfp[<span class="st">'trimmer'</span>].unique())) <span class="cf">if</span> t <span class="op">!=</span> <span class="st">'untrimmed'</span>}</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>trimmer_order[<span class="st">'untrimmed'</span>] <span class="op">=</span> <span class="dv">999</span> <span class="co"># force to the end</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>data_fnfp[<span class="st">'trimmer_sort'</span>] <span class="op">=</span> data_fnfp[<span class="st">'trimmer'</span>].<span class="bu">map</span>(trimmer_order)</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="co"># sort the data_fnfp: sample -&gt; depth -&gt; variant type -&gt; trimmer</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>data_fnfp <span class="op">=</span> data_fnfp.sort_values(</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>    by<span class="op">=</span>[<span class="st">'sample'</span>, <span class="st">'depth_sort'</span>, <span class="st">'VAR_TYPE'</span>, <span class="st">'trimmer_sort'</span>]</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>).drop(columns<span class="op">=</span>[<span class="st">'depth_sort'</span>, <span class="st">'trimmer_sort'</span>])</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="co"># reset the index so it looks clean</span></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>data_fnfp.reset_index(drop<span class="op">=</span><span class="va">True</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itables <span class="im">import</span> show</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>show(data_fnfp, scrollX<span class="op">=</span><span class="va">True</span>, scrollY<span class="op">=</span><span class="st">"800px"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_233b1e41_9d03_40d1_81f4_3959c1a1b9a6">
+<table id="itables_67a1e24a_1948_4f3f_a2ce_0e4753bd4af4">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -538,7 +530,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_233b1e41_9d03_40d1_81f4_3959c1a1b9a6:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_67a1e24a_1948_4f3f_a2ce_0e4753bd4af4:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
@@ -550,7 +542,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           "layout": {"bottomEnd": "paging", "bottomStart": "info", "topEnd": "search", "topStart": "pageLength"},
           "order": [],
           "scrollX": true,
-          "scrollY": "300px",
+          "scrollY": "800px",
           "style": {"caption-side": "bottom", "margin": "0", "table-layout": "auto", "width": "auto"},
           "table_html": "<table><thead>\n    <tr style=\"text-align: right;\">\n      \n      <th>trimmer</th>\n      <th>depth</th>\n      <th>sample</th>\n      <th>VAR_TYPE</th>\n      <th>TRUTH_FN</th>\n      <th>QUERY_FP</th>\n      <th>F1_SCORE</th>\n    </tr>\n  </thead></table>",
           "text_in_header_can_be_selected": true
