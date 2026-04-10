@@ -96,3 +96,37 @@ rule assess_variant_fnfp:
 	script:
 		"../scripts/extract_fnfp_numbers.py"
 
+rule assess_assembly_quast:
+	input:
+		assembly=rules.assembly_flye.output.assembly,
+		reference=get_reference_genome
+	log:
+		LOGS / "assess/assembly/{trimmer}/{depth}x/{sample}.{trimmer}.log"
+	threads: 4
+	resources:
+		mem="32GiB",
+		runtime="10m"
+	params:
+		one2one="--ambiguity-usage=one" # explicitly set this, although this option is default
+	conda:
+		ENVS / "quast.yaml"
+	output:
+		report_tsv= RESULTS / "assess/assembly/{trimmer}/{depth}x/{sample}/{sample}.{trimmer}.report.tsv",  
+		report_html= RESULTS / "assess/assembly/{trimmer}/{depth}x/{sample}/{sample}.{trimmer}.report.html",
+		icarus_html= RESULTS / "assess/assembly/{trimmer}/{depth}x/{sample}/{sample}.{trimmer}.icarus.html",  
+		icarus_helper1= RESULTS / "assess/assembly/{trimmer}/{depth}x/{sample}/icarus_viewers/contig_size_viewer.html", 
+		icarus_helper2= RESULTS / "assess/assembly/{trimmer}/{depth}x/{sample}/icarus_viewers/alignment_viewer.html"
+	shell:
+		"""
+		tmp_dir=$(mktemp -d)
+
+		quast --threads {threads} {params.one2one} -r {input.reference} --output-dir $tmp_dir {input.assembly} 2> {log}
+		mv ${{tmp_dir}}/report.tsv {output.report_tsv} 2>> {log}
+		mv ${{tmp_dir}}/report.html {output.report_html} 2>> {log} 
+		mv ${{tmp_dir}}/icarus.html {output.icarus_html} 2>> {log} 
+		mv ${{tmp_dir}}/icarus_viewers/contig_size_viewer.html {output.icarus_helper1} 2>> {log} 
+		mv ${{tmp_dir}}/icarus_viewers/alignment_viewer.html {output.icarus_helper2} 2>> {log}
+
+		rm -rf $tmp_dir
+		"""
+

@@ -38,6 +38,7 @@ for trimmer in TRIMMING:
 			for depth in DEPTHS:
 				for sample in SAMPLES:
 					target_files.add(RESULTS / f"assess/mutref/{current_trimmer}/{depth}x/{sample}/{sample}.precision-recall-summary.tsv")
+					target_files.add(RESULTS / f"assess/assembly/{current_trimmer}/{depth}x/{sample}/{sample}.{current_trimmer}.report.tsv")
 					pr_files.add(RESULTS / f"assess/mutref/{current_trimmer}/{depth}x/{sample}/{sample}.precision-recall.tsv")
 	elif trimmer == "barbell":   
 		for setting in BARBELL_KIT_SETTINGS: 
@@ -45,11 +46,13 @@ for trimmer in TRIMMING:
 			for depth in DEPTHS:
 				for sample in SAMPLES:
 					target_files.add(RESULTS / f"assess/mutref/{current_trimmer}/{depth}x/{sample}/{sample}.precision-recall-summary.tsv")
+					target_files.add(RESULTS / f"assess/assembly/{current_trimmer}/{depth}x/{sample}/{sample}.{current_trimmer}.report.tsv")
 					pr_files.add(RESULTS / f"assess/mutref/{current_trimmer}/{depth}x/{sample}/{sample}.precision-recall.tsv")
 	else:
 		for depth in DEPTHS:
 			for sample in SAMPLES:
 				target_files.add(RESULTS / f"assess/mutref/{trimmer}/{depth}x/{sample}/{sample}.precision-recall-summary.tsv")
+				target_files.add(RESULTS / f"assess/assembly/{trimmer}/{depth}x/{sample}/{sample}.{trimmer}.report.tsv")
 				pr_files.add(RESULTS / f"assess/mutref/{trimmer}/{depth}x/{sample}/{sample}.precision-recall.tsv")
 
 qends_files = []
@@ -59,26 +62,21 @@ for trimmer in TRIMMING:
 		current_trimmer = trimmer + "_" + "nocheck"
 		for sample in SAMPLES:
 			qends_files.append(RESULTS / f"QC/ends/{current_trimmer}/{sample}.{current_trimmer}.ends.tsv")
-			qends_files.append(RESULTS / f"QC/stats/{current_trimmer}/{sample}.{current_trimmer}.stats.tsv")
 	elif trimmer == "barbell":
 		for setting in BARBELL_KIT_SETTINGS:
 			current_trimmer = trimmer + "_" + setting
 			for sample in SAMPLES:
 				qends_files.append(RESULTS / f"QC/ends/{current_trimmer}/{sample}.{current_trimmer}.ends.tsv")
-				qends_files.append(RESULTS / f"QC/stats/{current_trimmer}/{sample}.{current_trimmer}.stats.tsv")
 	elif trimmer == "dorado":
 		current_trimmer1 = trimmer
 		current_trimmer2 = trimmer + "_demux"
 		for sample in SAMPLES:
 			qends_files.append(RESULTS / f"QC/ends/{current_trimmer1}/{sample}.{current_trimmer1}.ends.tsv")
-			qends_files.append(RESULTS / f"QC/stats/{current_trimmer1}/{sample}.{current_trimmer1}.stats.tsv")
 			qends_files.append(RESULTS / f"QC/ends/{current_trimmer2}/{sample}.{current_trimmer2}.ends.tsv")
-			qends_files.append(RESULTS / f"QC/stats/{current_trimmer2}/{sample}.{current_trimmer2}.stats.tsv")
 		
 	else:
 		for sample in SAMPLES:
 			qends_files.append(RESULTS / f"QC/ends/{trimmer}/{sample}.{trimmer}.ends.tsv")
-			qends_files.append(RESULTS / f"QC/stats/{trimmer}/{sample}.{trimmer}.stats.tsv")
 
 rule all:
 	input:
@@ -96,5 +94,6 @@ include: RULES / "trim.smk"
 include: RULES / "check.smk"
 include: RULES / "downsample.smk"
 include: RULES / "call.smk"
+include: RULES / "assembly.smk"
 include: RULES / "assess.smk"
 
