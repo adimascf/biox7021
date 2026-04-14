@@ -415,8 +415,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="weekly-meeting-and-action-items-15-04-2026">Weekly meeting and action items (15-04-2026)</h2>
 <ul>
 <li>Extracted false negative and false positive numbers</li>
-<li>Added genome assembly tool Flye in the pipeline, and assesed it using QUAST</li>
-<li>I</li>
+<li>Added genome assembly tool Flye to the pipeline, and assesed it using QUAST</li>
 </ul>
 </section>
 <section id="further-assessment-on-variant-calling" class="level2">
@@ -428,7 +427,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>If we just look at the absolute number. Some trimmers might be able to save sensitivity at low depth for certain samples (?).</p>
 <p>By eyes, for example, in KPC2__202310 20x, <code>fastplong</code> only misses 73 SNP FN, while untrimmed 183. ATCC_10708 20x, <code>porechop_abi_discard</code> does best (88 FN). ATCC_25922 has better metrics if it goes through the trimming step.</p>
 <p>But other than that, do not see this pattern in general for all samples.</p>
-<div id="e087f1c0" class="cell" data-execution_count="1">
+<div id="0ee85498" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
@@ -481,7 +480,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_fed2f525_bb3b_4b4c_85b5_b768a0df5e3f">
+<table id="itables_1d96ebc7_16b4_41d2_a08d_686b6ea962b4">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -551,7 +550,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_fed2f525_bb3b_4b4c_85b5_b768a0df5e3f:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_1d96ebc7_16b4_41d2_a08d_686b6ea962b4:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
@@ -588,7 +587,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>But I think it is still highly unpredictable, because it also can make the FN number worst.</li>
 <li>Indels more complicated, because a alot of points below red lines for porechop_abi for all configs.</li>
 </ul>
-<div id="37e18876" class="cell" data-execution_count="2">
+<div id="bbfc6438" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -676,7 +675,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="sequence-and-structural-accuracy" class="level3">
 <h3 class="anchored" data-anchor-id="sequence-and-structural-accuracy">Sequence and Structural Accuracy</h3>
 <p>Insipred by <a href="https://doi.org/10.1371/journal.pcbi.1005595">Unicycler</a> paper, I extracted the number of mismatch (SNVs) and INDELs and NGA length report from QUAST here, and then make the plot below:</p>
-<div id="f41cf0da" class="cell" data-execution_count="3">
+<div id="59e42358" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -800,7 +799,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>In general, all the samples have small mismathces and indels rate per 100Kbp. 100x and 50x still perfom equally good, downsample to 20x decrease the perfomance, and performing trimming also did not help very much.</p>
-<div id="16375667" class="cell" data-execution_count="4">
+<div id="a41dd69e" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>sns.set_theme(style<span class="op">=</span><span class="st">"whitegrid"</span>)</span>
@@ -841,7 +840,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Do we see improvement, per sample?</p>
 <section id="mismatches-and-indels" class="level4">
 <h4 class="anchored" data-anchor-id="mismatches-and-indels">Mismatches and INDELs</h4>
-<div id="fa60128a" class="cell" data-execution_count="5">
+<div id="d7f7a475" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df_plot <span class="op">=</span> df_assembly_metrics.copy()</span>
@@ -924,7 +923,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>barbell_default</code> worsen BPH2947__202310 at 100x depth! from 3049603 to 1709888. Overall, this trimmer damage the dataset.</li>
 <li><code>barbell_max</code> worsen MMC234__202311 at 100x depth!. Here, I just relised the visualisation hides the actual damage of the trimming process for NGA50 metrics 🥲</li>
 </ul>
-<div id="a2499467" class="cell" data-execution_count="6">
+<div id="dd686ef5" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df_plot <span class="op">=</span> df_assembly_metrics.copy()</span>
@@ -985,7 +984,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The plot below clearly shows triming step might also damaging the NGA50 even in the high depth dataset!</p>
 <p>In fact, similar with mismatches and indels, the point deviate below red line at the 100x and 50x..</p>
 <p>Can I say: So for NGA50, it might improve at low depth, but it might does harmful at the high depth?</p>
-<div id="e33193bc" class="cell" data-execution_count="7">
+<div id="d38d5ee1" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -1020,7 +1019,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Formatting</span></span>
-<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"NGA50 Change (Log2 Fold Change)"</span>)</span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Log2 Fold Change"</span>)</span>
 <span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">""</span>)</span>
 <span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Symmetric NGA50 Improvement/Damage over Untrimmed Data"</span>)</span>
 <span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>ax.tick_params(axis<span class="op">=</span><span class="st">"x"</span>, labelrotation<span class="op">=</span><span class="dv">45</span>, labelsize<span class="op">=</span><span class="dv">11</span>)</span>
@@ -1028,7 +1027,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>max_abs_val <span class="op">=</span> df_delta[<span class="st">'Log2FC_NGA50'</span>].<span class="bu">abs</span>().<span class="bu">max</span>()</span>
 <span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a><span class="co"># Add a little padding (e.g., 10%)</span></span>
-<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>y_limit <span class="op">=</span> max_abs_val <span class="op">*</span> <span class="fl">1.1</span> </span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>y_limit <span class="op">=</span> max_abs_val <span class="op">*</span> <span class="fl">1.1</span></span>
 <span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>ax.set_ylim(<span class="op">-</span>y_limit, y_limit)</span>
 <span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>ax.legend(title<span class="op">=</span><span class="st">"Depth"</span>, loc<span class="op">=</span><span class="st">"upper left"</span>, bbox_to_anchor<span class="op">=</span>(<span class="fl">1.02</span>, <span class="dv">1</span>))</span>
@@ -1048,7 +1047,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="raw-data" class="level3">
 <h3 class="anchored" data-anchor-id="raw-data">Raw data</h3>
-<div id="55c33dca" class="cell" data-execution_count="8">
+<div id="e9ddc532" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>depth_order <span class="op">=</span> {<span class="st">"100x"</span>: <span class="dv">1</span>, <span class="st">"50x"</span>: <span class="dv">2</span>, <span class="st">"20x"</span>: <span class="dv">3</span>}</span>
@@ -1072,7 +1071,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_9bf09bbd_31cf_4c46_8984_2bd1a7354475">
+<table id="itables_63e0b4c1_205b_4852_ac79_fc51745430ed">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -1142,7 +1141,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_9bf09bbd_31cf_4c46_8984_2bd1a7354475:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_63e0b4c1_205b_4852_ac79_fc51745430ed:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
@@ -1164,7 +1163,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </script>
 </div>
 </div>
-<div id="44edac06" class="cell" data-execution_count="9">
+<div id="ff3dbc80" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df_assembly_metrics[<span class="st">'depth'</span>] <span class="op">=</span> pd.Categorical(</span>
@@ -1179,7 +1178,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_f512f136_b6df_4ba0_98f8_88d085c4cc7a">
+<table id="itables_51738ed1_07dc_4c3d_b11d_625ed2a76c57">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -1249,7 +1248,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_f512f136_b6df_4ba0_98f8_88d085c4cc7a:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_51738ed1_07dc_4c3d_b11d_625ed2a76c57:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
@@ -1275,19 +1274,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="adapter-contamination" class="level2">
 <h2 class="anchored" data-anchor-id="adapter-contamination">Adapter contamination</h2>
-<p>In the barbell paper: &gt; A straightforward approach to detect experimental contamination is to screen all 64 assemblies for residual rapid barcoding flanks and barcodes.</p>
+<p>In the barbell paper:</p>
+<blockquote class="blockquote">
+<p>A straightforward approach to detect experimental contamination is to screen all 64 assemblies for residual rapid barcoding flanks and barcodes.</p>
+</blockquote>
 <p>So what I understand is they used Sassy to scan for barcoding flanks and/or barcode sequences in the assembly?</p>
 <p>Also in the method to 5.7, it first scan the barcode sequenc in the assembly using Sassy.</p>
 <p>But not really sure how and what is the step after that. but they have branch for their paper in the barbell repo</p>
 <p>Example with &lt;= 5 edits</p>
-<div id="d4cccd7e" class="cell" data-execution_count="10">
+<div id="9c20b93b" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>sassy search <span class="op">-</span>k <span class="dv">5</span> <span class="op">-</span>f native_bars.fasta results<span class="op">/</span>assembly<span class="op">/</span>untrimmed<span class="op">/</span><span class="dv">100</span><span class="er">x</span><span class="op">/</span>KPC2__202310<span class="op">/</span>KPC2__202310.untrimmed<span class="fl">.100</span><span class="er">x</span>.assembly.fasta</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>
-thread 'main' (1797680) panicked at /Users/adimascf/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sassy-0.2.1/bin/grep.rs:528:62:
+thread 'main' (1826830) panicked at /Users/adimascf/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sassy-0.2.1/bin/grep.rs:528:62:
 valid path/file: ParseError { msg: "No such file or directory (os error 2)", kind: Io, position: ErrorPosition { line: 0, id: None }, format: None }
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace</code></pre>
 </div>
