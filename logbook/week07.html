@@ -61,7 +61,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -113,6 +113,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 </head>
@@ -364,6 +367,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#based-f1-score" id="toc-based-f1-score" class="nav-link" data-scroll-target="#based-f1-score">based F1 score</a></li>
   </ul></li>
   <li><a href="#check-quality-at-both-ends-of-reads" id="toc-check-quality-at-both-ends-of-reads" class="nav-link" data-scroll-target="#check-quality-at-both-ends-of-reads">Check quality at both ends of reads</a></li>
+  <li><a href="#performance-stats-in-average" id="toc-performance-stats-in-average" class="nav-link" data-scroll-target="#performance-stats-in-average">Performance stats in average</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -403,7 +407,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Assess assembly performance using QUAST</li>
 </ul>
 <p>The result directory was structured like this: <code>results/assess/mutref/{trimmer}/{depth}x/{sample}/{sample}.precision-recall-summary.tsv</code> Get the input files, put them in the list:</p>
-<div id="e8bf3153" class="cell" data-execution_count="1">
+<div id="d3feb91e" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
@@ -415,7 +419,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>../results/assess/mutref/porechop_abi_nocheck/50x/RDH275__202311/RDH275__202311.precision-recall.tsv</code></pre>
 </div>
 </div>
-<div id="52fd8b27" class="cell" data-execution_count="2">
+<div id="d8c4f423" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -501,11 +505,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a>    fig.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stderr">
-<pre><code>/var/folders/9k/2nw2rdmn6sd9mf0_6lg3bnqm0000gn/T/ipykernel_64110/4042143908.py:81: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+<pre><code>/var/folders/9k/2nw2rdmn6sd9mf0_6lg3bnqm0000gn/T/ipykernel_53117/4042143908.py:81: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
   fig.show()
-/var/folders/9k/2nw2rdmn6sd9mf0_6lg3bnqm0000gn/T/ipykernel_64110/4042143908.py:81: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+/var/folders/9k/2nw2rdmn6sd9mf0_6lg3bnqm0000gn/T/ipykernel_53117/4042143908.py:81: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
   fig.show()
-/var/folders/9k/2nw2rdmn6sd9mf0_6lg3bnqm0000gn/T/ipykernel_64110/4042143908.py:81: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+/var/folders/9k/2nw2rdmn6sd9mf0_6lg3bnqm0000gn/T/ipykernel_53117/4042143908.py:81: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
   fig.show()</code></pre>
 </div>
 <div class="cell-output cell-output-display">
@@ -533,7 +537,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="is-there-any-difference-between-depth" class="level3">
 <h3 class="anchored" data-anchor-id="is-there-any-difference-between-depth">Is there any difference between depth?</h3>
 <p>Based on the plots above, it seems that 20x depth consistanly perfomed worst than the other two depths, both on SNP and INDEL. I further performed a statistical test to confirm whether sequencing depth leads to differences in performance. The data is not normally distributed, instead, they are clustered right at the top (skewed).Therefore, I used a non parametric Kruskal–Wallis test, which ranks the data rather than relying on their raw values. This method is also robust in the small size dataset.</p>
-<div id="8646453d" class="cell" data-execution_count="3">
+<div id="1003e5f2" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy.stats <span class="im">as</span> stats</span>
@@ -558,7 +562,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="based-f1-score" class="level4">
 <h4 class="anchored" data-anchor-id="based-f1-score">based F1 score</h4>
-<div id="f53f0511" class="cell" data-execution_count="4">
+<div id="31db9bcb" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>kruskall_test(data, <span class="st">"F1_SCORE"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -573,7 +577,7 @@ P-value: 1.5651e-24</code></pre>
 </div>
 </div>
 <p>So, based on the test, different depth has a significant impact on both SNP and INDEL F1 scores. Those depths are not perfomring equally. But where is the difference? To identify which depth different (already seems obvious from the plot 😅), I performed a <em>post hoc test</em>, comparing each depth pairwise to determine which ones contribute to the observed differences.</p>
-<div id="acfa0dbb" class="cell" data-execution_count="5">
+<div id="b8c32a29" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scikit_posthocs <span class="im">as</span> sp</span>
@@ -589,7 +593,7 @@ P-value: 1.5651e-24</code></pre>
 <span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(p_values.<span class="bu">round</span>(<span class="dv">5</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="9839bde7" class="cell" data-execution_count="6">
+<div id="9571b3d4" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>post_hoc(data, <span class="st">"F1_SCORE"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -610,7 +614,7 @@ Testing for INDEL
 <p>There is <strong>no sigficant difference</strong> between 100x and 50x depth. Statistically, they perform roughly the same. However, there are siginificant difference between 100x and 20x and 50x and 20x. 20x perform much worst in this case.</p>
 <p>So statitically, we can reduce our sequencing depth from 100x to 50x without sufferring a significant drop in the F1 score.</p>
 <p>Let’s take a loock on precision and recall score as well:</p>
-<div id="5b810e1b" class="cell" data-execution_count="7">
+<div id="77e3b5cf" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"PRECISION"</span>)</span>
@@ -638,7 +642,7 @@ Kruskal-Wallis Statistic: 108.7812
 P-value: 2.3904e-24</code></pre>
 </div>
 </div>
-<div id="65cc98b6" class="cell" data-execution_count="8">
+<div id="256917c1" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"PRECISION"</span>)</span>
@@ -680,7 +684,7 @@ Testing for INDEL
 <section id="check-quality-at-both-ends-of-reads" class="level3">
 <h3 class="anchored" data-anchor-id="check-quality-at-both-ends-of-reads">Check quality at both ends of reads</h3>
 <p>I first calculated the median Phred score at the start and end of the reads, position by position, for both pre- and post-adapter trimming steps. I excluded the <code>porechop_abi_discard</code> and <code>porechop_abi_split</code>, and ran <code>porechop_abi_nocheck</code> that does not search for the chimeric reads. Those two option will behave similar to <code>--no-split</code> option on triming adapter at both ends of the reads:</p>
-<div id="3a4f1201" class="cell" data-execution_count="9">
+<div id="150ea51e" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>head ..<span class="op">/</span>results<span class="op">/</span>ends<span class="op">/</span>untrimmed<span class="op">/</span>AJ292__202310.untrimmed.ends.tsv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -699,7 +703,7 @@ Testing for INDEL
 </div>
 </div>
 <p>The file structure is ../results/ends/{trimmer}/{sample}.{trimmer}.ends.tsv</p>
-<div id="51a05a73" class="cell" data-execution_count="10">
+<div id="23f91bd2" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>input_files <span class="op">=</span> <span class="bu">list</span>(Path(<span class="st">'.'</span>).glob(<span class="st">"../results/ends/*/*ends.tsv"</span>))</span>
@@ -710,7 +714,7 @@ Testing for INDEL
 </div>
 </div>
 <p>Median Phred score was calculated per position from both the start and end of the reads, and then averaged across all samples for plotting.</p>
-<div id="5f394767" class="cell" data-execution_count="11">
+<div id="391f1ec3" class="cell" data-execution_count="11">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>frames <span class="op">=</span> []</span>
@@ -779,7 +783,7 @@ Testing for INDEL
 <span id="cb19-64"><a href="#cb19-64" aria-hidden="true" tabindex="-1"></a>plot.fig.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stderr">
-<pre><code>/var/folders/9k/2nw2rdmn6sd9mf0_6lg3bnqm0000gn/T/ipykernel_64110/3090216651.py:64: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+<pre><code>/var/folders/9k/2nw2rdmn6sd9mf0_6lg3bnqm0000gn/T/ipykernel_53117/3090216651.py:64: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
   plot.fig.show()</code></pre>
 </div>
 <div class="cell-output cell-output-display">
@@ -798,7 +802,7 @@ Testing for INDEL
 <p>Also, accorading the documentation <a href="https://software-docs.nanoporetech.com/dorado/latest/basecaller/read_trimming/">here</a>, they say that <code>dorado trim</code> only trim adapter, they do not mention whether that command trimn the barcode as well.</p>
 <p>What happens if I ran the dorado demux instead? to better match our barbell apporach and assess whether the resulst lead to similar improvements in the quality of read ends.</p>
 <p>Add result from <code>dorado demux</code></p>
-<div id="ac6e23d2" class="cell" data-execution_count="12">
+<div id="1e45ccf0" class="cell" data-execution_count="12">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>input_files_add <span class="op">=</span> input_files <span class="op">+</span> <span class="bu">list</span>(Path(<span class="st">'.'</span>).glob(<span class="st">"../results/new-ends/*/*ends.tsv"</span>))</span>
@@ -871,7 +875,7 @@ Testing for INDEL
 <span id="cb21-68"><a href="#cb21-68" aria-hidden="true" tabindex="-1"></a>plot.fig.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stderr">
-<pre><code>/var/folders/9k/2nw2rdmn6sd9mf0_6lg3bnqm0000gn/T/ipykernel_64110/1055078710.py:68: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+<pre><code>/var/folders/9k/2nw2rdmn6sd9mf0_6lg3bnqm0000gn/T/ipykernel_53117/1055078710.py:68: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
   plot.fig.show()</code></pre>
 </div>
 <div class="cell-output cell-output-display">
@@ -883,7 +887,7 @@ Testing for INDEL
 </div>
 </div>
 <p>Which trimmer that trimmed sequence the most?</p>
-<div id="4e9ecb08" class="cell" data-execution_count="13">
+<div id="039172f8" class="cell" data-execution_count="13">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>input_files <span class="op">=</span> <span class="bu">list</span>(Path(<span class="st">'.'</span>).glob(<span class="st">"../results/stats/*/*stats.tsv"</span>))</span>
@@ -893,7 +897,7 @@ Testing for INDEL
 <pre><code>../results/stats/porechop_abi_nocheck/ATCC_19119__202309.porechop_abi_nocheck.stats.tsv</code></pre>
 </div>
 </div>
-<div id="fbdfe7b3" class="cell" data-execution_count="14">
+<div id="02b3f7bd" class="cell" data-execution_count="14">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>frames <span class="op">=</span> []</span>
@@ -946,6 +950,122 @@ untrimmed               0.000000e+00                    0.00</code></pre>
 </div>
 <p><code>barbell default</code> discard more bases (we can say reads also in this case). This is expected, as it uses a more conservative assignment strategy. In contrast, running it with <code>maximize</code> option where it looks also unusual patterns so that more reads will be assigned and less reads being discarded.</p>
 <p>However, both barbell modes discarded about three times more bases than <code>dorado demux</code>, which itself discards more reads than <code>dorado trim</code>.</p>
+</section>
+<section id="performance-stats-in-average" class="level3">
+<h3 class="anchored" data-anchor-id="performance-stats-in-average">Performance stats in average</h3>
+<div id="b2b36b13" class="cell" data-execution_count="15">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"../results/assess/call/metrics/trimming_variant_summary.csv"</span>)</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>summary <span class="op">=</span> df.groupby([<span class="st">"trimmer"</span>, <span class="st">"depth"</span>, <span class="st">"VAR_TYPE"</span>])[[<span class="st">"PREC"</span>, <span class="st">"RECALL"</span>, <span class="st">"F1_SCORE"</span>]].mean().reset_index()</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>summary <span class="op">=</span> summary.<span class="bu">round</span>(<span class="dv">5</span>)</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="co"># sort 100x, 50x, and 20x</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>summary[<span class="st">"depth"</span>] <span class="op">=</span> pd.Categorical(summary[<span class="st">"depth"</span>], categories<span class="op">=</span>[<span class="st">"100x"</span>, <span class="st">"50x"</span>, <span class="st">"20x"</span>], ordered<span class="op">=</span> <span class="va">True</span>)</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>summary <span class="op">=</span> summary.sort_values(by<span class="op">=</span>[<span class="st">"trimmer"</span>, <span class="st">"depth"</span>, <span class="st">"VAR_TYPE"</span>])</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>summary.reset_index(drop<span class="op">=</span><span class="va">True</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itables <span class="im">import</span> show</span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>show(summary, scrollX<span class="op">=</span><span class="va">True</span>, scrollY<span class="op">=</span><span class="st">"800px"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<!--| quarto-html-table-processing: none -->
+<table id="itables_a05da3cf_0e51_4cf6_bcfd_a5550d10fbae">
+  <tbody>
+    <tr>
+      <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
+    <g style="fill:#d9d7fc">
+        <path d="M100,400H500V357H100Z"></path>
+        <path d="M100,300H400V257H100Z"></path>
+        <path d="M0,200H400V157H0Z"></path>
+        <path d="M100,100H500V57H100Z"></path>
+        <path d="M100,350H500V307H100Z"></path>
+        <path d="M100,250H400V207H100Z"></path>
+        <path d="M0,150H400V107H0Z"></path>
+        <path d="M100,50H500V7H100Z"></path>
+    </g>
+    <g style="fill:#1a1366;stroke:#1a1366;">
+   <rect x="100" y="7" width="400" height="43">
+    <animate attributename="width" values="0;400;0" dur="5s" repeatcount="indefinite"></animate>
+      <animate attributename="x" values="100;100;500" dur="5s" repeatcount="indefinite"></animate>
+  </rect>
+        <rect x="0" y="107" width="400" height="43">
+    <animate attributename="width" values="0;400;0" dur="3.5s" repeatcount="indefinite"></animate>
+    <animate attributename="x" values="0;0;400" dur="3.5s" repeatcount="indefinite"></animate>
+  </rect>
+        <rect x="100" y="207" width="300" height="43">
+    <animate attributename="width" values="0;300;0" dur="3s" repeatcount="indefinite"></animate>
+    <animate attributename="x" values="100;100;400" dur="3s" repeatcount="indefinite"></animate>
+  </rect>
+        <rect x="100" y="307" width="400" height="43">
+    <animate attributename="width" values="0;400;0" dur="4s" repeatcount="indefinite"></animate>
+      <animate attributename="x" values="100;100;500" dur="4s" repeatcount="indefinite"></animate>
+  </rect>
+        <g style="fill:transparent;stroke-width:8; stroke-linejoin:round" rx="5">
+            <g transform="translate(45 50) rotate(-45)">
+                <circle r="33" cx="0" cy="0"></circle>
+                <rect x="-8" y="32" width="16" height="30"></rect>
+            </g>
+
+            <g transform="translate(450 152)">
+                <polyline points="-15,-20 -35,-20 -35,40 25,40 25,20"></polyline>
+                <rect x="-15" y="-40" width="60" height="60"></rect>
+            </g>
+
+            <g transform="translate(50 352)">
+                <polygon points="-35,-5 0,-40 35,-5"></polygon>
+                <polygon points="-35,10 0,45 35,10"></polygon>
+            </g>
+
+            <g transform="translate(75 250)">
+                <polyline points="-30,30 -60,0 -30,-30"></polyline>
+                <polyline points="0,30 -30,0 0,-30"></polyline>
+            </g>
+
+            <g transform="translate(425 250) rotate(180)">
+                <polyline points="-30,30 -60,0 -30,-30"></polyline>
+                <polyline points="0,30 -30,0 0,-30"></polyline>
+            </g>
+        </g>
+    </g>
+</svg>
+</a>
+        Loading ITables v2.7.3 from the internet...
+        (need <a href="https://mwouts.github.io/itables/troubleshooting.html">help</a>?)
+      </td>
+    </tr>
+  </tbody>
+</table>
+<link href="https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.css" rel="stylesheet">
+<script type="module">
+    import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
+
+    document.querySelectorAll("#itables_a05da3cf_0e51_4cf6_bcfd_a5550d10fbae:not(.dataTable)").forEach(table => {
+        if (!(table instanceof HTMLTableElement))
+            return;
+
+        let dt_args = {
+          "classes": ["display", "nowrap", "compact"],
+          "columnDefs": [{"render": "function (data, type, row, meta) { return type === 'sort' || type === 'type' ? data[1] : data[0]; }", "targets": [3, 4, 5]}],
+          "data_json": "[[\"barbell_default\", \"100x\", \"INDEL\", [\"0.99972\", 0.99972], [\"0.98749\", 0.98749], [\"0.99355\", 0.99355]], [\"barbell_default\", \"100x\", \"SNP\", [\"0.99999\", 0.99999], [\"0.99775\", 0.99775], [\"0.99885\", 0.99885]], [\"barbell_default\", \"50x\", \"INDEL\", [\"0.99970\", 0.9997], [\"0.98344\", 0.98344], [\"0.99147\", 0.99147]], [\"barbell_default\", \"50x\", \"SNP\", [\"0.99994\", 0.99994], [\"0.99760\", 0.9976], [\"0.99875\", 0.99875]], [\"barbell_default\", \"20x\", \"INDEL\", [\"0.99806\", 0.99806], [\"0.96974\", 0.96974], [\"0.98366\", 0.98366]], [\"barbell_default\", \"20x\", \"SNP\", [\"0.99985\", 0.99985], [\"0.99390\", 0.9939], [\"0.99683\", 0.99683]], [\"barbell_max\", \"100x\", \"INDEL\", [\"0.99988\", 0.99988], [\"0.98569\", 0.98569], [\"0.99272\", 0.99272]], [\"barbell_max\", \"100x\", \"SNP\", [\"0.99998\", 0.99998], [\"0.99776\", 0.99776], [\"0.99885\", 0.99885]], [\"barbell_max\", \"50x\", \"INDEL\", [\"0.99962\", 0.99962], [\"0.98166\", 0.98166], [\"0.99054\", 0.99054]], [\"barbell_max\", \"50x\", \"SNP\", [\"0.99998\", 0.99998], [\"0.99761\", 0.99761], [\"0.99878\", 0.99878]], [\"barbell_max\", \"20x\", \"INDEL\", [\"0.99817\", 0.99817], [\"0.96496\", 0.96496], [\"0.98123\", 0.98123]], [\"barbell_max\", \"20x\", \"SNP\", [\"0.99989\", 0.99989], [\"0.99380\", 0.9938], [\"0.99680\", 0.9968]], [\"dorado\", \"100x\", \"INDEL\", [\"0.99922\", 0.99922], [\"0.98678\", 0.98678], [\"0.99294\", 0.99294]], [\"dorado\", \"100x\", \"SNP\", [\"0.99998\", 0.99998], [\"0.99803\", 0.99803], [\"0.99899\", 0.99899]], [\"dorado\", \"50x\", \"INDEL\", [\"0.99913\", 0.99913], [\"0.98259\", 0.98259], [\"0.99074\", 0.99074]], [\"dorado\", \"50x\", \"SNP\", [\"0.99997\", 0.99997], [\"0.99784\", 0.99784], [\"0.99889\", 0.99889]], [\"dorado\", \"20x\", \"INDEL\", [\"0.99750\", 0.9975], [\"0.96210\", 0.9621], [\"0.97941\", 0.97941]], [\"dorado\", \"20x\", \"SNP\", [\"0.99987\", 0.99987], [\"0.99264\", 0.99264], [\"0.99621\", 0.99621]], [\"fastplong\", \"100x\", \"INDEL\", [\"0.99921\", 0.99921], [\"0.98779\", 0.98779], [\"0.99346\", 0.99346]], [\"fastplong\", \"100x\", \"SNP\", [\"1.00000\", 1.0], [\"0.99798\", 0.99798], [\"0.99897\", 0.99897]], [\"fastplong\", \"50x\", \"INDEL\", [\"0.99871\", 0.99871], [\"0.98234\", 0.98234], [\"0.99042\", 0.99042]], [\"fastplong\", \"50x\", \"SNP\", [\"0.99997\", 0.99997], [\"0.99812\", 0.99812], [\"0.99904\", 0.99904]], [\"fastplong\", \"20x\", \"INDEL\", [\"0.99856\", 0.99856], [\"0.96493\", 0.96493], [\"0.98138\", 0.98138]], [\"fastplong\", \"20x\", \"SNP\", [\"0.99989\", 0.99989], [\"0.99489\", 0.99489], [\"0.99736\", 0.99736]], [\"porechop_abi_discard\", \"100x\", \"INDEL\", [\"0.99946\", 0.99946], [\"0.98681\", 0.98681], [\"0.99307\", 0.99307]], [\"porechop_abi_discard\", \"100x\", \"SNP\", [\"0.99998\", 0.99998], [\"0.99797\", 0.99797], [\"0.99896\", 0.99896]], [\"porechop_abi_discard\", \"50x\", \"INDEL\", [\"0.99966\", 0.99966], [\"0.98458\", 0.98458], [\"0.99204\", 0.99204]], [\"porechop_abi_discard\", \"50x\", \"SNP\", [\"0.99996\", 0.99996], [\"0.99795\", 0.99795], [\"0.99895\", 0.99895]], [\"porechop_abi_discard\", \"20x\", \"INDEL\", [\"0.99826\", 0.99826], [\"0.96541\", 0.96541], [\"0.98151\", 0.98151]], [\"porechop_abi_discard\", \"20x\", \"SNP\", [\"0.99991\", 0.99991], [\"0.99444\", 0.99444], [\"0.99715\", 0.99715]], [\"porechop_abi_nocheck\", \"100x\", \"INDEL\", [\"0.99886\", 0.99886], [\"0.98637\", 0.98637], [\"0.99256\", 0.99256]], [\"porechop_abi_nocheck\", \"100x\", \"SNP\", [\"0.99996\", 0.99996], [\"0.99789\", 0.99789], [\"0.99891\", 0.99891]], [\"porechop_abi_nocheck\", \"50x\", \"INDEL\", [\"0.99966\", 0.99966], [\"0.98272\", 0.98272], [\"0.99109\", 0.99109]], [\"porechop_abi_nocheck\", \"50x\", \"SNP\", [\"0.99996\", 0.99996], [\"0.99785\", 0.99785], [\"0.99889\", 0.99889]], [\"porechop_abi_nocheck\", \"20x\", \"INDEL\", [\"0.99672\", 0.99672], [\"0.96279\", 0.96279], [\"0.97940\", 0.9794]], [\"porechop_abi_nocheck\", \"20x\", \"SNP\", [\"0.99991\", 0.99991], [\"0.99454\", 0.99454], [\"0.99719\", 0.99719]], [\"porechop_abi_split\", \"100x\", \"INDEL\", [\"0.99938\", 0.99938], [\"0.98653\", 0.98653], [\"0.99289\", 0.99289]], [\"porechop_abi_split\", \"100x\", \"SNP\", [\"0.99996\", 0.99996], [\"0.99788\", 0.99788], [\"0.99891\", 0.99891]], [\"porechop_abi_split\", \"50x\", \"INDEL\", [\"0.99937\", 0.99937], [\"0.98262\", 0.98262], [\"0.99089\", 0.99089]], [\"porechop_abi_split\", \"50x\", \"SNP\", [\"0.99996\", 0.99996], [\"0.99752\", 0.99752], [\"0.99872\", 0.99872]], [\"porechop_abi_split\", \"20x\", \"INDEL\", [\"0.99944\", 0.99944], [\"0.96850\", 0.9685], [\"0.98364\", 0.98364]], [\"porechop_abi_split\", \"20x\", \"SNP\", [\"0.99988\", 0.99988], [\"0.99410\", 0.9941], [\"0.99696\", 0.99696]], [\"untrimmed\", \"100x\", \"INDEL\", [\"0.99980\", 0.9998], [\"0.98559\", 0.98559], [\"0.99263\", 0.99263]], [\"untrimmed\", \"100x\", \"SNP\", [\"0.99998\", 0.99998], [\"0.99791\", 0.99791], [\"0.99893\", 0.99893]], [\"untrimmed\", \"50x\", \"INDEL\", [\"0.99927\", 0.99927], [\"0.98106\", 0.98106], [\"0.99002\", 0.99002]], [\"untrimmed\", \"50x\", \"SNP\", [\"0.99996\", 0.99996], [\"0.99770\", 0.9977], [\"0.99881\", 0.99881]], [\"untrimmed\", \"20x\", \"INDEL\", [\"0.99699\", 0.99699], [\"0.96703\", 0.96703], [\"0.98174\", 0.98174]], [\"untrimmed\", \"20x\", \"SNP\", [\"0.99978\", 0.99978], [\"0.99317\", 0.99317], [\"0.99642\", 0.99642]]]",
+          "keys_to_be_evaluated": [["columnDefs", 0, "render"]],
+          "layout": {"bottomEnd": "paging", "bottomStart": "info", "topEnd": "search", "topStart": "pageLength"},
+          "order": [],
+          "scrollX": true,
+          "scrollY": "800px",
+          "style": {"caption-side": "bottom", "margin": "0", "table-layout": "auto", "width": "auto"},
+          "table_html": "<table><thead>\n    <tr style=\"text-align: right;\">\n      \n      <th>trimmer</th>\n      <th>depth</th>\n      <th>VAR_TYPE</th>\n      <th>PREC</th>\n      <th>RECALL</th>\n      <th>F1_SCORE</th>\n    </tr>\n  </thead></table>",
+          "text_in_header_can_be_selected": true
+        };
+        new ITable(table, dt_args);
+    });
+</script>
+</div>
+</div>
 
 
 </section>
