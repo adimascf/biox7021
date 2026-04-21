@@ -4,7 +4,7 @@ import itertools
 
 WORKFLOW = Path("workflow").resolve()
 CONFIG = Path("config").resolve()
-RESULTS = Path("results").resolve()
+RESULTS = Path("/scratch/project/bug_seq_scratch/qc_bench/results").resolve()
 FIGURES = RESULTS / "figures"
 TABLES = RESULTS / "tables"
 LOGS = Path("logs/rules").resolve()
@@ -37,23 +37,23 @@ for trimmer in TRIMMING:
 			current_trimmer = trimmer + "_" + setting
 			for depth in DEPTHS:
 				for sample in SAMPLES:
-					target_files.add(RESULTS / f"assess/mutref/{current_trimmer}/{depth}x/{sample}/{sample}.precision-recall-summary.tsv")
+					target_files.add(RESULTS / f"assess/call/{current_trimmer}/{depth}x/{sample}/{sample}.precision-recall-summary.tsv")
 					target_files.add(RESULTS / f"assess/assembly/{current_trimmer}/{depth}x/{sample}/{sample}.{current_trimmer}.report.tsv")
-					pr_files.add(RESULTS / f"assess/mutref/{current_trimmer}/{depth}x/{sample}/{sample}.precision-recall.tsv")
+					pr_files.add(RESULTS / f"assess/call/{current_trimmer}/{depth}x/{sample}/{sample}.precision-recall.tsv")
 	elif trimmer == "barbell":   
 		for setting in BARBELL_KIT_SETTINGS: 
 			current_trimmer = trimmer + "_" + setting
 			for depth in DEPTHS:
 				for sample in SAMPLES:
-					target_files.add(RESULTS / f"assess/mutref/{current_trimmer}/{depth}x/{sample}/{sample}.precision-recall-summary.tsv")
+					target_files.add(RESULTS / f"assess/call/{current_trimmer}/{depth}x/{sample}/{sample}.precision-recall-summary.tsv")
 					target_files.add(RESULTS / f"assess/assembly/{current_trimmer}/{depth}x/{sample}/{sample}.{current_trimmer}.report.tsv")
-					pr_files.add(RESULTS / f"assess/mutref/{current_trimmer}/{depth}x/{sample}/{sample}.precision-recall.tsv")
+					pr_files.add(RESULTS / f"assess/call/{current_trimmer}/{depth}x/{sample}/{sample}.precision-recall.tsv")
 	else:
 		for depth in DEPTHS:
 			for sample in SAMPLES:
-				target_files.add(RESULTS / f"assess/mutref/{trimmer}/{depth}x/{sample}/{sample}.precision-recall-summary.tsv")
+				target_files.add(RESULTS / f"assess/call/{trimmer}/{depth}x/{sample}/{sample}.precision-recall-summary.tsv")
 				target_files.add(RESULTS / f"assess/assembly/{trimmer}/{depth}x/{sample}/{sample}.{trimmer}.report.tsv")
-				pr_files.add(RESULTS / f"assess/mutref/{trimmer}/{depth}x/{sample}/{sample}.precision-recall.tsv")
+				pr_files.add(RESULTS / f"assess/call/{trimmer}/{depth}x/{sample}/{sample}.precision-recall.tsv")
 
 qends_files = []
 
@@ -69,10 +69,10 @@ for trimmer in TRIMMING:
 				qends_files.append(RESULTS / f"QC/ends/{current_trimmer}/{sample}.{current_trimmer}.ends.tsv")
 	elif trimmer == "dorado":
 		current_trimmer1 = trimmer
-		current_trimmer2 = trimmer + "_demux"
+		# current_trimmer2 = trimmer + "_demux"
 		for sample in SAMPLES:
 			qends_files.append(RESULTS / f"QC/ends/{current_trimmer1}/{sample}.{current_trimmer1}.ends.tsv")
-			qends_files.append(RESULTS / f"QC/ends/{current_trimmer2}/{sample}.{current_trimmer2}.ends.tsv")
+			# qends_files.append(RESULTS / f"QC/ends/{current_trimmer2}/{sample}.{current_trimmer2}.ends.tsv")
 		
 	else:
 		for sample in SAMPLES:
@@ -81,13 +81,13 @@ for trimmer in TRIMMING:
 rule all:
 	input:
 		target_files,
-		FIGURES / "assess/mutref/metrics/trimming_variant_f1.png",
-		FIGURES / "assess/mutref/metrics/trimming_variant_recall.png",
-		FIGURES / "assess/mutref/metrics/trimming_variant_precision.png",
-		TABLES / "assess/mutref/metrics/trimming_variant_summary.csv",
-		TABLES / "assess/mutref/metrics/trimming_variant_summary_averages.csv",
+		FIGURES / "assess/call/metrics/trimming_variant_f1.png",
+		FIGURES / "assess/call/metrics/trimming_variant_recall.png",
+		FIGURES / "assess/call/metrics/trimming_variant_precision.png",
+		TABLES / "assess/call/metrics/trimming_variant_summary.csv",
+		TABLES / "assess/call/metrics/trimming_variant_summary_averages.csv",
 		FIGURES / "QC/ends/trimming_plot_quality_ends.png",
-		TABLES / "assess/mutref/metrics/trimming_variant_fnfp.csv"
+		TABLES / "assess/call/metrics/trimming_variant_fnfp.csv"
 
 include: RULES / "common.smk"
 include: RULES / "trim.smk"

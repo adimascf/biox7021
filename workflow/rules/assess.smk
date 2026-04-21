@@ -13,9 +13,9 @@ rule make_full_bed:
 		awk '{{print $1"\t"0"\t"$2}}' {input.faidx} | sort -k1,1 -k2,2n > {output.bed} 2> {log}
 		"""
 
-rule assess_mutref_calls:
+rule assess_calls_vcfdist:
 	input:
-		query_vcf=RESULTS / "calling/mutref/{trimmer}/{depth}x/{sample}.{trimmer}.clair3.vcf.gz",
+		query_vcf=RESULTS / "calling/{trimmer}/{depth}x/{sample}.{trimmer}.clair3.vcf.gz",
 		truth_vcf=get_truth_vcf,  
 		mutreference=get_mutreference_genome,
 		faidx=rules.faidx_mutref.output.faidx,
@@ -27,13 +27,13 @@ rule assess_mutref_calls:
 		runtime="30m"
 	params:
 		opts="--largest-variant 50 --credit-threshold 1.0",
-		prefix=lambda wildcards: RESULTS / f"assess/mutref/{wildcards.trimmer}/{wildcards.depth}x/{wildcards.sample}/{wildcards.sample}"
+		prefix=lambda wildcards: RESULTS / f"assess/call/{wildcards.trimmer}/{wildcards.depth}x/{wildcards.sample}/{wildcards.sample}"
 	output:  
-		pr_summary=RESULTS / "assess/mutref/{trimmer}/{depth}x/{sample}/{sample}.precision-recall-summary.tsv",
-		pr=RESULTS / "assess/mutref/{trimmer}/{depth}x/{sample}/{sample}.precision-recall.tsv",
-		summary=RESULTS / "assess/mutref/{trimmer}/{depth}x/{sample}/{sample}.summary.vcf",
-		query=RESULTS / "assess/mutref/{trimmer}/{depth}x/{sample}/{sample}.query.tsv",
-		truth=RESULTS / "assess/mutref/{trimmer}/{depth}x/{sample}/{sample}.truth.tsv"
+		pr_summary=RESULTS / "assess/call/{trimmer}/{depth}x/{sample}/{sample}.precision-recall-summary.tsv",
+		pr=RESULTS / "assess/call/{trimmer}/{depth}x/{sample}/{sample}.precision-recall.tsv",
+		summary=RESULTS / "assess/call/{trimmer}/{depth}x/{sample}/{sample}.summary.vcf",
+		query=RESULTS / "assess/call/{trimmer}/{depth}x/{sample}/{sample}.query.tsv",
+		truth=RESULTS / "assess/call/{trimmer}/{depth}x/{sample}/{sample}.truth.tsv"
 	container:     
 		"docker://timd1/vcfdist:v2.6.4"
 	shell: 
@@ -59,10 +59,10 @@ rule assess_variant_plot:
 		ENVS / "assess_variant_python.yaml"
 	output:
 		figures=[
-				FIGURES / f"assess/mutref/metrics/trimming_variant_{metric}.png"
+				FIGURES / f"assess/call/metrics/trimming_variant_{metric}.png"
 				for metric in ["f1", "recall", "precision"]
 				],
-		csv=TABLES / "assess/mutref/metrics/trimming_variant_summary.csv"
+		csv=TABLES / "assess/call/metrics/trimming_variant_summary.csv"
 	script:
 		"../scripts/plot_variant_metrics.py"
 
@@ -77,7 +77,7 @@ rule assess_variant_average:
 	conda:
 		ENVS / "assess_variant_python.yaml"
 	output:
-		csv=TABLES / "assess/mutref/metrics/trimming_variant_summary_averages.csv"
+		csv=TABLES / "assess/call/metrics/trimming_variant_summary_averages.csv"
 	script:
 		"../scripts/average_variant_metrics.py"
 
@@ -92,7 +92,7 @@ rule assess_variant_fnfp:
 	conda:
 		ENVS / "assess_variant_python.yaml"
 	output:
-		csv=TABLES / "assess/mutref/metrics/trimming_variant_fnfp.csv"
+		csv=TABLES / "assess/call/metrics/trimming_variant_fnfp.csv"
 	script:
 		"../scripts/extract_fnfp_numbers.py"
 

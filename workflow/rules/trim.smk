@@ -15,9 +15,9 @@ rule trim_fastplong:
 	params:
 		nofilter="--disable_quality_filtering --disable_length_filtering"
 	output:
-		reads=RESULTS / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}.fastq",
-		json=RESULTS / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}.json",
-		html=RESULTS / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}.html"
+		reads=temp(RESULTS / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}.fastq"),
+		json=temp(RESULTS / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}.json"),
+		html=temp(RESULTS / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}.html")
 	benchmark:
 		repeat(BENCHMARK / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}.tsv", REPEAT)
 	shell:
@@ -41,7 +41,7 @@ rule trim_porcechop_abi_split:
 	conda:
 		ENVS / "porechop_abi.yaml"
 	output:
-		reads=RESULTS / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}.fastq"
+		reads=temp(RESULTS / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}.fastq")
 	benchmark: 
 		repeat(BENCHMARK / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}.tsv", REPEAT)
 	shell: 
@@ -64,7 +64,7 @@ rule trim_porcechop_abi_discard:
 	params:
 		nochimera="--discard_middle"
 	output:
-		reads=RESULTS / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}.fastq"
+		reads=temp(RESULTS / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}.fastq")
 	benchmark: 
 		repeat(BENCHMARK / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}.tsv", REPEAT)
 	shell: 
@@ -87,7 +87,7 @@ rule trim_porcechop_abi_nocheck:
 	params:
 		nocheck="--no_split" # will skip chimera searching
 	output:
-		reads=RESULTS / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}.fastq"
+		reads=temp(RESULTS / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}.fastq")
 	benchmark: 
 		repeat(BENCHMARK / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}.tsv", REPEAT)
 	shell:  
@@ -111,7 +111,7 @@ rule trim_dorado:
 		kit2=lambda wildcards: get_sequencing_kits(wildcards)[1],  
 		output_fq="--emit-fastq"  
 	output:  
-		reads=RESULTS / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}.fastq"
+		reads=temp(RESULTS / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}.fastq")
 	benchmark:  
 		repeat(BENCHMARK / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}.tsv", REPEAT)
 	shell: 
@@ -122,44 +122,44 @@ rule trim_dorado:
 		rm -rf $tmp_fq
 		"""
 
-trimmer = "dorado_demux"
-rule trim_dorado_demux:  
-	input:  
-		reads=get_original_fastqs  
-	log:  
-		LOGS / f"QC/trimming/{trimmer}/{{sample}}.log"  
-	resources:  
-		mem="32GiB",  
-		runtime=f"{12 * REPEAT}h"  
-	container:  
-		"docker://nanoporetech/dorado:shac8f356489fa8b44b31beba841b84d2879de2088e"
-	params:  
-		kit1=lambda wildcards: get_sequencing_kits(wildcards)[0],  
-		kit2=lambda wildcards: get_sequencing_kits(wildcards)[1],  
-	output:  
-		reads=RESULTS / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}_raw.fastq"
-	benchmark:  
-		repeat(BENCHMARK / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}.tsv", REPEAT)
-	script: 
-		"../scripts/trimming/dorado_demux.sh"
+# trimmer = "dorado_demux"
+# rule trim_dorado_demux:  
+# 	input:  
+# 		reads=get_original_fastqs  
+# 	log:  
+# 		LOGS / f"QC/trimming/{trimmer}/{{sample}}.log"  
+# 	resources:  
+# 		mem="32GiB",  
+# 		runtime=f"{12 * REPEAT}h"  
+# 	container:  
+# 		"docker://nanoporetech/dorado:shac8f356489fa8b44b31beba841b84d2879de2088e"
+# 	params:  
+# 		kit1=lambda wildcards: get_sequencing_kits(wildcards)[0],  
+# 		kit2=lambda wildcards: get_sequencing_kits(wildcards)[1],  
+# 	output:  
+# 		reads=temp(RESULTS / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}_raw.fastq")
+# 	benchmark:  
+# 		repeat(BENCHMARK / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}.tsv", REPEAT)
+# 	script: 
+# 		"../scripts/trimming/dorado_demux.sh"
 
-rule seqkit_dedup:
-	input:
-		reads=rules.trim_dorado_demux.output.reads
-	log:
-		LOGS / f"QC/trimming/{trimmer}/{{sample}}_seqkit.log"
-	resources:
-		mem="32GiB",
-		runtime=f"{30*REPEAT}h"
-	conda:
-		ENVS / "barbell_seqkit.yaml"
-	output:
-		reads=RESULTS / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}.fastq" 
-	shell:
-		"""
-		# remove duplicates by read ID
-		seqkit rmdup -o {output.reads} {input.reads} 2> {log}
-		"""
+# rule seqkit_dedup:
+# 	input:
+# 		reads=rules.trim_dorado_demux.output.reads
+# 	log:
+# 		LOGS / f"QC/trimming/{trimmer}/{{sample}}_seqkit.log"
+# 	resources:
+# 		mem="32GiB",
+# 		runtime=f"{30*REPEAT}h"
+# 	conda:
+# 		ENVS / "barbell_seqkit.yaml"
+# 	output:
+# 		reads=temp(RESULTS / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}.fastq")
+# 	shell:
+# 		"""
+# 		# remove duplicates by read ID
+# 		seqkit rmdup -o {output.reads} {input.reads} 2> {log}
+# 		"""
 
 trimmer = "barbell_default"
 rule barbell_trim:
@@ -177,7 +177,7 @@ rule barbell_trim:
 		kit2=lambda wildcards: get_sequencing_kits(wildcards)[1],
 		maximize="no"
 	output:
-		reads=RESULTS / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}.fastq"
+		reads=temp(RESULTS / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}.fastq")
 	benchmark:
 		repeat(BENCHMARK / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}.tsv", REPEAT)
 	script:
@@ -199,7 +199,7 @@ rule barbell_trim_max:
 		kit2=lambda wildcards: get_sequencing_kits(wildcards)[1],
 		maximize="yes"
 	output:
-		reads=RESULTS / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}.fastq"
+		reads=temp(RESULTS / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}.fastq")
 	benchmark:
 		repeat(BENCHMARK / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}.tsv", REPEAT)
 	script:
@@ -215,7 +215,7 @@ rule trim_notrim:
 		mem="8GiB",
 		runtime="10m"
 	output:
-		reads=RESULTS / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}.fastq"
+		reads=temp(RESULTS / f"QC/trimming/{trimmer}/{{sample}}.{trimmer}.fastq")
 	shell:
 		"""
 		# here we just copy the input file, no trimming process being perfomed
