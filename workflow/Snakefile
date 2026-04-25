@@ -5,6 +5,7 @@ import itertools
 WORKFLOW = Path("workflow").resolve()
 CONFIG = Path("config").resolve()
 RESULTS = Path("/scratch/project/bug_seq_scratch/qc_bench/results").resolve()
+DATA = Path("/scratch/user/s4897040/biox7021/data").resolve()
 FIGURES = RESULTS / "figures"
 TABLES = RESULTS / "tables"
 LOGS = Path("logs/rules").resolve()
@@ -29,31 +30,39 @@ PORECHOP_ABI_SETTINGS = ["nocheck", "discard", "split"]
 BARBELL_KIT_SETTINGS = ["default", "max"]
 
 target_files = set()
-pr_files= set()
+pr_files = set()
+contam_report_files = set()
+
 TRIMMING.append("untrimmed")
 for trimmer in TRIMMING:
 	if trimmer == "porechop_abi":
 		for setting in PORECHOP_ABI_SETTINGS:
 			current_trimmer = trimmer + "_" + setting
 			for depth in DEPTHS:
-				for sample in SAMPLES:
+				for sample in SAMPLES: 
 					target_files.add(RESULTS / f"assess/call/{current_trimmer}/{depth}x/{sample}/{sample}.precision-recall-summary.tsv")
-					target_files.add(RESULTS / f"assess/assembly/{current_trimmer}/{depth}x/{sample}/{sample}.{current_trimmer}.report.tsv")
+					target_files.add(RESULTS / f"assess/assembly/quast/{current_trimmer}/{depth}x/{sample}/{sample}.{current_trimmer}.report.tsv")
+					target_files.add(RESULTS / f"assess/assembly/contaminant/{current_trimmer}/{depth}x/{sample}/{sample}.{current_trimmer}.contaminants.tsv")
 					pr_files.add(RESULTS / f"assess/call/{current_trimmer}/{depth}x/{sample}/{sample}.precision-recall.tsv")
-	elif trimmer == "barbell":   
+					contam_report_files.add(RESULTS / f"assess/assembly/contaminant/{current_trimmer}/{depth}x/{sample}/{sample}.{current_trimmer}.contaminants.tsv")
+	elif trimmer == "barbell":    
 		for setting in BARBELL_KIT_SETTINGS: 
 			current_trimmer = trimmer + "_" + setting
 			for depth in DEPTHS:
 				for sample in SAMPLES:
 					target_files.add(RESULTS / f"assess/call/{current_trimmer}/{depth}x/{sample}/{sample}.precision-recall-summary.tsv")
-					target_files.add(RESULTS / f"assess/assembly/{current_trimmer}/{depth}x/{sample}/{sample}.{current_trimmer}.report.tsv")
+					target_files.add(RESULTS / f"assess/assembly/quast/{current_trimmer}/{depth}x/{sample}/{sample}.{current_trimmer}.report.tsv")
+					target_files.add(RESULTS / f"assess/assembly/contaminant/{current_trimmer}/{depth}x/{sample}/{sample}.{current_trimmer}.contaminants.tsv")
 					pr_files.add(RESULTS / f"assess/call/{current_trimmer}/{depth}x/{sample}/{sample}.precision-recall.tsv")
+					contam_report_files.add(RESULTS / f"assess/assembly/contaminant/{current_trimmer}/{depth}x/{sample}/{sample}.{current_trimmer}.contaminants.tsv")
 	else:
 		for depth in DEPTHS:
 			for sample in SAMPLES:
 				target_files.add(RESULTS / f"assess/call/{trimmer}/{depth}x/{sample}/{sample}.precision-recall-summary.tsv")
-				target_files.add(RESULTS / f"assess/assembly/{trimmer}/{depth}x/{sample}/{sample}.{trimmer}.report.tsv")
+				target_files.add(RESULTS / f"assess/assembly/quast/{trimmer}/{depth}x/{sample}/{sample}.{trimmer}.report.tsv")
+				target_files.add(RESULTS / f"assess/assembly/contaminant/{trimmer}/{depth}x/{sample}/{sample}.{trimmer}.contaminants.tsv")
 				pr_files.add(RESULTS / f"assess/call/{trimmer}/{depth}x/{sample}/{sample}.precision-recall.tsv")
+				contam_report_files.add(RESULTS / f"assess/assembly/contaminant/{trimmer}/{depth}x/{sample}/{sample}.{trimmer}.contaminants.tsv")
 
 qends_files = []
 
@@ -87,7 +96,9 @@ rule all:
 		TABLES / "assess/call/metrics/trimming_variant_summary.csv",
 		TABLES / "assess/call/metrics/trimming_variant_summary_averages.csv",
 		FIGURES / "QC/ends/trimming_plot_quality_ends.png",
-		TABLES / "assess/call/metrics/trimming_variant_fnfp.csv"
+		TABLES / "assess/call/metrics/trimming_variant_fnfp.csv",
+		TABLES / "assess/assembly/metrics/contaminant_summary_count.csv",
+		TABLES / "assess/assembly/metrics/contaminant_details.csv"
 
 include: RULES / "common.smk"
 include: RULES / "trim.smk"

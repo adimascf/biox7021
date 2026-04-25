@@ -101,7 +101,7 @@ rule assess_assembly_quast:
 		assembly=rules.assembly_flye.output.assembly,
 		reference=get_reference_genome
 	log:
-		LOGS / "assess/assembly/{trimmer}/{depth}x/{sample}.{trimmer}.log"
+		LOGS / "assess/assembly/{trimmer}/quast/{depth}x/{sample}.{trimmer}.log"
 	threads: 4
 	resources:
 		mem="32GiB",
@@ -111,11 +111,11 @@ rule assess_assembly_quast:
 	conda:
 		ENVS / "quast.yaml"
 	output:
-		report_tsv= RESULTS / "assess/assembly/{trimmer}/{depth}x/{sample}/{sample}.{trimmer}.report.tsv",  
-		report_html= RESULTS / "assess/assembly/{trimmer}/{depth}x/{sample}/{sample}.{trimmer}.report.html",
-		icarus_html= RESULTS / "assess/assembly/{trimmer}/{depth}x/{sample}/{sample}.{trimmer}.icarus.html",  
-		icarus_helper1= RESULTS / "assess/assembly/{trimmer}/{depth}x/{sample}/icarus_viewers/contig_size_viewer.html", 
-		icarus_helper2= RESULTS / "assess/assembly/{trimmer}/{depth}x/{sample}/icarus_viewers/alignment_viewer.html"
+		report_tsv= RESULTS / "assess/assembly/quast/{trimmer}/{depth}x/{sample}/{sample}.{trimmer}.report.tsv",  
+		report_html= RESULTS / "assess/assembly/quast/{trimmer}/{depth}x/{sample}/{sample}.{trimmer}.report.html",
+		icarus_html= RESULTS / "assess/assembly/quast/{trimmer}/{depth}x/{sample}/{sample}.{trimmer}.icarus.html",  
+		icarus_helper1= RESULTS / "assess/assembly/quast/{trimmer}/{depth}x/{sample}/icarus_viewers/contig_size_viewer.html", 
+		icarus_helper2= RESULTS / "assess/assembly/quast/{trimmer}/{depth}x/{sample}/icarus_viewers/alignment_viewer.html"
 	shell:
 		"""
 		tmp_dir=$(mktemp -d)
@@ -130,3 +130,35 @@ rule assess_assembly_quast:
 		rm -rf $tmp_dir
 		"""
 
+# I had an issue installing sassy-rs using conda directive in snakemake rule,
+# so i installed manually in my snakemake conda env
+# pip install biopython sassy-rs --no-cache-dir --force-reinstall
+rule assess_assembly_contam:
+	input:
+		assembly=rules.assembly_flye.output.assembly,
+		contaminants=DATA / "contaminants"
+	log:
+		LOGS / "assess/assembly/contaminant/{depth}x/{sample}/{sample}.{trimmer}.contaminants.log"
+	threads: 4
+	resources:
+		mem="64GiB",
+		runtime="1h"
+	output:
+		contaminants=RESULTS / "assess/assembly/contaminant/{trimmer}/{depth}x/{sample}/{sample}.{trimmer}.contaminants.tsv"
+	script:
+		"../scripts/detect_adapter_contamination.py"
+
+rule aggregate_assembly_contam:
+	input:
+		contam_report=list(contam_report_files)
+	log:
+		LOGS / "assess/assembly/contaminant/aggregate_contaminants.log"
+	threads: 4
+	resources:
+		mem="8GiB",
+		runtime="20m"
+	output:
+		summary=TABLES / "assess/assembly/metrics/contaminant_summary_count.csv",
+		details=TABLES / "assess/assembly/metrics/contaminant_details.csv"
+	script:
+		"../scripts/aggregate_contaminants.py"
