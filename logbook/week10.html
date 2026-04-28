@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Week 08: HAC addition and assembly contaminant detection – BIOX7021 LOGBOOK - 2026</title>
+<title>Week 10: HAC addition and assembly contaminant detection – BIOX7021 LOGBOOK - 2026</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -374,7 +374,7 @@ window.Quarto = {
  <span class="dropdown-text">Week 9</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../logbook/week09.html">
+    <a class="dropdown-item" href="../logbook/week10.html">
  <span class="dropdown-text">Week 10</span></a>
   </li>  
     </ul>
@@ -426,7 +426,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Week 08: HAC addition and assembly contaminant detection</h1>
+<h1 class="title">Week 10: HAC addition and assembly contaminant detection</h1>
 </div>
 
 
@@ -461,7 +461,7 @@ window.Quarto = {
 <p>Their fasta is here in <a href="">their repository</a>, and the information of this left flank - barcode right flank sequences is here on <a href="https://nanoporetech.com/document/chemistry-technical-document#barcode-sequences">ONT doc</a>.</p>
 <p>The set k = 20 in their script, matches up to (and including) 20bp distance threshold. Macthes are then reported as contaminants.</p>
 <p>Adapted from their script, I wrote <a href="">this script</a> to detect barcode contaminants in our tested assembly result. Before i tested in our assembly, I tested the script on their assembly result where they found three contaminants on it. I manually demultiplexed their fastq file, and ran their assembly pipeine to get theit BC49 assembly.</p>
-<div id="702251a1" class="cell" data-execution_count="1">
+<div id="13231839" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!python detect_adapter_contamination_cli.py -a bc49_medaka_consensus.114.fasta -b rapid_flanks_w_bars.fasta -o bc49_contam.114.tsv</span></span>
@@ -476,7 +476,7 @@ bc49_medaka_consensus.114.fasta BC17 contig_64 0 75 10 rapid_flanks_w_bars.fasta
 <p>It does match their finding where they found 3 contaminants hits in the BC49, including the 90bp contamination with 0 distance in the first 90 in the contig.</p>
 <p>I also did notice, they mention that they were using SQK-RBK110.96 kit, but they specify SQK-RBK114.96 kit for dorado demux command in their script. Not sure how much this discrepancy impact demultiplexing overall, but in my case, it does make difference on how many hits found.</p>
 <p>With the “correct” kit paramter <code>SQK-RBK110-96</code> for dorado demux, using the same script, I only found one hit (the hit with 0 distance)</p>
-<div id="8028e6e8" class="cell" data-execution_count="2">
+<div id="1b60f198" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!python detect_adapter_contamination_cli.py -a bc49_medaka_consensus.110.fasta -b rapid_flanks_w_bars.fasta -o bc49_contam.110.tsv</span></span>
@@ -501,7 +501,7 @@ bc49_medaka_consensus.114.fasta BC17 contig_64 0 75 10 rapid_flanks_w_bars.fasta
 <section id="absolute-number-of-contamination-count" class="level4">
 <h4 class="anchored" data-anchor-id="absolute-number-of-contamination-count">Absolute number of contamination count</h4>
 <p>Which condition that has the most, in average, contamination of native and/or rapid sequences:</p>
-<div id="e8648480" class="cell" data-execution_count="3">
+<div id="ef9e7ae4" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -555,7 +555,7 @@ bc49_medaka_consensus.114.fasta BC17 contig_64 0 75 10 rapid_flanks_w_bars.fasta
 </section>
 <section id="mean-and-median-of-contamination-count" class="level4">
 <h4 class="anchored" data-anchor-id="mean-and-median-of-contamination-count">Mean and median of contamination count</h4>
-<div id="e2113450" class="cell" data-execution_count="4">
+<div id="4c26b7fa" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -587,7 +587,7 @@ bc49_medaka_consensus.114.fasta BC17 contig_64 0 75 10 rapid_flanks_w_bars.fasta
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_30ae49b7_eca1_4651_991c_cb116db34726">
+<table id="itables_1ad8a70f_9ff6_4ff0_b0a1_29ab73d05c3a">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -657,7 +657,7 @@ bc49_medaka_consensus.114.fasta BC17 contig_64 0 75 10 rapid_flanks_w_bars.fasta
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_30ae49b7_eca1_4651_991c_cb116db34726:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_1ad8a70f_9ff6_4ff0_b0a1_29ab73d05c3a:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
@@ -689,7 +689,7 @@ bc49_medaka_consensus.114.fasta BC17 contig_64 0 75 10 rapid_flanks_w_bars.fasta
 </section>
 <section id="raw-counts" class="level4">
 <h4 class="anchored" data-anchor-id="raw-counts">Raw counts</h4>
-<div id="6555c181" class="cell" data-execution_count="5">
+<div id="9322e857" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itables <span class="im">import</span> show</span>
@@ -700,7 +700,7 @@ bc49_medaka_consensus.114.fasta BC17 contig_64 0 75 10 rapid_flanks_w_bars.fasta
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_30668a6a_15d7_41fe_8e10_9fd212ac14bd">
+<table id="itables_150adec7_db54_4451_a621_00b0a783b243">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -770,7 +770,7 @@ bc49_medaka_consensus.114.fasta BC17 contig_64 0 75 10 rapid_flanks_w_bars.fasta
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_30668a6a_15d7_41fe_8e10_9fd212ac14bd:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_150adec7_db54_4451_a621_00b0a783b243:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
@@ -794,7 +794,7 @@ bc49_medaka_consensus.114.fasta BC17 contig_64 0 75 10 rapid_flanks_w_bars.fasta
 <section id="contamination-details" class="level4">
 <h4 class="anchored" data-anchor-id="contamination-details">Contamination details</h4>
 <p>Actually, not all of the contamination hits have distance 0, they sometimes have high distance as well. For example here in the sup:</p>
-<div id="51008c50" class="cell" data-execution_count="6">
+<div id="81b51184" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>contamination_details <span class="op">=</span> pd.read_csv(<span class="st">"../results/tables/assess/assembly/metrics/contaminant_details.csv"</span>)</span>
@@ -807,7 +807,7 @@ bc49_medaka_consensus.114.fasta BC17 contig_64 0 75 10 rapid_flanks_w_bars.fasta
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_e7ac5e36_74c9_43b0_9434_755f688f20ec">
+<table id="itables_212b2d78_0dfc_4b88_aedd_93363c46faf3">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -877,7 +877,7 @@ bc49_medaka_consensus.114.fasta BC17 contig_64 0 75 10 rapid_flanks_w_bars.fasta
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_e7ac5e36_74c9_43b0_9434_755f688f20ec:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_212b2d78_0dfc_4b88_aedd_93363c46faf3:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
@@ -960,7 +960,7 @@ bc49_medaka_consensus.114.fasta BC17 contig_64 0 75 10 rapid_flanks_w_bars.fasta
 <figcaption>Recall</figcaption>
 </figure>
 </div>
-<div id="8b4a2682" class="cell" data-execution_count="7">
+<div id="117917b8" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -974,7 +974,7 @@ bc49_medaka_consensus.114.fasta BC17 contig_64 0 75 10 rapid_flanks_w_bars.fasta
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_ed5ee159_da10_4726_a1e9_2d2e0e4d55f4">
+<table id="itables_6640b92a_3015_402a_bb0e_e72b7e846433">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -1044,7 +1044,7 @@ bc49_medaka_consensus.114.fasta BC17 contig_64 0 75 10 rapid_flanks_w_bars.fasta
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_ed5ee159_da10_4726_a1e9_2d2e0e4d55f4:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_6640b92a_3015_402a_bb0e_e72b7e846433:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
