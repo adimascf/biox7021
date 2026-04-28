@@ -416,7 +416,11 @@ window.Quarto = {
   <li><a href="#nga50-in-sup-and-hac-compared-against-untrimmed" id="toc-nga50-in-sup-and-hac-compared-against-untrimmed" class="nav-link" data-scroll-target="#nga50-in-sup-and-hac-compared-against-untrimmed">NGA50 in sup and hac (compared against untrimmed)</a></li>
   </ul></li>
   </ul></li>
+  <li><a href="#variant-calling" id="toc-variant-calling" class="nav-link" data-scroll-target="#variant-calling">Variant calling</a>
+  <ul>
+  <li><a href="#false-negative-and-false-positive-numbers" id="toc-false-negative-and-false-positive-numbers" class="nav-link" data-scroll-target="#false-negative-and-false-positive-numbers">False negative and false positive numbers</a></li>
   <li><a href="#f1-recall-and-precision-in-variant-calling" id="toc-f1-recall-and-precision-in-variant-calling" class="nav-link" data-scroll-target="#f1-recall-and-precision-in-variant-calling">F1, Recall, and Precision in Variant Calling</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -461,7 +465,7 @@ window.Quarto = {
 <p>Their fasta is here in <a href="">their repository</a>, and the information of this left flank - barcode right flank sequences is here on <a href="https://nanoporetech.com/document/chemistry-technical-document#barcode-sequences">ONT doc</a>.</p>
 <p>The set k = 20 in their script, matches up to (and including) 20bp distance threshold. Macthes are then reported as contaminants.</p>
 <p>Adapted from their script, I wrote <a href="">this script</a> to detect barcode contaminants in our tested assembly result. Before i tested in our assembly, I tested the script on their assembly result where they found three contaminants on it. I manually demultiplexed their fastq file, and ran their assembly pipeine to get theit BC49 assembly.</p>
-<div id="13231839" class="cell" data-execution_count="1">
+<div id="eddab1f8" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!python detect_adapter_contamination_cli.py -a bc49_medaka_consensus.114.fasta -b rapid_flanks_w_bars.fasta -o bc49_contam.114.tsv</span></span>
@@ -476,7 +480,7 @@ bc49_medaka_consensus.114.fasta BC17 contig_64 0 75 10 rapid_flanks_w_bars.fasta
 <p>It does match their finding where they found 3 contaminants hits in the BC49, including the 90bp contamination with 0 distance in the first 90 in the contig.</p>
 <p>I also did notice, they mention that they were using SQK-RBK110.96 kit, but they specify SQK-RBK114.96 kit for dorado demux command in their script. Not sure how much this discrepancy impact demultiplexing overall, but in my case, it does make difference on how many hits found.</p>
 <p>With the “correct” kit paramter <code>SQK-RBK110-96</code> for dorado demux, using the same script, I only found one hit (the hit with 0 distance)</p>
-<div id="1b60f198" class="cell" data-execution_count="2">
+<div id="19755c31" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!python detect_adapter_contamination_cli.py -a bc49_medaka_consensus.110.fasta -b rapid_flanks_w_bars.fasta -o bc49_contam.110.tsv</span></span>
@@ -501,7 +505,7 @@ bc49_medaka_consensus.114.fasta BC17 contig_64 0 75 10 rapid_flanks_w_bars.fasta
 <section id="absolute-number-of-contamination-count" class="level4">
 <h4 class="anchored" data-anchor-id="absolute-number-of-contamination-count">Absolute number of contamination count</h4>
 <p>Which condition that has the most, in average, contamination of native and/or rapid sequences:</p>
-<div id="ef9e7ae4" class="cell" data-execution_count="3">
+<div id="59b2f46a" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -515,7 +519,7 @@ bc49_medaka_consensus.114.fasta BC17 contig_64 0 75 10 rapid_flanks_w_bars.fasta
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>hue_order <span class="op">=</span> [<span class="st">"100x"</span>, <span class="st">"50x"</span>, <span class="st">"20x"</span>]</span>
 <span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>order_abs <span class="op">=</span> <span class="bu">sorted</span>(contamination_count[<span class="st">"trimmer"</span>].unique())</span>
 <span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(nrows<span class="op">=</span><span class="dv">1</span>, ncols<span class="op">=</span><span class="bu">len</span>(models), figsize<span class="op">=</span>(<span class="dv">14</span>, <span class="fl">5.5</span>), dpi<span class="op">=</span><span class="dv">300</span>, sharex<span class="op">=</span><span class="va">True</span>, sharey<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(nrows<span class="op">=</span><span class="dv">1</span>, ncols<span class="op">=</span><span class="bu">len</span>(models), figsize<span class="op">=</span>(<span class="dv">14</span>, <span class="fl">5.5</span>), dpi<span class="op">=</span><span class="dv">120</span>, sharex<span class="op">=</span><span class="va">True</span>, sharey<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> c, model <span class="kw">in</span> <span class="bu">enumerate</span>(models):</span>
 <span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> axes[c]</span>
@@ -547,7 +551,7 @@ bc49_medaka_consensus.114.fasta BC17 contig_64 0 75 10 rapid_flanks_w_bars.fasta
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="week10_files/figure-html/cell-4-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="week10_files/figure-html/cell-4-output-1.png" width="4164" height="1601" class="figure-img"></a></p>
+<p><a href="week10_files/figure-html/cell-4-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="week10_files/figure-html/cell-4-output-1.png" width="1664" height="638" class="figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -555,7 +559,7 @@ bc49_medaka_consensus.114.fasta BC17 contig_64 0 75 10 rapid_flanks_w_bars.fasta
 </section>
 <section id="mean-and-median-of-contamination-count" class="level4">
 <h4 class="anchored" data-anchor-id="mean-and-median-of-contamination-count">Mean and median of contamination count</h4>
-<div id="4c26b7fa" class="cell" data-execution_count="4">
+<div id="f473063c" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -587,7 +591,7 @@ bc49_medaka_consensus.114.fasta BC17 contig_64 0 75 10 rapid_flanks_w_bars.fasta
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_1ad8a70f_9ff6_4ff0_b0a1_29ab73d05c3a">
+<table id="itables_4e7d3f51_8d73_4b86_a618_63d06e19cd82">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -657,7 +661,7 @@ bc49_medaka_consensus.114.fasta BC17 contig_64 0 75 10 rapid_flanks_w_bars.fasta
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_1ad8a70f_9ff6_4ff0_b0a1_29ab73d05c3a:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_4e7d3f51_8d73_4b86_a618_63d06e19cd82:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
@@ -689,7 +693,7 @@ bc49_medaka_consensus.114.fasta BC17 contig_64 0 75 10 rapid_flanks_w_bars.fasta
 </section>
 <section id="raw-counts" class="level4">
 <h4 class="anchored" data-anchor-id="raw-counts">Raw counts</h4>
-<div id="9322e857" class="cell" data-execution_count="5">
+<div id="e667b050" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itables <span class="im">import</span> show</span>
@@ -700,7 +704,7 @@ bc49_medaka_consensus.114.fasta BC17 contig_64 0 75 10 rapid_flanks_w_bars.fasta
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_150adec7_db54_4451_a621_00b0a783b243">
+<table id="itables_7c45808f_188e_4c3e_a5bf_86cecd79eccf">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -770,7 +774,7 @@ bc49_medaka_consensus.114.fasta BC17 contig_64 0 75 10 rapid_flanks_w_bars.fasta
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_150adec7_db54_4451_a621_00b0a783b243:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_7c45808f_188e_4c3e_a5bf_86cecd79eccf:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
@@ -794,7 +798,7 @@ bc49_medaka_consensus.114.fasta BC17 contig_64 0 75 10 rapid_flanks_w_bars.fasta
 <section id="contamination-details" class="level4">
 <h4 class="anchored" data-anchor-id="contamination-details">Contamination details</h4>
 <p>Actually, not all of the contamination hits have distance 0, they sometimes have high distance as well. For example here in the sup:</p>
-<div id="81b51184" class="cell" data-execution_count="6">
+<div id="eea6a79e" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>contamination_details <span class="op">=</span> pd.read_csv(<span class="st">"../results/tables/assess/assembly/metrics/contaminant_details.csv"</span>)</span>
@@ -807,7 +811,7 @@ bc49_medaka_consensus.114.fasta BC17 contig_64 0 75 10 rapid_flanks_w_bars.fasta
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_212b2d78_0dfc_4b88_aedd_93363c46faf3">
+<table id="itables_51d4fc75_d77d_436c_9d98_6f03460fe0ca">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -877,7 +881,7 @@ bc49_medaka_consensus.114.fasta BC17 contig_64 0 75 10 rapid_flanks_w_bars.fasta
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_212b2d78_0dfc_4b88_aedd_93363c46faf3:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_51d4fc75_d77d_436c_9d98_6f03460fe0ca:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
@@ -924,7 +928,7 @@ bc49_medaka_consensus.114.fasta BC17 contig_64 0 75 10 rapid_flanks_w_bars.fasta
 <h4 class="anchored" data-anchor-id="nga50-in-sup-and-hac">NGA50 in sup and hac</h4>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="../results/figures/assess/assembly/metrics/assembly_delta_errors.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="NGA50"><img src="../results/figures/assess/assembly/metrics/assembly_delta_errors.png" class="img-fluid figure-img" alt="NGA50"></a></p>
+<p><a href="../results/figures/assess/assembly/metrics/assembly_nga50.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="NGA50"><img src="../results/figures/assess/assembly/metrics/assembly_nga50.png" class="img-fluid figure-img" alt="NGA50"></a></p>
 <figcaption>NGA50</figcaption>
 </figure>
 </div>
@@ -940,41 +944,35 @@ bc49_medaka_consensus.114.fasta BC17 contig_64 0 75 10 rapid_flanks_w_bars.fasta
 </section>
 </section>
 </section>
-<section id="f1-recall-and-precision-in-variant-calling" class="level2">
-<h2 class="anchored" data-anchor-id="f1-recall-and-precision-in-variant-calling">F1, Recall, and Precision in Variant Calling</h2>
+<section id="variant-calling" class="level2">
+<h2 class="anchored" data-anchor-id="variant-calling">Variant calling</h2>
+<section id="false-negative-and-false-positive-numbers" class="level3">
+<h3 class="anchored" data-anchor-id="false-negative-and-false-positive-numbers">False negative and false positive numbers</h3>
+<p>Barbell with –maximize parameter seems to perform the best for all trimming tools both on sup low depth dataset</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="../results/figures/assess/call/metrics/trimming_variant_f1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="F1"><img src="../results/figures/assess/call/metrics/trimming_variant_f1.png" class="img-fluid figure-img" alt="F1"></a></p>
-<figcaption>F1</figcaption>
+<p><a href="../results/figures/assess/call/metrics/trimming_variant_delta_fn.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="False negative"><img src="../results/figures/assess/call/metrics/trimming_variant_delta_fn.png" class="img-fluid figure-img" alt="False negative"></a></p>
+<figcaption>False negative</figcaption>
 </figure>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="../results/figures/assess/call/metrics/trimming_variant_precision.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="Precision"><img src="../results/figures/assess/call/metrics/trimming_variant_precision.png" class="img-fluid figure-img" alt="Precision"></a></p>
-<figcaption>Precision</figcaption>
+<p><a href="../results/figures/assess/call/metrics/trimming_variant_delta_fp.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="False positive"><img src="../results/figures/assess/call/metrics/trimming_variant_delta_fp.png" class="img-fluid figure-img" alt="False positive"></a></p>
+<figcaption>False positive</figcaption>
 </figure>
 </div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="../results/figures/assess/call/metrics/trimming_variant_recall.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8" title="Recall"><img src="../results/figures/assess/call/metrics/trimming_variant_recall.png" class="img-fluid figure-img" alt="Recall"></a></p>
-<figcaption>Recall</figcaption>
-</figure>
-</div>
-<div id="117917b8" class="cell" data-execution_count="7">
+<div id="575d1444" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itables <span class="im">import</span> show</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>average_metrics <span class="op">=</span> pd.read_csv(<span class="st">"../results/tables/assess/call/metrics/trimming_variant_summary_averages.csv"</span>)</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>average_metrics.reset_index(drop<span class="op">=</span><span class="va">True</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>show(average_metrics, scrollX<span class="op">=</span><span class="va">True</span>, scrollY<span class="op">=</span><span class="st">"800px"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>fn_fp_numbers <span class="op">=</span> pd.read_csv(<span class="st">"../results/tables/assess/call/metrics/trimming_variant_summary_averages.csv"</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>fn_fp_numbers.reset_index(drop<span class="op">=</span><span class="va">True</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>show(fn_fp_numbers, scrollX<span class="op">=</span><span class="va">True</span>, scrollY<span class="op">=</span><span class="st">"800px"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_6640b92a_3015_402a_bb0e_e72b7e846433">
+<table id="itables_70526ff9_3b0d_4349_ab20_b231bd56ee27">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -1044,7 +1042,134 @@ bc49_medaka_consensus.114.fasta BC17 contig_64 0 75 10 rapid_flanks_w_bars.fasta
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_6640b92a_3015_402a_bb0e_e72b7e846433:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_70526ff9_3b0d_4349_ab20_b231bd56ee27:not(.dataTable)").forEach(table => {
+        if (!(table instanceof HTMLTableElement))
+            return;
+
+        let dt_args = {
+          "classes": ["display", "nowrap", "compact"],
+          "columnDefs": [{"render": "function (data, type, row, meta) { return type === 'sort' || type === 'type' ? data[1] : data[0]; }", "targets": [4, 5, 6]}],
+          "data_json": "[[\"barbell_default\", \"sup\", \"100x\", \"INDEL\", [\"0.99972\", 0.99972], [\"0.98749\", 0.98749], [\"0.99355\", 0.99355]], [\"barbell_default\", \"sup\", \"100x\", \"SNP\", [\"0.99999\", 0.99999], [\"0.99775\", 0.99775], [\"0.99885\", 0.99885]], [\"barbell_default\", \"sup\", \"50x\", \"INDEL\", [\"0.99970\", 0.9997], [\"0.98344\", 0.98344], [\"0.99147\", 0.99147]], [\"barbell_default\", \"sup\", \"50x\", \"SNP\", [\"0.99994\", 0.99994], [\"0.99760\", 0.9976], [\"0.99875\", 0.99875]], [\"barbell_default\", \"sup\", \"20x\", \"INDEL\", [\"0.99806\", 0.99806], [\"0.96974\", 0.96974], [\"0.98366\", 0.98366]], [\"barbell_default\", \"sup\", \"20x\", \"SNP\", [\"0.99985\", 0.99985], [\"0.99390\", 0.9939], [\"0.99683\", 0.99683]], [\"barbell_default\", \"hac\", \"100x\", \"INDEL\", [\"0.99864\", 0.99864], [\"0.97627\", 0.97627], [\"0.98729\", 0.98729]], [\"barbell_default\", \"hac\", \"100x\", \"SNP\", [\"0.99994\", 0.99994], [\"0.99837\", 0.99837], [\"0.99915\", 0.99915]], [\"barbell_default\", \"hac\", \"50x\", \"INDEL\", [\"0.99829\", 0.99829], [\"0.96552\", 0.96552], [\"0.98155\", 0.98155]], [\"barbell_default\", \"hac\", \"50x\", \"SNP\", [\"0.99984\", 0.99984], [\"0.99807\", 0.99807], [\"0.99895\", 0.99895]], [\"barbell_default\", \"hac\", \"20x\", \"INDEL\", [\"0.99590\", 0.9959], [\"0.94417\", 0.94417], [\"0.96920\", 0.9692]], [\"barbell_default\", \"hac\", \"20x\", \"SNP\", [\"0.99963\", 0.99963], [\"0.99408\", 0.99408], [\"0.99682\", 0.99682]], [\"barbell_max\", \"sup\", \"100x\", \"INDEL\", [\"0.99988\", 0.99988], [\"0.98569\", 0.98569], [\"0.99272\", 0.99272]], [\"barbell_max\", \"sup\", \"100x\", \"SNP\", [\"0.99998\", 0.99998], [\"0.99776\", 0.99776], [\"0.99885\", 0.99885]], [\"barbell_max\", \"sup\", \"50x\", \"INDEL\", [\"0.99962\", 0.99962], [\"0.98166\", 0.98166], [\"0.99054\", 0.99054]], [\"barbell_max\", \"sup\", \"50x\", \"SNP\", [\"0.99998\", 0.99998], [\"0.99761\", 0.99761], [\"0.99878\", 0.99878]], [\"barbell_max\", \"sup\", \"20x\", \"INDEL\", [\"0.99817\", 0.99817], [\"0.96496\", 0.96496], [\"0.98123\", 0.98123]], [\"barbell_max\", \"sup\", \"20x\", \"SNP\", [\"0.99989\", 0.99989], [\"0.99380\", 0.9938], [\"0.99680\", 0.9968]], [\"barbell_max\", \"hac\", \"100x\", \"INDEL\", [\"0.99843\", 0.99843], [\"0.97697\", 0.97697], [\"0.98754\", 0.98754]], [\"barbell_max\", \"hac\", \"100x\", \"SNP\", [\"0.99991\", 0.99991], [\"0.99803\", 0.99803], [\"0.99896\", 0.99896]], [\"barbell_max\", \"hac\", \"50x\", \"INDEL\", [\"0.99860\", 0.9986], [\"0.97029\", 0.97029], [\"0.98417\", 0.98417]], [\"barbell_max\", \"hac\", \"50x\", \"SNP\", [\"0.99990\", 0.9999], [\"0.99790\", 0.9979], [\"0.99889\", 0.99889]], [\"barbell_max\", \"hac\", \"20x\", \"INDEL\", [\"0.99491\", 0.99491], [\"0.94892\", 0.94892], [\"0.97124\", 0.97124]], [\"barbell_max\", \"hac\", \"20x\", \"SNP\", [\"0.99967\", 0.99967], [\"0.99528\", 0.99528], [\"0.99745\", 0.99745]], [\"dorado\", \"sup\", \"100x\", \"INDEL\", [\"0.99858\", 0.99858], [\"0.98604\", 0.98604], [\"0.99225\", 0.99225]], [\"dorado\", \"sup\", \"100x\", \"SNP\", [\"0.99997\", 0.99997], [\"0.99784\", 0.99784], [\"0.99889\", 0.99889]], [\"dorado\", \"sup\", \"50x\", \"INDEL\", [\"0.99822\", 0.99822], [\"0.98223\", 0.98223], [\"0.99011\", 0.99011]], [\"dorado\", \"sup\", \"50x\", \"SNP\", [\"0.99997\", 0.99997], [\"0.99763\", 0.99763], [\"0.99878\", 0.99878]], [\"dorado\", \"sup\", \"20x\", \"INDEL\", [\"0.99738\", 0.99738], [\"0.96541\", 0.96541], [\"0.98111\", 0.98111]], [\"dorado\", \"sup\", \"20x\", \"SNP\", [\"0.99984\", 0.99984], [\"0.99264\", 0.99264], [\"0.99619\", 0.99619]], [\"dorado\", \"hac\", \"100x\", \"INDEL\", [\"0.99905\", 0.99905], [\"0.97459\", 0.97459], [\"0.98660\", 0.9866]], [\"dorado\", \"hac\", \"100x\", \"SNP\", [\"0.99992\", 0.99992], [\"0.99780\", 0.9978], [\"0.99885\", 0.99885]], [\"dorado\", \"hac\", \"50x\", \"INDEL\", [\"0.99881\", 0.99881], [\"0.97093\", 0.97093], [\"0.98460\", 0.9846]], [\"dorado\", \"hac\", \"50x\", \"SNP\", [\"0.99991\", 0.99991], [\"0.99758\", 0.99758], [\"0.99873\", 0.99873]], [\"dorado\", \"hac\", \"20x\", \"INDEL\", [\"0.99565\", 0.99565], [\"0.94539\", 0.94539], [\"0.96976\", 0.96976]], [\"dorado\", \"hac\", \"20x\", \"SNP\", [\"0.99955\", 0.99955], [\"0.99360\", 0.9936], [\"0.99653\", 0.99653]], [\"fastplong\", \"sup\", \"100x\", \"INDEL\", [\"0.99921\", 0.99921], [\"0.98779\", 0.98779], [\"0.99346\", 0.99346]], [\"fastplong\", \"sup\", \"100x\", \"SNP\", [\"1.00000\", 1.0], [\"0.99798\", 0.99798], [\"0.99897\", 0.99897]], [\"fastplong\", \"sup\", \"50x\", \"INDEL\", [\"0.99871\", 0.99871], [\"0.98234\", 0.98234], [\"0.99042\", 0.99042]], [\"fastplong\", \"sup\", \"50x\", \"SNP\", [\"0.99997\", 0.99997], [\"0.99812\", 0.99812], [\"0.99904\", 0.99904]], [\"fastplong\", \"sup\", \"20x\", \"INDEL\", [\"0.99856\", 0.99856], [\"0.96493\", 0.96493], [\"0.98138\", 0.98138]], [\"fastplong\", \"sup\", \"20x\", \"SNP\", [\"0.99989\", 0.99989], [\"0.99489\", 0.99489], [\"0.99736\", 0.99736]], [\"fastplong\", \"hac\", \"100x\", \"INDEL\", [\"0.99881\", 0.99881], [\"0.97573\", 0.97573], [\"0.98709\", 0.98709]], [\"fastplong\", \"hac\", \"100x\", \"SNP\", [\"0.99995\", 0.99995], [\"0.99766\", 0.99766], [\"0.99879\", 0.99879]], [\"fastplong\", \"hac\", \"50x\", \"INDEL\", [\"0.99789\", 0.99789], [\"0.97190\", 0.9719], [\"0.98468\", 0.98468]], [\"fastplong\", \"hac\", \"50x\", \"SNP\", [\"0.99993\", 0.99993], [\"0.99745\", 0.99745], [\"0.99868\", 0.99868]], [\"fastplong\", \"hac\", \"20x\", \"INDEL\", [\"0.99455\", 0.99455], [\"0.94824\", 0.94824], [\"0.97072\", 0.97072]], [\"fastplong\", \"hac\", \"20x\", \"SNP\", [\"0.99955\", 0.99955], [\"0.99458\", 0.99458], [\"0.99704\", 0.99704]], [\"porechop_abi_discard\", \"sup\", \"100x\", \"INDEL\", [\"0.99966\", 0.99966], [\"0.98715\", 0.98715], [\"0.99335\", 0.99335]], [\"porechop_abi_discard\", \"sup\", \"100x\", \"SNP\", [\"0.99998\", 0.99998], [\"0.99812\", 0.99812], [\"0.99904\", 0.99904]], [\"porechop_abi_discard\", \"sup\", \"50x\", \"INDEL\", [\"0.99966\", 0.99966], [\"0.98165\", 0.98165], [\"0.99053\", 0.99053]], [\"porechop_abi_discard\", \"sup\", \"50x\", \"SNP\", [\"0.99994\", 0.99994], [\"0.99797\", 0.99797], [\"0.99895\", 0.99895]], [\"porechop_abi_discard\", \"sup\", \"20x\", \"INDEL\", [\"0.99847\", 0.99847], [\"0.96257\", 0.96257], [\"0.98013\", 0.98013]], [\"porechop_abi_discard\", \"sup\", \"20x\", \"SNP\", [\"0.99987\", 0.99987], [\"0.99431\", 0.99431], [\"0.99706\", 0.99706]], [\"porechop_abi_discard\", \"hac\", \"100x\", \"INDEL\", [\"0.99876\", 0.99876], [\"0.97736\", 0.97736], [\"0.98791\", 0.98791]], [\"porechop_abi_discard\", \"hac\", \"100x\", \"SNP\", [\"0.99996\", 0.99996], [\"0.99817\", 0.99817], [\"0.99906\", 0.99906]], [\"porechop_abi_discard\", \"hac\", \"50x\", \"INDEL\", [\"0.99799\", 0.99799], [\"0.97163\", 0.97163], [\"0.98457\", 0.98457]], [\"porechop_abi_discard\", \"hac\", \"50x\", \"SNP\", [\"0.99994\", 0.99994], [\"0.99803\", 0.99803], [\"0.99898\", 0.99898]], [\"porechop_abi_discard\", \"hac\", \"20x\", \"INDEL\", [\"0.99633\", 0.99633], [\"0.94379\", 0.94379], [\"0.96914\", 0.96914]], [\"porechop_abi_discard\", \"hac\", \"20x\", \"SNP\", [\"0.99964\", 0.99964], [\"0.99495\", 0.99495], [\"0.99727\", 0.99727]], [\"porechop_abi_nocheck\", \"sup\", \"100x\", \"INDEL\", [\"0.99837\", 0.99837], [\"0.98556\", 0.98556], [\"0.99191\", 0.99191]], [\"porechop_abi_nocheck\", \"sup\", \"100x\", \"SNP\", [\"0.99996\", 0.99996], [\"0.99789\", 0.99789], [\"0.99891\", 0.99891]], [\"porechop_abi_nocheck\", \"sup\", \"50x\", \"INDEL\", [\"0.99935\", 0.99935], [\"0.98153\", 0.98153], [\"0.99033\", 0.99033]], [\"porechop_abi_nocheck\", \"sup\", \"50x\", \"SNP\", [\"0.99997\", 0.99997], [\"0.99789\", 0.99789], [\"0.99892\", 0.99892]], [\"porechop_abi_nocheck\", \"sup\", \"20x\", \"INDEL\", [\"0.99804\", 0.99804], [\"0.96484\", 0.96484], [\"0.98110\", 0.9811]], [\"porechop_abi_nocheck\", \"sup\", \"20x\", \"SNP\", [\"0.99990\", 0.9999], [\"0.99445\", 0.99445], [\"0.99714\", 0.99714]], [\"porechop_abi_nocheck\", \"hac\", \"100x\", \"INDEL\", [\"0.99911\", 0.99911], [\"0.97514\", 0.97514], [\"0.98693\", 0.98693]], [\"porechop_abi_nocheck\", \"hac\", \"100x\", \"SNP\", [\"0.99992\", 0.99992], [\"0.99798\", 0.99798], [\"0.99894\", 0.99894]], [\"porechop_abi_nocheck\", \"hac\", \"50x\", \"INDEL\", [\"0.99914\", 0.99914], [\"0.97143\", 0.97143], [\"0.98506\", 0.98506]], [\"porechop_abi_nocheck\", \"hac\", \"50x\", \"SNP\", [\"0.99990\", 0.9999], [\"0.99778\", 0.99778], [\"0.99883\", 0.99883]], [\"porechop_abi_nocheck\", \"hac\", \"20x\", \"INDEL\", [\"0.99483\", 0.99483], [\"0.94090\", 0.9409], [\"0.96698\", 0.96698]], [\"porechop_abi_nocheck\", \"hac\", \"20x\", \"SNP\", [\"0.99967\", 0.99967], [\"0.99473\", 0.99473], [\"0.99717\", 0.99717]], [\"porechop_abi_split\", \"sup\", \"100x\", \"INDEL\", [\"0.99880\", 0.9988], [\"0.98460\", 0.9846], [\"0.99162\", 0.99162]], [\"porechop_abi_split\", \"sup\", \"100x\", \"SNP\", [\"0.99997\", 0.99997], [\"0.99798\", 0.99798], [\"0.99896\", 0.99896]], [\"porechop_abi_split\", \"sup\", \"50x\", \"INDEL\", [\"0.99930\", 0.9993], [\"0.98220\", 0.9822], [\"0.99064\", 0.99064]], [\"porechop_abi_split\", \"sup\", \"50x\", \"SNP\", [\"0.99998\", 0.99998], [\"0.99757\", 0.99757], [\"0.99876\", 0.99876]], [\"porechop_abi_split\", \"sup\", \"20x\", \"INDEL\", [\"0.99947\", 0.99947], [\"0.96777\", 0.96777], [\"0.98326\", 0.98326]], [\"porechop_abi_split\", \"sup\", \"20x\", \"SNP\", [\"0.99981\", 0.99981], [\"0.99355\", 0.99355], [\"0.99664\", 0.99664]], [\"porechop_abi_split\", \"hac\", \"100x\", \"INDEL\", [\"0.99786\", 0.99786], [\"0.97649\", 0.97649], [\"0.98701\", 0.98701]], [\"porechop_abi_split\", \"hac\", \"100x\", \"SNP\", [\"0.99994\", 0.99994], [\"0.99794\", 0.99794], [\"0.99893\", 0.99893]], [\"porechop_abi_split\", \"hac\", \"50x\", \"INDEL\", [\"0.99921\", 0.99921], [\"0.96685\", 0.96685], [\"0.98270\", 0.9827]], [\"porechop_abi_split\", \"hac\", \"50x\", \"SNP\", [\"0.99989\", 0.99989], [\"0.99808\", 0.99808], [\"0.99897\", 0.99897]], [\"porechop_abi_split\", \"hac\", \"20x\", \"INDEL\", [\"0.99701\", 0.99701], [\"0.93951\", 0.93951], [\"0.96727\", 0.96727]], [\"porechop_abi_split\", \"hac\", \"20x\", \"SNP\", [\"0.99958\", 0.99958], [\"0.99477\", 0.99477], [\"0.99715\", 0.99715]], [\"untrimmed\", \"sup\", \"100x\", \"INDEL\", [\"0.99980\", 0.9998], [\"0.98559\", 0.98559], [\"0.99263\", 0.99263]], [\"untrimmed\", \"sup\", \"100x\", \"SNP\", [\"0.99998\", 0.99998], [\"0.99791\", 0.99791], [\"0.99893\", 0.99893]], [\"untrimmed\", \"sup\", \"50x\", \"INDEL\", [\"0.99927\", 0.99927], [\"0.98106\", 0.98106], [\"0.99002\", 0.99002]], [\"untrimmed\", \"sup\", \"50x\", \"SNP\", [\"0.99996\", 0.99996], [\"0.99770\", 0.9977], [\"0.99881\", 0.99881]], [\"untrimmed\", \"sup\", \"20x\", \"INDEL\", [\"0.99699\", 0.99699], [\"0.96703\", 0.96703], [\"0.98174\", 0.98174]], [\"untrimmed\", \"sup\", \"20x\", \"SNP\", [\"0.99978\", 0.99978], [\"0.99317\", 0.99317], [\"0.99642\", 0.99642]], [\"untrimmed\", \"hac\", \"100x\", \"INDEL\", [\"0.99935\", 0.99935], [\"0.97659\", 0.97659], [\"0.98778\", 0.98778]], [\"untrimmed\", \"hac\", \"100x\", \"SNP\", [\"0.99995\", 0.99995], [\"0.99775\", 0.99775], [\"0.99884\", 0.99884]], [\"untrimmed\", \"hac\", \"50x\", \"INDEL\", [\"0.99860\", 0.9986], [\"0.96880\", 0.9688], [\"0.98341\", 0.98341]], [\"untrimmed\", \"hac\", \"50x\", \"SNP\", [\"0.99994\", 0.99994], [\"0.99751\", 0.99751], [\"0.99871\", 0.99871]], [\"untrimmed\", \"hac\", \"20x\", \"INDEL\", [\"0.99276\", 0.99276], [\"0.94426\", 0.94426], [\"0.96776\", 0.96776]], [\"untrimmed\", \"hac\", \"20x\", \"SNP\", [\"0.99954\", 0.99954], [\"0.99408\", 0.99408], [\"0.99678\", 0.99678]]]",
+          "keys_to_be_evaluated": [["columnDefs", 0, "render"]],
+          "layout": {"bottomEnd": "paging", "bottomStart": "info", "topEnd": "search", "topStart": "pageLength"},
+          "order": [],
+          "scrollX": true,
+          "scrollY": "800px",
+          "style": {"caption-side": "bottom", "margin": "0", "table-layout": "auto", "width": "auto"},
+          "table_html": "<table><thead>\n    <tr style=\"text-align: right;\">\n      \n      <th>trimmer</th>\n      <th>model</th>\n      <th>depth</th>\n      <th>VAR_TYPE</th>\n      <th>PREC</th>\n      <th>RECALL</th>\n      <th>F1_SCORE</th>\n    </tr>\n  </thead></table>",
+          "text_in_header_can_be_selected": true
+        };
+        new ITable(table, dt_args);
+    });
+</script>
+</div>
+</div>
+</section>
+<section id="f1-recall-and-precision-in-variant-calling" class="level3">
+<h3 class="anchored" data-anchor-id="f1-recall-and-precision-in-variant-calling">F1, Recall, and Precision in Variant Calling</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../results/figures/assess/call/metrics/trimming_variant_f1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8" title="F1"><img src="../results/figures/assess/call/metrics/trimming_variant_f1.png" class="img-fluid figure-img" alt="F1"></a></p>
+<figcaption>F1</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../results/figures/assess/call/metrics/trimming_variant_precision.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9" title="Precision"><img src="../results/figures/assess/call/metrics/trimming_variant_precision.png" class="img-fluid figure-img" alt="Precision"></a></p>
+<figcaption>Precision</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../results/figures/assess/call/metrics/trimming_variant_recall.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10" title="Recall"><img src="../results/figures/assess/call/metrics/trimming_variant_recall.png" class="img-fluid figure-img" alt="Recall"></a></p>
+<figcaption>Recall</figcaption>
+</figure>
+</div>
+<div id="2c2bbb02" class="cell" data-execution_count="8">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itables <span class="im">import</span> show</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>average_metrics <span class="op">=</span> pd.read_csv(<span class="st">"../results/tables/assess/call/metrics/trimming_variant_summary_averages.csv"</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>average_metrics.reset_index(drop<span class="op">=</span><span class="va">True</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>show(average_metrics, scrollX<span class="op">=</span><span class="va">True</span>, scrollY<span class="op">=</span><span class="st">"800px"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<!--| quarto-html-table-processing: none -->
+<table id="itables_5301b53e_7b53_489f_ad39_3dc9398ae976">
+  <tbody>
+    <tr>
+      <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
+    <g style="fill:#d9d7fc">
+        <path d="M100,400H500V357H100Z"></path>
+        <path d="M100,300H400V257H100Z"></path>
+        <path d="M0,200H400V157H0Z"></path>
+        <path d="M100,100H500V57H100Z"></path>
+        <path d="M100,350H500V307H100Z"></path>
+        <path d="M100,250H400V207H100Z"></path>
+        <path d="M0,150H400V107H0Z"></path>
+        <path d="M100,50H500V7H100Z"></path>
+    </g>
+    <g style="fill:#1a1366;stroke:#1a1366;">
+   <rect x="100" y="7" width="400" height="43">
+    <animate attributename="width" values="0;400;0" dur="5s" repeatcount="indefinite"></animate>
+      <animate attributename="x" values="100;100;500" dur="5s" repeatcount="indefinite"></animate>
+  </rect>
+        <rect x="0" y="107" width="400" height="43">
+    <animate attributename="width" values="0;400;0" dur="3.5s" repeatcount="indefinite"></animate>
+    <animate attributename="x" values="0;0;400" dur="3.5s" repeatcount="indefinite"></animate>
+  </rect>
+        <rect x="100" y="207" width="300" height="43">
+    <animate attributename="width" values="0;300;0" dur="3s" repeatcount="indefinite"></animate>
+    <animate attributename="x" values="100;100;400" dur="3s" repeatcount="indefinite"></animate>
+  </rect>
+        <rect x="100" y="307" width="400" height="43">
+    <animate attributename="width" values="0;400;0" dur="4s" repeatcount="indefinite"></animate>
+      <animate attributename="x" values="100;100;500" dur="4s" repeatcount="indefinite"></animate>
+  </rect>
+        <g style="fill:transparent;stroke-width:8; stroke-linejoin:round" rx="5">
+            <g transform="translate(45 50) rotate(-45)">
+                <circle r="33" cx="0" cy="0"></circle>
+                <rect x="-8" y="32" width="16" height="30"></rect>
+            </g>
+
+            <g transform="translate(450 152)">
+                <polyline points="-15,-20 -35,-20 -35,40 25,40 25,20"></polyline>
+                <rect x="-15" y="-40" width="60" height="60"></rect>
+            </g>
+
+            <g transform="translate(50 352)">
+                <polygon points="-35,-5 0,-40 35,-5"></polygon>
+                <polygon points="-35,10 0,45 35,10"></polygon>
+            </g>
+
+            <g transform="translate(75 250)">
+                <polyline points="-30,30 -60,0 -30,-30"></polyline>
+                <polyline points="0,30 -30,0 0,-30"></polyline>
+            </g>
+
+            <g transform="translate(425 250) rotate(180)">
+                <polyline points="-30,30 -60,0 -30,-30"></polyline>
+                <polyline points="0,30 -30,0 0,-30"></polyline>
+            </g>
+        </g>
+    </g>
+</svg>
+</a>
+        Loading ITables v2.7.3 from the internet...
+        (need <a href="https://mwouts.github.io/itables/troubleshooting.html">help</a>?)
+      </td>
+    </tr>
+  </tbody>
+</table>
+<link href="https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.css" rel="stylesheet">
+<script type="module">
+    import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
+
+    document.querySelectorAll("#itables_5301b53e_7b53_489f_ad39_3dc9398ae976:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
@@ -1068,6 +1193,7 @@ bc49_medaka_consensus.114.fasta BC17 contig_64 0 75 10 rapid_flanks_w_bars.fasta
 </div>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
