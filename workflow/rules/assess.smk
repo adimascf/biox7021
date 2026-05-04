@@ -145,6 +145,8 @@ rule assess_assembly_contam:
 	resources:
 		mem="64GiB",
 		runtime="1h"
+	conda:
+		ENVS / "align.yaml"
 	output:
 		contaminants=RESULTS / "assess/assembly/contaminant/{trimmer}/{depth}x/{sample}/{model}/{sample}.{trimmer}.contaminants.tsv"
 	script:

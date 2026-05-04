@@ -8,7 +8,13 @@ sys.stderr = sys.stdout = open(snakemake.log[0], "w")
 
 data_frames = []
 summary_records = []
-col_names = ['assembly_file', 'barcode_id', 'contig', 'start', 'end', 'cost', 'source_file']
+
+# The exact column names written by the new minimap2 script
+col_names = [
+    'assembly', 'query', 'kit', 'target_contig', 'strand', 
+    't_start', 't_end', 'identity', 'dp_score', 'mapq', 
+    'position', 'region_breakdown'
+]
 
 print(f"Aggregating {len(snakemake.input.contam_report)} contamination files...")
 
@@ -21,13 +27,20 @@ for sample_report in snakemake.input.contam_report:
     sample = p.parts[-3]
     model = p.parts[-2]
 
-    # If the file is 0 bytes, record a count of 0
+    # Handle potentially completely empty files just in case, 
+    # but primarily rely on pandas to read the header
     if os.path.getsize(p) == 0:
+        df = pd.DataFrame(columns=col_names)
+    else:
+        # Read the TSV. It automatically picks up the header written by minimap2.
+        df = pd.read_csv(p, sep='\t')
+
+    # If the file only had a header and no data rows, length will be 0
+    if len(df) == 0:
         summary_records.append({
             'trimmer': trimmer, 'depth': depth, 'sample': sample, 'model': model, 'contamination_count': 0
         })
     else:
-        df = pd.read_csv(p, sep='\t', names=col_names)
         df['trimmer'] = trimmer
         df['depth'] = depth
         df['sample'] = sample
@@ -35,20 +48,22 @@ for sample_report in snakemake.input.contam_report:
         
         data_frames.append(df)
         
-        # Record the actual length of the dataframe as the count
+        # Record the actual number of contaminant hits
         summary_records.append({
             'trimmer': trimmer, 'depth': depth, 'sample': sample, 'model': model, 'contamination_count': len(df)
         })
 
 if data_frames:
     combined_df = pd.concat(data_frames, ignore_index=True)
+    # Reorder columns to put our pipeline metadata first
     final_cols = ['trimmer', 'depth', 'sample', 'model'] + col_names
     combined_df = combined_df[final_cols]
+    
     combined_df.to_csv(snakemake.output.details, index=False)
     print(f"Saved detailed results to: {snakemake.output.details}")
 
 else:
-    # no contamination is found anywhere
+    # no contamination is found anywhere across all files
     pd.DataFrame(columns=['trimmer', 'depth', 'sample', 'model'] + col_names).to_csv(snakemake.output.details, index=False)
     print("No detailed contaminations found. Empty template created.")
 
@@ -67,7 +82,7 @@ if summary_records:
     trimmer_order['untrimmed'] = 999 # force to the end
     summary_df['trimmer_sort'] = summary_df['trimmer'].map(trimmer_order)
     
-    # Sort the summary_df: sample -> depth -> trimmer
+    # Sort the summary_df: sample -> model -> depth -> trimmer
     summary_df = summary_df.sort_values(
         by=['sample', 'model_sort', 'depth_sort', 'trimmer_sort']
     ).drop(columns=['depth_sort', 'model_sort', 'trimmer_sort'])
