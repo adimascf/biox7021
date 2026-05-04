@@ -28,10 +28,10 @@ use rule faidx_self as faidx_mutref with:
 
 rule downsample_rasusa:
 	input:
-		reads=RESULTS / "QC/trimming/{trimmer}/{sample}.{trimmer}.fastq",
+		reads=RESULTS / "QC/trimming/{trimmer}/{model}/{sample}.{trimmer}.fastq",
 		faidx=rules.faidx_self.output.faidx
 	log:
-		LOGS / "QC/downsampling/{trimmer}/{depth}x/{sample}.{trimmer}.rasusa.log"
+		LOGS / "QC/downsampling/{trimmer}/{depth}x/{model}/{sample}.{trimmer}.rasusa.log"
 	resources:
 		mem="64GiB",
 		runtime="30m"
@@ -40,7 +40,7 @@ rule downsample_rasusa:
 	params:
 		seed="1"
 	output:
-		reads=RESULTS / "QC/downsampling/{trimmer}/{depth}x/{sample}.{trimmer}.rasusa.fastq",
+		reads=RESULTS / "QC/downsampling/{trimmer}/{depth}x/{model}/{sample}.{trimmer}.rasusa.fastq",
 	shell:
 		"""
 		rasusa reads -c {wildcards.depth} -g {input.faidx} -s {params.seed} -o {output.reads} {input.reads} 2> {log}

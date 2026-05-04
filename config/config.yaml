@@ -3,6 +3,10 @@ pepschema: "config/pep/pep_schema.yaml"
 
 repeat: 1
 
+model:
+  - sup
+  - hac
+
 depth:
   - 20
   - 50

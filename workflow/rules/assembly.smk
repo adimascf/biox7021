@@ -4,7 +4,7 @@ rule assembly_flye:
 	input:
 		reads=rules.downsample_rasusa.output.reads
 	log:
-		LOGS / "assembly/{trimmer}/{depth}x/{sample}.{trimmer}.flye.log"
+		LOGS / "assembly/{trimmer}/{depth}x/{model}/{sample}.{trimmer}.flye.log"
 	threads: 4
 	resources:
 		mem="128GiB",
@@ -14,11 +14,11 @@ rule assembly_flye:
 	params:
 		ont="--nano-hq",
 	output:
-		assembly=RESULTS / "assembly/{trimmer}/{depth}x/{sample}/{sample}.{trimmer}.{depth}x.assembly.fasta",
-		graph=RESULTS / "assembly/{trimmer}/{depth}x/{sample}/{sample}.{trimmer}.{depth}x.assembly_graph.gfa",
-		info=RESULTS / "assembly/{trimmer}/{depth}x/{sample}/{sample}.{trimmer}.{depth}x.assembly_info.txt"
+		assembly=RESULTS / "assembly/{trimmer}/{depth}x/{sample}/{model}/{sample}.{trimmer}.{depth}x.assembly.fasta",
+		graph=RESULTS / "assembly/{trimmer}/{depth}x/{sample}/{model}/{sample}.{trimmer}.{depth}x.assembly_graph.gfa",
+		info=RESULTS / "assembly/{trimmer}/{depth}x/{sample}/{model}/{sample}.{trimmer}.{depth}x.assembly_info.txt"
 	benchmark:
-		repeat(BENCHMARK / "assembly/{trimmer}/{depth}x/{sample}.{trimmer}.tsv", REPEAT)
+		repeat(BENCHMARK / "assembly/{trimmer}/{depth}x/{model}/{sample}.{trimmer}.tsv", REPEAT)
 	shell:
 		"""
 		tmp_results=$(mktemp -d)

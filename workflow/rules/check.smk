@@ -1,13 +1,13 @@
 rule check_quality_ends:
 	input:
-		reads= RESULTS / "QC/trimming/{trimmer}/{sample}.{trimmer}.fastq"
+		reads= RESULTS / "QC/trimming/{trimmer}/{model}/{sample}.{trimmer}.fastq"
 	resources:
 		mem="8GiB",
 		runtime="10m"
 	log:
-		LOGS / "QC/ends/{trimmer}/{sample}.{trimmer}.log"
+		LOGS / "QC/ends/{trimmer}/{model}/{sample}.{trimmer}.log"
 	output:
-		tsv=RESULTS / "QC/ends/{trimmer}/{sample}.{trimmer}.ends.tsv"
+		tsv=RESULTS / "QC/ends/{trimmer}/{model}/{sample}.{trimmer}.ends.tsv"
 	shell:
 		"""
 		workflow/bin/qends -n 150 -m median -i {input.reads} > {output.tsv} 2> {log}
@@ -35,11 +35,11 @@ rule check_read_stats:
 		mem="8GiB",
 		runtime="15m"
 	log:
-		LOGS / "QC/stats/{trimmer}/{sample}.{trimmer}.log"
+		LOGS / "QC/stats/{trimmer}/{model}/{sample}.{trimmer}.log"
 	conda:
 		ENVS / "barbell_seqkit.yaml"
 	output:
-		tsv=RESULTS / "QC/stats/{trimmer}/{sample}.{trimmer}.stats.tsv"
+		tsv=RESULTS / "QC/stats/{trimmer}/{model}/{sample}.{trimmer}.stats.tsv"
 	shell:
 		"""
 		seqkit stats {input.reads} > {output.tsv} 2> {log}

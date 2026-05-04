@@ -3,7 +3,7 @@ rule align_minimap2:
 		reads=rules.downsample_rasusa.output.reads,
 		reference=rules.faidx_mutref.output.fasta,
 	log:
-		LOGS / "alignment/{trimmer}/{depth}x/{sample}.{trimmer}.minimap2.log"
+		LOGS / "alignment/{trimmer}/{depth}x/{model}/{sample}.{trimmer}.minimap2.log"
 	threads: 4
 	resources:
 		mem="32GiB",
@@ -14,8 +14,8 @@ rule align_minimap2:
 		preset="map-ont",
 		opts="-aL --cs --MD"
 	output:
-		bam=temp(RESULTS / "alignment/{trimmer}/{depth}x/{sample}.{trimmer}.minimap2.sorted.bam"),
-		bai=temp(RESULTS / "alignment/{trimmer}/{depth}x/{sample}.{trimmer}.minimap2.sorted.bam.bai")
+		bam=temp(RESULTS / "alignment/{trimmer}/{depth}x/{model}/{sample}.{trimmer}.minimap2.sorted.bam"),
+		bai=temp(RESULTS / "alignment/{trimmer}/{depth}x/{model}/{sample}.{trimmer}.minimap2.sorted.bam.bai")
 	shell:
 		"""
 		(minimap2 {params.opts} -t {threads} -x {params.preset} {input.reference} {input.reads} | \
@@ -30,7 +30,7 @@ rule call_clair3:
 		reference=rules.align_minimap2.input.reference,
 		faidx=rules.faidx_mutref.output.faidx
 	log:
-		LOGS / "calling/{trimmer}/{depth}x/{sample}.{trimmer}.clair3.log"
+		LOGS / "calling/{trimmer}/{depth}x/{model}/{sample}.{trimmer}.clair3.log"
 	threads: 4
 	resources:
 		mem="128GiB",
@@ -40,6 +40,6 @@ rule call_clair3:
 	shadow:
 		"shallow"
 	output:
-		vcf=RESULTS / "calling/{trimmer}/{depth}x/{sample}.{trimmer}.clair3.vcf.gz"
+		vcf=RESULTS / "calling/{trimmer}/{depth}x/{model}/{sample}.{trimmer}.clair3.vcf.gz"
 	script:
 		"../scripts/calling/clair3.sh"

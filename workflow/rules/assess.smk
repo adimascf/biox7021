@@ -15,25 +15,25 @@ rule make_full_bed:
 
 rule assess_calls_vcfdist:
 	input:
-		query_vcf=RESULTS / "calling/{trimmer}/{depth}x/{sample}.{trimmer}.clair3.vcf.gz",
+		query_vcf=RESULTS / "calling/{trimmer}/{depth}x/{model}/{sample}.{trimmer}.clair3.vcf.gz",
 		truth_vcf=get_truth_vcf,  
 		mutreference=get_mutreference_genome,
 		faidx=rules.faidx_mutref.output.faidx,
 		bed=rules.make_full_bed.output.bed
 	log:
-		LOGS / "assess_mutref_calls/{trimmer}/{depth}x/{sample}.{trimmer}.log"
+		LOGS / "assess_mutref_calls/{trimmer}/{depth}x/{model}/{sample}.{trimmer}.log"
 	resources:
 		mem="32GiB",
 		runtime="30m"
 	params:
 		opts="--largest-variant 50 --credit-threshold 1.0",
-		prefix=lambda wildcards: RESULTS / f"assess/call/{wildcards.trimmer}/{wildcards.depth}x/{wildcards.sample}/{wildcards.sample}"
+		prefix=lambda wildcards: RESULTS / f"assess/call/{wildcards.trimmer}/{wildcards.depth}x/{wildcards.sample}/{wildcards.model}/{wildcards.sample}"
 	output:  
-		pr_summary=RESULTS / "assess/call/{trimmer}/{depth}x/{sample}/{sample}.precision-recall-summary.tsv",
-		pr=RESULTS / "assess/call/{trimmer}/{depth}x/{sample}/{sample}.precision-recall.tsv",
-		summary=RESULTS / "assess/call/{trimmer}/{depth}x/{sample}/{sample}.summary.vcf",
-		query=RESULTS / "assess/call/{trimmer}/{depth}x/{sample}/{sample}.query.tsv",
-		truth=RESULTS / "assess/call/{trimmer}/{depth}x/{sample}/{sample}.truth.tsv"
+		pr_summary=RESULTS / "assess/call/{trimmer}/{depth}x/{sample}/{model}/{sample}.precision-recall-summary.tsv",
+		pr=RESULTS / "assess/call/{trimmer}/{depth}x/{sample}/{model}/{sample}.precision-recall.tsv",
+		summary=RESULTS / "assess/call/{trimmer}/{depth}x/{sample}/{model}/{sample}.summary.vcf",
+		query=RESULTS / "assess/call/{trimmer}/{depth}x/{sample}/{model}/{sample}.query.tsv",
+		truth=RESULTS / "assess/call/{trimmer}/{depth}x/{sample}/{model}/{sample}.truth.tsv"
 	container:     
 		"docker://timd1/vcfdist:v2.6.4"
 	shell: 
@@ -56,7 +56,7 @@ rule assess_variant_plot:
 		mem="16GiB",
 		runtime="30m"
 	conda:
-		ENVS / "assess_variant_python.yaml"
+		ENVS / "generate_figure_python.yaml"
 	output:
 		figures=[
 				FIGURES / f"assess/call/metrics/trimming_variant_{metric}.png"
@@ -75,7 +75,7 @@ rule assess_variant_average:
 		mem="2GiB",
 		runtime="5m"
 	conda:
-		ENVS / "assess_variant_python.yaml"
+		ENVS / "generate_figure_python.yaml"
 	output:
 		csv=TABLES / "assess/call/metrics/trimming_variant_summary_averages.csv"
 	script:
@@ -90,18 +90,20 @@ rule assess_variant_fnfp:
 		mem="16GiB",
 		runtime="15m"
 	conda:
-		ENVS / "assess_variant_python.yaml"
+		ENVS / "generate_figure_python.yaml"
 	output:
-		csv=TABLES / "assess/call/metrics/trimming_variant_fnfp.csv"
+		csv=TABLES / "assess/call/metrics/trimming_variant_fnfp.csv",
+		fn_plot=FIGURES / "assess/call/metrics/trimming_variant_delta_fn.png",
+		fp_plot=FIGURES / "assess/call/metrics/trimming_variant_delta_fp.png"
 	script:
-		"../scripts/extract_fnfp_numbers.py"
+		"../scripts/extract_plot_fnfp.py"
 
 rule assess_assembly_quast:
 	input:
 		assembly=rules.assembly_flye.output.assembly,
 		reference=get_reference_genome
 	log:
-		LOGS / "assess/assembly/{trimmer}/quast/{depth}x/{sample}.{trimmer}.log"
+		LOGS / "assess/assembly/{trimmer}/quast/{depth}x/{model}/{sample}.{trimmer}.log"
 	threads: 4
 	resources:
 		mem="32GiB",
@@ -111,11 +113,11 @@ rule assess_assembly_quast:
 	conda:
 		ENVS / "quast.yaml"
 	output:
-		report_tsv= RESULTS / "assess/assembly/quast/{trimmer}/{depth}x/{sample}/{sample}.{trimmer}.report.tsv",  
-		report_html= RESULTS / "assess/assembly/quast/{trimmer}/{depth}x/{sample}/{sample}.{trimmer}.report.html",
-		icarus_html= RESULTS / "assess/assembly/quast/{trimmer}/{depth}x/{sample}/{sample}.{trimmer}.icarus.html",  
-		icarus_helper1= RESULTS / "assess/assembly/quast/{trimmer}/{depth}x/{sample}/icarus_viewers/contig_size_viewer.html", 
-		icarus_helper2= RESULTS / "assess/assembly/quast/{trimmer}/{depth}x/{sample}/icarus_viewers/alignment_viewer.html"
+		report_tsv= RESULTS / "assess/assembly/quast/{trimmer}/{depth}x/{sample}/{model}/{sample}.{trimmer}.report.tsv",  
+		report_html= RESULTS / "assess/assembly/quast/{trimmer}/{depth}x/{sample}/{model}/{sample}.{trimmer}.report.html",
+		icarus_html= RESULTS / "assess/assembly/quast/{trimmer}/{depth}x/{sample}/{model}/{sample}.{trimmer}.icarus.html",  
+		icarus_helper1= RESULTS / "assess/assembly/quast/{trimmer}/{depth}x/{sample}/{model}/icarus_viewers/contig_size_viewer.html", 
+		icarus_helper2= RESULTS / "assess/assembly/quast/{trimmer}/{depth}x/{sample}/{model}/icarus_viewers/alignment_viewer.html"
 	shell:
 		"""
 		tmp_dir=$(mktemp -d)
@@ -138,13 +140,13 @@ rule assess_assembly_contam:
 		assembly=rules.assembly_flye.output.assembly,
 		contaminants=DATA / "contaminants"
 	log:
-		LOGS / "assess/assembly/contaminant/{depth}x/{sample}/{sample}.{trimmer}.contaminants.log"
+		LOGS / "assess/assembly/contaminant/{depth}x/{sample}/{model}/{sample}.{trimmer}.contaminants.log"
 	threads: 4
 	resources:
 		mem="64GiB",
 		runtime="1h"
 	output:
-		contaminants=RESULTS / "assess/assembly/contaminant/{trimmer}/{depth}x/{sample}/{sample}.{trimmer}.contaminants.tsv"
+		contaminants=RESULTS / "assess/assembly/contaminant/{trimmer}/{depth}x/{sample}/{model}/{sample}.{trimmer}.contaminants.tsv"
 	script:
 		"../scripts/detect_adapter_contamination.py"
 
@@ -157,8 +159,34 @@ rule aggregate_assembly_contam:
 	resources:
 		mem="8GiB",
 		runtime="20m"
+	conda:
+		ENVS / "generate_figure_python.yaml"
 	output:
 		summary=TABLES / "assess/assembly/metrics/contaminant_summary_count.csv",
 		details=TABLES / "assess/assembly/metrics/contaminant_details.csv"
 	script:
 		"../scripts/aggregate_contaminants.py"
+
+rule plot_assembly_quast_metrics:
+	input:
+		reports=expand(
+				RESULTS / "assess/assembly/quast/{trimmer}/{depth}x/{sample}/{model}/{sample}.{trimmer}.report.tsv",
+				trimmer=EVAL_TRIMMERS,
+				depth=DEPTHS,
+				sample=SAMPLES,
+				model=MODELS)
+	log:
+		LOGS / "assess/assembly/plot_quast_metrics.log"
+	resources:
+		mem="16GiB",
+		runtime="20m"
+	conda:
+		ENVS / "generate_figure_python.yaml"
+	output:
+		csv=TABLES / "assess/assembly/metrics/quast_compiled_metrics.csv",
+		error_plot=FIGURES / "assess/assembly/metrics/assembly_errors_per_100kbp.png",
+		nga50_plot=FIGURES / "assess/assembly/metrics/assembly_nga50.png",
+		delta_error_plot=FIGURES / "assess/assembly/metrics/assembly_delta_errors.png",
+		delta_nga50_plot=FIGURES / "assess/assembly/metrics/assembly_delta_nga50.png"
+	script:
+		"../scripts/plot_assembly_metrics.py"
