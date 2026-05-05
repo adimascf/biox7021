@@ -179,7 +179,6 @@ def resolve_global_overlaps(all_hits):
 
 
 # SNAKEMAKE EXECUTION BLOCK
-
 assembly_fasta = snakemake.input.assembly
 contaminants_dir = snakemake.input.contaminants
 output_tsv = snakemake.output.contaminants
@@ -187,11 +186,14 @@ output_tsv = snakemake.output.contaminants
 # Fetch optional parameters from the Snakefile, or use defaults
 min_cov = getattr(snakemake.params, 'min_cov', 0.90)
 min_id = getattr(snakemake.params, 'min_id', 0.90)
+is_native_only = getattr(snakemake.params, 'is_native_only', False)
 
 os.makedirs(os.path.dirname(os.path.abspath(output_tsv)), exist_ok=True) 
 assembly_label = Path(assembly_fasta).name
 
 print(f"Starting contaminant detection for: {assembly_label}")
+if is_native_only:
+    print("-> Sample flagged as Native-only. Rapid barcodes will be ignored.")
 
 # Find all fasta/fa files in the directory
 barcode_files = glob.glob(os.path.join(contaminants_dir, "*.fasta")) + glob.glob(os.path.join(contaminants_dir, "*.fa"))
@@ -203,6 +205,11 @@ if not barcode_files:
 all_valid_hits = []
 
 for barcodes_fa in barcode_files:
+    # SKIP LOGIC: If sample is native only, and the file is the rapid kit, skip it.
+    if is_native_only and "rapid" in os.path.basename(barcodes_fa).lower():
+        print(f"Skipping {os.path.basename(barcodes_fa)}...")
+        continue
+
     print(f"Running minimap2 against {os.path.basename(barcodes_fa)}...")
     output = run_minimap2(assembly_fasta, barcodes_fa)
     

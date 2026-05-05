@@ -145,6 +145,10 @@ rule assess_assembly_contam:
 	resources:
 		mem="64GiB",
 		runtime="1h"
+	params:
+		min_cov=0.90,
+		min_id=0.90,
+		is_native_only=lambda wildcards: wildcards.sample in config["native"]
 	conda:
 		ENVS / "align.yaml"
 	output:
