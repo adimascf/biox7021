@@ -1,0 +1,1990 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Week 11: Tracking sequencing kits and exploring barcode contamination detection with minimap2 – BIOX7021 LOGBOOK - 2026</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-adfb2833bc15652ec5881dc6381ea988.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-60eb8141d3f50090c0f52d36a83ed331.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-adfb2833bc15652ec5881dc6381ea988.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-e8a4c0895993354b54972b5f1e41c0e4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-58008ceab81c4fb57a6fd58a386c2ec9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-e8a4c0895993354b54972b5f1e41c0e4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+</head>
+
+<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">BIOX7021 LOGBOOK - 2026</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../home.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-weekly-logs" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Weekly Logs</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-weekly-logs">    
+        <li>
+    <a class="dropdown-item" href="../logbook/week01.html">
+ <span class="dropdown-text">Week 1</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../logbook/week02.html">
+ <span class="dropdown-text">Week 2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../logbook/week03.html">
+ <span class="dropdown-text">Week 3</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../logbook/week04.html">
+ <span class="dropdown-text">Week 4</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../logbook/week05.html">
+ <span class="dropdown-text">Week 5</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../logbook/week06.html">
+ <span class="dropdown-text">Week 6</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../logbook/week07.html">
+ <span class="dropdown-text">Week 7</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../logbook/week08.html">
+ <span class="dropdown-text">Week 8</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../logbook/week09.html">
+ <span class="dropdown-text">Week 9</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../logbook/week10.html">
+ <span class="dropdown-text">Week 10</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../logbook/week11.html">
+ <span class="dropdown-text">Week 11</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#tracking-sample-kits" id="toc-tracking-sample-kits" class="nav-link active" data-scroll-target="#tracking-sample-kits">Tracking sample kits</a>
+  <ul>
+  <li><a href="#from-pod5-metadata" id="toc-from-pod5-metadata" class="nav-link" data-scroll-target="#from-pod5-metadata">From pod5 metadata</a></li>
+  <li><a href="#exploring-barcode-contaminats-detection-with-minimap2" id="toc-exploring-barcode-contaminats-detection-with-minimap2" class="nav-link" data-scroll-target="#exploring-barcode-contaminats-detection-with-minimap2">Exploring barcode contaminats detection with minimap2</a>
+  <ul>
+  <li><a href="#testing-on-the-barbell-assembly" id="toc-testing-on-the-barbell-assembly" class="nav-link" data-scroll-target="#testing-on-the-barbell-assembly">Testing on the barbell assembly</a></li>
+  <li><a href="#testing-on-kpc2__202310-at-20-depth" id="toc-testing-on-kpc2__202310-at-20-depth" class="nav-link" data-scroll-target="#testing-on-kpc2__202310-at-20-depth">Testing on KPC2__202310 at 20× depth</a>
+  <ul class="collapse">
+  <li><a href="#testing-with-manually-inserted-barcode-contaminants" id="toc-testing-with-manually-inserted-barcode-contaminants" class="nav-link" data-scroll-target="#testing-with-manually-inserted-barcode-contaminants">Testing with manually inserted barcode contaminants</a></li>
+  </ul></li>
+  <li><a href="#testing-on-atcc_25922__202309-at-20x-depth" id="toc-testing-on-atcc_25922__202309-at-20x-depth" class="nav-link" data-scroll-target="#testing-on-atcc_25922__202309-at-20x-depth">Testing on ATCC_25922__202309 at 20x depth</a>
+  <ul class="collapse">
+  <li><a href="#dorado-processed-reads" id="toc-dorado-processed-reads" class="nav-link" data-scroll-target="#dorado-processed-reads">dorado processed reads</a></li>
+  <li><a href="#porecho_abi-discard-processed-reads" id="toc-porecho_abi-discard-processed-reads" class="nav-link" data-scroll-target="#porecho_abi-discard-processed-reads">porecho_abi discard processed reads</a></li>
+  </ul></li>
+  <li><a href="#testing-on-the-other-assemblies" id="toc-testing-on-the-other-assemblies" class="nav-link" data-scroll-target="#testing-on-the-other-assemblies">Testing on the other assemblies</a>
+  <ul class="collapse">
+  <li><a href="#contamination-count" id="toc-contamination-count" class="nav-link" data-scroll-target="#contamination-count">Contamination count</a></li>
+  <li><a href="#contamination-details" id="toc-contamination-details" class="nav-link" data-scroll-target="#contamination-details">Contamination details</a></li>
+  <li><a href="#contamination-region-total" id="toc-contamination-region-total" class="nav-link" data-scroll-target="#contamination-region-total">Contamination region (total)</a></li>
+  <li><a href="#contamination-region-per-trimmer" id="toc-contamination-region-per-trimmer" class="nav-link" data-scroll-target="#contamination-region-per-trimmer">Contamination region (per trimmer)</a></li>
+  <li><a href="#mixed-vs-native-only-samples" id="toc-mixed-vs-native-only-samples" class="nav-link" data-scroll-target="#mixed-vs-native-only-samples">Mixed vs native only samples</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Week 11: Tracking sequencing kits and exploring barcode contamination detection with minimap2</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="tracking-sample-kits" class="level2">
+<h2 class="anchored" data-anchor-id="tracking-sample-kits">Tracking sample kits</h2>
+<section id="from-pod5-metadata" class="level3">
+<h3 class="anchored" data-anchor-id="from-pod5-metadata">From pod5 metadata</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 23%">
+<col style="width: 76%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Sample name</th>
+<th>Sequencing kit(s)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ATCC_10708__202309</td>
+<td>SQK-NBD114-96: 13,446,170 reads (94.21%); SQK-RBK114-96: 825,976 reads (5.79%)</td>
+</tr>
+<tr class="even">
+<td>ATCC_17802__202309</td>
+<td>SQK-NBD114-96: 4,376,835 reads (88.75%); SQK-RBK114-96: 554,861 reads (11.25%)</td>
+</tr>
+<tr class="odd">
+<td>ATCC_19119__202309</td>
+<td>SQK-NBD114-96: 953,667 reads (59.77%); SQK-RBK114-96: 641,925 reads (40.23%)</td>
+</tr>
+<tr class="even">
+<td>ATCC_25922__202309</td>
+<td>SQK-NBD114-96: 5,798,609 reads (84.43%); SQK-RBK114-96: 1,069,262 reads (15.57%)</td>
+</tr>
+<tr class="odd">
+<td>ATCC_33560__202309</td>
+<td>SQK-NBD114-96: 512,332 reads (51.65%); SQK-RBK114-96: 479,634 reads (48.35%)</td>
+</tr>
+<tr class="even">
+<td>ATCC_35221__202309</td>
+<td>SQK-NBD114-96: 411,321 reads (56.29%); SQK-RBK114-96: 319,425 reads (43.71%)</td>
+</tr>
+<tr class="odd">
+<td>ATCC_35897__202309</td>
+<td>SQK-NBD114-96: 714,169 reads (41.62%); SQK-RBK114-96: 1,001,157 reads (58.38%)</td>
+</tr>
+<tr class="even">
+<td>ATCC_BAA-679__202309</td>
+<td>SQK-NBD114-96: 824,339 reads (48.17%); SQK-RBK114-96: 886,871 reads (51.83%)</td>
+</tr>
+<tr class="odd">
+<td>KPC2__202310</td>
+<td>SQK-NBD114-96: 35,284 reads (71.79%); SQK-RBK114-96: 13,862 reads (28.21%)</td>
+</tr>
+<tr class="even">
+<td>AJ292__202310</td>
+<td>SQK-NBD114-96: 71,694 reads (100%)</td>
+</tr>
+<tr class="odd">
+<td>RDH275__202311</td>
+<td>SQK-NBD114-96: 1,010,169 reads (100%)</td>
+</tr>
+<tr class="even">
+<td>MMC234__202311</td>
+<td>SQK-NBD114-96: 236,014 reads (100%)</td>
+</tr>
+<tr class="odd">
+<td>BPH2947__202310</td>
+<td>SQK-NBD114-96: 162,292 reads (100%)</td>
+</tr>
+<tr class="even">
+<td>AMtb_1__202402</td>
+<td>SQK-NBD114-96: 186,332 reads (100%)</td>
+</tr>
+</tbody>
+</table>
+<p>Based on the POD5 metadata, nine samples contain reads from both the native barcoding kit (SQK-NBD114-96) and the rapid barcoding kit (SQK-RBK114-96). In most of these mixed samples, the native kit contributed a higher proportion of reads. The remaining five samples appear to contain reads only from the native barcoding kit.</p>
+<p>can we just use pod5 files that come from native barcode?</p>
+</section>
+<section id="exploring-barcode-contaminats-detection-with-minimap2" class="level3">
+<h3 class="anchored" data-anchor-id="exploring-barcode-contaminats-detection-with-minimap2">Exploring barcode contaminats detection with minimap2</h3>
+<p>Initially, I considered using the barcode FASTA as the query and the assembly as the target. However, because I want to allow same barcode sequence to align to multiple possible regions in the assembly, but avoid having one assembly region matched by multiple barcode sequences, I decided to treat the barcode FASTA as the target/reference and the assembly as the query. This is quite similar to the mapping config issue we discussed in the Eris project last semester..</p>
+<p>minimap2 command: <code>minimap2 -c -x sr -k 9 -w 1 -n 1 -m 14 &lt;barcodes.fasta&gt; &lt;assembly.fasta&gt;</code></p>
+<p>Since minimap2 performs local alignment, I kept the barcode and flanking sequence together as one target sequence. My reasoning is that I still want to retain information from the adjacent flanking regions, while also being able to detect cases where only part of the barcode or flank remains in the assembly. For example, this could include a full barcode with partial flanking sequence, or a full flanking sequence with only part of the barcode.</p>
+<p>Instead, I wrote an additional function to break down each alignment by region. This allows me to calculate how much of the left flank, barcode, and right flank are covered by the alignment.</p>
+<ul>
+<li>Rapid barcode: [Left flank] - [Barcode] - [Right flank]</li>
+<li>Native barcode: [Adapter] - [Flank+barcode]</li>
+</ul>
+<p>I think this is more robust than searching each region separately, or treating the entire barcode-flank sequence as one undivided region. The filtering aprroach is also based on coverage of specific regions (90% for instance), so we do not miss cases where one region aligns well but another region does not, possibly because it was correctly trimmed.</p>
+<p>I also added information about where a contaminant is located relative to the contig in the assembly. I classified the location into three categories:</p>
+<ul>
+<li>start: within the first 100 bp of the contig.</li>
+<li>end: within the last 100 bp of the contig.</li>
+<li>middle: the contaminant is not located within either the first or last 100 bp of the contig.</li>
+</ul>
+<section id="testing-on-the-barbell-assembly" class="level4">
+<h4 class="anchored" data-anchor-id="testing-on-the-barbell-assembly">Testing on the barbell assembly</h4>
+<p>I first tested this approach on the Barbell assembly (from rapid kit):</p>
+<div id="5d423c4d" class="cell" data-execution_count="1">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!python detect_contaminant_minimap2.py --barcode-dir barcodes/ --assembly test_assemblies/bc49_medaka_consensus.114.fasta -o bc49_medaka_consensus.cont.tsv 2&gt; /dev/null</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>csvtk <span class="op">-</span>t pretty bc49_medaka_consensus.cont.tsv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>query   kit     target_contig   strand   t_start   t_end   identity   dp_score   mapq   position   region_breakdown                      
+-----   -----   -------------   ------   -------   -----   --------   --------   ----   --------   --------------------------------------
+BC49    rapid   contig_27       -        21418     21485   1.00       134        60     end        [Left: 0% | Bar: 71% | Right: 100%]   
+BC17    rapid   contig_64       -        0         73      0.99       130        60     start      [Left: 81% | Bar: 100% | Right: 70%]  
+BC49    rapid   contig_73       +        1         91      1.00       180        60     start      [Left: 100% | Bar: 100% | Right: 100%]</code></pre>
+</div>
+</div>
+<p>The script detected three barcode hits, which is similar to what Barbell reported. I also calculated the coverage for each sub-region, including the left flank, right flank, and actual barcode sequence.</p>
+<p>Here, I focus on coverage rather than identity because identity is calculated across the whole aligned sequence. I think coverage gives a clearer view of which specific part of the barcode-flank structure is actually present in the assembly.</p>
+</section>
+<section id="testing-on-kpc2__202310-at-20-depth" class="level4">
+<h4 class="anchored" data-anchor-id="testing-on-kpc2__202310-at-20-depth">Testing on KPC2__202310 at 20× depth</h4>
+<p>I then tested the script on the KPC2__202310 20× (a mixed sample) assembly generated from Dorado processed reads</p>
+<div id="dba86d91" class="cell" data-execution_count="2">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!python detect_contaminant_minimap2.py -d barcodes/ -a test_assemblies/KPC2__202310.dorado.20x.assembly.fasta -o KPC2__202310.dorado.20x.cont.tsv</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>csvtk <span class="op">-</span>t pretty KPC2__202310.dorado<span class="fl">.20</span><span class="er">x</span>.cont.tsv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>query   kit   target_contig   strand   t_start   t_end   identity   dp_score   mapq   position   region_breakdown
+-----   ---   -------------   ------   -------   -----   --------   --------   ----   --------   ----------------</code></pre>
+</div>
+</div>
+<p>No barcode contamination was detected in this assembly.</p>
+<section id="testing-with-manually-inserted-barcode-contaminants" class="level5">
+<h5 class="anchored" data-anchor-id="testing-with-manually-inserted-barcode-contaminants">Testing with manually inserted barcode contaminants</h5>
+<p>To check whether this aproach can detect known barcode contamination, I manually inserted six barcode sequences into the clean KPC2 assembly above. The aim was to create a positive control assembly and test whether the script could recover all inserted contaminants correctly.</p>
+<p>The manually inserted contaminants were:</p>
+<ul>
+<li>Rapid barcode sequences:
+<ul>
+<li>BC05 inserted at the start of contig_1 (part of the flank deleted, base error in barcode).</li>
+<li>BC06 inserted at the start of contig_2, (the full barcode-flank structure retained).</li>
+</ul></li>
+<li>Native right barcode sequences:
+<ul>
+<li>Native_bottom_3 inserted at the end of contig_1 (part of the adapter deleted).</li>
+</ul></li>
+<li>Native left barcode sequences
+<ul>
+<li>Native_top_3 inserted at the start of contig_3. (part of the adapter deleted)</li>
+<li>Native_top_4 inserted at the start of contig_4 (the full barcode-adapter structure retained).</li>
+<li>Native_bottom_3 inserted at the end of contig_4, (part of the adapter deleted).</li>
+</ul></li>
+</ul>
+<p>I then ran the detection script again on the manually contaminated assembly:</p>
+<div id="fc3ab654" class="cell" data-execution_count="3">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!python detect_contaminant_minimap2.py -a test_assemblies/KPC2__202310.dorado.20x.assembly.cont.fasta -d barcodes/ -o KPC2__202310.dorado.20x.cont.insert.tsv</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>csvtk <span class="op">-</span>t pretty KPC2__202310.dorado<span class="fl">.20</span><span class="er">x</span>.cont.insert.tsv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>query             kit            target_contig   strand   t_start   t_end     identity   dp_score   mapq   position   region_breakdown                      
+---------------   ------------   -------------   ------   -------   -------   --------   --------   ----   --------   --------------------------------------
+BC05              rapid          contig_1        +        0         82        0.99       154        60     start      [Left: 50% | Bar: 100% | Right: 100%] 
+Native_bottom_3   native_right   contig_1        +        5399880   5399940   1.00       120        60     end        [Adapter: 74% | Bar+Flank: 100%]      
+BC06              rapid          contig_2        +        0         90        1.00       180        60     start      [Left: 100% | Bar: 100% | Right: 100%]
+Native_top_3      native_left    contig_3        +        0         72        1.00       144        60     start      [Adapter: 89% | Bar+Flank: 100%]      
+Native_top_4      native_left    contig_4        +        0         76        1.00       152        60     start      [Adapter: 100% | Bar+Flank: 100%]     
+Native_bottom_3   native_right   contig_4        +        43200     43260     1.00       120        60     end        [Adapter: 74% | Bar+Flank: 100%]      </code></pre>
+</div>
+</div>
+<p>One important observation is that the core barcode sequences are often identical, or reverse complements, across the native and rapid kits. The main difference between kits is usually in the flanking adapter sequence. Therefore, when a native barcode is inserted into the assembly, it can naturally produce a partial hit against the rapid barcode reference as well.</p>
+<p>This means that, in mixed kit samples, multiple barcode records from different barcode files can align to the same region of the assembly. To resolve these overlapping alignment results, I selected the barcode hit with the higher overall dp_score or alignment score as the most likely match.</p>
+<p>The flanking regions and also adapter sequence are important for distinguishing whether the detected sequence is more consistent with the native or rapid kit structure.</p>
+</section>
+</section>
+<section id="testing-on-atcc_25922__202309-at-20x-depth" class="level4">
+<h4 class="anchored" data-anchor-id="testing-on-atcc_25922__202309-at-20x-depth">Testing on ATCC_25922__202309 at 20x depth</h4>
+<section id="dorado-processed-reads" class="level5">
+<h5 class="anchored" data-anchor-id="dorado-processed-reads">dorado processed reads</h5>
+<div id="9fe6e0df" class="cell" data-execution_count="4">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!python detect_contaminant_minimap2.py -d barcodes/ -a test_assemblies/ATCC_25922__202309.dorado.20x.assembly.fasta -o ATCC_25922__202309.dorado.20x.cont.tsv 2&gt; /dev/null</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>csvtk <span class="op">-</span>t pretty ATCC_25922__202309.dorado<span class="fl">.20</span><span class="er">x</span>.cont.tsv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>query              kit            target_contig   strand   t_start   t_end     identity   dp_score   mapq   position   region_breakdown                
+----------------   ------------   -------------   ------   -------   -------   --------   --------   ----   --------   --------------------------------
+Native_top_75      native_left    contig_11       +        0         41        1.00       82         31     start      [Adapter: 3% | Bar+Flank: 100%] 
+Native_top_83      native_left    contig_15       -        812843    812883    1.00       80         28     end        [Adapter: 0% | Bar+Flank: 100%] 
+Native_top_75      native_left    contig_18       +        22        71        1.00       98         32     start      [Adapter: 25% | Bar+Flank: 100%]
+Native_top_75      native_left    contig_2        -        1281798   1281838   1.00       80         30     end        [Adapter: 0% | Bar+Flank: 100%] 
+Native_bottom_75   native_right   contig_23       +        2047      2091      1.00       88         31     end        [Adapter: 19% | Bar+Flank: 98%] 
+Native_top_75      native_left    contig_25       -        126487    126527    1.00       80         30     end        [Adapter: 0% | Bar+Flank: 100%] 
+Native_top_75      native_left    contig_29       -        5178      5223      1.00       90         31     end        [Adapter: 14% | Bar+Flank: 100%]
+Native_top_75      native_left    contig_3        +        0         40        1.00       80         30     start      [Adapter: 0% | Bar+Flank: 100%] 
+Native_top_83      native_left    contig_3        -        792244    792290    1.00       92         29     end        [Adapter: 17% | Bar+Flank: 100%]
+Native_top_83      native_left    contig_4        +        0         46        1.00       92         29     start      [Adapter: 17% | Bar+Flank: 100%]
+Native_top_83      native_left    contig_5        -        26636     26676     1.00       80         28     end        [Adapter: 0% | Bar+Flank: 100%] 
+Native_top_75      native_left    contig_7        -        105245    105290    1.00       90         31     end        [Adapter: 14% | Bar+Flank: 100%]
+Native_top_75      native_left    contig_8        -        16848     16890     0.95       60         20     end        [Adapter: 8% | Bar+Flank: 100%] </code></pre>
+</div>
+</div>
+<p>In this particular sample, <code>dorado trim</code> to successfully identify and remove the 36 bp adapter, leaving only around 0–25% of the adapter sequence behind. However, <code>dorado trim</code> appears to completely miss the barcode and flanking sequences. The hist are either at the start (first 100bp) or at the ends (last 100bp) of contigs</p>
+<p>Here I am also a bit worried if <code>dorado trim</code> doesn’t trim the barcode, it does only trim the adapter..</p>
+<p>Since almost all of the hits have perfect identity, I next checked whether the barcode sequence itself is present in the assembly using <code>seqkit locate</code>.</p>
+<div id="79daef5a" class="cell" data-execution_count="5">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>seqkit locate <span class="op">-</span>p <span class="st">"AAGGTTAAGACCATTGTGATGAACCCTGTTGTCAGCACCT"</span> test_assemblies<span class="op">/</span>ATCC_25922__202309.dorado<span class="fl">.20</span><span class="er">x</span>.assembly.fasta</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>seqID   patternName pattern strand  start   end matched
+contig_11   AAGGTTAAGACCATTGTGATGAACCCTGTTGTCAGCACCT    AAGGTTAAGACCATTGTGATGAACCCTGTTGTCAGCACCT    +   2   41  AAGGTTAAGACCATTGTGATGAACCCTGTTGTCAGCACCT
+contig_18   AAGGTTAAGACCATTGTGATGAACCCTGTTGTCAGCACCT    AAGGTTAAGACCATTGTGATGAACCCTGTTGTCAGCACCT    +   32  71  AAGGTTAAGACCATTGTGATGAACCCTGTTGTCAGCACCT
+contig_2    AAGGTTAAGACCATTGTGATGAACCCTGTTGTCAGCACCT    AAGGTTAAGACCATTGTGATGAACCCTGTTGTCAGCACCT    -   1281799 1281838 AAGGTTAAGACCATTGTGATGAACCCTGTTGTCAGCACCT
+contig_25   AAGGTTAAGACCATTGTGATGAACCCTGTTGTCAGCACCT    AAGGTTAAGACCATTGTGATGAACCCTGTTGTCAGCACCT    -   126488  126527  AAGGTTAAGACCATTGTGATGAACCCTGTTGTCAGCACCT
+contig_29   AAGGTTAAGACCATTGTGATGAACCCTGTTGTCAGCACCT    AAGGTTAAGACCATTGTGATGAACCCTGTTGTCAGCACCT    -   5179    5218    AAGGTTAAGACCATTGTGATGAACCCTGTTGTCAGCACCT
+contig_3    AAGGTTAAGACCATTGTGATGAACCCTGTTGTCAGCACCT    AAGGTTAAGACCATTGTGATGAACCCTGTTGTCAGCACCT    +   1   40  AAGGTTAAGACCATTGTGATGAACCCTGTTGTCAGCACCT
+contig_7    AAGGTTAAGACCATTGTGATGAACCCTGTTGTCAGCACCT    AAGGTTAAGACCATTGTGATGAACCCTGTTGTCAGCACCT    -   105246  105285  AAGGTTAAGACCATTGTGATGAACCCTGTTGTCAGCACCT</code></pre>
+</div>
+</div>
+<p>The result from <code>seqkit locate</code> also matched with the minimap2 script, it has Native_top_75 contaminats with 100% identity in seven different positons in the assembly.</p>
+</section>
+<section id="porecho_abi-discard-processed-reads" class="level5">
+<h5 class="anchored" data-anchor-id="porecho_abi-discard-processed-reads">porecho_abi discard processed reads</h5>
+<div id="033b9a57" class="cell" data-execution_count="6">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!python detect_contaminant_minimap2.py -d barcodes/ -a test_assemblies/ATCC_25922__202309.porechop_abi_discard.20x.assembly.fasta -o ATCC_25922__202309.porechop_abi_discard.20x.cont.tsv 2&gt; /dev/null</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>csvtk <span class="op">-</span>t pretty ATCC_25922__202309.porechop_abi_discard<span class="fl">.20</span><span class="er">x</span>.cont.tsv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>query           kit           target_contig   strand   t_start   t_end    identity   dp_score   mapq   position   region_breakdown                     
+-------------   -----------   -------------   ------   -------   ------   --------   --------   ----   --------   -------------------------------------
+Native_top_83   native_left   contig_1        -        97689     97726    1.00       74         33     end        [Adapter: 0% | Bar+Flank: 92%]       
+Native_top_83   native_left   contig_11       -        9189      9226     1.00       74         33     end        [Adapter: 0% | Bar+Flank: 92%]       
+Native_top_83   native_left   contig_12       -        9157      9195     1.00       76         34     end        [Adapter: 0% | Bar+Flank: 95%]       
+Native_top_83   native_left   contig_13       +        0         39       1.00       78         36     start      [Adapter: 0% | Bar+Flank: 98%]       
+BC70            rapid         contig_15       -        604613    604664   0.98       86         42     middle     [Left: 0% | Bar: 0% | Right: 100%]   
+BC11            rapid         contig_15       -        604679    604764   1.00       170        60     end        [Left: 69% | Bar: 100% | Right: 100%]
+Native_top_83   native_left   contig_2        +        0         38       1.00       76         34     start      [Adapter: 0% | Bar+Flank: 95%]       
+BC11            rapid         contig_2        -        806435    806515   1.00       160        60     end        [Left: 38% | Bar: 100% | Right: 100%]
+BC11            rapid         contig_21       -        2139      2219     1.00       160        60     end        [Left: 38% | Bar: 100% | Right: 100%]
+Native_top_83   native_left   contig_6        +        0         40       0.95       54         30     start      [Adapter: 0% | Bar+Flank: 98%]       
+BC11            rapid         contig_7        -        5872      5955     1.00       166        60     end        [Left: 56% | Bar: 100% | Right: 100%]
+BC11            rapid         contig_8        -        15483     15563    1.00       160        60     end        [Left: 38% | Bar: 100% | Right: 100%]
+BC11            rapid         contig_9        -        27655     27735    1.00       160        60     end        [Left: 38% | Bar: 100% | Right: 100%]</code></pre>
+</div>
+</div>
+<p>Similar to the Dorado reads, this sample detected 13 contaminants, but with a different contaminant profile. It also detected barcode sequences from the rapid kit. For example, BC11 showed a consistent regional breakdown of approximately [Left: 38% | Barcode: 100% | Right: 100%].</p>
+<p>Similar to the Dorado result, <code>porechop_abi_discard</code> successfully removed the 36 bp adapter from the native reads. However, it appears to completely ignore the barcode and flanking segment, which remains full or almost full in the assembly.</p>
+</section>
+</section>
+<section id="testing-on-the-other-assemblies" class="level4">
+<h4 class="anchored" data-anchor-id="testing-on-the-other-assemblies">Testing on the other assemblies</h4>
+<section id="contamination-count" class="level5">
+<h5 class="anchored" data-anchor-id="contamination-count">Contamination count</h5>
+<div id="3841bd35" class="cell" data-execution_count="7">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>contamination_count <span class="op">=</span> pd.read_csv(<span class="st">"../results/tables/assess/assembly/metrics/contaminant_summary_count.csv"</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>sns.set_theme(style<span class="op">=</span><span class="st">"whitegrid"</span>)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>models <span class="op">=</span> [<span class="st">"sup"</span>, <span class="st">"hac"</span>]</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>hue_order <span class="op">=</span> [<span class="st">"100x"</span>, <span class="st">"50x"</span>, <span class="st">"20x"</span>]</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>order_abs <span class="op">=</span> <span class="bu">sorted</span>(contamination_count[<span class="st">"trimmer"</span>].unique())</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(nrows<span class="op">=</span><span class="dv">1</span>, ncols<span class="op">=</span><span class="bu">len</span>(models), figsize<span class="op">=</span>(<span class="dv">14</span>, <span class="fl">5.5</span>), dpi<span class="op">=</span><span class="dv">100</span>, sharex<span class="op">=</span><span class="va">True</span>, sharey<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> c, model <span class="kw">in</span> <span class="bu">enumerate</span>(models):</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> axes[c]</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># During loop 1, the variable `model` equals "sup"</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    contamination_count_sub <span class="op">=</span> contamination_count.query(<span class="st">"model == @model"</span>)</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> contamination_count_sub.empty:</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>        sns.boxplot(data<span class="op">=</span>contamination_count_sub, x<span class="op">=</span><span class="st">"trimmer"</span>, y<span class="op">=</span><span class="st">"contamination_count"</span>, hue<span class="op">=</span><span class="st">"depth"</span>, order<span class="op">=</span>order_abs, hue_order<span class="op">=</span>hue_order, ax<span class="op">=</span>ax, fliersize<span class="op">=</span><span class="dv">0</span>, gap<span class="op">=</span><span class="fl">0.1</span>)</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>        sns.stripplot(data<span class="op">=</span>contamination_count_sub, x<span class="op">=</span><span class="st">"trimmer"</span>, y<span class="op">=</span><span class="st">"contamination_count"</span>, hue<span class="op">=</span><span class="st">"depth"</span>, order<span class="op">=</span>order_abs, hue_order<span class="op">=</span>hue_order, ax<span class="op">=</span>ax, alpha<span class="op">=</span><span class="fl">0.6</span>, dodge<span class="op">=</span><span class="va">True</span>, linewidth<span class="op">=</span><span class="fl">0.5</span>, edgecolor<span class="op">=</span><span class="st">"black"</span>, legend<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># force standard numbers instead of scientific notation</span></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>    ax.yaxis.set_major_formatter(plt.ScalarFormatter())</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># clean up the labels for a polished look</span></span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>    ax.set_ylabel(<span class="st">"Contamination Count"</span> <span class="cf">if</span> c <span class="op">==</span> <span class="dv">0</span> <span class="cf">else</span> <span class="st">""</span>)</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>    ax.set_title(<span class="ss">f"Number of Contaminants - </span><span class="sc">{</span>model<span class="sc">.</span>upper()<span class="sc">}</span><span class="ss"> Model"</span>)</span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>    ax.set_xlabel(<span class="st">""</span>)</span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>    ax.set_xticks(ax.get_xticks())</span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>    ax.set_xticklabels(ax.get_xticklabels(), rotation<span class="op">=</span><span class="dv">45</span>, ha<span class="op">=</span><span class="st">"right"</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> c <span class="op">==</span> <span class="dv">1</span> <span class="kw">and</span> ax.get_legend() <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>        ax.legend(title<span class="op">=</span><span class="st">"Depth"</span>, bbox_to_anchor<span class="op">=</span>(<span class="fl">1.05</span>, <span class="dv">1</span>), loc<span class="op">=</span><span class="st">'upper left'</span>)</span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> ax.get_legend() <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>        ax.get_legend().remove()</span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>fig.tight_layout()</span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">"../results/figures/assess/assembly/metrics/assembly_contamination_minimap2.png"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="week11_files/figure-html/cell-8-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="week11_files/figure-html/cell-8-output-1.png" width="1387" height="534" class="figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="contamination-details" class="level5">
+<h5 class="anchored" data-anchor-id="contamination-details">Contamination details</h5>
+</section>
+<section id="contamination-region-total" class="level5">
+<h5 class="anchored" data-anchor-id="contamination-region-total">Contamination region (total)</h5>
+<div id="346859ca" class="cell" data-execution_count="8">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>contamination_details <span class="op">=</span> pd.read_csv(<span class="st">"../results/tables/assess/assembly/metrics/contaminant_details.csv"</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> extract_all_coverages(row):</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co">    Extracts numerical percentages for all regions based on the kit type.</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns a pandas Series to create multiple columns at once.</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    breakdown <span class="op">=</span> <span class="bu">str</span>(row[<span class="st">'region_breakdown'</span>])</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    kit <span class="op">=</span> <span class="bu">str</span>(row[<span class="st">'kit'</span>])</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Initialize variables with NaN (so missing data doesn't default to 0)</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>    cov_data <span class="op">=</span> {</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>        <span class="st">'adapter_cov'</span>: pd.NA,</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">'left_cov'</span>: pd.NA,</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>        <span class="st">'barcode_cov'</span>: pd.NA,</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>        <span class="st">'right_cov'</span>: pd.NA</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> kit <span class="op">==</span> <span class="st">'rapid'</span>:</span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>        m_left <span class="op">=</span> re.search(<span class="vs">r'Left:</span><span class="dv">\s</span><span class="op">*</span><span class="kw">(</span><span class="dv">\d</span><span class="op">+</span><span class="kw">)</span><span class="vs">%'</span>, breakdown)</span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>        m_bar <span class="op">=</span> re.search(<span class="vs">r'Bar:</span><span class="dv">\s</span><span class="op">*</span><span class="kw">(</span><span class="dv">\d</span><span class="op">+</span><span class="kw">)</span><span class="vs">%'</span>, breakdown)</span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>        m_right <span class="op">=</span> re.search(<span class="vs">r'Right:</span><span class="dv">\s</span><span class="op">*</span><span class="kw">(</span><span class="dv">\d</span><span class="op">+</span><span class="kw">)</span><span class="vs">%'</span>, breakdown)</span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> m_left: cov_data[<span class="st">'left_cov'</span>] <span class="op">=</span> <span class="bu">int</span>(m_left.group(<span class="dv">1</span>))</span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> m_bar: cov_data[<span class="st">'barcode_cov'</span>] <span class="op">=</span> <span class="bu">int</span>(m_bar.group(<span class="dv">1</span>))</span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> m_right: cov_data[<span class="st">'right_cov'</span>] <span class="op">=</span> <span class="bu">int</span>(m_right.group(<span class="dv">1</span>))</span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> <span class="st">'native'</span> <span class="kw">in</span> kit:</span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a>        m_adapter <span class="op">=</span> re.search(<span class="vs">r'Adapter:</span><span class="dv">\s</span><span class="op">*</span><span class="kw">(</span><span class="dv">\d</span><span class="op">+</span><span class="kw">)</span><span class="vs">%'</span>, breakdown)</span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a>        m_bar <span class="op">=</span> re.search(<span class="vs">r'Bar</span><span class="ch">\+</span><span class="vs">Flank:</span><span class="dv">\s</span><span class="op">*</span><span class="kw">(</span><span class="dv">\d</span><span class="op">+</span><span class="kw">)</span><span class="vs">%'</span>, breakdown)</span>
+<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> m_adapter: cov_data[<span class="st">'adapter_cov'</span>] <span class="op">=</span> <span class="bu">int</span>(m_adapter.group(<span class="dv">1</span>))</span>
+<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> m_bar: cov_data[<span class="st">'barcode_cov'</span>] <span class="op">=</span> <span class="bu">int</span>(m_bar.group(<span class="dv">1</span>))</span>
+<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pd.Series(cov_data)</span>
+<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply the function and join the new columns to the dataframe</span></span>
+<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a>extracted_cols <span class="op">=</span> contamination_details.<span class="bu">apply</span>(extract_all_coverages, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb14-42"><a href="#cb14-42" aria-hidden="true" tabindex="-1"></a>contamination_details <span class="op">=</span> pd.concat([contamination_details, extracted_cols], axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb14-43"><a href="#cb14-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-44"><a href="#cb14-44" aria-hidden="true" tabindex="-1"></a><span class="co"># Flag rows where coverage is 90% or greater (ignoring NAs)</span></span>
+<span id="cb14-45"><a href="#cb14-45" aria-hidden="true" tabindex="-1"></a>contamination_details[<span class="st">'bar_fully_covered'</span>] <span class="op">=</span> contamination_details[<span class="st">'barcode_cov'</span>] <span class="op">&gt;=</span> <span class="dv">90</span></span>
+<span id="cb14-46"><a href="#cb14-46" aria-hidden="true" tabindex="-1"></a>contamination_details[<span class="st">'adapter_fully_covered'</span>] <span class="op">=</span> contamination_details[<span class="st">'adapter_cov'</span>] <span class="op">&gt;=</span> <span class="dv">90</span></span>
+<span id="cb14-47"><a href="#cb14-47" aria-hidden="true" tabindex="-1"></a>contamination_details[<span class="st">'left_fully_covered'</span>] <span class="op">=</span> contamination_details[<span class="st">'left_cov'</span>] <span class="op">&gt;=</span> <span class="dv">90</span></span>
+<span id="cb14-48"><a href="#cb14-48" aria-hidden="true" tabindex="-1"></a>contamination_details[<span class="st">'right_fully_covered'</span>] <span class="op">=</span> contamination_details[<span class="st">'right_cov'</span>] <span class="op">&gt;=</span> <span class="dv">90</span></span>
+<span id="cb14-49"><a href="#cb14-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-50"><a href="#cb14-50" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a summary of how often each region is fully covered</span></span>
+<span id="cb14-51"><a href="#cb14-51" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"=== Full Coverage Summary (&gt;= 90%) ==="</span>)</span>
+<span id="cb14-52"><a href="#cb14-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-53"><a href="#cb14-53" aria-hidden="true" tabindex="-1"></a><span class="co"># We group by kit so we don't mix rapid vs native metrics</span></span>
+<span id="cb14-54"><a href="#cb14-54" aria-hidden="true" tabindex="-1"></a>summary <span class="op">=</span> contamination_details.groupby(<span class="st">'kit'</span>).agg(</span>
+<span id="cb14-55"><a href="#cb14-55" aria-hidden="true" tabindex="-1"></a>    total_hits<span class="op">=</span>(<span class="st">'kit'</span>, <span class="st">'count'</span>),</span>
+<span id="cb14-56"><a href="#cb14-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-57"><a href="#cb14-57" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Barcode is shared between both kits</span></span>
+<span id="cb14-58"><a href="#cb14-58" aria-hidden="true" tabindex="-1"></a>    bar_full_count<span class="op">=</span>(<span class="st">'bar_fully_covered'</span>, <span class="st">'sum'</span>),</span>
+<span id="cb14-59"><a href="#cb14-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-60"><a href="#cb14-60" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Native specific</span></span>
+<span id="cb14-61"><a href="#cb14-61" aria-hidden="true" tabindex="-1"></a>    adapter_full_count<span class="op">=</span>(<span class="st">'adapter_fully_covered'</span>, <span class="st">'sum'</span>),</span>
+<span id="cb14-62"><a href="#cb14-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-63"><a href="#cb14-63" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Rapid specific</span></span>
+<span id="cb14-64"><a href="#cb14-64" aria-hidden="true" tabindex="-1"></a>    left_full_count<span class="op">=</span>(<span class="st">'left_fully_covered'</span>, <span class="st">'sum'</span>),</span>
+<span id="cb14-65"><a href="#cb14-65" aria-hidden="true" tabindex="-1"></a>    right_full_count<span class="op">=</span>(<span class="st">'right_fully_covered'</span>, <span class="st">'sum'</span>)</span>
+<span id="cb14-66"><a href="#cb14-66" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-67"><a href="#cb14-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-68"><a href="#cb14-68" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate percentages based on the total hits for that kit type</span></span>
+<span id="cb14-69"><a href="#cb14-69" aria-hidden="true" tabindex="-1"></a>summary[<span class="st">'%_Bar_Full'</span>] <span class="op">=</span> (summary[<span class="st">'bar_full_count'</span>] <span class="op">/</span> summary[<span class="st">'total_hits'</span>] <span class="op">*</span> <span class="dv">100</span>).<span class="bu">round</span>(<span class="dv">2</span>)</span>
+<span id="cb14-70"><a href="#cb14-70" aria-hidden="true" tabindex="-1"></a>summary[<span class="st">'%_Adapter_Full'</span>] <span class="op">=</span> (summary[<span class="st">'adapter_full_count'</span>] <span class="op">/</span> summary[<span class="st">'total_hits'</span>] <span class="op">*</span> <span class="dv">100</span>).<span class="bu">round</span>(<span class="dv">2</span>)</span>
+<span id="cb14-71"><a href="#cb14-71" aria-hidden="true" tabindex="-1"></a>summary[<span class="st">'%_Left_Full'</span>] <span class="op">=</span> (summary[<span class="st">'left_full_count'</span>] <span class="op">/</span> summary[<span class="st">'total_hits'</span>] <span class="op">*</span> <span class="dv">100</span>).<span class="bu">round</span>(<span class="dv">2</span>)</span>
+<span id="cb14-72"><a href="#cb14-72" aria-hidden="true" tabindex="-1"></a>summary[<span class="st">'%_Right_Full'</span>] <span class="op">=</span> (summary[<span class="st">'right_full_count'</span>] <span class="op">/</span> summary[<span class="st">'total_hits'</span>] <span class="op">*</span> <span class="dv">100</span>).<span class="bu">round</span>(<span class="dv">2</span>)</span>
+<span id="cb14-73"><a href="#cb14-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-74"><a href="#cb14-74" aria-hidden="true" tabindex="-1"></a><span class="co"># Rearrange columns for a cleaner printout</span></span>
+<span id="cb14-75"><a href="#cb14-75" aria-hidden="true" tabindex="-1"></a>final_summary <span class="op">=</span> summary[[</span>
+<span id="cb14-76"><a href="#cb14-76" aria-hidden="true" tabindex="-1"></a>    <span class="st">'total_hits'</span>,</span>
+<span id="cb14-77"><a href="#cb14-77" aria-hidden="true" tabindex="-1"></a>    <span class="st">'%_Bar_Full'</span>,</span>
+<span id="cb14-78"><a href="#cb14-78" aria-hidden="true" tabindex="-1"></a>    <span class="st">'%_Adapter_Full'</span>,</span>
+<span id="cb14-79"><a href="#cb14-79" aria-hidden="true" tabindex="-1"></a>    <span class="st">'%_Left_Full'</span>,</span>
+<span id="cb14-80"><a href="#cb14-80" aria-hidden="true" tabindex="-1"></a>    <span class="st">'%_Right_Full'</span></span>
+<span id="cb14-81"><a href="#cb14-81" aria-hidden="true" tabindex="-1"></a>]]</span>
+<span id="cb14-82"><a href="#cb14-82" aria-hidden="true" tabindex="-1"></a>final_summary</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>=== Full Coverage Summary (&gt;= 90%) ===</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">total_hits</th>
+<th data-quarto-table-cell-role="th">%_Bar_Full</th>
+<th data-quarto-table-cell-role="th">%_Adapter_Full</th>
+<th data-quarto-table-cell-role="th">%_Left_Full</th>
+<th data-quarto-table-cell-role="th">%_Right_Full</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">kit</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">native_left</th>
+<td>1037</td>
+<td>99.90</td>
+<td>0.39</td>
+<td>0.0</td>
+<td>0.00</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">native_right</th>
+<td>47</td>
+<td>87.23</td>
+<td>21.28</td>
+<td>0.0</td>
+<td>0.00</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">rapid</th>
+<td>221</td>
+<td>93.21</td>
+<td>0.00</td>
+<td>0.0</td>
+<td>66.52</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="contamination-region-per-trimmer" class="level5">
+<h5 class="anchored" data-anchor-id="contamination-region-per-trimmer">Contamination region (per trimmer)</h5>
+<div id="8d685ebd" class="cell" data-execution_count="9">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>COVERAGE_THRESHOLD <span class="op">=</span> <span class="dv">90</span>  <span class="co"># Change this value to adjust the strictness</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>contamination_details <span class="op">=</span> pd.read_csv(<span class="st">"../results/tables/assess/assembly/metrics/contaminant_details.csv"</span>)</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> extract_all_coverages(row):</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="co">    Extracts numerical percentages for all regions based on the kit type.</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    breakdown <span class="op">=</span> <span class="bu">str</span>(row[<span class="st">'region_breakdown'</span>])</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>    kit <span class="op">=</span> <span class="bu">str</span>(row[<span class="st">'kit'</span>])</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>    cov_data <span class="op">=</span> {</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">'adapter_cov'</span>: pd.NA,</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>        <span class="st">'left_cov'</span>: pd.NA,</span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>        <span class="st">'barcode_cov'</span>: pd.NA,</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>        <span class="st">'right_cov'</span>: pd.NA</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> kit <span class="op">==</span> <span class="st">'rapid'</span>:</span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>        m_left <span class="op">=</span> re.search(<span class="vs">r'Left:</span><span class="dv">\s</span><span class="op">*</span><span class="kw">(</span><span class="dv">\d</span><span class="op">+</span><span class="kw">)</span><span class="vs">%'</span>, breakdown)</span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>        m_bar <span class="op">=</span> re.search(<span class="vs">r'Bar:</span><span class="dv">\s</span><span class="op">*</span><span class="kw">(</span><span class="dv">\d</span><span class="op">+</span><span class="kw">)</span><span class="vs">%'</span>, breakdown)</span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>        m_right <span class="op">=</span> re.search(<span class="vs">r'Right:</span><span class="dv">\s</span><span class="op">*</span><span class="kw">(</span><span class="dv">\d</span><span class="op">+</span><span class="kw">)</span><span class="vs">%'</span>, breakdown)</span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> m_left: cov_data[<span class="st">'left_cov'</span>] <span class="op">=</span> <span class="bu">int</span>(m_left.group(<span class="dv">1</span>))</span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> m_bar: cov_data[<span class="st">'barcode_cov'</span>] <span class="op">=</span> <span class="bu">int</span>(m_bar.group(<span class="dv">1</span>))</span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> m_right: cov_data[<span class="st">'right_cov'</span>] <span class="op">=</span> <span class="bu">int</span>(m_right.group(<span class="dv">1</span>))</span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> <span class="st">'native'</span> <span class="kw">in</span> kit:</span>
+<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a>        m_adapter <span class="op">=</span> re.search(<span class="vs">r'Adapter:</span><span class="dv">\s</span><span class="op">*</span><span class="kw">(</span><span class="dv">\d</span><span class="op">+</span><span class="kw">)</span><span class="vs">%'</span>, breakdown)</span>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a>        m_bar <span class="op">=</span> re.search(<span class="vs">r'Bar</span><span class="ch">\+</span><span class="vs">Flank:</span><span class="dv">\s</span><span class="op">*</span><span class="kw">(</span><span class="dv">\d</span><span class="op">+</span><span class="kw">)</span><span class="vs">%'</span>, breakdown)</span>
+<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> m_adapter: cov_data[<span class="st">'adapter_cov'</span>] <span class="op">=</span> <span class="bu">int</span>(m_adapter.group(<span class="dv">1</span>))</span>
+<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> m_bar: cov_data[<span class="st">'barcode_cov'</span>] <span class="op">=</span> <span class="bu">int</span>(m_bar.group(<span class="dv">1</span>))</span>
+<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pd.Series(cov_data)</span>
+<span id="cb16-40"><a href="#cb16-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-41"><a href="#cb16-41" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply the function and join the new columns</span></span>
+<span id="cb16-42"><a href="#cb16-42" aria-hidden="true" tabindex="-1"></a>extracted_cols <span class="op">=</span> contamination_details.<span class="bu">apply</span>(extract_all_coverages, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb16-43"><a href="#cb16-43" aria-hidden="true" tabindex="-1"></a>contamination_details <span class="op">=</span> pd.concat([contamination_details, extracted_cols], axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb16-44"><a href="#cb16-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-45"><a href="#cb16-45" aria-hidden="true" tabindex="-1"></a><span class="co"># Flag rows using the configurable threshold</span></span>
+<span id="cb16-46"><a href="#cb16-46" aria-hidden="true" tabindex="-1"></a>contamination_details[<span class="st">'bar_fully_covered'</span>] <span class="op">=</span> contamination_details[<span class="st">'barcode_cov'</span>] <span class="op">&gt;=</span> COVERAGE_THRESHOLD</span>
+<span id="cb16-47"><a href="#cb16-47" aria-hidden="true" tabindex="-1"></a>contamination_details[<span class="st">'adapter_fully_covered'</span>] <span class="op">=</span> contamination_details[<span class="st">'adapter_cov'</span>] <span class="op">&gt;=</span> COVERAGE_THRESHOLD</span>
+<span id="cb16-48"><a href="#cb16-48" aria-hidden="true" tabindex="-1"></a>contamination_details[<span class="st">'left_fully_covered'</span>] <span class="op">=</span> contamination_details[<span class="st">'left_cov'</span>] <span class="op">&gt;=</span> COVERAGE_THRESHOLD</span>
+<span id="cb16-49"><a href="#cb16-49" aria-hidden="true" tabindex="-1"></a>contamination_details[<span class="st">'right_fully_covered'</span>] <span class="op">=</span> contamination_details[<span class="st">'right_cov'</span>] <span class="op">&gt;=</span> COVERAGE_THRESHOLD</span>
+<span id="cb16-50"><a href="#cb16-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-51"><a href="#cb16-51" aria-hidden="true" tabindex="-1"></a><span class="co"># Force all combinations of Trimmer and Kit to appear (even if count is 0)</span></span>
+<span id="cb16-52"><a href="#cb16-52" aria-hidden="true" tabindex="-1"></a>all_trimmers <span class="op">=</span> contamination_details[<span class="st">'trimmer'</span>].unique()</span>
+<span id="cb16-53"><a href="#cb16-53" aria-hidden="true" tabindex="-1"></a>all_kits <span class="op">=</span> [<span class="st">'native_left'</span>, <span class="st">'native_right'</span>, <span class="st">'rapid'</span>]</span>
+<span id="cb16-54"><a href="#cb16-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-55"><a href="#cb16-55" aria-hidden="true" tabindex="-1"></a>contamination_details[<span class="st">'trimmer'</span>] <span class="op">=</span> pd.Categorical(contamination_details[<span class="st">'trimmer'</span>], categories<span class="op">=</span>all_trimmers)</span>
+<span id="cb16-56"><a href="#cb16-56" aria-hidden="true" tabindex="-1"></a>contamination_details[<span class="st">'kit'</span>] <span class="op">=</span> pd.Categorical(contamination_details[<span class="st">'kit'</span>], categories<span class="op">=</span>all_kits)</span>
+<span id="cb16-57"><a href="#cb16-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-58"><a href="#cb16-58" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Calculating summaries per trimmer (Threshold: &gt;=</span><span class="sc">{</span>COVERAGE_THRESHOLD<span class="sc">}</span><span class="ss">%)..."</span>)</span>
+<span id="cb16-59"><a href="#cb16-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-60"><a href="#cb16-60" aria-hidden="true" tabindex="-1"></a><span class="co"># 'observed=False' is the magic parameter that includes the empty groups</span></span>
+<span id="cb16-61"><a href="#cb16-61" aria-hidden="true" tabindex="-1"></a>summary <span class="op">=</span> contamination_details.groupby([<span class="st">'trimmer'</span>, <span class="st">'kit'</span>], observed<span class="op">=</span><span class="va">False</span>).agg(</span>
+<span id="cb16-62"><a href="#cb16-62" aria-hidden="true" tabindex="-1"></a>    total_hits<span class="op">=</span>(<span class="st">'kit'</span>, <span class="st">'count'</span>),</span>
+<span id="cb16-63"><a href="#cb16-63" aria-hidden="true" tabindex="-1"></a>    bar_full_count<span class="op">=</span>(<span class="st">'bar_fully_covered'</span>, <span class="st">'sum'</span>),</span>
+<span id="cb16-64"><a href="#cb16-64" aria-hidden="true" tabindex="-1"></a>    adapter_full_count<span class="op">=</span>(<span class="st">'adapter_fully_covered'</span>, <span class="st">'sum'</span>),</span>
+<span id="cb16-65"><a href="#cb16-65" aria-hidden="true" tabindex="-1"></a>    left_full_count<span class="op">=</span>(<span class="st">'left_fully_covered'</span>, <span class="st">'sum'</span>),</span>
+<span id="cb16-66"><a href="#cb16-66" aria-hidden="true" tabindex="-1"></a>    right_full_count<span class="op">=</span>(<span class="st">'right_fully_covered'</span>, <span class="st">'sum'</span>)</span>
+<span id="cb16-67"><a href="#cb16-67" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-68"><a href="#cb16-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-69"><a href="#cb16-69" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate percentages (using fillna(0) to avoid NaN when total_hits is 0)</span></span>
+<span id="cb16-70"><a href="#cb16-70" aria-hidden="true" tabindex="-1"></a>summary[<span class="st">'%_Bar_Full'</span>] <span class="op">=</span> (summary[<span class="st">'bar_full_count'</span>] <span class="op">/</span> summary[<span class="st">'total_hits'</span>] <span class="op">*</span> <span class="dv">100</span>).fillna(<span class="dv">0</span>).<span class="bu">round</span>(<span class="dv">2</span>)</span>
+<span id="cb16-71"><a href="#cb16-71" aria-hidden="true" tabindex="-1"></a>summary[<span class="st">'%_Adapter_Full'</span>] <span class="op">=</span> (summary[<span class="st">'adapter_full_count'</span>] <span class="op">/</span> summary[<span class="st">'total_hits'</span>] <span class="op">*</span> <span class="dv">100</span>).fillna(<span class="dv">0</span>).<span class="bu">round</span>(<span class="dv">2</span>)</span>
+<span id="cb16-72"><a href="#cb16-72" aria-hidden="true" tabindex="-1"></a>summary[<span class="st">'%_Left_Full'</span>] <span class="op">=</span> (summary[<span class="st">'left_full_count'</span>] <span class="op">/</span> summary[<span class="st">'total_hits'</span>] <span class="op">*</span> <span class="dv">100</span>).fillna(<span class="dv">0</span>).<span class="bu">round</span>(<span class="dv">2</span>)</span>
+<span id="cb16-73"><a href="#cb16-73" aria-hidden="true" tabindex="-1"></a>summary[<span class="st">'%_Right_Full'</span>] <span class="op">=</span> (summary[<span class="st">'right_full_count'</span>] <span class="op">/</span> summary[<span class="st">'total_hits'</span>] <span class="op">*</span> <span class="dv">100</span>).fillna(<span class="dv">0</span>).<span class="bu">round</span>(<span class="dv">2</span>)</span>
+<span id="cb16-74"><a href="#cb16-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-75"><a href="#cb16-75" aria-hidden="true" tabindex="-1"></a><span class="co"># Format the final output DataFrame</span></span>
+<span id="cb16-76"><a href="#cb16-76" aria-hidden="true" tabindex="-1"></a>final_summary <span class="op">=</span> summary[[</span>
+<span id="cb16-77"><a href="#cb16-77" aria-hidden="true" tabindex="-1"></a>    <span class="st">'total_hits'</span>,</span>
+<span id="cb16-78"><a href="#cb16-78" aria-hidden="true" tabindex="-1"></a>    <span class="st">'%_Bar_Full'</span>,</span>
+<span id="cb16-79"><a href="#cb16-79" aria-hidden="true" tabindex="-1"></a>    <span class="st">'%_Adapter_Full'</span>,</span>
+<span id="cb16-80"><a href="#cb16-80" aria-hidden="true" tabindex="-1"></a>    <span class="st">'%_Left_Full'</span>,</span>
+<span id="cb16-81"><a href="#cb16-81" aria-hidden="true" tabindex="-1"></a>    <span class="st">'%_Right_Full'</span></span>
+<span id="cb16-82"><a href="#cb16-82" aria-hidden="true" tabindex="-1"></a>]].copy()</span>
+<span id="cb16-83"><a href="#cb16-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-84"><a href="#cb16-84" aria-hidden="true" tabindex="-1"></a><span class="co"># Fix the total_hits formatting (groupby sometimes converts zero-counts to floats)</span></span>
+<span id="cb16-85"><a href="#cb16-85" aria-hidden="true" tabindex="-1"></a>final_summary[<span class="st">'total_hits'</span>] <span class="op">=</span> final_summary[<span class="st">'total_hits'</span>].astype(<span class="bu">int</span>)</span>
+<span id="cb16-86"><a href="#cb16-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-87"><a href="#cb16-87" aria-hidden="true" tabindex="-1"></a>final_summary</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Calculating summaries per trimmer (Threshold: &gt;=90%)...</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">total_hits</th>
+<th data-quarto-table-cell-role="th">%_Bar_Full</th>
+<th data-quarto-table-cell-role="th">%_Adapter_Full</th>
+<th data-quarto-table-cell-role="th">%_Left_Full</th>
+<th data-quarto-table-cell-role="th">%_Right_Full</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">trimmer</th>
+<th data-quarto-table-cell-role="th">kit</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th rowspan="3" data-quarto-table-cell-role="th" data-valign="top">fastplong</th>
+<th data-quarto-table-cell-role="th">native_left</th>
+<td>120</td>
+<td>100.00</td>
+<td>0.00</td>
+<td>0.0</td>
+<td>0.00</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">native_right</th>
+<td>5</td>
+<td>80.00</td>
+<td>20.00</td>
+<td>0.0</td>
+<td>0.00</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">rapid</th>
+<td>69</td>
+<td>94.20</td>
+<td>0.00</td>
+<td>0.0</td>
+<td>66.67</td>
+</tr>
+<tr class="even">
+<th rowspan="3" data-quarto-table-cell-role="th" data-valign="top">porechop_abi_nocheck</th>
+<th data-quarto-table-cell-role="th">native_left</th>
+<td>174</td>
+<td>100.00</td>
+<td>0.57</td>
+<td>0.0</td>
+<td>0.00</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">native_right</th>
+<td>7</td>
+<td>100.00</td>
+<td>0.00</td>
+<td>0.0</td>
+<td>0.00</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">rapid</th>
+<td>35</td>
+<td>94.29</td>
+<td>0.00</td>
+<td>0.0</td>
+<td>71.43</td>
+</tr>
+<tr class="odd">
+<th rowspan="3" data-quarto-table-cell-role="th" data-valign="top">porechop_abi_discard</th>
+<th data-quarto-table-cell-role="th">native_left</th>
+<td>140</td>
+<td>100.00</td>
+<td>0.00</td>
+<td>0.0</td>
+<td>0.00</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">native_right</th>
+<td>5</td>
+<td>100.00</td>
+<td>0.00</td>
+<td>0.0</td>
+<td>0.00</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">rapid</th>
+<td>22</td>
+<td>86.36</td>
+<td>0.00</td>
+<td>0.0</td>
+<td>77.27</td>
+</tr>
+<tr class="even">
+<th rowspan="3" data-quarto-table-cell-role="th" data-valign="top">porechop_abi_split</th>
+<th data-quarto-table-cell-role="th">native_left</th>
+<td>59</td>
+<td>100.00</td>
+<td>0.00</td>
+<td>0.0</td>
+<td>0.00</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">native_right</th>
+<td>1</td>
+<td>100.00</td>
+<td>0.00</td>
+<td>0.0</td>
+<td>0.00</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">rapid</th>
+<td>17</td>
+<td>94.12</td>
+<td>0.00</td>
+<td>0.0</td>
+<td>88.24</td>
+</tr>
+<tr class="odd">
+<th rowspan="3" data-quarto-table-cell-role="th" data-valign="top">dorado</th>
+<th data-quarto-table-cell-role="th">native_left</th>
+<td>236</td>
+<td>100.00</td>
+<td>0.00</td>
+<td>0.0</td>
+<td>0.00</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">native_right</th>
+<td>11</td>
+<td>81.82</td>
+<td>18.18</td>
+<td>0.0</td>
+<td>0.00</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">rapid</th>
+<td>16</td>
+<td>93.75</td>
+<td>0.00</td>
+<td>0.0</td>
+<td>12.50</td>
+</tr>
+<tr class="even">
+<th rowspan="3" data-quarto-table-cell-role="th" data-valign="top">barbell_default</th>
+<th data-quarto-table-cell-role="th">native_left</th>
+<td>0</td>
+<td>0.00</td>
+<td>0.00</td>
+<td>0.0</td>
+<td>0.00</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">native_right</th>
+<td>0</td>
+<td>0.00</td>
+<td>0.00</td>
+<td>0.0</td>
+<td>0.00</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">rapid</th>
+<td>1</td>
+<td>100.00</td>
+<td>0.00</td>
+<td>0.0</td>
+<td>0.00</td>
+</tr>
+<tr class="odd">
+<th rowspan="3" data-quarto-table-cell-role="th" data-valign="top">barbell_max</th>
+<th data-quarto-table-cell-role="th">native_left</th>
+<td>0</td>
+<td>0.00</td>
+<td>0.00</td>
+<td>0.0</td>
+<td>0.00</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">native_right</th>
+<td>0</td>
+<td>0.00</td>
+<td>0.00</td>
+<td>0.0</td>
+<td>0.00</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">rapid</th>
+<td>2</td>
+<td>100.00</td>
+<td>0.00</td>
+<td>0.0</td>
+<td>0.00</td>
+</tr>
+<tr class="even">
+<th rowspan="3" data-quarto-table-cell-role="th" data-valign="top">untrimmed</th>
+<th data-quarto-table-cell-role="th">native_left</th>
+<td>308</td>
+<td>99.68</td>
+<td>0.97</td>
+<td>0.0</td>
+<td>0.00</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">native_right</th>
+<td>18</td>
+<td>83.33</td>
+<td>38.89</td>
+<td>0.0</td>
+<td>0.00</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">rapid</th>
+<td>59</td>
+<td>93.22</td>
+<td>0.00</td>
+<td>0.0</td>
+<td>71.19</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>the trimming tools seem to ignore the barcode sequence itself. <code>Porechop_abi</code>, <code>fastplong</code>, and <code>dorado trim</code> can detect the adapter sequence, trim it off, but then stop, leaving the barcode sequence behind.</p>
+<p>This pattern is also visible in the <code>untrimmed</code> datasets. The assembler seems to be able to recognise and exclude the adapter sequence during assembly, but still retain the barcode sequence and incorporate it into the final contig. For example, %_Bar_Full is consistently 100%, while the adapter and left flanking region for the rapid kit are often 0%, even in the untrimmed dataset.</p>
+<p>The way we run barbell also we run using demux when it search for barcode, assign the reads, and trim the barcode.</p>
+<p>Can we rebasecall the <code>pod5</code> files without using the <code>--no-trim</code> option, or run <code>dorado demux</code>, then concatenate into one sample, so the barcode sequences are already handled by Dorado? we can then treat this output as the baseline instead of using the fully untrimmed dataset.</p>
+</section>
+<section id="mixed-vs-native-only-samples" class="level5">
+<h5 class="anchored" data-anchor-id="mixed-vs-native-only-samples">Mixed vs native only samples</h5>
+<div id="2adfe79f" class="cell" data-execution_count="10">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>NATIVE_SAMPLES <span class="op">=</span> [<span class="st">'AJ292__202310'</span>, <span class="st">'RDH275__202311'</span>, <span class="st">'MMC234__202311'</span>, <span class="st">'BPH2947__202310'</span>, <span class="st">'AMtb_1__202402'</span>]</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>MIXED_SAMPLES_COUNT <span class="op">=</span> <span class="dv">9</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>NATIVE_SAMPLES_COUNT <span class="op">=</span> <span class="bu">len</span>(NATIVE_SAMPLES)</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>PERMUTATIONS_PER_SAMPLE <span class="op">=</span> <span class="dv">6</span> <span class="co"># (3 depths: 20x, 50x, 100x) * (2 models: sup, hac)</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>TOTAL_NATIVE_ASSEMBLIES <span class="op">=</span> NATIVE_SAMPLES_COUNT <span class="op">*</span> PERMUTATIONS_PER_SAMPLE <span class="co"># 30</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>TOTAL_MIXED_ASSEMBLIES <span class="op">=</span> MIXED_SAMPLES_COUNT <span class="op">*</span> PERMUTATIONS_PER_SAMPLE   <span class="co"># 54</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Load data</span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"../results/tables/assess/assembly/metrics/contaminant_details.csv"</span>)</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Categorize samples into Library Types</span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'library_type'</span>] <span class="op">=</span> df[<span class="st">'sample'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: <span class="st">'Native-only'</span> <span class="cf">if</span> x <span class="kw">in</span> NATIVE_SAMPLES <span class="cf">else</span> <span class="st">'Mixed'</span>)</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure we see all combinations (including zero counts)</span></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>all_trimmers <span class="op">=</span> df[<span class="st">'trimmer'</span>].unique()</span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>all_kits <span class="op">=</span> [<span class="st">'native_left'</span>, <span class="st">'native_right'</span>, <span class="st">'rapid'</span>]</span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>all_lib_types <span class="op">=</span> [<span class="st">'Native-only'</span>, <span class="st">'Mixed'</span>]</span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'trimmer'</span>] <span class="op">=</span> pd.Categorical(df[<span class="st">'trimmer'</span>], categories<span class="op">=</span>all_trimmers)</span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'kit'</span>] <span class="op">=</span> pd.Categorical(df[<span class="st">'kit'</span>], categories<span class="op">=</span>all_kits)</span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'library_type'</span>] <span class="op">=</span> pd.Categorical(df[<span class="st">'library_type'</span>], categories<span class="op">=</span>all_lib_types)</span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Group by Trimmer, Kit, and Library Type to get total hits</span></span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>grouped <span class="op">=</span> df.groupby([<span class="st">'trimmer'</span>, <span class="st">'kit'</span>, <span class="st">'library_type'</span>], observed<span class="op">=</span><span class="va">False</span>).size().reset_index(name<span class="op">=</span><span class="st">'total_hits'</span>)</span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Pivot so Native-only and Mixed are side-by-side</span></span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a>pivot_df <span class="op">=</span> grouped.pivot(index<span class="op">=</span>[<span class="st">'trimmer'</span>, <span class="st">'kit'</span>], columns<span class="op">=</span><span class="st">'library_type'</span>, values<span class="op">=</span><span class="st">'total_hits'</span>).fillna(<span class="dv">0</span>)</span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate Normalized Metrics (Average Hits per Assembly)</span></span>
+<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a>pivot_df[<span class="st">'avg_hits_per_native_assembly'</span>] <span class="op">=</span> (pivot_df[<span class="st">'Native-only'</span>] <span class="op">/</span> TOTAL_NATIVE_ASSEMBLIES).<span class="bu">round</span>(<span class="dv">2</span>)</span>
+<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a>pivot_df[<span class="st">'avg_hits_per_mixed_assembly'</span>] <span class="op">=</span> (pivot_df[<span class="st">'Mixed'</span>] <span class="op">/</span> TOTAL_MIXED_ASSEMBLIES).<span class="bu">round</span>(<span class="dv">2</span>)</span>
+<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a><span class="co"># Clean up the dataframe for display</span></span>
+<span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a>pivot_df.columns.name <span class="op">=</span> <span class="va">None</span> <span class="co"># Remove the 'library_type' index label on columns</span></span>
+<span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a>pivot_df <span class="op">=</span> pivot_df.rename(columns<span class="op">=</span>{</span>
+<span id="cb18-41"><a href="#cb18-41" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Native-only'</span>: <span class="st">'raw_hits_native'</span>,</span>
+<span id="cb18-42"><a href="#cb18-42" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Mixed'</span>: <span class="st">'raw_hits_mixed'</span></span>
+<span id="cb18-43"><a href="#cb18-43" aria-hidden="true" tabindex="-1"></a>}).reset_index()</span>
+<span id="cb18-44"><a href="#cb18-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-45"><a href="#cb18-45" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure raw counts are integers</span></span>
+<span id="cb18-46"><a href="#cb18-46" aria-hidden="true" tabindex="-1"></a>pivot_df[<span class="st">'raw_hits_native'</span>] <span class="op">=</span> pivot_df[<span class="st">'raw_hits_native'</span>].astype(<span class="bu">int</span>)</span>
+<span id="cb18-47"><a href="#cb18-47" aria-hidden="true" tabindex="-1"></a>pivot_df[<span class="st">'raw_hits_mixed'</span>] <span class="op">=</span> pivot_df[<span class="st">'raw_hits_mixed'</span>].astype(<span class="bu">int</span>)</span>
+<span id="cb18-48"><a href="#cb18-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-49"><a href="#cb18-49" aria-hidden="true" tabindex="-1"></a>pivot_df</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">trimmer</th>
+<th data-quarto-table-cell-role="th">kit</th>
+<th data-quarto-table-cell-role="th">raw_hits_native</th>
+<th data-quarto-table-cell-role="th">raw_hits_mixed</th>
+<th data-quarto-table-cell-role="th">avg_hits_per_native_assembly</th>
+<th data-quarto-table-cell-role="th">avg_hits_per_mixed_assembly</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>fastplong</td>
+<td>native_left</td>
+<td>6</td>
+<td>114</td>
+<td>0.20</td>
+<td>2.11</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>fastplong</td>
+<td>native_right</td>
+<td>0</td>
+<td>5</td>
+<td>0.00</td>
+<td>0.09</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>fastplong</td>
+<td>rapid</td>
+<td>0</td>
+<td>69</td>
+<td>0.00</td>
+<td>1.28</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>porechop_abi_nocheck</td>
+<td>native_left</td>
+<td>6</td>
+<td>168</td>
+<td>0.20</td>
+<td>3.11</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>porechop_abi_nocheck</td>
+<td>native_right</td>
+<td>0</td>
+<td>7</td>
+<td>0.00</td>
+<td>0.13</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">5</th>
+<td>porechop_abi_nocheck</td>
+<td>rapid</td>
+<td>0</td>
+<td>35</td>
+<td>0.00</td>
+<td>0.65</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">6</th>
+<td>porechop_abi_discard</td>
+<td>native_left</td>
+<td>3</td>
+<td>137</td>
+<td>0.10</td>
+<td>2.54</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">7</th>
+<td>porechop_abi_discard</td>
+<td>native_right</td>
+<td>0</td>
+<td>5</td>
+<td>0.00</td>
+<td>0.09</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">8</th>
+<td>porechop_abi_discard</td>
+<td>rapid</td>
+<td>0</td>
+<td>22</td>
+<td>0.00</td>
+<td>0.41</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">9</th>
+<td>porechop_abi_split</td>
+<td>native_left</td>
+<td>5</td>
+<td>54</td>
+<td>0.17</td>
+<td>1.00</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">10</th>
+<td>porechop_abi_split</td>
+<td>native_right</td>
+<td>0</td>
+<td>1</td>
+<td>0.00</td>
+<td>0.02</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">11</th>
+<td>porechop_abi_split</td>
+<td>rapid</td>
+<td>0</td>
+<td>17</td>
+<td>0.00</td>
+<td>0.31</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">12</th>
+<td>dorado</td>
+<td>native_left</td>
+<td>11</td>
+<td>225</td>
+<td>0.37</td>
+<td>4.17</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">13</th>
+<td>dorado</td>
+<td>native_right</td>
+<td>0</td>
+<td>11</td>
+<td>0.00</td>
+<td>0.20</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">14</th>
+<td>dorado</td>
+<td>rapid</td>
+<td>0</td>
+<td>16</td>
+<td>0.00</td>
+<td>0.30</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">15</th>
+<td>barbell_default</td>
+<td>native_left</td>
+<td>0</td>
+<td>0</td>
+<td>0.00</td>
+<td>0.00</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">16</th>
+<td>barbell_default</td>
+<td>native_right</td>
+<td>0</td>
+<td>0</td>
+<td>0.00</td>
+<td>0.00</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">17</th>
+<td>barbell_default</td>
+<td>rapid</td>
+<td>0</td>
+<td>1</td>
+<td>0.00</td>
+<td>0.02</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">18</th>
+<td>barbell_max</td>
+<td>native_left</td>
+<td>0</td>
+<td>0</td>
+<td>0.00</td>
+<td>0.00</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">19</th>
+<td>barbell_max</td>
+<td>native_right</td>
+<td>0</td>
+<td>0</td>
+<td>0.00</td>
+<td>0.00</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">20</th>
+<td>barbell_max</td>
+<td>rapid</td>
+<td>0</td>
+<td>2</td>
+<td>0.00</td>
+<td>0.04</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">21</th>
+<td>untrimmed</td>
+<td>native_left</td>
+<td>14</td>
+<td>294</td>
+<td>0.47</td>
+<td>5.44</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">22</th>
+<td>untrimmed</td>
+<td>native_right</td>
+<td>0</td>
+<td>18</td>
+<td>0.00</td>
+<td>0.33</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">23</th>
+<td>untrimmed</td>
+<td>rapid</td>
+<td>0</td>
+<td>59</td>
+<td>0.00</td>
+<td>1.09</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Mixed samples have much more contamination. Looking at the <code>untrimmed</code> dataset. Native only assembly in average have 0.47, while mixed assmblies average 5.44. This is more than a 10x increase.</p>
+<p>Can we filter native reads from mixed pof5 files, and just use native kit only datasets?</p>
+
+
+</section>
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/adimascf\.github\.io\/biox7021\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>BIOX7021 Logbook - 2026</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
