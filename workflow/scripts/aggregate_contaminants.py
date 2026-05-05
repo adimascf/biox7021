@@ -12,7 +12,7 @@ summary_records = []
 # The exact column names written by the new minimap2 script
 col_names = [
     'assembly', 'query', 'kit', 'target_contig', 'strand', 
-    't_start', 't_end', 'identity', 'dp_score', 'mapq', 
+    'c_start', 'c_end', 'identity', 'dp_score', 'mapq', 
     'position', 'region_breakdown'
 ]
 

@@ -205,7 +205,7 @@ if not barcode_files:
 all_valid_hits = []
 
 for barcodes_fa in barcode_files:
-    # SKIP LOGIC: If sample is native only, and the file is the rapid kit, skip it.
+    # If sample is native only, and the file is the rapid kit, skip it.
     if is_native_only and "rapid" in os.path.basename(barcodes_fa).lower():
         print(f"Skipping {os.path.basename(barcodes_fa)}...")
         continue
@@ -228,8 +228,7 @@ print(f"Detected {len(final_resolved_hits)} contaminants.")
 print(f"Writing results to {output_tsv}...")
 
 with open(output_tsv, "w") as out_file:
-    # Included assembly_label as the first column for easier multi-sample merging
-    out_file.write("assembly\tquery\tkit\ttarget_contig\tstrand\tt_start\tt_end\tidentity\tdp_score\tmapq\tposition\tregion_breakdown\n")
+    out_file.write("assembly\tquery\tkit\ttarget_contig\tstrand\tc_start\tc_end\tidentity\tdp_score\tmapq\tposition\tregion_breakdown\n")
     for hit in final_resolved_hits:
         id_str = f"{hit['identity']:.2f}"
         out_file.write(f"{assembly_label}\t{hit['barcode_name']}\t{hit['kit_type']}\t{hit['contig_name']}\t{hit['strand']}\t{hit['c_start']}\t{hit['c_end']}\t{id_str}\t{hit['dp_score']}\t{hit['mapq']}\t{hit['position']}\t{hit['breakdown']}\n")
