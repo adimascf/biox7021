@@ -79,9 +79,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-adfb2833bc15652ec5881dc6381ea988.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-e8a4c0895993354b54972b5f1e41c0e4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-58008ceab81c4fb57a6fd58a386c2ec9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-e8a4c0895993354b54972b5f1e41c0e4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-4e9ad7d76a7588ccb413114a9399086d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-c1fa6ec9ca7e8a29d4233392a81542ce.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-4e9ad7d76a7588ccb413114a9399086d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script src="../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
@@ -390,9 +390,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#contamination-count" id="toc-contamination-count" class="nav-link" data-scroll-target="#contamination-count">Contamination count</a></li>
   <li><a href="#contamination-details" id="toc-contamination-details" class="nav-link" data-scroll-target="#contamination-details">Contamination details</a></li>
-  <li><a href="#contamination-region-total" id="toc-contamination-region-total" class="nav-link" data-scroll-target="#contamination-region-total">Contamination region (total)</a></li>
-  <li><a href="#contamination-region-per-trimmer" id="toc-contamination-region-per-trimmer" class="nav-link" data-scroll-target="#contamination-region-per-trimmer">Contamination region (per trimmer)</a></li>
-  <li><a href="#mixed-vs-native-only-samples" id="toc-mixed-vs-native-only-samples" class="nav-link" data-scroll-target="#mixed-vs-native-only-samples">Mixed vs native only samples</a></li>
   </ul></li>
   </ul></li>
   </ul></li>
@@ -509,7 +506,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Rapid barcode: [Left flank] - [Barcode] - [Right flank]</li>
 <li>Native barcode: [Adapter] - [Flank+barcode]</li>
 </ul>
-<p>I think this is more robust than searching each region separately, or treating the entire barcode-flank sequence as one undivided region. The filtering aprroach is also based on coverage of specific regions (90% for instance), so we do not miss cases where one region aligns well but another region does not, possibly because it was correctly trimmed.</p>
+<p>I think this is more robust than searching each region separately, or treating the entire barcode-flank sequence as one region. The filtering aprroach is also based on coverage of specific regions (90% for instance), so we do not miss cases where one region aligns well but another region does not, possibly because it was correctly trimmed.</p>
 <p>I also added information about where a contaminant is located relative to the contig in the assembly. I classified the location into three categories:</p>
 <ul>
 <li>start: within the first 100 bp of the contig.</li>
@@ -519,7 +516,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="testing-on-the-barbell-assembly" class="level4">
 <h4 class="anchored" data-anchor-id="testing-on-the-barbell-assembly">Testing on the barbell assembly</h4>
 <p>I first tested this approach on the Barbell assembly (from rapid kit):</p>
-<div id="5d423c4d" class="cell" data-execution_count="1">
+<div id="698c73fa" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!python detect_contaminant_minimap2.py --barcode-dir barcodes/ --assembly test_assemblies/bc49_medaka_consensus.114.fasta -o bc49_medaka_consensus.cont.tsv 2&gt; /dev/null</span></span>
@@ -539,7 +536,7 @@ BC49    rapid   contig_73       +        1         91      1.00       180       
 <section id="testing-on-kpc2__202310-at-20-depth" class="level4">
 <h4 class="anchored" data-anchor-id="testing-on-kpc2__202310-at-20-depth">Testing on KPC2__202310 at 20× depth</h4>
 <p>I then tested the script on the KPC2__202310 20× (a mixed sample) assembly generated from Dorado processed reads</p>
-<div id="dba86d91" class="cell" data-execution_count="2">
+<div id="e2c34279" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!python detect_contaminant_minimap2.py -d barcodes/ -a test_assemblies/KPC2__202310.dorado.20x.assembly.fasta -o KPC2__202310.dorado.20x.cont.tsv</span></span>
@@ -573,7 +570,7 @@ BC49    rapid   contig_73       +        1         91      1.00       180       
 </ul></li>
 </ul>
 <p>I then ran the detection script again on the manually contaminated assembly:</p>
-<div id="fc3ab654" class="cell" data-execution_count="3">
+<div id="bb141b84" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!python detect_contaminant_minimap2.py -a test_assemblies/KPC2__202310.dorado.20x.assembly.cont.fasta -d barcodes/ -o KPC2__202310.dorado.20x.cont.insert.tsv</span></span>
@@ -600,7 +597,7 @@ Native_bottom_3   native_right   contig_4        +        43200     43260     1.
 <h4 class="anchored" data-anchor-id="testing-on-atcc_25922__202309-at-20x-depth">Testing on ATCC_25922__202309 at 20x depth</h4>
 <section id="dorado-processed-reads" class="level5">
 <h5 class="anchored" data-anchor-id="dorado-processed-reads">dorado processed reads</h5>
-<div id="9fe6e0df" class="cell" data-execution_count="4">
+<div id="f99311b0" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!python detect_contaminant_minimap2.py -d barcodes/ -a test_assemblies/ATCC_25922__202309.dorado.20x.assembly.fasta -o ATCC_25922__202309.dorado.20x.cont.tsv 2&gt; /dev/null</span></span>
@@ -627,7 +624,7 @@ Native_top_75      native_left    contig_8        -        16848     16890     0
 <p>In this particular sample, <code>dorado trim</code> to successfully identify and remove the 36 bp adapter, leaving only around 0–25% of the adapter sequence behind. However, <code>dorado trim</code> appears to completely miss the barcode and flanking sequences. The hist are either at the start (first 100bp) or at the ends (last 100bp) of contigs</p>
 <p>Here I am also a bit worried if <code>dorado trim</code> doesn’t trim the barcode, it does only trim the adapter..</p>
 <p>Since almost all of the hits have perfect identity, I next checked whether the barcode sequence itself is present in the assembly using <code>seqkit locate</code>.</p>
-<div id="79daef5a" class="cell" data-execution_count="5">
+<div id="5c45e167" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>seqkit locate <span class="op">-</span>p <span class="st">"AAGGTTAAGACCATTGTGATGAACCCTGTTGTCAGCACCT"</span> test_assemblies<span class="op">/</span>ATCC_25922__202309.dorado<span class="fl">.20</span><span class="er">x</span>.assembly.fasta</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -647,7 +644,7 @@ contig_7    AAGGTTAAGACCATTGTGATGAACCCTGTTGTCAGCACCT    AAGGTTAAGACCATTGTGATGAAC
 </section>
 <section id="porecho_abi-discard-processed-reads" class="level5">
 <h5 class="anchored" data-anchor-id="porecho_abi-discard-processed-reads">porecho_abi discard processed reads</h5>
-<div id="033b9a57" class="cell" data-execution_count="6">
+<div id="76f66fd2" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!python detect_contaminant_minimap2.py -d barcodes/ -a test_assemblies/ATCC_25922__202309.porechop_abi_discard.20x.assembly.fasta -o ATCC_25922__202309.porechop_abi_discard.20x.cont.tsv 2&gt; /dev/null</span></span>
@@ -679,65 +676,63 @@ BC11            rapid         contig_9        -        27655     27735    1.00  
 <h4 class="anchored" data-anchor-id="testing-on-the-other-assemblies">Testing on the other assemblies</h4>
 <section id="contamination-count" class="level5">
 <h5 class="anchored" data-anchor-id="contamination-count">Contamination count</h5>
-<div id="3841bd35" class="cell" data-execution_count="7">
+<div id="e1b57565" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import pandas as pd</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># import matplotlib.pyplot as plt</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># import seaborn as sns</span></span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>contamination_count <span class="op">=</span> pd.read_csv(<span class="st">"../results/tables/assess/assembly/metrics/contaminant_summary_count.csv"</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co"># contamination_count = pd.read_csv("../results/tables/assess/assembly/metrics/contaminant_summary_count.csv")</span></span>
 <span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>sns.set_theme(style<span class="op">=</span><span class="st">"whitegrid"</span>)</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>models <span class="op">=</span> [<span class="st">"sup"</span>, <span class="st">"hac"</span>]</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>hue_order <span class="op">=</span> [<span class="st">"100x"</span>, <span class="st">"50x"</span>, <span class="st">"20x"</span>]</span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>order_abs <span class="op">=</span> <span class="bu">sorted</span>(contamination_count[<span class="st">"trimmer"</span>].unique())</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co"># sns.set_theme(style="whitegrid")</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co"># models = ["sup", "hac"]</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="co"># hue_order = ["100x", "50x", "20x"]</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="co"># order_abs = sorted(contamination_count["trimmer"].unique())</span></span>
 <span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(nrows<span class="op">=</span><span class="dv">1</span>, ncols<span class="op">=</span><span class="bu">len</span>(models), figsize<span class="op">=</span>(<span class="dv">14</span>, <span class="fl">5.5</span>), dpi<span class="op">=</span><span class="dv">100</span>, sharex<span class="op">=</span><span class="va">True</span>, sharey<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="co"># fig, axes = plt.subplots(nrows=1, ncols=len(models), figsize=(14, 5.5), dpi=100, sharex=True, sharey=True)</span></span>
 <span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> c, model <span class="kw">in</span> <span class="bu">enumerate</span>(models):</span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> axes[c]</span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># During loop 1, the variable `model` equals "sup"</span></span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    contamination_count_sub <span class="op">=</span> contamination_count.query(<span class="st">"model == @model"</span>)</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="co"># for c, model in enumerate(models):</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="co">#     ax = axes[c]</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="co">#     # During loop 1, the variable `model` equals "sup"</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="co">#     contamination_count_sub = contamination_count.query("model == @model")</span></span>
 <span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> contamination_count_sub.empty:</span>
-<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>        sns.boxplot(data<span class="op">=</span>contamination_count_sub, x<span class="op">=</span><span class="st">"trimmer"</span>, y<span class="op">=</span><span class="st">"contamination_count"</span>, hue<span class="op">=</span><span class="st">"depth"</span>, order<span class="op">=</span>order_abs, hue_order<span class="op">=</span>hue_order, ax<span class="op">=</span>ax, fliersize<span class="op">=</span><span class="dv">0</span>, gap<span class="op">=</span><span class="fl">0.1</span>)</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="co">#     if not contamination_count_sub.empty:</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="co">#         sns.boxplot(data=contamination_count_sub, x="trimmer", y="contamination_count", hue="depth", order=order_abs, hue_order=hue_order, ax=ax, fliersize=0, gap=0.1)</span></span>
 <span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>        sns.stripplot(data<span class="op">=</span>contamination_count_sub, x<span class="op">=</span><span class="st">"trimmer"</span>, y<span class="op">=</span><span class="st">"contamination_count"</span>, hue<span class="op">=</span><span class="st">"depth"</span>, order<span class="op">=</span>order_abs, hue_order<span class="op">=</span>hue_order, ax<span class="op">=</span>ax, alpha<span class="op">=</span><span class="fl">0.6</span>, dodge<span class="op">=</span><span class="va">True</span>, linewidth<span class="op">=</span><span class="fl">0.5</span>, edgecolor<span class="op">=</span><span class="st">"black"</span>, legend<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="co">#         sns.stripplot(data=contamination_count_sub, x="trimmer", y="contamination_count", hue="depth", order=order_abs, hue_order=hue_order, ax=ax, alpha=0.6, dodge=True, linewidth=0.5, edgecolor="black", legend=False)</span></span>
 <span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># force standard numbers instead of scientific notation</span></span>
-<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>    ax.yaxis.set_major_formatter(plt.ScalarFormatter())</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a><span class="co">#     # force standard numbers instead of scientific notation</span></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a><span class="co">#     ax.yaxis.set_major_formatter(plt.ScalarFormatter())</span></span>
 <span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># clean up the labels for a polished look</span></span>
-<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>    ax.set_ylabel(<span class="st">"Contamination Count"</span> <span class="cf">if</span> c <span class="op">==</span> <span class="dv">0</span> <span class="cf">else</span> <span class="st">""</span>)</span>
-<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>    ax.set_title(<span class="ss">f"Number of Contaminants - </span><span class="sc">{</span>model<span class="sc">.</span>upper()<span class="sc">}</span><span class="ss"> Model"</span>)</span>
-<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>    ax.set_xlabel(<span class="st">""</span>)</span>
-<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>    ax.set_xticks(ax.get_xticks())</span>
-<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>    ax.set_xticklabels(ax.get_xticklabels(), rotation<span class="op">=</span><span class="dv">45</span>, ha<span class="op">=</span><span class="st">"right"</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a><span class="co">#     # clean up the labels for a polished look</span></span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a><span class="co">#     ax.set_ylabel("Contamination Count" if c == 0 else "")</span></span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a><span class="co">#     ax.set_title(f"Number of Contaminants - {model.upper()} Model")</span></span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a><span class="co">#     ax.set_xlabel("")</span></span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a><span class="co">#     ax.set_xticks(ax.get_xticks())</span></span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a><span class="co">#     ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha="right", fontsize=11)</span></span>
 <span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> c <span class="op">==</span> <span class="dv">1</span> <span class="kw">and</span> ax.get_legend() <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
-<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>        ax.legend(title<span class="op">=</span><span class="st">"Depth"</span>, bbox_to_anchor<span class="op">=</span>(<span class="fl">1.05</span>, <span class="dv">1</span>), loc<span class="op">=</span><span class="st">'upper left'</span>)</span>
-<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> ax.get_legend() <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
-<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>        ax.get_legend().remove()</span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a><span class="co">#     if c == 1 and ax.get_legend() is not None:</span></span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a><span class="co">#         ax.legend(title="Depth", bbox_to_anchor=(1.05, 1), loc='upper left')</span></span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a><span class="co">#     elif ax.get_legend() is not None:</span></span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a><span class="co">#         ax.get_legend().remove()</span></span>
 <span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>fig.tight_layout()</span>
-<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">"../results/figures/assess/assembly/metrics/assembly_contamination_minimap2.png"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a><span class="co"># fig.tight_layout()</span></span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.savefig("../results/figures/assess/assembly/metrics/assembly_contamination_minimap2.png")</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-<div class="cell-output cell-output-display">
-<div>
+</div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="week11_files/figure-html/cell-8-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="week11_files/figure-html/cell-8-output-1.png" width="1387" height="534" class="figure-img"></a></p>
+<p><a href="../results/figures/assess/assembly/metrics/assembly_contamination_minimap2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Contamination count (minimap2)"><img src="../results/figures/assess/assembly/metrics/assembly_contamination_minimap2.png" class="img-fluid figure-img" alt="Contamination count (minimap2)"></a></p>
+<figcaption>Contamination count (minimap2)</figcaption>
 </figure>
-</div>
-</div>
 </div>
 </section>
 <section id="contamination-details" class="level5">
 <h5 class="anchored" data-anchor-id="contamination-details">Contamination details</h5>
-</section>
-<section id="contamination-region-total" class="level5">
-<h5 class="anchored" data-anchor-id="contamination-region-total">Contamination region (total)</h5>
-<div id="346859ca" class="cell" data-execution_count="8">
+<section id="contamination-region-total" class="level6">
+<h6 class="anchored" data-anchor-id="contamination-region-total">Contamination region (total)</h6>
+<div id="c948243c" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -881,9 +876,9 @@ BC11            rapid         contig_9        -        27655     27735    1.00  
 </div>
 </div>
 </section>
-<section id="contamination-region-per-trimmer" class="level5">
-<h5 class="anchored" data-anchor-id="contamination-region-per-trimmer">Contamination region (per trimmer)</h5>
-<div id="8d685ebd" class="cell" data-execution_count="9">
+<section id="contamination-region-per-trimmer" class="level6">
+<h6 class="anchored" data-anchor-id="contamination-region-per-trimmer">Contamination region (per trimmer)</h6>
+<div id="9bd58a93" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -1214,9 +1209,9 @@ BC11            rapid         contig_9        -        27655     27735    1.00  
 <p>The way we run barbell also we run using demux when it search for barcode, assign the reads, and trim the barcode.</p>
 <p>Can we rebasecall the <code>pod5</code> files without using the <code>--no-trim</code> option, or run <code>dorado demux</code>, then concatenate into one sample, so the barcode sequences are already handled by Dorado? we can then treat this output as the baseline instead of using the fully untrimmed dataset.</p>
 </section>
-<section id="mixed-vs-native-only-samples" class="level5">
-<h5 class="anchored" data-anchor-id="mixed-vs-native-only-samples">Mixed vs native only samples</h5>
-<div id="2adfe79f" class="cell" data-execution_count="10">
+<section id="mixed-vs-native-only-samples" class="level6">
+<h6 class="anchored" data-anchor-id="mixed-vs-native-only-samples">Mixed vs native only samples</h6>
+<div id="dc737a1c" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -1512,6 +1507,7 @@ BC11            rapid         contig_9        -        27655     27735    1.00  
 <p>Can we filter native reads from mixed pof5 files, and just use native kit only datasets?</p>
 
 
+</section>
 </section>
 </section>
 </section>
