@@ -374,22 +374,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#tracking-sample-kits" id="toc-tracking-sample-kits" class="nav-link active" data-scroll-target="#tracking-sample-kits">Tracking sample kits</a>
   <ul>
   <li><a href="#from-pod5-metadata" id="toc-from-pod5-metadata" class="nav-link" data-scroll-target="#from-pod5-metadata">From pod5 metadata</a></li>
+  </ul></li>
   <li><a href="#exploring-barcode-contaminats-detection-with-minimap2" id="toc-exploring-barcode-contaminats-detection-with-minimap2" class="nav-link" data-scroll-target="#exploring-barcode-contaminats-detection-with-minimap2">Exploring barcode contaminats detection with minimap2</a>
   <ul>
   <li><a href="#testing-on-the-barbell-assembly" id="toc-testing-on-the-barbell-assembly" class="nav-link" data-scroll-target="#testing-on-the-barbell-assembly">Testing on the barbell assembly</a></li>
   <li><a href="#testing-on-kpc2__202310-at-20-depth" id="toc-testing-on-kpc2__202310-at-20-depth" class="nav-link" data-scroll-target="#testing-on-kpc2__202310-at-20-depth">Testing on KPC2__202310 at 20× depth</a>
-  <ul class="collapse">
+  <ul>
   <li><a href="#testing-with-manually-inserted-barcode-contaminants" id="toc-testing-with-manually-inserted-barcode-contaminants" class="nav-link" data-scroll-target="#testing-with-manually-inserted-barcode-contaminants">Testing with manually inserted barcode contaminants</a></li>
   </ul></li>
   <li><a href="#testing-on-atcc_25922__202309-at-20x-depth" id="toc-testing-on-atcc_25922__202309-at-20x-depth" class="nav-link" data-scroll-target="#testing-on-atcc_25922__202309-at-20x-depth">Testing on ATCC_25922__202309 at 20x depth</a>
-  <ul class="collapse">
+  <ul>
   <li><a href="#dorado-processed-reads" id="toc-dorado-processed-reads" class="nav-link" data-scroll-target="#dorado-processed-reads">dorado processed reads</a></li>
   <li><a href="#porecho_abi-discard-processed-reads" id="toc-porecho_abi-discard-processed-reads" class="nav-link" data-scroll-target="#porecho_abi-discard-processed-reads">porecho_abi discard processed reads</a></li>
   </ul></li>
   <li><a href="#testing-on-the-other-assemblies" id="toc-testing-on-the-other-assemblies" class="nav-link" data-scroll-target="#testing-on-the-other-assemblies">Testing on the other assemblies</a>
-  <ul class="collapse">
+  <ul>
   <li><a href="#contamination-count" id="toc-contamination-count" class="nav-link" data-scroll-target="#contamination-count">Contamination count</a></li>
-  <li><a href="#contamination-details" id="toc-contamination-details" class="nav-link" data-scroll-target="#contamination-details">Contamination details</a></li>
+  <li><a href="#contamination-details" id="toc-contamination-details" class="nav-link" data-scroll-target="#contamination-details">Contamination details</a>
+  <ul class="collapse">
+  <li><a href="#contamination-region-total" id="toc-contamination-region-total" class="nav-link" data-scroll-target="#contamination-region-total">Contamination region (total)</a></li>
+  <li><a href="#contamination-region-per-trimmer" id="toc-contamination-region-per-trimmer" class="nav-link" data-scroll-target="#contamination-region-per-trimmer">Contamination region (per trimmer)</a></li>
+  <li><a href="#mixed-vs-native-only-samples" id="toc-mixed-vs-native-only-samples" class="nav-link" data-scroll-target="#mixed-vs-native-only-samples">Mixed vs native only samples</a></li>
   </ul></li>
   </ul></li>
   </ul></li>
@@ -496,8 +501,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Based on the POD5 metadata, nine samples contain reads from both the native barcoding kit (SQK-NBD114-96) and the rapid barcoding kit (SQK-RBK114-96). In most of these mixed samples, the native kit contributed a higher proportion of reads. The remaining five samples appear to contain reads only from the native barcoding kit.</p>
 <p>can we just use pod5 files that come from native barcode?</p>
 </section>
-<section id="exploring-barcode-contaminats-detection-with-minimap2" class="level3">
-<h3 class="anchored" data-anchor-id="exploring-barcode-contaminats-detection-with-minimap2">Exploring barcode contaminats detection with minimap2</h3>
+</section>
+<section id="exploring-barcode-contaminats-detection-with-minimap2" class="level2">
+<h2 class="anchored" data-anchor-id="exploring-barcode-contaminats-detection-with-minimap2">Exploring barcode contaminats detection with minimap2</h2>
 <p>Initially, I considered using the barcode FASTA as the query and the assembly as the target. However, because I want to allow same barcode sequence to align to multiple possible regions in the assembly, but avoid having one assembly region matched by multiple barcode sequences, I decided to treat the barcode FASTA as the target/reference and the assembly as the query. This is quite similar to the mapping config issue we discussed in the Eris project last semester..</p>
 <p>minimap2 command: <code>minimap2 -c -x sr -k 9 -w 1 -n 1 -m 14 &lt;barcodes.fasta&gt; &lt;assembly.fasta&gt;</code></p>
 <p>Since minimap2 performs local alignment, I kept the barcode and flanking sequence together as one target sequence. My reasoning is that I still want to retain information from the adjacent flanking regions, while also being able to detect cases where only part of the barcode or flank remains in the assembly. For example, this could include a full barcode with partial flanking sequence, or a full flanking sequence with only part of the barcode.</p>
@@ -513,10 +519,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>end: within the last 100 bp of the contig.</li>
 <li>middle: the contaminant is not located within either the first or last 100 bp of the contig.</li>
 </ul>
-<section id="testing-on-the-barbell-assembly" class="level4">
-<h4 class="anchored" data-anchor-id="testing-on-the-barbell-assembly">Testing on the barbell assembly</h4>
+<section id="testing-on-the-barbell-assembly" class="level3">
+<h3 class="anchored" data-anchor-id="testing-on-the-barbell-assembly">Testing on the barbell assembly</h3>
 <p>I first tested this approach on the Barbell assembly (from rapid kit):</p>
-<div id="698c73fa" class="cell" data-execution_count="1">
+<div id="fc57a56b" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!python detect_contaminant_minimap2.py --barcode-dir barcodes/ --assembly test_assemblies/bc49_medaka_consensus.114.fasta -o bc49_medaka_consensus.cont.tsv 2&gt; /dev/null</span></span>
@@ -533,10 +539,10 @@ BC49    rapid   contig_73       +        1         91      1.00       180       
 <p>The script detected three barcode hits, which is similar to what Barbell reported. I also calculated the coverage for each sub-region, including the left flank, right flank, and actual barcode sequence.</p>
 <p>Here, I focus on coverage rather than identity because identity is calculated across the whole aligned sequence. I think coverage gives a clearer view of which specific part of the barcode-flank structure is actually present in the assembly.</p>
 </section>
-<section id="testing-on-kpc2__202310-at-20-depth" class="level4">
-<h4 class="anchored" data-anchor-id="testing-on-kpc2__202310-at-20-depth">Testing on KPC2__202310 at 20× depth</h4>
+<section id="testing-on-kpc2__202310-at-20-depth" class="level3">
+<h3 class="anchored" data-anchor-id="testing-on-kpc2__202310-at-20-depth">Testing on KPC2__202310 at 20× depth</h3>
 <p>I then tested the script on the KPC2__202310 20× (a mixed sample) assembly generated from Dorado processed reads</p>
-<div id="e2c34279" class="cell" data-execution_count="2">
+<div id="2f16b205" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!python detect_contaminant_minimap2.py -d barcodes/ -a test_assemblies/KPC2__202310.dorado.20x.assembly.fasta -o KPC2__202310.dorado.20x.cont.tsv</span></span>
@@ -548,8 +554,8 @@ BC49    rapid   contig_73       +        1         91      1.00       180       
 </div>
 </div>
 <p>No barcode contamination was detected in this assembly.</p>
-<section id="testing-with-manually-inserted-barcode-contaminants" class="level5">
-<h5 class="anchored" data-anchor-id="testing-with-manually-inserted-barcode-contaminants">Testing with manually inserted barcode contaminants</h5>
+<section id="testing-with-manually-inserted-barcode-contaminants" class="level4">
+<h4 class="anchored" data-anchor-id="testing-with-manually-inserted-barcode-contaminants">Testing with manually inserted barcode contaminants</h4>
 <p>To check whether this aproach can detect known barcode contamination, I manually inserted six barcode sequences into the clean KPC2 assembly above. The aim was to create a positive control assembly and test whether the script could recover all inserted contaminants correctly.</p>
 <p>The manually inserted contaminants were:</p>
 <ul>
@@ -570,7 +576,7 @@ BC49    rapid   contig_73       +        1         91      1.00       180       
 </ul></li>
 </ul>
 <p>I then ran the detection script again on the manually contaminated assembly:</p>
-<div id="bb141b84" class="cell" data-execution_count="3">
+<div id="630f6557" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!python detect_contaminant_minimap2.py -a test_assemblies/KPC2__202310.dorado.20x.assembly.cont.fasta -d barcodes/ -o KPC2__202310.dorado.20x.cont.insert.tsv</span></span>
@@ -593,11 +599,11 @@ Native_bottom_3   native_right   contig_4        +        43200     43260     1.
 <p>The flanking regions and also adapter sequence are important for distinguishing whether the detected sequence is more consistent with the native or rapid kit structure.</p>
 </section>
 </section>
-<section id="testing-on-atcc_25922__202309-at-20x-depth" class="level4">
-<h4 class="anchored" data-anchor-id="testing-on-atcc_25922__202309-at-20x-depth">Testing on ATCC_25922__202309 at 20x depth</h4>
-<section id="dorado-processed-reads" class="level5">
-<h5 class="anchored" data-anchor-id="dorado-processed-reads">dorado processed reads</h5>
-<div id="f99311b0" class="cell" data-execution_count="4">
+<section id="testing-on-atcc_25922__202309-at-20x-depth" class="level3">
+<h3 class="anchored" data-anchor-id="testing-on-atcc_25922__202309-at-20x-depth">Testing on ATCC_25922__202309 at 20x depth</h3>
+<section id="dorado-processed-reads" class="level4">
+<h4 class="anchored" data-anchor-id="dorado-processed-reads">dorado processed reads</h4>
+<div id="2c1028e6" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!python detect_contaminant_minimap2.py -d barcodes/ -a test_assemblies/ATCC_25922__202309.dorado.20x.assembly.fasta -o ATCC_25922__202309.dorado.20x.cont.tsv 2&gt; /dev/null</span></span>
@@ -624,7 +630,7 @@ Native_top_75      native_left    contig_8        -        16848     16890     0
 <p>In this particular sample, <code>dorado trim</code> to successfully identify and remove the 36 bp adapter, leaving only around 0–25% of the adapter sequence behind. However, <code>dorado trim</code> appears to completely miss the barcode and flanking sequences. The hist are either at the start (first 100bp) or at the ends (last 100bp) of contigs</p>
 <p>Here I am also a bit worried if <code>dorado trim</code> doesn’t trim the barcode, it does only trim the adapter..</p>
 <p>Since almost all of the hits have perfect identity, I next checked whether the barcode sequence itself is present in the assembly using <code>seqkit locate</code>.</p>
-<div id="5c45e167" class="cell" data-execution_count="5">
+<div id="22c054a0" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>seqkit locate <span class="op">-</span>p <span class="st">"AAGGTTAAGACCATTGTGATGAACCCTGTTGTCAGCACCT"</span> test_assemblies<span class="op">/</span>ATCC_25922__202309.dorado<span class="fl">.20</span><span class="er">x</span>.assembly.fasta</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -642,9 +648,9 @@ contig_7    AAGGTTAAGACCATTGTGATGAACCCTGTTGTCAGCACCT    AAGGTTAAGACCATTGTGATGAAC
 </div>
 <p>The result from <code>seqkit locate</code> also matched with the minimap2 script, it has Native_top_75 contaminats with 100% identity in seven different positons in the assembly.</p>
 </section>
-<section id="porecho_abi-discard-processed-reads" class="level5">
-<h5 class="anchored" data-anchor-id="porecho_abi-discard-processed-reads">porecho_abi discard processed reads</h5>
-<div id="76f66fd2" class="cell" data-execution_count="6">
+<section id="porecho_abi-discard-processed-reads" class="level4">
+<h4 class="anchored" data-anchor-id="porecho_abi-discard-processed-reads">porecho_abi discard processed reads</h4>
+<div id="75c22973" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!python detect_contaminant_minimap2.py -d barcodes/ -a test_assemblies/ATCC_25922__202309.porechop_abi_discard.20x.assembly.fasta -o ATCC_25922__202309.porechop_abi_discard.20x.cont.tsv 2&gt; /dev/null</span></span>
@@ -672,11 +678,11 @@ BC11            rapid         contig_9        -        27655     27735    1.00  
 <p>Similar to the Dorado result, <code>porechop_abi_discard</code> successfully removed the 36 bp adapter from the native reads. However, it appears to completely ignore the barcode and flanking segment, which remains full or almost full in the assembly.</p>
 </section>
 </section>
-<section id="testing-on-the-other-assemblies" class="level4">
-<h4 class="anchored" data-anchor-id="testing-on-the-other-assemblies">Testing on the other assemblies</h4>
-<section id="contamination-count" class="level5">
-<h5 class="anchored" data-anchor-id="contamination-count">Contamination count</h5>
-<div id="e1b57565" class="cell" data-execution_count="7">
+<section id="testing-on-the-other-assemblies" class="level3">
+<h3 class="anchored" data-anchor-id="testing-on-the-other-assemblies">Testing on the other assemblies</h3>
+<section id="contamination-count" class="level4">
+<h4 class="anchored" data-anchor-id="contamination-count">Contamination count</h4>
+<div id="59858d11" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import pandas as pd</span></span>
@@ -728,11 +734,11 @@ BC11            rapid         contig_9        -        27655     27735    1.00  
 </figure>
 </div>
 </section>
-<section id="contamination-details" class="level5">
-<h5 class="anchored" data-anchor-id="contamination-details">Contamination details</h5>
-<section id="contamination-region-total" class="level6">
-<h6 class="anchored" data-anchor-id="contamination-region-total">Contamination region (total)</h6>
-<div id="c948243c" class="cell" data-execution_count="8">
+<section id="contamination-details" class="level4">
+<h4 class="anchored" data-anchor-id="contamination-details">Contamination details</h4>
+<section id="contamination-region-total" class="level5">
+<h5 class="anchored" data-anchor-id="contamination-region-total">Contamination region (total)</h5>
+<div id="dc3f1223" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -876,9 +882,9 @@ BC11            rapid         contig_9        -        27655     27735    1.00  
 </div>
 </div>
 </section>
-<section id="contamination-region-per-trimmer" class="level6">
-<h6 class="anchored" data-anchor-id="contamination-region-per-trimmer">Contamination region (per trimmer)</h6>
-<div id="9bd58a93" class="cell" data-execution_count="9">
+<section id="contamination-region-per-trimmer" class="level5">
+<h5 class="anchored" data-anchor-id="contamination-region-per-trimmer">Contamination region (per trimmer)</h5>
+<div id="7d3626ea" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -1209,9 +1215,9 @@ BC11            rapid         contig_9        -        27655     27735    1.00  
 <p>The way we run barbell also we run using demux when it search for barcode, assign the reads, and trim the barcode.</p>
 <p>Can we rebasecall the <code>pod5</code> files without using the <code>--no-trim</code> option, or run <code>dorado demux</code>, then concatenate into one sample, so the barcode sequences are already handled by Dorado? we can then treat this output as the baseline instead of using the fully untrimmed dataset.</p>
 </section>
-<section id="mixed-vs-native-only-samples" class="level6">
-<h6 class="anchored" data-anchor-id="mixed-vs-native-only-samples">Mixed vs native only samples</h6>
-<div id="dc737a1c" class="cell" data-execution_count="10">
+<section id="mixed-vs-native-only-samples" class="level5">
+<h5 class="anchored" data-anchor-id="mixed-vs-native-only-samples">Mixed vs native only samples</h5>
+<div id="983cb2d5" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -1507,7 +1513,6 @@ BC11            rapid         contig_9        -        27655     27735    1.00  
 <p>Can we filter native reads from mixed pof5 files, and just use native kit only datasets?</p>
 
 
-</section>
 </section>
 </section>
 </section>
