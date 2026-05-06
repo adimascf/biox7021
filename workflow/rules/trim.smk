@@ -107,8 +107,7 @@ rule trim_dorado:
 	container:  
 		"docker://nanoporetech/dorado:shac8f356489fa8b44b31beba841b84d2879de2088e"
 	params:  
-		kit1=lambda wildcards: get_sequencing_kits(wildcards)[0],  
-		kit2=lambda wildcards: get_sequencing_kits(wildcards)[1],  
+		kit=lambda wildcards: get_sequencing_kits(wildcards),  
 		output_fq="--emit-fastq"  
 	output:  
 		reads=temp(RESULTS / f"QC/trimming/{trimmer}/{{model}}/{{sample}}.{trimmer}.fastq")
@@ -116,10 +115,7 @@ rule trim_dorado:
 		repeat(BENCHMARK / f"QC/trimming/{trimmer}/{{model}}/{{sample}}.{trimmer}.tsv", REPEAT)
 	shell: 
 		"""
-		tmp_fq=$(mktemp -u).fastq
-		(dorado trim {params.output_fq} --sequencing-kit {params.kit1} {input.reads} > $tmp_fq) 2> {log}
-		(dorado trim {params.output_fq} --sequencing-kit {params.kit2} $tmp_fq > {output.reads}) 2>> {log}
-		rm -rf $tmp_fq
+		(dorado trim {params.output_fq} --sequencing-kit {params.kit} {input.reads} > {output.reads}) 2>> {log}
 		"""
 
 # trimmer = "dorado_demux"
@@ -173,8 +169,7 @@ rule barbell_trim:
 	conda:
 		ENVS / "barbell_seqkit.yaml"
 	params:
-		kit1=lambda wildcards: get_sequencing_kits(wildcards)[0],
-		kit2=lambda wildcards: get_sequencing_kits(wildcards)[1],
+		kit=lambda wildcards: get_sequencing_kits(wildcards),
 		maximize="no"
 	output:
 		reads=temp(RESULTS / f"QC/trimming/{trimmer}/{{model}}/{{sample}}.{trimmer}.fastq")
@@ -195,8 +190,7 @@ rule barbell_trim_max:
 	conda:
 		ENVS / "barbell_seqkit.yaml"
 	params:
-		kit1=lambda wildcards: get_sequencing_kits(wildcards)[0],
-		kit2=lambda wildcards: get_sequencing_kits(wildcards)[1],
+		kit=lambda wildcards: get_sequencing_kits(wildcards),
 		maximize="yes"
 	output:
 		reads=temp(RESULTS / f"QC/trimming/{trimmer}/{{model}}/{{sample}}.{trimmer}.fastq")

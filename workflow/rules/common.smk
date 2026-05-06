@@ -17,7 +17,6 @@ def get_truth_vcf(wildcards):
 	return (ref_dir / f"{wildcards.sample}.truth.vcf.gz")
 
 def get_sequencing_kits(wildcards):
-	kits =  pep.get_sample(wildcards.sample)["sequencing_kits"].split(";")
-	return kits[0], kits[1]
+	return pep.get_sample(wildcards.sample)["sequencing_kits"]
 
 
