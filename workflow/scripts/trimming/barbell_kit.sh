@@ -5,7 +5,7 @@ set -euo pipefail
 exec 2> "${snakemake_log[0]}"
 
 reads="${snakemake_input[reads]}"
-kit="${snakemake_params[kit1]}"
+kit="${snakemake_params[kit]}"
 outdir=$(mktemp -d)
 output="${snakemake_output[reads]}"
 max="${snakemake_params[maximize]}"

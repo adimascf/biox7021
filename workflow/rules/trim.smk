@@ -3,7 +3,7 @@ REPEAT = int(config.get("repeat", 1))
 trimmer = "fastplong"
 rule trim_fastplong:
 	input:
-		reads=get_original_fastqs
+		reads=lambda wildcards: get_original_fastqs(wildcards, "trim")
 	log:
 		LOGS / f"QC/trimming/{trimmer}/{{model}}/{{sample}}.log"
 	threads: 8
@@ -31,8 +31,8 @@ trimmer = "porechop_abi_split"
 # by default, it will split reads when an adapter is found in the middle
 rule trim_porcechop_abi_split:
 	input:
-		reads=get_original_fastqs
-	log:
+		reads=lambda wildcards: get_original_fastqs(wildcards, "trim") 
+	log: 
 		LOGS / f"QC/trimming/{trimmer}/{{model}}/{{sample}}.log"
 	threads: 32 
 	resources:
@@ -52,7 +52,7 @@ rule trim_porcechop_abi_split:
 trimmer = "porechop_abi_discard"
 rule trim_porcechop_abi_discard:
 	input:
-		reads=get_original_fastqs
+		reads=lambda wildcards: get_original_fastqs(wildcards, "trim")
 	log:
 		LOGS / f"QC/trimming/{trimmer}/{{model}}/{{sample}}.log"
 	threads: 32
@@ -75,7 +75,7 @@ rule trim_porcechop_abi_discard:
 trimmer = "porechop_abi_nocheck"
 rule trim_porcechop_abi_nocheck:
 	input:
-		reads=get_original_fastqs
+		reads=lambda wildcards: get_original_fastqs(wildcards, "trim")
 	log:
 		LOGS / f"QC/trimming/{trimmer}/{{model}}/{{sample}}.log"
 	threads: 32
@@ -98,7 +98,7 @@ rule trim_porcechop_abi_nocheck:
 trimmer = "dorado"
 rule trim_dorado:  
 	input:  
-		reads=get_original_fastqs  
+		reads=lambda wildcards: get_original_fastqs(wildcards, "trim")  
 	log:  
 		LOGS / f"QC/trimming/{trimmer}/{{model}}/{{sample}}.log"  
 	resources:  
@@ -118,49 +118,10 @@ rule trim_dorado:
 		(dorado trim {params.output_fq} --sequencing-kit {params.kit} {input.reads} > {output.reads}) 2>> {log}
 		"""
 
-# trimmer = "dorado_demux"
-# rule trim_dorado_demux:  
-# 	input:  
-# 		reads=get_original_fastqs  
-# 	log:  
-# 		LOGS / f"QC/trimming/{trimmer}/{{model}}/{{sample}}.log"  
-# 	resources:  
-# 		mem="32GiB",  
-# 		runtime=f"{12 * REPEAT}h"  
-# 	container:  
-# 		"docker://nanoporetech/dorado:shac8f356489fa8b44b31beba841b84d2879de2088e"
-# 	params:  
-# 		kit1=lambda wildcards: get_sequencing_kits(wildcards)[0],  
-# 		kit2=lambda wildcards: get_sequencing_kits(wildcards)[1],  
-# 	output:  
-# 		reads=temp(RESULTS / f"QC/trimming/{trimmer}/{{model}}/{{sample}}.{trimmer}_raw.fastq")
-# 	benchmark:  
-# 		repeat(BENCHMARK / f"QC/trimming/{trimmer}/{{model}}/{{sample}}.{trimmer}.tsv", REPEAT)
-# 	script: 
-# 		"../scripts/trimming/dorado_demux.sh"
-
-# rule seqkit_dedup:
-# 	input:
-# 		reads=rules.trim_dorado_demux.output.reads
-# 	log:
-# 		LOGS / f"QC/trimming/{trimmer}/{{model}}/{{sample}}_seqkit.log"
-# 	resources:
-# 		mem="32GiB",
-# 		runtime=f"{30*REPEAT}h"
-# 	conda:
-# 		ENVS / "barbell_seqkit.yaml"
-# 	output:
-# 		reads=temp(RESULTS / f"QC/trimming/{trimmer}/{{model}}/{{sample}}.{trimmer}.fastq")
-# 	shell:
-# 		"""
-# 		# remove duplicates by read ID
-# 		seqkit rmdup -o {output.reads} {input.reads} 2> {log}
-# 		"""
-
 trimmer = "barbell_default"
 rule barbell_trim:
 	input:
-		reads=get_original_fastqs
+		reads=lambda wildcards: get_original_fastqs(wildcards, "notrim")
 	log:
 		LOGS / f"QC/trimming/{trimmer}/{{model}}/{{sample}}.log"
 	resources:
@@ -181,7 +142,7 @@ rule barbell_trim:
 trimmer = "barbell_max"
 rule barbell_trim_max:
 	input:
-		reads=get_original_fastqs
+		reads=lambda wildcards: get_original_fastqs(wildcards, "notrim")
 	log:
 		LOGS / f"QC/trimming/{trimmer}/{{model}}/{{sample}}.log"
 	resources:
@@ -202,7 +163,7 @@ rule barbell_trim_max:
 trimmer = "untrimmed"
 rule trim_notrim:
 	input:
-		reads=get_original_fastqs
+		reads=lambda wildcards: get_original_fastqs(wildcards, "notrim")
 	log:
 		LOGS / f"QC/trimming/{trimmer}/{{model}}/{{sample}}.log"
 	resources:

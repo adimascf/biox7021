@@ -178,22 +178,24 @@ def resolve_global_overlaps(all_hits):
     return final_hits
 
 
-# SNAKEMAKE EXECUTION BLOCK
+# --- SNAKEMAKE EXECUTION BLOCK ---
 assembly_fasta = snakemake.input.assembly
 contaminants_dir = snakemake.input.contaminants
 output_tsv = snakemake.output.contaminants
 
-# Fetch optional parameters from the Snakefile, or use defaults
 min_cov = getattr(snakemake.params, 'min_cov', 0.90)
 min_id = getattr(snakemake.params, 'min_id', 0.90)
-is_native_only = getattr(snakemake.params, 'is_native_only', False)
+kit_name = getattr(snakemake.params, 'kit', "unknown")
 
 os.makedirs(os.path.dirname(os.path.abspath(output_tsv)), exist_ok=True) 
 assembly_label = Path(assembly_fasta).name
 
 print(f"Starting contaminant detection for: {assembly_label}")
-if is_native_only:
-    print("-> Sample flagged as Native-only. Rapid barcodes will be ignored.")
+print(f"Library Kit specified: {kit_name}")
+
+# Map the kit name to logical flags
+is_native = kit_name == "SQK-NBD114-96"
+is_rapid = kit_name == "SQK-RBK114-96"
 
 # Find all fasta/fa files in the directory
 barcode_files = glob.glob(os.path.join(contaminants_dir, "*.fasta")) + glob.glob(os.path.join(contaminants_dir, "*.fa"))
@@ -205,9 +207,14 @@ if not barcode_files:
 all_valid_hits = []
 
 for barcodes_fa in barcode_files:
-    # If sample is native only, and the file is the rapid kit, skip it.
-    if is_native_only and "rapid" in os.path.basename(barcodes_fa).lower():
-        print(f"Skipping {os.path.basename(barcodes_fa)}...")
+    filename = os.path.basename(barcodes_fa).lower()
+    
+    # SKIP LOGIC BASED ON KIT
+    if is_native and "rapid" in filename:
+        print(f"Skipping {os.path.basename(barcodes_fa)} (Kit is Native)...")
+        continue
+    elif is_rapid and "native" in filename:
+        print(f"Skipping {os.path.basename(barcodes_fa)} (Kit is Rapid)...")
         continue
 
     print(f"Running minimap2 against {os.path.basename(barcodes_fa)}...")
@@ -228,9 +235,9 @@ print(f"Detected {len(final_resolved_hits)} contaminants.")
 print(f"Writing results to {output_tsv}...")
 
 with open(output_tsv, "w") as out_file:
-    out_file.write("assembly\tquery\tkit\ttarget_contig\tstrand\tc_start\tc_end\tidentity\tdp_score\tmapq\tposition\tregion_breakdown\n")
+    out_file.write("query\tkit\ttarget_contig\tstrand\tc_start\tc_end\tidentity\tdp_score\tmapq\tposition\tregion_breakdown\n")
     for hit in final_resolved_hits:
         id_str = f"{hit['identity']:.2f}"
-        out_file.write(f"{assembly_label}\t{hit['barcode_name']}\t{hit['kit_type']}\t{hit['contig_name']}\t{hit['strand']}\t{hit['c_start']}\t{hit['c_end']}\t{id_str}\t{hit['dp_score']}\t{hit['mapq']}\t{hit['position']}\t{hit['breakdown']}\n")
+        out_file.write(f"{hit['barcode_name']}\t{hit['kit_type']}\t{hit['contig_name']}\t{hit['strand']}\t{hit['c_start']}\t{hit['c_end']}\t{id_str}\t{hit['dp_score']}\t{hit['mapq']}\t{hit['position']}\t{hit['breakdown']}\n")
 
 print("Done!")

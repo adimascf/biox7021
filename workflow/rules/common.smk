@@ -1,8 +1,9 @@
 from pathlib import Path
 
-def get_original_fastqs(wildcards):
+def get_original_fastqs(wildcards, trim_status):
+	# trim_status expects "trim" or "notrim"
 	reads_dir = Path(pep.get_sample(wildcards.sample)["reads_dir"])
-	return (reads_dir / f"{wildcards.model}/{wildcards.sample}.fastq")
+	return (reads_dir / f"{trim_status}/{wildcards.model}/{wildcards.sample}.fastq")
 
 def get_reference_genome(wildcards):
 	ref_dir = Path(pep.get_sample(wildcards.sample)["reference_path"])

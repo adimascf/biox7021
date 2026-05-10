@@ -8,7 +8,7 @@ rule assembly_flye:
 	threads: 4
 	resources:
 		mem="128GiB",
-		runtime=f"{5 * REPEAT}h"
+		runtime=f"{10 * REPEAT}h"
 	conda:
 		ENVS / "flye.yaml"
 	params:
