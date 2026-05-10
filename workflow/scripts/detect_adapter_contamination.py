@@ -34,6 +34,24 @@ def calc_overlap(aln_start, aln_end, reg_start, reg_end):
         return 0
     return overlap_len / region_len
 
+def load_circularity(info_file):
+    """
+    Parse flye assembly_info.txt andreturn a dictionary of contig circularity.
+    """
+    circularity = {}
+    if not os.path.exists(info_file):
+        return circularity
+
+    with open(info_file, 'r') as file:
+        for line in file:
+            if line.startswith("#"): # skip the header
+                continue
+            cols = line.strip().split("\t")
+            if len(cols) >= 4:
+                # cols[0] is seq_name, cols[3] is circ. (Y/N)
+                circularity[cols[0]] = cols[3]
+    return circularity
+
 def parse_filter(process, barcodes_fa, min_region_cov=0.80, min_identity=0.90):
     """
     Filtering strategies for the raw minimap2 PAF output.
@@ -180,6 +198,7 @@ def resolve_global_overlaps(all_hits):
 
 # --- SNAKEMAKE EXECUTION BLOCK ---
 assembly_fasta = snakemake.input.assembly
+assembly_info = snakemake.input.info
 contaminants_dir = snakemake.input.contaminants
 output_tsv = snakemake.output.contaminants
 
@@ -196,6 +215,8 @@ print(f"Library Kit specified: {kit_name}")
 # Map the kit name to logical flags
 is_native = kit_name == "SQK-NBD114-96"
 is_rapid = kit_name == "SQK-RBK114-96"
+
+circularity = load_circularity(assembly_info)
 
 # Find all fasta/fa files in the directory
 barcode_files = glob.glob(os.path.join(contaminants_dir, "*.fasta")) + glob.glob(os.path.join(contaminants_dir, "*.fa"))
@@ -235,9 +256,10 @@ print(f"Detected {len(final_resolved_hits)} contaminants.")
 print(f"Writing results to {output_tsv}...")
 
 with open(output_tsv, "w") as out_file:
-    out_file.write("query\tkit\ttarget_contig\tstrand\tc_start\tc_end\tidentity\tdp_score\tmapq\tposition\tregion_breakdown\n")
+    out_file.write("query\tkit\ttarget_contig\tis_circular\tstrand\tc_start\tc_end\tidentity\tdp_score\tmapq\tposition\tregion_breakdown\n")
     for hit in final_resolved_hits:
         id_str = f"{hit['identity']:.2f}"
-        out_file.write(f"{hit['barcode_name']}\t{hit['kit_type']}\t{hit['contig_name']}\t{hit['strand']}\t{hit['c_start']}\t{hit['c_end']}\t{id_str}\t{hit['dp_score']}\t{hit['mapq']}\t{hit['position']}\t{hit['breakdown']}\n")
+        is_circ = circularity.get(hit['contig_name'], 'Not found')
+        out_file.write(f"{hit['barcode_name']}\t{hit['kit_type']}\t{hit['contig_name']}\t{is_circ}\t{hit['strand']}\t{hit['c_start']}\t{hit['c_end']}\t{id_str}\t{hit['dp_score']}\t{hit['mapq']}\t{hit['position']}\t{hit['breakdown']}\n")
 
 print("Done!")

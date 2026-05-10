@@ -138,6 +138,7 @@ rule assess_assembly_quast:
 rule assess_assembly_contam:
 	input:
 		assembly=rules.assembly_flye.output.assembly,
+		info=rules.assembly_flye.output.info,
 		contaminants=DATA / "contaminants"
 	log:
 		LOGS / "assess/assembly/contaminant/{depth}x/{sample}/{model}/{sample}.{trimmer}.contaminants.log"
