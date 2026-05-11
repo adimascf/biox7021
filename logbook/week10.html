@@ -381,6 +381,10 @@ window.Quarto = {
     <a class="dropdown-item" href="../logbook/week11.html">
  <span class="dropdown-text">Week 11</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../logbook/week12.html">
+ <span class="dropdown-text">Week 12</span></a>
+  </li>  
     </ul>
   </li>
 </ul>
@@ -471,29 +475,33 @@ window.Quarto = {
 <p>Their fasta is here in <a href="https://github.com/rickbeeloo/barbell/blob/master/examples/rapid_bars.fasta">their repository</a>, and the information of this left flank - barcode right flank sequences is here on <a href="https://nanoporetech.com/document/chemistry-technical-document#barcode-sequences">ONT doc</a>.</p>
 <p>They set <code>k=20</code> in their script, meaning that sequences within a distance threshold up to 20bp are matched and reported as contaminants.</p>
 <p>Adapted from their script, I wrote <a href="">this script</a> to detect barcode contaminants in our tested assembly result. Before i tested in our assembly, I tested the script on their assembly result where they found three contaminants on it. I manually demultiplexed their fastq file, and ran their assembly pipeine (Flye -&gt; Medaka) to get their BC49 sample assembly.</p>
-<div id="5ed141f5" class="cell" data-execution_count="1">
+<div id="3a7e439a" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!python detect_adapter_contamination_cli.py -a bc49_medaka_consensus.114.fasta -b rapid_flanks_w_bars.fasta -o bc49_contam.114.tsv</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>csvtk pretty <span class="op">-</span>H bc49_contam<span class="fl">.114</span>.tsv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>bc49_medaka_consensus.114.fasta BC49 contig_27 21418 21485 11 rapid_flanks_w_bars.fasta
-bc49_medaka_consensus.114.fasta BC49 contig_73 1 91 0 rapid_flanks_w_bars.fasta        
-bc49_medaka_consensus.114.fasta BC17 contig_64 0 75 10 rapid_flanks_w_bars.fasta       </code></pre>
+<div class="ansi-escaped-output">
+<pre><span class="ansi-red-fg">[ERRO]</span> stat bc49_contam.114.tsv: no such file or directory
+</pre>
+</div>
 </div>
 </div>
 <p>It does match their finding where they found 3 contaminants hits in the BC49, including the 90bp contamination with 0 distance in the first 90 in the contig.</p>
 <p>I also did notice, they mention that they were using SQK-RBK110.96 kit in the paper, but they specify SQK-RBK114.96 kit for dorado demux command in their script. Not sure how much this discrepancy impact demultiplexing overall, but in my case, it does make difference on how many hits found.</p>
 <p>With the “correct” kit paramter <code>SQK-RBK110-96</code> for dorado demux, using the same script, I only found one hit (the hit with 0 distance)</p>
-<div id="45fa2d76" class="cell" data-execution_count="2">
+<div id="9522f3cf" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!python detect_adapter_contamination_cli.py -a bc49_medaka_consensus.110.fasta -b rapid_flanks_w_bars.fasta -o bc49_contam.110.tsv</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>csvtk pretty <span class="op">-</span>H bc49_contam<span class="fl">.110</span>.tsv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!python detect_adapter_contamination_cli.py -a bc49_medaka_consensus.110.fasta -b rapid_flanks_w_bars.fasta -o bc49_contam.110.tsv</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>csvtk pretty <span class="op">-</span>H bc49_contam<span class="fl">.110</span>.tsv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>bc49_medaka_consensus.110.fasta BC49 contig_19 1 91 0 rapid_flanks_w_bars.fasta</code></pre>
+<div class="ansi-escaped-output">
+<pre><span class="ansi-red-fg">[ERRO]</span> stat bc49_contam.110.tsv: no such file or directory
+</pre>
+</div>
 </div>
 </div>
 </section>
@@ -515,49 +523,49 @@ bc49_medaka_consensus.114.fasta BC17 contig_64 0 75 10 rapid_flanks_w_bars.fasta
 <section id="absolute-number-of-contamination-count" class="level4">
 <h4 class="anchored" data-anchor-id="absolute-number-of-contamination-count">Absolute number of contamination count</h4>
 <p>Which condition that has the most, in average, contamination of native and/or rapid sequences:</p>
-<div id="a95e876f" class="cell" data-execution_count="3">
+<div id="bd555772" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import pandas as pd</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># import matplotlib.pyplot as plt</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># import seaborn as sns</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># contamination_count = pd.read_csv("../results/tables/assess/assembly/metrics/contaminant_summary_count.csv")</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># sns.set_theme(style="whitegrid")</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co"># models = ["sup", "hac"]</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co"># hue_order = ["100x", "50x", "20x"]</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># order_abs = sorted(contamination_count["trimmer"].unique())</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co"># fig, axes = plt.subplots(nrows=1, ncols=len(models), figsize=(14, 5.5), dpi=100, sharex=True, sharey=True)</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co"># for c, model in enumerate(models):</span></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="co">#     ax = axes[c]</span></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="co">#     # During loop 1, the variable `model` equals "sup"</span></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="co">#     contamination_count_sub = contamination_count.query("model == @model")</span></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="co">#     if not contamination_count_sub.empty:</span></span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="co">#         sns.boxplot(data=contamination_count_sub, x="trimmer", y="contamination_count", hue="depth", order=order_abs, hue_order=hue_order, ax=ax, fliersize=0, gap=0.1)</span></span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="co">#         sns.stripplot(data=contamination_count_sub, x="trimmer", y="contamination_count", hue="depth", order=order_abs, hue_order=hue_order, ax=ax, alpha=0.6, dodge=True, linewidth=0.5, edgecolor="black", legend=False)</span></span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="co">#     # force standard numbers instead of scientific notation</span></span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="co">#     ax.yaxis.set_major_formatter(plt.ScalarFormatter())</span></span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a><span class="co">#     # clean up the labels for a polished look</span></span>
-<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a><span class="co">#     ax.set_ylabel("Contamination Count" if c == 0 else "")</span></span>
-<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a><span class="co">#     ax.set_title(f"Number of Contaminants - {model.upper()} Model")</span></span>
-<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a><span class="co">#     ax.set_xlabel("")</span></span>
-<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a><span class="co">#     ax.set_xticks(ax.get_xticks())</span></span>
-<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a><span class="co">#     ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha="right", fontsize=11)</span></span>
-<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a><span class="co">#     if c == 1 and ax.get_legend() is not None:</span></span>
-<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a><span class="co">#         ax.legend(title="Depth", bbox_to_anchor=(1.05, 1), loc='upper left')</span></span>
-<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a><span class="co">#     elif ax.get_legend() is not None:</span></span>
-<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a><span class="co">#         ax.get_legend().remove()</span></span>
-<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a><span class="co"># fig.tight_layout()</span></span>
-<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.savefig("../results/figures/assess/assembly/metrics/assembly_contamination.png")</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import pandas as pd</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># import matplotlib.pyplot as plt</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># import seaborn as sns</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># contamination_count = pd.read_csv("../results/tables/assess/assembly/metrics/contaminant_summary_count.csv")</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># sns.set_theme(style="whitegrid")</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># models = ["sup", "hac"]</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co"># hue_order = ["100x", "50x", "20x"]</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># order_abs = sorted(contamination_count["trimmer"].unique())</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co"># fig, axes = plt.subplots(nrows=1, ncols=len(models), figsize=(14, 5.5), dpi=100, sharex=True, sharey=True)</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co"># for c, model in enumerate(models):</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co">#     ax = axes[c]</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co">#     # During loop 1, the variable `model` equals "sup"</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="co">#     contamination_count_sub = contamination_count.query("model == @model")</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="co">#     if not contamination_count_sub.empty:</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="co">#         sns.boxplot(data=contamination_count_sub, x="trimmer", y="contamination_count", hue="depth", order=order_abs, hue_order=hue_order, ax=ax, fliersize=0, gap=0.1)</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="co">#         sns.stripplot(data=contamination_count_sub, x="trimmer", y="contamination_count", hue="depth", order=order_abs, hue_order=hue_order, ax=ax, alpha=0.6, dodge=True, linewidth=0.5, edgecolor="black", legend=False)</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="co">#     # force standard numbers instead of scientific notation</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="co">#     ax.yaxis.set_major_formatter(plt.ScalarFormatter())</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="co">#     # clean up the labels for a polished look</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a><span class="co">#     ax.set_ylabel("Contamination Count" if c == 0 else "")</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a><span class="co">#     ax.set_title(f"Number of Contaminants - {model.upper()} Model")</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a><span class="co">#     ax.set_xlabel("")</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a><span class="co">#     ax.set_xticks(ax.get_xticks())</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a><span class="co">#     ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha="right", fontsize=11)</span></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a><span class="co">#     if c == 1 and ax.get_legend() is not None:</span></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a><span class="co">#         ax.legend(title="Depth", bbox_to_anchor=(1.05, 1), loc='upper left')</span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a><span class="co">#     elif ax.get_legend() is not None:</span></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a><span class="co">#         ax.get_legend().remove()</span></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a><span class="co"># fig.tight_layout()</span></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.savefig("../results/figures/assess/assembly/metrics/assembly_contamination.png")</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <div class="quarto-figure quarto-figure-center">
@@ -569,36 +577,36 @@ bc49_medaka_consensus.114.fasta BC17 contig_64 0 75 10 rapid_flanks_w_bars.fasta
 </section>
 <section id="mean-median-and-max-of-contamination-count" class="level4">
 <h4 class="anchored" data-anchor-id="mean-median-and-max-of-contamination-count">Mean, median, and max of contamination count</h4>
-<div id="ad335285" class="cell" data-execution_count="4">
+<div id="3ef19dbc" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import pandas as pd</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># from itables import show</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># contamination_count = pd.read_csv("../results/tables/assess/assembly/metrics/contaminant_summary_count.csv")</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co"># # broup by trimmer, model, and depth, then calculate multiple statistics across the samples</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># summary_stats = contamination_count.groupby(["trimmer", "model", "depth"])["contamination_count"].agg(</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co">#     Mean='mean',</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">#     Median='median',</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co">#     Max='max'</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co"># ).reset_index()</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co"># # Round them</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="co"># summary_stats['Mean'] = summary_stats['Mean'].round(2)</span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="co"># # Apply ythe sorting logic so the table is perfectly organised</span></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="co"># depth_order = pd.CategoricalDtype(categories=["100x", "50x", "20x"], ordered=True)</span></span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="co"># model_order = pd.CategoricalDtype(categories=["sup", "hac"], ordered=True)</span></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="co"># summary_stats['depth'] = summary_stats['depth'].astype(depth_order)</span></span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="co"># summary_stats['model'] = summary_stats['model'].astype(model_order)</span></span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="co"># # Sort: Trimmer -&gt; Model -&gt; Depth</span></span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="co"># summary_stats = summary_stats.sort_values(by=["trimmer", "model", "depth"])</span></span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a><span class="co"># summary_stats.reset_index(drop=True, inplace=True)</span></span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a><span class="co"># show(summary_stats, classes="display", scrollX=True, paging=True, lengthMenu=[10, 20, 50])</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import pandas as pd</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># from itables import show</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># contamination_count = pd.read_csv("../results/tables/assess/assembly/metrics/contaminant_summary_count.csv")</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># # broup by trimmer, model, and depth, then calculate multiple statistics across the samples</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># summary_stats = contamination_count.groupby(["trimmer", "model", "depth"])["contamination_count"].agg(</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">#     Mean='mean',</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">#     Median='median',</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co">#     Max='max'</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co"># ).reset_index()</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co"># # Round them</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co"># summary_stats['Mean'] = summary_stats['Mean'].round(2)</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co"># # Apply ythe sorting logic so the table is perfectly organised</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="co"># depth_order = pd.CategoricalDtype(categories=["100x", "50x", "20x"], ordered=True)</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="co"># model_order = pd.CategoricalDtype(categories=["sup", "hac"], ordered=True)</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="co"># summary_stats['depth'] = summary_stats['depth'].astype(depth_order)</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="co"># summary_stats['model'] = summary_stats['model'].astype(model_order)</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="co"># # Sort: Trimmer -&gt; Model -&gt; Depth</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="co"># summary_stats = summary_stats.sort_values(by=["trimmer", "model", "depth"])</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="co"># summary_stats.reset_index(drop=True, inplace=True)</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="co"># show(summary_stats, classes="display", scrollX=True, paging=True, lengthMenu=[10, 20, 50])</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <ul>
@@ -611,28 +619,28 @@ bc49_medaka_consensus.114.fasta BC17 contig_64 0 75 10 rapid_flanks_w_bars.fasta
 </section>
 <section id="raw-counts" class="level4">
 <h4 class="anchored" data-anchor-id="raw-counts">Raw counts</h4>
-<div id="4b025713" class="cell" data-execution_count="5">
+<div id="576e5ff3" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># from itables import show</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># contamination_count.reset_index(drop=True, inplace=True)</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># show(contamination_count, scrollX=True, scrollY="800px")</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># from itables import show</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># contamination_count.reset_index(drop=True, inplace=True)</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># show(contamination_count, scrollX=True, scrollY="800px")</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 </section>
 <section id="contamination-details" class="level4">
 <h4 class="anchored" data-anchor-id="contamination-details">Contamination details</h4>
 <p>Actually, not all of the contamination hits have distance 0, they sometimes have high distance as well. For example here in the sup:</p>
-<div id="293a5ad2" class="cell" data-execution_count="6">
+<div id="e8c00b6e" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># contamination_details = pd.read_csv("../results/tables/assess/assembly/metrics/contaminant_details.csv")</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># contamination_details_sup = contamination_details[contamination_details["model"]=="sup"]</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co"># contamination_details_sup.reset_index(drop=True, inplace=True)</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># show(contamination_details_sup, scrollX=True, scrollY="800px")</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># contamination_details = pd.read_csv("../results/tables/assess/assembly/metrics/contaminant_details.csv")</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># contamination_details_sup = contamination_details[contamination_details["model"]=="sup"]</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># contamination_details_sup.reset_index(drop=True, inplace=True)</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># show(contamination_details_sup, scrollX=True, scrollY="800px")</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 </section>
@@ -695,21 +703,21 @@ bc49_medaka_consensus.114.fasta BC17 contig_64 0 75 10 rapid_flanks_w_bars.fasta
 <figcaption>False positive</figcaption>
 </figure>
 </div>
-<div id="8c4fba68" class="cell" data-execution_count="7">
+<div id="072ca9ed" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itables <span class="im">import</span> show</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>fn_fp_numbers <span class="op">=</span> pd.read_csv(<span class="st">"../results/tables/assess/call/metrics/trimming_variant_summary_averages.csv"</span>)</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>fn_fp_numbers.reset_index(drop<span class="op">=</span><span class="va">True</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>show(fn_fp_numbers, scrollX<span class="op">=</span><span class="va">True</span>, scrollY<span class="op">=</span><span class="st">"800px"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itables <span class="im">import</span> show</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>fn_fp_numbers <span class="op">=</span> pd.read_csv(<span class="st">"../results/tables/assess/call/metrics/trimming_variant_summary_averages.csv"</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>fn_fp_numbers.reset_index(drop<span class="op">=</span><span class="va">True</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>show(fn_fp_numbers, scrollX<span class="op">=</span><span class="va">True</span>, scrollY<span class="op">=</span><span class="st">"800px"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_76f0a8f9_17b6_4418_b981_09b892459037">
+<table id="itables_d2efd5b0_bdbc_4b6e_80f5_292dcd94ea36">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -779,7 +787,7 @@ bc49_medaka_consensus.114.fasta BC17 contig_64 0 75 10 rapid_flanks_w_bars.fasta
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_76f0a8f9_17b6_4418_b981_09b892459037:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_d2efd5b0_bdbc_4b6e_80f5_292dcd94ea36:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
@@ -822,21 +830,21 @@ bc49_medaka_consensus.114.fasta BC17 contig_64 0 75 10 rapid_flanks_w_bars.fasta
 <figcaption>Recall</figcaption>
 </figure>
 </div>
-<div id="3559c428" class="cell" data-execution_count="8">
+<div id="95e9663f" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itables <span class="im">import</span> show</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>average_metrics <span class="op">=</span> pd.read_csv(<span class="st">"../results/tables/assess/call/metrics/trimming_variant_summary_averages.csv"</span>)</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>average_metrics.reset_index(drop<span class="op">=</span><span class="va">True</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>show(average_metrics, scrollX<span class="op">=</span><span class="va">True</span>, scrollY<span class="op">=</span><span class="st">"800px"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itables <span class="im">import</span> show</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>average_metrics <span class="op">=</span> pd.read_csv(<span class="st">"../results/tables/assess/call/metrics/trimming_variant_summary_averages.csv"</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>average_metrics.reset_index(drop<span class="op">=</span><span class="va">True</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>show(average_metrics, scrollX<span class="op">=</span><span class="va">True</span>, scrollY<span class="op">=</span><span class="st">"800px"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_51519785_eefc_4245_b71e_98bbd08d3a82">
+<table id="itables_bfb906e3_8194_484e_8e76_95b2335602c6">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -906,7 +914,7 @@ bc49_medaka_consensus.114.fasta BC17 contig_64 0 75 10 rapid_flanks_w_bars.fasta
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_51519785_eefc_4245_b71e_98bbd08d3a82:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_bfb906e3_8194_484e_8e76_95b2335602c6:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 

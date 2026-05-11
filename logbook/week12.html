@@ -1,0 +1,1965 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Week 12: Process one kit pod5 only and dorado basecaller with and without trim – BIOX7021 LOGBOOK - 2026</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-adfb2833bc15652ec5881dc6381ea988.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-60eb8141d3f50090c0f52d36a83ed331.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-adfb2833bc15652ec5881dc6381ea988.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-4e9ad7d76a7588ccb413114a9399086d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-c1fa6ec9ca7e8a29d4233392a81542ce.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-4e9ad7d76a7588ccb413114a9399086d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+</head>
+
+<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">BIOX7021 LOGBOOK - 2026</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../home.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-weekly-logs" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Weekly Logs</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-weekly-logs">    
+        <li>
+    <a class="dropdown-item" href="../logbook/week01.html">
+ <span class="dropdown-text">Week 1</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../logbook/week02.html">
+ <span class="dropdown-text">Week 2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../logbook/week03.html">
+ <span class="dropdown-text">Week 3</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../logbook/week04.html">
+ <span class="dropdown-text">Week 4</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../logbook/week05.html">
+ <span class="dropdown-text">Week 5</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../logbook/week06.html">
+ <span class="dropdown-text">Week 6</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../logbook/week07.html">
+ <span class="dropdown-text">Week 7</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../logbook/week08.html">
+ <span class="dropdown-text">Week 8</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../logbook/week09.html">
+ <span class="dropdown-text">Week 9</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../logbook/week10.html">
+ <span class="dropdown-text">Week 10</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../logbook/week11.html">
+ <span class="dropdown-text">Week 11</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../logbook/week12.html">
+ <span class="dropdown-text">Week 12</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#samples-and-kit" id="toc-samples-and-kit" class="nav-link active" data-scroll-target="#samples-and-kit">13 Samples and kit</a></li>
+  <li><a href="#current-pipeline" id="toc-current-pipeline" class="nav-link" data-scroll-target="#current-pipeline">Current pipeline</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Week 12: Process one kit pod5 only and dorado basecaller with and without trim</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="samples-and-kit" class="level2">
+<h2 class="anchored" data-anchor-id="samples-and-kit">13 Samples and kit</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Sample</th>
+<th>Sequencing Kit</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ATCC_10708__202309</td>
+<td>SQK-RBK114-96: 825,976 reads</td>
+</tr>
+<tr class="even">
+<td>ATCC_17802__202309</td>
+<td>SQK-RBK114-96: 554,861 reads</td>
+</tr>
+<tr class="odd">
+<td>ATCC_19119__202309</td>
+<td>SQK-RBK114-96: 641,925 reads</td>
+</tr>
+<tr class="even">
+<td>ATCC_25922__202309</td>
+<td>SQK-RBK114-96: 1,069,262 reads</td>
+</tr>
+<tr class="odd">
+<td>ATCC_35897__202309</td>
+<td>SQK-RBK114-96: 1,001,157 reads</td>
+</tr>
+<tr class="even">
+<td>ATCC_BAA-679__202309</td>
+<td>SQK-RBK114-96: 886,871 reads</td>
+</tr>
+<tr class="odd">
+<td>ATCC_33560__202309</td>
+<td>SQK-NBD114-96: 512,332 reads</td>
+</tr>
+<tr class="even">
+<td>ATCC_35221__202309</td>
+<td>SQK-NBD114-96: 411,321 reads</td>
+</tr>
+<tr class="odd">
+<td>AJ292__202310</td>
+<td>SQK-NBD114-96: 71,694 reads</td>
+</tr>
+<tr class="even">
+<td>RDH275__202311</td>
+<td>SQK-NBD114-96: 1,010,169 reads</td>
+</tr>
+<tr class="odd">
+<td>MMC234__202311</td>
+<td>SQK-NBD114-96: 236,014 reads</td>
+</tr>
+<tr class="even">
+<td>BPH2947__202310</td>
+<td>SQK-NBD114-96: 162,292 reads</td>
+</tr>
+<tr class="odd">
+<td>AMtb_1__202402</td>
+<td>SQK-NBD114-96: 186,332 reads</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="current-pipeline" class="level2">
+<h2 class="anchored" data-anchor-id="current-pipeline">Current pipeline</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="images/pipeline_110526.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Pipeline with with trim and notrim at the start"><img src="images/pipeline_110526.png" class="img-fluid figure-img" alt="Pipeline with with trim and notrim at the start"></a></p>
+<figcaption>Pipeline with with trim and notrim at the start</figcaption>
+</figure>
+</div>
+<div id="407fe14b" class="cell" data-execution_count="1">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>contamination_count <span class="op">=</span> pd.read_csv(<span class="st">"../results/tables/assess/assembly/metrics/contaminant_summary_count.csv"</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>sns.set_theme(style<span class="op">=</span><span class="st">"whitegrid"</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>models <span class="op">=</span> [<span class="st">"sup"</span>, <span class="st">"hac"</span>]</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>hue_order <span class="op">=</span> [<span class="st">"100x"</span>, <span class="st">"50x"</span>, <span class="st">"20x"</span>]</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>order_abs <span class="op">=</span> <span class="bu">sorted</span>(contamination_count[<span class="st">"trimmer"</span>].unique())</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(nrows<span class="op">=</span><span class="dv">1</span>, ncols<span class="op">=</span><span class="bu">len</span>(models), figsize<span class="op">=</span>(<span class="dv">14</span>, <span class="fl">5.5</span>), dpi<span class="op">=</span><span class="dv">100</span>, sharex<span class="op">=</span><span class="va">True</span>, sharey<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> c, model <span class="kw">in</span> <span class="bu">enumerate</span>(models):</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> axes[c]</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># During loop 1, the variable `model` equals "sup"</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    contamination_count_sub <span class="op">=</span> contamination_count.query(<span class="st">"model == @model"</span>)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> contamination_count_sub.empty:</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>        sns.boxplot(data<span class="op">=</span>contamination_count_sub, x<span class="op">=</span><span class="st">"trimmer"</span>, y<span class="op">=</span><span class="st">"contamination_count"</span>, hue<span class="op">=</span><span class="st">"depth"</span>, order<span class="op">=</span>order_abs, hue_order<span class="op">=</span>hue_order, ax<span class="op">=</span>ax, fliersize<span class="op">=</span><span class="dv">0</span>, gap<span class="op">=</span><span class="fl">0.1</span>)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>        sns.stripplot(data<span class="op">=</span>contamination_count_sub, x<span class="op">=</span><span class="st">"trimmer"</span>, y<span class="op">=</span><span class="st">"contamination_count"</span>, hue<span class="op">=</span><span class="st">"depth"</span>, order<span class="op">=</span>order_abs, hue_order<span class="op">=</span>hue_order, ax<span class="op">=</span>ax, alpha<span class="op">=</span><span class="fl">0.6</span>, dodge<span class="op">=</span><span class="va">True</span>, linewidth<span class="op">=</span><span class="fl">0.5</span>, edgecolor<span class="op">=</span><span class="st">"black"</span>, legend<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># force standard numbers instead of scientific notation</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    ax.yaxis.set_major_formatter(plt.ScalarFormatter())</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># clean up the labels for a polished look</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    ax.set_ylabel(<span class="st">"Contamination Count"</span> <span class="cf">if</span> c <span class="op">==</span> <span class="dv">0</span> <span class="cf">else</span> <span class="st">""</span>)</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    ax.set_title(<span class="ss">f"Number of Contaminants - </span><span class="sc">{</span>model<span class="sc">.</span>upper()<span class="sc">}</span><span class="ss"> Model"</span>)</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    ax.set_xlabel(<span class="st">""</span>)</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    ax.set_xticks(ax.get_xticks())</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>    ax.set_xticklabels(ax.get_xticklabels(), rotation<span class="op">=</span><span class="dv">45</span>, ha<span class="op">=</span><span class="st">"right"</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> c <span class="op">==</span> <span class="dv">1</span> <span class="kw">and</span> ax.get_legend() <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>        ax.legend(title<span class="op">=</span><span class="st">"Depth"</span>, bbox_to_anchor<span class="op">=</span>(<span class="fl">1.05</span>, <span class="dv">1</span>), loc<span class="op">=</span><span class="st">'upper left'</span>)</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> ax.get_legend() <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>        ax.get_legend().remove()</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>fig.tight_layout()</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">"../results/figures/assess/assembly/metrics/assembly_contamination_minimap2_9may.png"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="week12_files/figure-html/cell-2-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="week12_files/figure-html/cell-2-output-1.png" width="1387" height="534" class="figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../results/figures/assess/assembly/metrics/assembly_contamination_minimap2_9may.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Contamination count (minimap2)"><img src="../results/figures/assess/assembly/metrics/assembly_contamination_minimap2_9may.png" class="img-fluid figure-img" alt="Contamination count (minimap2)"></a></p>
+<figcaption>Contamination count (minimap2)</figcaption>
+</figure>
+</div>
+<div id="a4f60b0a" class="cell" data-execution_count="2">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itables <span class="im">import</span> show</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>contamination_count <span class="op">=</span> pd.read_csv(<span class="st">"../results/tables/assess/assembly/metrics/contaminant_summary_count.csv"</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>contamination_count.reset_index(drop<span class="op">=</span><span class="va">True</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>show(contamination_count, scrollX<span class="op">=</span><span class="va">True</span>, scrollY<span class="op">=</span><span class="st">"800px"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<!--| quarto-html-table-processing: none -->
+<table id="itables_dd9c1657_c58c_418f_9011_3434a5196740">
+  <tbody>
+    <tr>
+      <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
+    <g style="fill:#d9d7fc">
+        <path d="M100,400H500V357H100Z"></path>
+        <path d="M100,300H400V257H100Z"></path>
+        <path d="M0,200H400V157H0Z"></path>
+        <path d="M100,100H500V57H100Z"></path>
+        <path d="M100,350H500V307H100Z"></path>
+        <path d="M100,250H400V207H100Z"></path>
+        <path d="M0,150H400V107H0Z"></path>
+        <path d="M100,50H500V7H100Z"></path>
+    </g>
+    <g style="fill:#1a1366;stroke:#1a1366;">
+   <rect x="100" y="7" width="400" height="43">
+    <animate attributename="width" values="0;400;0" dur="5s" repeatcount="indefinite"></animate>
+      <animate attributename="x" values="100;100;500" dur="5s" repeatcount="indefinite"></animate>
+  </rect>
+        <rect x="0" y="107" width="400" height="43">
+    <animate attributename="width" values="0;400;0" dur="3.5s" repeatcount="indefinite"></animate>
+    <animate attributename="x" values="0;0;400" dur="3.5s" repeatcount="indefinite"></animate>
+  </rect>
+        <rect x="100" y="207" width="300" height="43">
+    <animate attributename="width" values="0;300;0" dur="3s" repeatcount="indefinite"></animate>
+    <animate attributename="x" values="100;100;400" dur="3s" repeatcount="indefinite"></animate>
+  </rect>
+        <rect x="100" y="307" width="400" height="43">
+    <animate attributename="width" values="0;400;0" dur="4s" repeatcount="indefinite"></animate>
+      <animate attributename="x" values="100;100;500" dur="4s" repeatcount="indefinite"></animate>
+  </rect>
+        <g style="fill:transparent;stroke-width:8; stroke-linejoin:round" rx="5">
+            <g transform="translate(45 50) rotate(-45)">
+                <circle r="33" cx="0" cy="0"></circle>
+                <rect x="-8" y="32" width="16" height="30"></rect>
+            </g>
+
+            <g transform="translate(450 152)">
+                <polyline points="-15,-20 -35,-20 -35,40 25,40 25,20"></polyline>
+                <rect x="-15" y="-40" width="60" height="60"></rect>
+            </g>
+
+            <g transform="translate(50 352)">
+                <polygon points="-35,-5 0,-40 35,-5"></polygon>
+                <polygon points="-35,10 0,45 35,10"></polygon>
+            </g>
+
+            <g transform="translate(75 250)">
+                <polyline points="-30,30 -60,0 -30,-30"></polyline>
+                <polyline points="0,30 -30,0 0,-30"></polyline>
+            </g>
+
+            <g transform="translate(425 250) rotate(180)">
+                <polyline points="-30,30 -60,0 -30,-30"></polyline>
+                <polyline points="0,30 -30,0 0,-30"></polyline>
+            </g>
+        </g>
+    </g>
+</svg>
+</a>
+        Loading ITables v2.7.3 from the internet...
+        (need <a href="https://mwouts.github.io/itables/troubleshooting.html">help</a>?)
+      </td>
+    </tr>
+  </tbody>
+</table>
+<link href="https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.css" rel="stylesheet">
+<script type="module">
+    import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
+
+    document.querySelectorAll("#itables_dd9c1657_c58c_418f_9011_3434a5196740:not(.dataTable)").forEach(table => {
+        if (!(table instanceof HTMLTableElement))
+            return;
+
+        let dt_args = {
+          "classes": ["display", "nowrap", "compact"],
+          "data_json": "[[\"barbell_default\", \"100x\", \"AJ292__202310\", \"sup\", 0], [\"barbell_max\", \"100x\", \"AJ292__202310\", \"sup\", 0], [\"dorado\", \"100x\", \"AJ292__202310\", \"sup\", 0], [\"fastplong\", \"100x\", \"AJ292__202310\", \"sup\", 0], [\"porechop_abi_discard\", \"100x\", \"AJ292__202310\", \"sup\", 0], [\"porechop_abi_nocheck\", \"100x\", \"AJ292__202310\", \"sup\", 0], [\"porechop_abi_split\", \"100x\", \"AJ292__202310\", \"sup\", 0], [\"untrimmed\", \"100x\", \"AJ292__202310\", \"sup\", 0], [\"barbell_default\", \"50x\", \"AJ292__202310\", \"sup\", 0], [\"barbell_max\", \"50x\", \"AJ292__202310\", \"sup\", 0], [\"dorado\", \"50x\", \"AJ292__202310\", \"sup\", 0], [\"fastplong\", \"50x\", \"AJ292__202310\", \"sup\", 0], [\"porechop_abi_discard\", \"50x\", \"AJ292__202310\", \"sup\", 0], [\"porechop_abi_nocheck\", \"50x\", \"AJ292__202310\", \"sup\", 0], [\"porechop_abi_split\", \"50x\", \"AJ292__202310\", \"sup\", 0], [\"untrimmed\", \"50x\", \"AJ292__202310\", \"sup\", 0], [\"barbell_default\", \"20x\", \"AJ292__202310\", \"sup\", 0], [\"barbell_max\", \"20x\", \"AJ292__202310\", \"sup\", 0], [\"dorado\", \"20x\", \"AJ292__202310\", \"sup\", 0], [\"fastplong\", \"20x\", \"AJ292__202310\", \"sup\", 0], [\"porechop_abi_discard\", \"20x\", \"AJ292__202310\", \"sup\", 0], [\"porechop_abi_nocheck\", \"20x\", \"AJ292__202310\", \"sup\", 0], [\"porechop_abi_split\", \"20x\", \"AJ292__202310\", \"sup\", 0], [\"untrimmed\", \"20x\", \"AJ292__202310\", \"sup\", 1], [\"barbell_default\", \"100x\", \"AJ292__202310\", \"hac\", 0], [\"barbell_max\", \"100x\", \"AJ292__202310\", \"hac\", 0], [\"dorado\", \"100x\", \"AJ292__202310\", \"hac\", 0], [\"fastplong\", \"100x\", \"AJ292__202310\", \"hac\", 0], [\"porechop_abi_discard\", \"100x\", \"AJ292__202310\", \"hac\", 0], [\"porechop_abi_nocheck\", \"100x\", \"AJ292__202310\", \"hac\", 0], [\"porechop_abi_split\", \"100x\", \"AJ292__202310\", \"hac\", 0], [\"untrimmed\", \"100x\", \"AJ292__202310\", \"hac\", 0], [\"barbell_default\", \"50x\", \"AJ292__202310\", \"hac\", 0], [\"barbell_max\", \"50x\", \"AJ292__202310\", \"hac\", 0], [\"dorado\", \"50x\", \"AJ292__202310\", \"hac\", 0], [\"fastplong\", \"50x\", \"AJ292__202310\", \"hac\", 0], [\"porechop_abi_discard\", \"50x\", \"AJ292__202310\", \"hac\", 0], [\"porechop_abi_nocheck\", \"50x\", \"AJ292__202310\", \"hac\", 0], [\"porechop_abi_split\", \"50x\", \"AJ292__202310\", \"hac\", 0], [\"untrimmed\", \"50x\", \"AJ292__202310\", \"hac\", 0], [\"barbell_default\", \"20x\", \"AJ292__202310\", \"hac\", 0], [\"barbell_max\", \"20x\", \"AJ292__202310\", \"hac\", 0], [\"dorado\", \"20x\", \"AJ292__202310\", \"hac\", 0], [\"fastplong\", \"20x\", \"AJ292__202310\", \"hac\", 0], [\"porechop_abi_discard\", \"20x\", \"AJ292__202310\", \"hac\", 0], [\"porechop_abi_nocheck\", \"20x\", \"AJ292__202310\", \"hac\", 0], [\"porechop_abi_split\", \"20x\", \"AJ292__202310\", \"hac\", 0], [\"untrimmed\", \"20x\", \"AJ292__202310\", \"hac\", 0], [\"barbell_default\", \"100x\", \"AMtb_1__202402\", \"sup\", 0], [\"barbell_max\", \"100x\", \"AMtb_1__202402\", \"sup\", 0], [\"dorado\", \"100x\", \"AMtb_1__202402\", \"sup\", 0], [\"fastplong\", \"100x\", \"AMtb_1__202402\", \"sup\", 0], [\"porechop_abi_discard\", \"100x\", \"AMtb_1__202402\", \"sup\", 0], [\"porechop_abi_nocheck\", \"100x\", \"AMtb_1__202402\", \"sup\", 0], [\"porechop_abi_split\", \"100x\", \"AMtb_1__202402\", \"sup\", 0], [\"untrimmed\", \"100x\", \"AMtb_1__202402\", \"sup\", 0], [\"barbell_default\", \"50x\", \"AMtb_1__202402\", \"sup\", 0], [\"barbell_max\", \"50x\", \"AMtb_1__202402\", \"sup\", 0], [\"dorado\", \"50x\", \"AMtb_1__202402\", \"sup\", 0], [\"fastplong\", \"50x\", \"AMtb_1__202402\", \"sup\", 0], [\"porechop_abi_discard\", \"50x\", \"AMtb_1__202402\", \"sup\", 0], [\"porechop_abi_nocheck\", \"50x\", \"AMtb_1__202402\", \"sup\", 0], [\"porechop_abi_split\", \"50x\", \"AMtb_1__202402\", \"sup\", 0], [\"untrimmed\", \"50x\", \"AMtb_1__202402\", \"sup\", 0], [\"barbell_default\", \"20x\", \"AMtb_1__202402\", \"sup\", 0], [\"barbell_max\", \"20x\", \"AMtb_1__202402\", \"sup\", 0], [\"dorado\", \"20x\", \"AMtb_1__202402\", \"sup\", 0], [\"fastplong\", \"20x\", \"AMtb_1__202402\", \"sup\", 0], [\"porechop_abi_discard\", \"20x\", \"AMtb_1__202402\", \"sup\", 0], [\"porechop_abi_nocheck\", \"20x\", \"AMtb_1__202402\", \"sup\", 0], [\"porechop_abi_split\", \"20x\", \"AMtb_1__202402\", \"sup\", 0], [\"untrimmed\", \"20x\", \"AMtb_1__202402\", \"sup\", 0], [\"barbell_default\", \"100x\", \"AMtb_1__202402\", \"hac\", 0], [\"barbell_max\", \"100x\", \"AMtb_1__202402\", \"hac\", 0], [\"dorado\", \"100x\", \"AMtb_1__202402\", \"hac\", 0], [\"fastplong\", \"100x\", \"AMtb_1__202402\", \"hac\", 0], [\"porechop_abi_discard\", \"100x\", \"AMtb_1__202402\", \"hac\", 0], [\"porechop_abi_nocheck\", \"100x\", \"AMtb_1__202402\", \"hac\", 0], [\"porechop_abi_split\", \"100x\", \"AMtb_1__202402\", \"hac\", 0], [\"untrimmed\", \"100x\", \"AMtb_1__202402\", \"hac\", 0], [\"barbell_default\", \"50x\", \"AMtb_1__202402\", \"hac\", 0], [\"barbell_max\", \"50x\", \"AMtb_1__202402\", \"hac\", 0], [\"dorado\", \"50x\", \"AMtb_1__202402\", \"hac\", 0], [\"fastplong\", \"50x\", \"AMtb_1__202402\", \"hac\", 0], [\"porechop_abi_discard\", \"50x\", \"AMtb_1__202402\", \"hac\", 0], [\"porechop_abi_nocheck\", \"50x\", \"AMtb_1__202402\", \"hac\", 0], [\"porechop_abi_split\", \"50x\", \"AMtb_1__202402\", \"hac\", 0], [\"untrimmed\", \"50x\", \"AMtb_1__202402\", \"hac\", 0], [\"barbell_default\", \"20x\", \"AMtb_1__202402\", \"hac\", 0], [\"barbell_max\", \"20x\", \"AMtb_1__202402\", \"hac\", 0], [\"dorado\", \"20x\", \"AMtb_1__202402\", \"hac\", 0], [\"fastplong\", \"20x\", \"AMtb_1__202402\", \"hac\", 4], [\"porechop_abi_discard\", \"20x\", \"AMtb_1__202402\", \"hac\", 0], [\"porechop_abi_nocheck\", \"20x\", \"AMtb_1__202402\", \"hac\", 0], [\"porechop_abi_split\", \"20x\", \"AMtb_1__202402\", \"hac\", 0], [\"untrimmed\", \"20x\", \"AMtb_1__202402\", \"hac\", 0], [\"barbell_default\", \"100x\", \"ATCC_10708__202309\", \"sup\", 0], [\"barbell_max\", \"100x\", \"ATCC_10708__202309\", \"sup\", 0], [\"dorado\", \"100x\", \"ATCC_10708__202309\", \"sup\", 0], [\"fastplong\", \"100x\", \"ATCC_10708__202309\", \"sup\", 0], [\"porechop_abi_discard\", \"100x\", \"ATCC_10708__202309\", \"sup\", 0], [\"porechop_abi_nocheck\", \"100x\", \"ATCC_10708__202309\", \"sup\", 0], [\"porechop_abi_split\", \"100x\", \"ATCC_10708__202309\", \"sup\", 0], [\"untrimmed\", \"100x\", \"ATCC_10708__202309\", \"sup\", 0], [\"barbell_default\", \"50x\", \"ATCC_10708__202309\", \"sup\", 0], [\"barbell_max\", \"50x\", \"ATCC_10708__202309\", \"sup\", 0], [\"dorado\", \"50x\", \"ATCC_10708__202309\", \"sup\", 0], [\"fastplong\", \"50x\", \"ATCC_10708__202309\", \"sup\", 0], [\"porechop_abi_discard\", \"50x\", \"ATCC_10708__202309\", \"sup\", 0], [\"porechop_abi_nocheck\", \"50x\", \"ATCC_10708__202309\", \"sup\", 0], [\"porechop_abi_split\", \"50x\", \"ATCC_10708__202309\", \"sup\", 0], [\"untrimmed\", \"50x\", \"ATCC_10708__202309\", \"sup\", 0], [\"barbell_default\", \"20x\", \"ATCC_10708__202309\", \"sup\", 0], [\"barbell_max\", \"20x\", \"ATCC_10708__202309\", \"sup\", 0], [\"dorado\", \"20x\", \"ATCC_10708__202309\", \"sup\", 0], [\"fastplong\", \"20x\", \"ATCC_10708__202309\", \"sup\", 0], [\"porechop_abi_discard\", \"20x\", \"ATCC_10708__202309\", \"sup\", 0], [\"porechop_abi_nocheck\", \"20x\", \"ATCC_10708__202309\", \"sup\", 0], [\"porechop_abi_split\", \"20x\", \"ATCC_10708__202309\", \"sup\", 0], [\"untrimmed\", \"20x\", \"ATCC_10708__202309\", \"sup\", 3], [\"barbell_default\", \"100x\", \"ATCC_10708__202309\", \"hac\", 0], [\"barbell_max\", \"100x\", \"ATCC_10708__202309\", \"hac\", 0], [\"dorado\", \"100x\", \"ATCC_10708__202309\", \"hac\", 0], [\"fastplong\", \"100x\", \"ATCC_10708__202309\", \"hac\", 0], [\"porechop_abi_discard\", \"100x\", \"ATCC_10708__202309\", \"hac\", 0], [\"porechop_abi_nocheck\", \"100x\", \"ATCC_10708__202309\", \"hac\", 0], [\"porechop_abi_split\", \"100x\", \"ATCC_10708__202309\", \"hac\", 0], [\"untrimmed\", \"100x\", \"ATCC_10708__202309\", \"hac\", 0], [\"barbell_default\", \"50x\", \"ATCC_10708__202309\", \"hac\", 0], [\"barbell_max\", \"50x\", \"ATCC_10708__202309\", \"hac\", 0], [\"dorado\", \"50x\", \"ATCC_10708__202309\", \"hac\", 0], [\"fastplong\", \"50x\", \"ATCC_10708__202309\", \"hac\", 0], [\"porechop_abi_discard\", \"50x\", \"ATCC_10708__202309\", \"hac\", 0], [\"porechop_abi_nocheck\", \"50x\", \"ATCC_10708__202309\", \"hac\", 0], [\"porechop_abi_split\", \"50x\", \"ATCC_10708__202309\", \"hac\", 0], [\"untrimmed\", \"50x\", \"ATCC_10708__202309\", \"hac\", 1], [\"barbell_default\", \"20x\", \"ATCC_10708__202309\", \"hac\", 0], [\"barbell_max\", \"20x\", \"ATCC_10708__202309\", \"hac\", 0], [\"dorado\", \"20x\", \"ATCC_10708__202309\", \"hac\", 0], [\"fastplong\", \"20x\", \"ATCC_10708__202309\", \"hac\", 0], [\"porechop_abi_discard\", \"20x\", \"ATCC_10708__202309\", \"hac\", 0], [\"porechop_abi_nocheck\", \"20x\", \"ATCC_10708__202309\", \"hac\", 0], [\"porechop_abi_split\", \"20x\", \"ATCC_10708__202309\", \"hac\", 0], [\"untrimmed\", \"20x\", \"ATCC_10708__202309\", \"hac\", 0], [\"barbell_default\", \"100x\", \"ATCC_17802__202309\", \"sup\", 0], [\"barbell_max\", \"100x\", \"ATCC_17802__202309\", \"sup\", 0], [\"dorado\", \"100x\", \"ATCC_17802__202309\", \"sup\", 0], [\"fastplong\", \"100x\", \"ATCC_17802__202309\", \"sup\", 0], [\"porechop_abi_discard\", \"100x\", \"ATCC_17802__202309\", \"sup\", 0], [\"porechop_abi_nocheck\", \"100x\", \"ATCC_17802__202309\", \"sup\", 0], [\"porechop_abi_split\", \"100x\", \"ATCC_17802__202309\", \"sup\", 0], [\"untrimmed\", \"100x\", \"ATCC_17802__202309\", \"sup\", 3], [\"barbell_default\", \"50x\", \"ATCC_17802__202309\", \"sup\", 0], [\"barbell_max\", \"50x\", \"ATCC_17802__202309\", \"sup\", 0], [\"dorado\", \"50x\", \"ATCC_17802__202309\", \"sup\", 1], [\"fastplong\", \"50x\", \"ATCC_17802__202309\", \"sup\", 0], [\"porechop_abi_discard\", \"50x\", \"ATCC_17802__202309\", \"sup\", 0], [\"porechop_abi_nocheck\", \"50x\", \"ATCC_17802__202309\", \"sup\", 0], [\"porechop_abi_split\", \"50x\", \"ATCC_17802__202309\", \"sup\", 0], [\"untrimmed\", \"50x\", \"ATCC_17802__202309\", \"sup\", 0], [\"barbell_default\", \"20x\", \"ATCC_17802__202309\", \"sup\", 0], [\"barbell_max\", \"20x\", \"ATCC_17802__202309\", \"sup\", 0], [\"dorado\", \"20x\", \"ATCC_17802__202309\", \"sup\", 0], [\"fastplong\", \"20x\", \"ATCC_17802__202309\", \"sup\", 0], [\"porechop_abi_discard\", \"20x\", \"ATCC_17802__202309\", \"sup\", 0], [\"porechop_abi_nocheck\", \"20x\", \"ATCC_17802__202309\", \"sup\", 0], [\"porechop_abi_split\", \"20x\", \"ATCC_17802__202309\", \"sup\", 0], [\"untrimmed\", \"20x\", \"ATCC_17802__202309\", \"sup\", 1], [\"barbell_default\", \"100x\", \"ATCC_17802__202309\", \"hac\", 0], [\"barbell_max\", \"100x\", \"ATCC_17802__202309\", \"hac\", 1], [\"dorado\", \"100x\", \"ATCC_17802__202309\", \"hac\", 1], [\"fastplong\", \"100x\", \"ATCC_17802__202309\", \"hac\", 0], [\"porechop_abi_discard\", \"100x\", \"ATCC_17802__202309\", \"hac\", 0], [\"porechop_abi_nocheck\", \"100x\", \"ATCC_17802__202309\", \"hac\", 1], [\"porechop_abi_split\", \"100x\", \"ATCC_17802__202309\", \"hac\", 0], [\"untrimmed\", \"100x\", \"ATCC_17802__202309\", \"hac\", 0], [\"barbell_default\", \"50x\", \"ATCC_17802__202309\", \"hac\", 0], [\"barbell_max\", \"50x\", \"ATCC_17802__202309\", \"hac\", 0], [\"dorado\", \"50x\", \"ATCC_17802__202309\", \"hac\", 2], [\"fastplong\", \"50x\", \"ATCC_17802__202309\", \"hac\", 0], [\"porechop_abi_discard\", \"50x\", \"ATCC_17802__202309\", \"hac\", 0], [\"porechop_abi_nocheck\", \"50x\", \"ATCC_17802__202309\", \"hac\", 1], [\"porechop_abi_split\", \"50x\", \"ATCC_17802__202309\", \"hac\", 0], [\"untrimmed\", \"50x\", \"ATCC_17802__202309\", \"hac\", 0], [\"barbell_default\", \"20x\", \"ATCC_17802__202309\", \"hac\", 0], [\"barbell_max\", \"20x\", \"ATCC_17802__202309\", \"hac\", 0], [\"dorado\", \"20x\", \"ATCC_17802__202309\", \"hac\", 4], [\"fastplong\", \"20x\", \"ATCC_17802__202309\", \"hac\", 0], [\"porechop_abi_discard\", \"20x\", \"ATCC_17802__202309\", \"hac\", 0], [\"porechop_abi_nocheck\", \"20x\", \"ATCC_17802__202309\", \"hac\", 0], [\"porechop_abi_split\", \"20x\", \"ATCC_17802__202309\", \"hac\", 0], [\"untrimmed\", \"20x\", \"ATCC_17802__202309\", \"hac\", 0], [\"barbell_default\", \"100x\", \"ATCC_19119__202309\", \"sup\", 0], [\"barbell_max\", \"100x\", \"ATCC_19119__202309\", \"sup\", 0], [\"dorado\", \"100x\", \"ATCC_19119__202309\", \"sup\", 0], [\"fastplong\", \"100x\", \"ATCC_19119__202309\", \"sup\", 1], [\"porechop_abi_discard\", \"100x\", \"ATCC_19119__202309\", \"sup\", 0], [\"porechop_abi_nocheck\", \"100x\", \"ATCC_19119__202309\", \"sup\", 0], [\"porechop_abi_split\", \"100x\", \"ATCC_19119__202309\", \"sup\", 0], [\"untrimmed\", \"100x\", \"ATCC_19119__202309\", \"sup\", 0], [\"barbell_default\", \"50x\", \"ATCC_19119__202309\", \"sup\", 0], [\"barbell_max\", \"50x\", \"ATCC_19119__202309\", \"sup\", 0], [\"dorado\", \"50x\", \"ATCC_19119__202309\", \"sup\", 2], [\"fastplong\", \"50x\", \"ATCC_19119__202309\", \"sup\", 0], [\"porechop_abi_discard\", \"50x\", \"ATCC_19119__202309\", \"sup\", 0], [\"porechop_abi_nocheck\", \"50x\", \"ATCC_19119__202309\", \"sup\", 0], [\"porechop_abi_split\", \"50x\", \"ATCC_19119__202309\", \"sup\", 0], [\"untrimmed\", \"50x\", \"ATCC_19119__202309\", \"sup\", 1], [\"barbell_default\", \"20x\", \"ATCC_19119__202309\", \"sup\", 0], [\"barbell_max\", \"20x\", \"ATCC_19119__202309\", \"sup\", 0], [\"dorado\", \"20x\", \"ATCC_19119__202309\", \"sup\", 0], [\"fastplong\", \"20x\", \"ATCC_19119__202309\", \"sup\", 0], [\"porechop_abi_discard\", \"20x\", \"ATCC_19119__202309\", \"sup\", 0], [\"porechop_abi_nocheck\", \"20x\", \"ATCC_19119__202309\", \"sup\", 0], [\"porechop_abi_split\", \"20x\", \"ATCC_19119__202309\", \"sup\", 0], [\"untrimmed\", \"20x\", \"ATCC_19119__202309\", \"sup\", 2], [\"barbell_default\", \"100x\", \"ATCC_19119__202309\", \"hac\", 0], [\"barbell_max\", \"100x\", \"ATCC_19119__202309\", \"hac\", 0], [\"dorado\", \"100x\", \"ATCC_19119__202309\", \"hac\", 0], [\"fastplong\", \"100x\", \"ATCC_19119__202309\", \"hac\", 0], [\"porechop_abi_discard\", \"100x\", \"ATCC_19119__202309\", \"hac\", 0], [\"porechop_abi_nocheck\", \"100x\", \"ATCC_19119__202309\", \"hac\", 1], [\"porechop_abi_split\", \"100x\", \"ATCC_19119__202309\", \"hac\", 0], [\"untrimmed\", \"100x\", \"ATCC_19119__202309\", \"hac\", 2], [\"barbell_default\", \"50x\", \"ATCC_19119__202309\", \"hac\", 0], [\"barbell_max\", \"50x\", \"ATCC_19119__202309\", \"hac\", 0], [\"dorado\", \"50x\", \"ATCC_19119__202309\", \"hac\", 0], [\"fastplong\", \"50x\", \"ATCC_19119__202309\", \"hac\", 2], [\"porechop_abi_discard\", \"50x\", \"ATCC_19119__202309\", \"hac\", 0], [\"porechop_abi_nocheck\", \"50x\", \"ATCC_19119__202309\", \"hac\", 0], [\"porechop_abi_split\", \"50x\", \"ATCC_19119__202309\", \"hac\", 0], [\"untrimmed\", \"50x\", \"ATCC_19119__202309\", \"hac\", 1], [\"barbell_default\", \"20x\", \"ATCC_19119__202309\", \"hac\", 0], [\"barbell_max\", \"20x\", \"ATCC_19119__202309\", \"hac\", 0], [\"dorado\", \"20x\", \"ATCC_19119__202309\", \"hac\", 0], [\"fastplong\", \"20x\", \"ATCC_19119__202309\", \"hac\", 0], [\"porechop_abi_discard\", \"20x\", \"ATCC_19119__202309\", \"hac\", 0], [\"porechop_abi_nocheck\", \"20x\", \"ATCC_19119__202309\", \"hac\", 0], [\"porechop_abi_split\", \"20x\", \"ATCC_19119__202309\", \"hac\", 0], [\"untrimmed\", \"20x\", \"ATCC_19119__202309\", \"hac\", 0], [\"barbell_default\", \"100x\", \"ATCC_25922__202309\", \"sup\", 0], [\"barbell_max\", \"100x\", \"ATCC_25922__202309\", \"sup\", 0], [\"dorado\", \"100x\", \"ATCC_25922__202309\", \"sup\", 0], [\"fastplong\", \"100x\", \"ATCC_25922__202309\", \"sup\", 0], [\"porechop_abi_discard\", \"100x\", \"ATCC_25922__202309\", \"sup\", 0], [\"porechop_abi_nocheck\", \"100x\", \"ATCC_25922__202309\", \"sup\", 0], [\"porechop_abi_split\", \"100x\", \"ATCC_25922__202309\", \"sup\", 0], [\"untrimmed\", \"100x\", \"ATCC_25922__202309\", \"sup\", 0], [\"barbell_default\", \"50x\", \"ATCC_25922__202309\", \"sup\", 0], [\"barbell_max\", \"50x\", \"ATCC_25922__202309\", \"sup\", 0], [\"dorado\", \"50x\", \"ATCC_25922__202309\", \"sup\", 0], [\"fastplong\", \"50x\", \"ATCC_25922__202309\", \"sup\", 0], [\"porechop_abi_discard\", \"50x\", \"ATCC_25922__202309\", \"sup\", 0], [\"porechop_abi_nocheck\", \"50x\", \"ATCC_25922__202309\", \"sup\", 0], [\"porechop_abi_split\", \"50x\", \"ATCC_25922__202309\", \"sup\", 0], [\"untrimmed\", \"50x\", \"ATCC_25922__202309\", \"sup\", 0], [\"barbell_default\", \"20x\", \"ATCC_25922__202309\", \"sup\", 0], [\"barbell_max\", \"20x\", \"ATCC_25922__202309\", \"sup\", 0], [\"dorado\", \"20x\", \"ATCC_25922__202309\", \"sup\", 0], [\"fastplong\", \"20x\", \"ATCC_25922__202309\", \"sup\", 0], [\"porechop_abi_discard\", \"20x\", \"ATCC_25922__202309\", \"sup\", 0], [\"porechop_abi_nocheck\", \"20x\", \"ATCC_25922__202309\", \"sup\", 0], [\"porechop_abi_split\", \"20x\", \"ATCC_25922__202309\", \"sup\", 0], [\"untrimmed\", \"20x\", \"ATCC_25922__202309\", \"sup\", 0], [\"barbell_default\", \"100x\", \"ATCC_25922__202309\", \"hac\", 0], [\"barbell_max\", \"100x\", \"ATCC_25922__202309\", \"hac\", 0], [\"dorado\", \"100x\", \"ATCC_25922__202309\", \"hac\", 0], [\"fastplong\", \"100x\", \"ATCC_25922__202309\", \"hac\", 0], [\"porechop_abi_discard\", \"100x\", \"ATCC_25922__202309\", \"hac\", 0], [\"porechop_abi_nocheck\", \"100x\", \"ATCC_25922__202309\", \"hac\", 0], [\"porechop_abi_split\", \"100x\", \"ATCC_25922__202309\", \"hac\", 0], [\"untrimmed\", \"100x\", \"ATCC_25922__202309\", \"hac\", 0], [\"barbell_default\", \"50x\", \"ATCC_25922__202309\", \"hac\", 0], [\"barbell_max\", \"50x\", \"ATCC_25922__202309\", \"hac\", 0], [\"dorado\", \"50x\", \"ATCC_25922__202309\", \"hac\", 0], [\"fastplong\", \"50x\", \"ATCC_25922__202309\", \"hac\", 0], [\"porechop_abi_discard\", \"50x\", \"ATCC_25922__202309\", \"hac\", 0], [\"porechop_abi_nocheck\", \"50x\", \"ATCC_25922__202309\", \"hac\", 0], [\"porechop_abi_split\", \"50x\", \"ATCC_25922__202309\", \"hac\", 0], [\"untrimmed\", \"50x\", \"ATCC_25922__202309\", \"hac\", 0], [\"barbell_default\", \"20x\", \"ATCC_25922__202309\", \"hac\", 0], [\"barbell_max\", \"20x\", \"ATCC_25922__202309\", \"hac\", 0], [\"dorado\", \"20x\", \"ATCC_25922__202309\", \"hac\", 0], [\"fastplong\", \"20x\", \"ATCC_25922__202309\", \"hac\", 0], [\"porechop_abi_discard\", \"20x\", \"ATCC_25922__202309\", \"hac\", 0], [\"porechop_abi_nocheck\", \"20x\", \"ATCC_25922__202309\", \"hac\", 0], [\"porechop_abi_split\", \"20x\", \"ATCC_25922__202309\", \"hac\", 0], [\"untrimmed\", \"20x\", \"ATCC_25922__202309\", \"hac\", 2], [\"barbell_default\", \"100x\", \"ATCC_33560__202309\", \"sup\", 0], [\"barbell_max\", \"100x\", \"ATCC_33560__202309\", \"sup\", 0], [\"dorado\", \"100x\", \"ATCC_33560__202309\", \"sup\", 0], [\"fastplong\", \"100x\", \"ATCC_33560__202309\", \"sup\", 0], [\"porechop_abi_discard\", \"100x\", \"ATCC_33560__202309\", \"sup\", 0], [\"porechop_abi_nocheck\", \"100x\", \"ATCC_33560__202309\", \"sup\", 0], [\"porechop_abi_split\", \"100x\", \"ATCC_33560__202309\", \"sup\", 0], [\"untrimmed\", \"100x\", \"ATCC_33560__202309\", \"sup\", 0], [\"barbell_default\", \"50x\", \"ATCC_33560__202309\", \"sup\", 0], [\"barbell_max\", \"50x\", \"ATCC_33560__202309\", \"sup\", 0], [\"dorado\", \"50x\", \"ATCC_33560__202309\", \"sup\", 0], [\"fastplong\", \"50x\", \"ATCC_33560__202309\", \"sup\", 0], [\"porechop_abi_discard\", \"50x\", \"ATCC_33560__202309\", \"sup\", 0], [\"porechop_abi_nocheck\", \"50x\", \"ATCC_33560__202309\", \"sup\", 0], [\"porechop_abi_split\", \"50x\", \"ATCC_33560__202309\", \"sup\", 0], [\"untrimmed\", \"50x\", \"ATCC_33560__202309\", \"sup\", 0], [\"barbell_default\", \"20x\", \"ATCC_33560__202309\", \"sup\", 0], [\"barbell_max\", \"20x\", \"ATCC_33560__202309\", \"sup\", 0], [\"dorado\", \"20x\", \"ATCC_33560__202309\", \"sup\", 0], [\"fastplong\", \"20x\", \"ATCC_33560__202309\", \"sup\", 0], [\"porechop_abi_discard\", \"20x\", \"ATCC_33560__202309\", \"sup\", 0], [\"porechop_abi_nocheck\", \"20x\", \"ATCC_33560__202309\", \"sup\", 0], [\"porechop_abi_split\", \"20x\", \"ATCC_33560__202309\", \"sup\", 0], [\"untrimmed\", \"20x\", \"ATCC_33560__202309\", \"sup\", 0], [\"barbell_default\", \"100x\", \"ATCC_33560__202309\", \"hac\", 0], [\"barbell_max\", \"100x\", \"ATCC_33560__202309\", \"hac\", 0], [\"dorado\", \"100x\", \"ATCC_33560__202309\", \"hac\", 0], [\"fastplong\", \"100x\", \"ATCC_33560__202309\", \"hac\", 0], [\"porechop_abi_discard\", \"100x\", \"ATCC_33560__202309\", \"hac\", 0], [\"porechop_abi_nocheck\", \"100x\", \"ATCC_33560__202309\", \"hac\", 0], [\"porechop_abi_split\", \"100x\", \"ATCC_33560__202309\", \"hac\", 0], [\"untrimmed\", \"100x\", \"ATCC_33560__202309\", \"hac\", 0], [\"barbell_default\", \"50x\", \"ATCC_33560__202309\", \"hac\", 0], [\"barbell_max\", \"50x\", \"ATCC_33560__202309\", \"hac\", 0], [\"dorado\", \"50x\", \"ATCC_33560__202309\", \"hac\", 0], [\"fastplong\", \"50x\", \"ATCC_33560__202309\", \"hac\", 0], [\"porechop_abi_discard\", \"50x\", \"ATCC_33560__202309\", \"hac\", 0], [\"porechop_abi_nocheck\", \"50x\", \"ATCC_33560__202309\", \"hac\", 0], [\"porechop_abi_split\", \"50x\", \"ATCC_33560__202309\", \"hac\", 0], [\"untrimmed\", \"50x\", \"ATCC_33560__202309\", \"hac\", 0], [\"barbell_default\", \"20x\", \"ATCC_33560__202309\", \"hac\", 0], [\"barbell_max\", \"20x\", \"ATCC_33560__202309\", \"hac\", 0], [\"dorado\", \"20x\", \"ATCC_33560__202309\", \"hac\", 0], [\"fastplong\", \"20x\", \"ATCC_33560__202309\", \"hac\", 0], [\"porechop_abi_discard\", \"20x\", \"ATCC_33560__202309\", \"hac\", 0], [\"porechop_abi_nocheck\", \"20x\", \"ATCC_33560__202309\", \"hac\", 0], [\"porechop_abi_split\", \"20x\", \"ATCC_33560__202309\", \"hac\", 0], [\"untrimmed\", \"20x\", \"ATCC_33560__202309\", \"hac\", 0], [\"barbell_default\", \"100x\", \"ATCC_35221__202309\", \"sup\", 0], [\"barbell_max\", \"100x\", \"ATCC_35221__202309\", \"sup\", 0], [\"dorado\", \"100x\", \"ATCC_35221__202309\", \"sup\", 0], [\"fastplong\", \"100x\", \"ATCC_35221__202309\", \"sup\", 0], [\"porechop_abi_discard\", \"100x\", \"ATCC_35221__202309\", \"sup\", 0], [\"porechop_abi_nocheck\", \"100x\", \"ATCC_35221__202309\", \"sup\", 0], [\"porechop_abi_split\", \"100x\", \"ATCC_35221__202309\", \"sup\", 0], [\"untrimmed\", \"100x\", \"ATCC_35221__202309\", \"sup\", 0], [\"barbell_default\", \"50x\", \"ATCC_35221__202309\", \"sup\", 0], [\"barbell_max\", \"50x\", \"ATCC_35221__202309\", \"sup\", 0], [\"dorado\", \"50x\", \"ATCC_35221__202309\", \"sup\", 0], [\"fastplong\", \"50x\", \"ATCC_35221__202309\", \"sup\", 0], [\"porechop_abi_discard\", \"50x\", \"ATCC_35221__202309\", \"sup\", 0], [\"porechop_abi_nocheck\", \"50x\", \"ATCC_35221__202309\", \"sup\", 0], [\"porechop_abi_split\", \"50x\", \"ATCC_35221__202309\", \"sup\", 0], [\"untrimmed\", \"50x\", \"ATCC_35221__202309\", \"sup\", 0], [\"barbell_default\", \"20x\", \"ATCC_35221__202309\", \"sup\", 1], [\"barbell_max\", \"20x\", \"ATCC_35221__202309\", \"sup\", 0], [\"dorado\", \"20x\", \"ATCC_35221__202309\", \"sup\", 0], [\"fastplong\", \"20x\", \"ATCC_35221__202309\", \"sup\", 0], [\"porechop_abi_discard\", \"20x\", \"ATCC_35221__202309\", \"sup\", 0], [\"porechop_abi_nocheck\", \"20x\", \"ATCC_35221__202309\", \"sup\", 0], [\"porechop_abi_split\", \"20x\", \"ATCC_35221__202309\", \"sup\", 0], [\"untrimmed\", \"20x\", \"ATCC_35221__202309\", \"sup\", 0], [\"barbell_default\", \"100x\", \"ATCC_35221__202309\", \"hac\", 0], [\"barbell_max\", \"100x\", \"ATCC_35221__202309\", \"hac\", 0], [\"dorado\", \"100x\", \"ATCC_35221__202309\", \"hac\", 0], [\"fastplong\", \"100x\", \"ATCC_35221__202309\", \"hac\", 0], [\"porechop_abi_discard\", \"100x\", \"ATCC_35221__202309\", \"hac\", 0], [\"porechop_abi_nocheck\", \"100x\", \"ATCC_35221__202309\", \"hac\", 0], [\"porechop_abi_split\", \"100x\", \"ATCC_35221__202309\", \"hac\", 0], [\"untrimmed\", \"100x\", \"ATCC_35221__202309\", \"hac\", 0], [\"barbell_default\", \"50x\", \"ATCC_35221__202309\", \"hac\", 0], [\"barbell_max\", \"50x\", \"ATCC_35221__202309\", \"hac\", 0], [\"dorado\", \"50x\", \"ATCC_35221__202309\", \"hac\", 0], [\"fastplong\", \"50x\", \"ATCC_35221__202309\", \"hac\", 0], [\"porechop_abi_discard\", \"50x\", \"ATCC_35221__202309\", \"hac\", 0], [\"porechop_abi_nocheck\", \"50x\", \"ATCC_35221__202309\", \"hac\", 0], [\"porechop_abi_split\", \"50x\", \"ATCC_35221__202309\", \"hac\", 0], [\"untrimmed\", \"50x\", \"ATCC_35221__202309\", \"hac\", 0], [\"barbell_default\", \"20x\", \"ATCC_35221__202309\", \"hac\", 0], [\"barbell_max\", \"20x\", \"ATCC_35221__202309\", \"hac\", 1], [\"dorado\", \"20x\", \"ATCC_35221__202309\", \"hac\", 0], [\"fastplong\", \"20x\", \"ATCC_35221__202309\", \"hac\", 0], [\"porechop_abi_discard\", \"20x\", \"ATCC_35221__202309\", \"hac\", 0], [\"porechop_abi_nocheck\", \"20x\", \"ATCC_35221__202309\", \"hac\", 0], [\"porechop_abi_split\", \"20x\", \"ATCC_35221__202309\", \"hac\", 0], [\"untrimmed\", \"20x\", \"ATCC_35221__202309\", \"hac\", 0], [\"barbell_default\", \"100x\", \"ATCC_35897__202309\", \"sup\", 0], [\"barbell_max\", \"100x\", \"ATCC_35897__202309\", \"sup\", 0], [\"dorado\", \"100x\", \"ATCC_35897__202309\", \"sup\", 0], [\"fastplong\", \"100x\", \"ATCC_35897__202309\", \"sup\", 0], [\"porechop_abi_discard\", \"100x\", \"ATCC_35897__202309\", \"sup\", 0], [\"porechop_abi_nocheck\", \"100x\", \"ATCC_35897__202309\", \"sup\", 0], [\"porechop_abi_split\", \"100x\", \"ATCC_35897__202309\", \"sup\", 0], [\"untrimmed\", \"100x\", \"ATCC_35897__202309\", \"sup\", 0], [\"barbell_default\", \"50x\", \"ATCC_35897__202309\", \"sup\", 0], [\"barbell_max\", \"50x\", \"ATCC_35897__202309\", \"sup\", 0], [\"dorado\", \"50x\", \"ATCC_35897__202309\", \"sup\", 0], [\"fastplong\", \"50x\", \"ATCC_35897__202309\", \"sup\", 0], [\"porechop_abi_discard\", \"50x\", \"ATCC_35897__202309\", \"sup\", 0], [\"porechop_abi_nocheck\", \"50x\", \"ATCC_35897__202309\", \"sup\", 0], [\"porechop_abi_split\", \"50x\", \"ATCC_35897__202309\", \"sup\", 0], [\"untrimmed\", \"50x\", \"ATCC_35897__202309\", \"sup\", 0], [\"barbell_default\", \"20x\", \"ATCC_35897__202309\", \"sup\", 0], [\"barbell_max\", \"20x\", \"ATCC_35897__202309\", \"sup\", 0], [\"dorado\", \"20x\", \"ATCC_35897__202309\", \"sup\", 0], [\"fastplong\", \"20x\", \"ATCC_35897__202309\", \"sup\", 0], [\"porechop_abi_discard\", \"20x\", \"ATCC_35897__202309\", \"sup\", 0], [\"porechop_abi_nocheck\", \"20x\", \"ATCC_35897__202309\", \"sup\", 0], [\"porechop_abi_split\", \"20x\", \"ATCC_35897__202309\", \"sup\", 0], [\"untrimmed\", \"20x\", \"ATCC_35897__202309\", \"sup\", 0], [\"barbell_default\", \"100x\", \"ATCC_35897__202309\", \"hac\", 0], [\"barbell_max\", \"100x\", \"ATCC_35897__202309\", \"hac\", 0], [\"dorado\", \"100x\", \"ATCC_35897__202309\", \"hac\", 0], [\"fastplong\", \"100x\", \"ATCC_35897__202309\", \"hac\", 0], [\"porechop_abi_discard\", \"100x\", \"ATCC_35897__202309\", \"hac\", 0], [\"porechop_abi_nocheck\", \"100x\", \"ATCC_35897__202309\", \"hac\", 0], [\"porechop_abi_split\", \"100x\", \"ATCC_35897__202309\", \"hac\", 0], [\"untrimmed\", \"100x\", \"ATCC_35897__202309\", \"hac\", 0], [\"barbell_default\", \"50x\", \"ATCC_35897__202309\", \"hac\", 0], [\"barbell_max\", \"50x\", \"ATCC_35897__202309\", \"hac\", 0], [\"dorado\", \"50x\", \"ATCC_35897__202309\", \"hac\", 0], [\"fastplong\", \"50x\", \"ATCC_35897__202309\", \"hac\", 0], [\"porechop_abi_discard\", \"50x\", \"ATCC_35897__202309\", \"hac\", 0], [\"porechop_abi_nocheck\", \"50x\", \"ATCC_35897__202309\", \"hac\", 0], [\"porechop_abi_split\", \"50x\", \"ATCC_35897__202309\", \"hac\", 0], [\"untrimmed\", \"50x\", \"ATCC_35897__202309\", \"hac\", 0], [\"barbell_default\", \"20x\", \"ATCC_35897__202309\", \"hac\", 0], [\"barbell_max\", \"20x\", \"ATCC_35897__202309\", \"hac\", 0], [\"dorado\", \"20x\", \"ATCC_35897__202309\", \"hac\", 0], [\"fastplong\", \"20x\", \"ATCC_35897__202309\", \"hac\", 0], [\"porechop_abi_discard\", \"20x\", \"ATCC_35897__202309\", \"hac\", 0], [\"porechop_abi_nocheck\", \"20x\", \"ATCC_35897__202309\", \"hac\", 0], [\"porechop_abi_split\", \"20x\", \"ATCC_35897__202309\", \"hac\", 0], [\"untrimmed\", \"20x\", \"ATCC_35897__202309\", \"hac\", 0], [\"barbell_default\", \"100x\", \"ATCC_BAA-679__202309\", \"sup\", 0], [\"barbell_max\", \"100x\", \"ATCC_BAA-679__202309\", \"sup\", 0], [\"dorado\", \"100x\", \"ATCC_BAA-679__202309\", \"sup\", 0], [\"fastplong\", \"100x\", \"ATCC_BAA-679__202309\", \"sup\", 0], [\"porechop_abi_discard\", \"100x\", \"ATCC_BAA-679__202309\", \"sup\", 0], [\"porechop_abi_nocheck\", \"100x\", \"ATCC_BAA-679__202309\", \"sup\", 0], [\"porechop_abi_split\", \"100x\", \"ATCC_BAA-679__202309\", \"sup\", 0], [\"untrimmed\", \"100x\", \"ATCC_BAA-679__202309\", \"sup\", 0], [\"barbell_default\", \"50x\", \"ATCC_BAA-679__202309\", \"sup\", 0], [\"barbell_max\", \"50x\", \"ATCC_BAA-679__202309\", \"sup\", 0], [\"dorado\", \"50x\", \"ATCC_BAA-679__202309\", \"sup\", 0], [\"fastplong\", \"50x\", \"ATCC_BAA-679__202309\", \"sup\", 0], [\"porechop_abi_discard\", \"50x\", \"ATCC_BAA-679__202309\", \"sup\", 0], [\"porechop_abi_nocheck\", \"50x\", \"ATCC_BAA-679__202309\", \"sup\", 0], [\"porechop_abi_split\", \"50x\", \"ATCC_BAA-679__202309\", \"sup\", 0], [\"untrimmed\", \"50x\", \"ATCC_BAA-679__202309\", \"sup\", 0], [\"barbell_default\", \"20x\", \"ATCC_BAA-679__202309\", \"sup\", 0], [\"barbell_max\", \"20x\", \"ATCC_BAA-679__202309\", \"sup\", 0], [\"dorado\", \"20x\", \"ATCC_BAA-679__202309\", \"sup\", 0], [\"fastplong\", \"20x\", \"ATCC_BAA-679__202309\", \"sup\", 0], [\"porechop_abi_discard\", \"20x\", \"ATCC_BAA-679__202309\", \"sup\", 0], [\"porechop_abi_nocheck\", \"20x\", \"ATCC_BAA-679__202309\", \"sup\", 0], [\"porechop_abi_split\", \"20x\", \"ATCC_BAA-679__202309\", \"sup\", 0], [\"untrimmed\", \"20x\", \"ATCC_BAA-679__202309\", \"sup\", 0], [\"barbell_default\", \"100x\", \"ATCC_BAA-679__202309\", \"hac\", 0], [\"barbell_max\", \"100x\", \"ATCC_BAA-679__202309\", \"hac\", 0], [\"dorado\", \"100x\", \"ATCC_BAA-679__202309\", \"hac\", 0], [\"fastplong\", \"100x\", \"ATCC_BAA-679__202309\", \"hac\", 0], [\"porechop_abi_discard\", \"100x\", \"ATCC_BAA-679__202309\", \"hac\", 0], [\"porechop_abi_nocheck\", \"100x\", \"ATCC_BAA-679__202309\", \"hac\", 0], [\"porechop_abi_split\", \"100x\", \"ATCC_BAA-679__202309\", \"hac\", 0], [\"untrimmed\", \"100x\", \"ATCC_BAA-679__202309\", \"hac\", 0], [\"barbell_default\", \"50x\", \"ATCC_BAA-679__202309\", \"hac\", 0], [\"barbell_max\", \"50x\", \"ATCC_BAA-679__202309\", \"hac\", 0], [\"dorado\", \"50x\", \"ATCC_BAA-679__202309\", \"hac\", 0], [\"fastplong\", \"50x\", \"ATCC_BAA-679__202309\", \"hac\", 0], [\"porechop_abi_discard\", \"50x\", \"ATCC_BAA-679__202309\", \"hac\", 0], [\"porechop_abi_nocheck\", \"50x\", \"ATCC_BAA-679__202309\", \"hac\", 0], [\"porechop_abi_split\", \"50x\", \"ATCC_BAA-679__202309\", \"hac\", 0], [\"untrimmed\", \"50x\", \"ATCC_BAA-679__202309\", \"hac\", 1], [\"barbell_default\", \"20x\", \"ATCC_BAA-679__202309\", \"hac\", 0], [\"barbell_max\", \"20x\", \"ATCC_BAA-679__202309\", \"hac\", 0], [\"dorado\", \"20x\", \"ATCC_BAA-679__202309\", \"hac\", 0], [\"fastplong\", \"20x\", \"ATCC_BAA-679__202309\", \"hac\", 0], [\"porechop_abi_discard\", \"20x\", \"ATCC_BAA-679__202309\", \"hac\", 0], [\"porechop_abi_nocheck\", \"20x\", \"ATCC_BAA-679__202309\", \"hac\", 0], [\"porechop_abi_split\", \"20x\", \"ATCC_BAA-679__202309\", \"hac\", 0], [\"untrimmed\", \"20x\", \"ATCC_BAA-679__202309\", \"hac\", 1], [\"barbell_default\", \"100x\", \"BPH2947__202310\", \"sup\", 0], [\"barbell_max\", \"100x\", \"BPH2947__202310\", \"sup\", 0], [\"dorado\", \"100x\", \"BPH2947__202310\", \"sup\", 0], [\"fastplong\", \"100x\", \"BPH2947__202310\", \"sup\", 0], [\"porechop_abi_discard\", \"100x\", \"BPH2947__202310\", \"sup\", 0], [\"porechop_abi_nocheck\", \"100x\", \"BPH2947__202310\", \"sup\", 0], [\"porechop_abi_split\", \"100x\", \"BPH2947__202310\", \"sup\", 0], [\"untrimmed\", \"100x\", \"BPH2947__202310\", \"sup\", 0], [\"barbell_default\", \"50x\", \"BPH2947__202310\", \"sup\", 0], [\"barbell_max\", \"50x\", \"BPH2947__202310\", \"sup\", 0], [\"dorado\", \"50x\", \"BPH2947__202310\", \"sup\", 0], [\"fastplong\", \"50x\", \"BPH2947__202310\", \"sup\", 0], [\"porechop_abi_discard\", \"50x\", \"BPH2947__202310\", \"sup\", 0], [\"porechop_abi_nocheck\", \"50x\", \"BPH2947__202310\", \"sup\", 0], [\"porechop_abi_split\", \"50x\", \"BPH2947__202310\", \"sup\", 2], [\"untrimmed\", \"50x\", \"BPH2947__202310\", \"sup\", 0], [\"barbell_default\", \"20x\", \"BPH2947__202310\", \"sup\", 0], [\"barbell_max\", \"20x\", \"BPH2947__202310\", \"sup\", 0], [\"dorado\", \"20x\", \"BPH2947__202310\", \"sup\", 1], [\"fastplong\", \"20x\", \"BPH2947__202310\", \"sup\", 0], [\"porechop_abi_discard\", \"20x\", \"BPH2947__202310\", \"sup\", 0], [\"porechop_abi_nocheck\", \"20x\", \"BPH2947__202310\", \"sup\", 0], [\"porechop_abi_split\", \"20x\", \"BPH2947__202310\", \"sup\", 0], [\"untrimmed\", \"20x\", \"BPH2947__202310\", \"sup\", 2], [\"barbell_default\", \"100x\", \"BPH2947__202310\", \"hac\", 0], [\"barbell_max\", \"100x\", \"BPH2947__202310\", \"hac\", 0], [\"dorado\", \"100x\", \"BPH2947__202310\", \"hac\", 0], [\"fastplong\", \"100x\", \"BPH2947__202310\", \"hac\", 0], [\"porechop_abi_discard\", \"100x\", \"BPH2947__202310\", \"hac\", 0], [\"porechop_abi_nocheck\", \"100x\", \"BPH2947__202310\", \"hac\", 0], [\"porechop_abi_split\", \"100x\", \"BPH2947__202310\", \"hac\", 0], [\"untrimmed\", \"100x\", \"BPH2947__202310\", \"hac\", 0], [\"barbell_default\", \"50x\", \"BPH2947__202310\", \"hac\", 0], [\"barbell_max\", \"50x\", \"BPH2947__202310\", \"hac\", 0], [\"dorado\", \"50x\", \"BPH2947__202310\", \"hac\", 0], [\"fastplong\", \"50x\", \"BPH2947__202310\", \"hac\", 0], [\"porechop_abi_discard\", \"50x\", \"BPH2947__202310\", \"hac\", 1], [\"porechop_abi_nocheck\", \"50x\", \"BPH2947__202310\", \"hac\", 0], [\"porechop_abi_split\", \"50x\", \"BPH2947__202310\", \"hac\", 0], [\"untrimmed\", \"50x\", \"BPH2947__202310\", \"hac\", 2], [\"barbell_default\", \"20x\", \"BPH2947__202310\", \"hac\", 0], [\"barbell_max\", \"20x\", \"BPH2947__202310\", \"hac\", 0], [\"dorado\", \"20x\", \"BPH2947__202310\", \"hac\", 2], [\"fastplong\", \"20x\", \"BPH2947__202310\", \"hac\", 2], [\"porechop_abi_discard\", \"20x\", \"BPH2947__202310\", \"hac\", 0], [\"porechop_abi_nocheck\", \"20x\", \"BPH2947__202310\", \"hac\", 1], [\"porechop_abi_split\", \"20x\", \"BPH2947__202310\", \"hac\", 0], [\"untrimmed\", \"20x\", \"BPH2947__202310\", \"hac\", 1], [\"barbell_default\", \"100x\", \"MMC234__202311\", \"sup\", 0], [\"barbell_max\", \"100x\", \"MMC234__202311\", \"sup\", 0], [\"dorado\", \"100x\", \"MMC234__202311\", \"sup\", 0], [\"fastplong\", \"100x\", \"MMC234__202311\", \"sup\", 0], [\"porechop_abi_discard\", \"100x\", \"MMC234__202311\", \"sup\", 0], [\"porechop_abi_nocheck\", \"100x\", \"MMC234__202311\", \"sup\", 0], [\"porechop_abi_split\", \"100x\", \"MMC234__202311\", \"sup\", 0], [\"untrimmed\", \"100x\", \"MMC234__202311\", \"sup\", 0], [\"barbell_default\", \"50x\", \"MMC234__202311\", \"sup\", 0], [\"barbell_max\", \"50x\", \"MMC234__202311\", \"sup\", 0], [\"dorado\", \"50x\", \"MMC234__202311\", \"sup\", 0], [\"fastplong\", \"50x\", \"MMC234__202311\", \"sup\", 0], [\"porechop_abi_discard\", \"50x\", \"MMC234__202311\", \"sup\", 0], [\"porechop_abi_nocheck\", \"50x\", \"MMC234__202311\", \"sup\", 0], [\"porechop_abi_split\", \"50x\", \"MMC234__202311\", \"sup\", 0], [\"untrimmed\", \"50x\", \"MMC234__202311\", \"sup\", 0], [\"barbell_default\", \"20x\", \"MMC234__202311\", \"sup\", 0], [\"barbell_max\", \"20x\", \"MMC234__202311\", \"sup\", 0], [\"dorado\", \"20x\", \"MMC234__202311\", \"sup\", 0], [\"fastplong\", \"20x\", \"MMC234__202311\", \"sup\", 0], [\"porechop_abi_discard\", \"20x\", \"MMC234__202311\", \"sup\", 0], [\"porechop_abi_nocheck\", \"20x\", \"MMC234__202311\", \"sup\", 0], [\"porechop_abi_split\", \"20x\", \"MMC234__202311\", \"sup\", 0], [\"untrimmed\", \"20x\", \"MMC234__202311\", \"sup\", 0], [\"barbell_default\", \"100x\", \"MMC234__202311\", \"hac\", 0], [\"barbell_max\", \"100x\", \"MMC234__202311\", \"hac\", 0], [\"dorado\", \"100x\", \"MMC234__202311\", \"hac\", 0], [\"fastplong\", \"100x\", \"MMC234__202311\", \"hac\", 0], [\"porechop_abi_discard\", \"100x\", \"MMC234__202311\", \"hac\", 0], [\"porechop_abi_nocheck\", \"100x\", \"MMC234__202311\", \"hac\", 0], [\"porechop_abi_split\", \"100x\", \"MMC234__202311\", \"hac\", 0], [\"untrimmed\", \"100x\", \"MMC234__202311\", \"hac\", 0], [\"barbell_default\", \"50x\", \"MMC234__202311\", \"hac\", 0], [\"barbell_max\", \"50x\", \"MMC234__202311\", \"hac\", 0], [\"dorado\", \"50x\", \"MMC234__202311\", \"hac\", 0], [\"fastplong\", \"50x\", \"MMC234__202311\", \"hac\", 0], [\"porechop_abi_discard\", \"50x\", \"MMC234__202311\", \"hac\", 0], [\"porechop_abi_nocheck\", \"50x\", \"MMC234__202311\", \"hac\", 0], [\"porechop_abi_split\", \"50x\", \"MMC234__202311\", \"hac\", 0], [\"untrimmed\", \"50x\", \"MMC234__202311\", \"hac\", 0], [\"barbell_default\", \"20x\", \"MMC234__202311\", \"hac\", 0], [\"barbell_max\", \"20x\", \"MMC234__202311\", \"hac\", 0], [\"dorado\", \"20x\", \"MMC234__202311\", \"hac\", 0], [\"fastplong\", \"20x\", \"MMC234__202311\", \"hac\", 1], [\"porechop_abi_discard\", \"20x\", \"MMC234__202311\", \"hac\", 0], [\"porechop_abi_nocheck\", \"20x\", \"MMC234__202311\", \"hac\", 0], [\"porechop_abi_split\", \"20x\", \"MMC234__202311\", \"hac\", 0], [\"untrimmed\", \"20x\", \"MMC234__202311\", \"hac\", 0], [\"barbell_default\", \"100x\", \"RDH275__202311\", \"sup\", 0], [\"barbell_max\", \"100x\", \"RDH275__202311\", \"sup\", 0], [\"dorado\", \"100x\", \"RDH275__202311\", \"sup\", 2], [\"fastplong\", \"100x\", \"RDH275__202311\", \"sup\", 2], [\"porechop_abi_discard\", \"100x\", \"RDH275__202311\", \"sup\", 0], [\"porechop_abi_nocheck\", \"100x\", \"RDH275__202311\", \"sup\", 0], [\"porechop_abi_split\", \"100x\", \"RDH275__202311\", \"sup\", 0], [\"untrimmed\", \"100x\", \"RDH275__202311\", \"sup\", 2], [\"barbell_default\", \"50x\", \"RDH275__202311\", \"sup\", 0], [\"barbell_max\", \"50x\", \"RDH275__202311\", \"sup\", 0], [\"dorado\", \"50x\", \"RDH275__202311\", \"sup\", 0], [\"fastplong\", \"50x\", \"RDH275__202311\", \"sup\", 2], [\"porechop_abi_discard\", \"50x\", \"RDH275__202311\", \"sup\", 0], [\"porechop_abi_nocheck\", \"50x\", \"RDH275__202311\", \"sup\", 0], [\"porechop_abi_split\", \"50x\", \"RDH275__202311\", \"sup\", 0], [\"untrimmed\", \"50x\", \"RDH275__202311\", \"sup\", 1], [\"barbell_default\", \"20x\", \"RDH275__202311\", \"sup\", 0], [\"barbell_max\", \"20x\", \"RDH275__202311\", \"sup\", 1], [\"dorado\", \"20x\", \"RDH275__202311\", \"sup\", 0], [\"fastplong\", \"20x\", \"RDH275__202311\", \"sup\", 4], [\"porechop_abi_discard\", \"20x\", \"RDH275__202311\", \"sup\", 0], [\"porechop_abi_nocheck\", \"20x\", \"RDH275__202311\", \"sup\", 0], [\"porechop_abi_split\", \"20x\", \"RDH275__202311\", \"sup\", 0], [\"untrimmed\", \"20x\", \"RDH275__202311\", \"sup\", 2], [\"barbell_default\", \"100x\", \"RDH275__202311\", \"hac\", 0], [\"barbell_max\", \"100x\", \"RDH275__202311\", \"hac\", 0], [\"dorado\", \"100x\", \"RDH275__202311\", \"hac\", 2], [\"fastplong\", \"100x\", \"RDH275__202311\", \"hac\", 1], [\"porechop_abi_discard\", \"100x\", \"RDH275__202311\", \"hac\", 0], [\"porechop_abi_nocheck\", \"100x\", \"RDH275__202311\", \"hac\", 0], [\"porechop_abi_split\", \"100x\", \"RDH275__202311\", \"hac\", 0], [\"untrimmed\", \"100x\", \"RDH275__202311\", \"hac\", 2], [\"barbell_default\", \"50x\", \"RDH275__202311\", \"hac\", 0], [\"barbell_max\", \"50x\", \"RDH275__202311\", \"hac\", 0], [\"dorado\", \"50x\", \"RDH275__202311\", \"hac\", 2], [\"fastplong\", \"50x\", \"RDH275__202311\", \"hac\", 2], [\"porechop_abi_discard\", \"50x\", \"RDH275__202311\", \"hac\", 0], [\"porechop_abi_nocheck\", \"50x\", \"RDH275__202311\", \"hac\", 0], [\"porechop_abi_split\", \"50x\", \"RDH275__202311\", \"hac\", 0], [\"untrimmed\", \"50x\", \"RDH275__202311\", \"hac\", 2], [\"barbell_default\", \"20x\", \"RDH275__202311\", \"hac\", 0], [\"barbell_max\", \"20x\", \"RDH275__202311\", \"hac\", 0], [\"dorado\", \"20x\", \"RDH275__202311\", \"hac\", 2], [\"fastplong\", \"20x\", \"RDH275__202311\", \"hac\", 2], [\"porechop_abi_discard\", \"20x\", \"RDH275__202311\", \"hac\", 0], [\"porechop_abi_nocheck\", \"20x\", \"RDH275__202311\", \"hac\", 0], [\"porechop_abi_split\", \"20x\", \"RDH275__202311\", \"hac\", 0], [\"untrimmed\", \"20x\", \"RDH275__202311\", \"hac\", 2]]",
+          "layout": {"bottomEnd": "paging", "bottomStart": "info", "topEnd": "search", "topStart": "pageLength"},
+          "order": [],
+          "scrollX": true,
+          "scrollY": "800px",
+          "style": {"caption-side": "bottom", "margin": "0", "table-layout": "auto", "width": "auto"},
+          "table_html": "<table><thead>\n    <tr style=\"text-align: right;\">\n      \n      <th>trimmer</th>\n      <th>depth</th>\n      <th>sample</th>\n      <th>model</th>\n      <th>contamination_count</th>\n    </tr>\n  </thead></table>",
+          "text_in_header_can_be_selected": true
+        };
+        new ITable(table, dt_args);
+    });
+</script>
+</div>
+</div>
+<div id="6dbd9700" class="cell" data-execution_count="3">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itables <span class="im">import</span> show</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>contamination_count <span class="op">=</span> pd.read_csv(<span class="st">"../results/tables/assess/assembly/metrics/contaminant_summary_count.csv"</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># broup by trimmer, model, and depth, then calculate multiple statistics across the samples</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>summary_stats <span class="op">=</span> contamination_count.groupby([<span class="st">"trimmer"</span>, <span class="st">"model"</span>, <span class="st">"depth"</span>])[<span class="st">"contamination_count"</span>].agg(</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    Mean<span class="op">=</span><span class="st">'mean'</span>,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    Median<span class="op">=</span><span class="st">'median'</span>,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    Max<span class="op">=</span><span class="st">'max'</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>).reset_index()</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Round them</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>summary_stats[<span class="st">'Mean'</span>] <span class="op">=</span> summary_stats[<span class="st">'Mean'</span>].<span class="bu">round</span>(<span class="dv">2</span>)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply ythe sorting logic so the table is perfectly organised</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>depth_order <span class="op">=</span> pd.CategoricalDtype(categories<span class="op">=</span>[<span class="st">"100x"</span>, <span class="st">"50x"</span>, <span class="st">"20x"</span>], ordered<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>model_order <span class="op">=</span> pd.CategoricalDtype(categories<span class="op">=</span>[<span class="st">"sup"</span>, <span class="st">"hac"</span>], ordered<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>summary_stats[<span class="st">'depth'</span>] <span class="op">=</span> summary_stats[<span class="st">'depth'</span>].astype(depth_order)</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>summary_stats[<span class="st">'model'</span>] <span class="op">=</span> summary_stats[<span class="st">'model'</span>].astype(model_order)</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort: Trimmer -&gt; Model -&gt; Depth</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>summary_stats <span class="op">=</span> summary_stats.sort_values(by<span class="op">=</span>[<span class="st">"trimmer"</span>, <span class="st">"model"</span>, <span class="st">"depth"</span>])</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>summary_stats.reset_index(drop<span class="op">=</span><span class="va">True</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>show(summary_stats, classes<span class="op">=</span><span class="st">"display"</span>, scrollX<span class="op">=</span><span class="va">True</span>, paging<span class="op">=</span><span class="va">True</span>, lengthMenu<span class="op">=</span>[<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">50</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<!--| quarto-html-table-processing: none -->
+<table id="itables_6397f666_7d5f_4e5c_a5c2_c5d3efdb08d3">
+  <tbody>
+    <tr>
+      <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
+    <g style="fill:#d9d7fc">
+        <path d="M100,400H500V357H100Z"></path>
+        <path d="M100,300H400V257H100Z"></path>
+        <path d="M0,200H400V157H0Z"></path>
+        <path d="M100,100H500V57H100Z"></path>
+        <path d="M100,350H500V307H100Z"></path>
+        <path d="M100,250H400V207H100Z"></path>
+        <path d="M0,150H400V107H0Z"></path>
+        <path d="M100,50H500V7H100Z"></path>
+    </g>
+    <g style="fill:#1a1366;stroke:#1a1366;">
+   <rect x="100" y="7" width="400" height="43">
+    <animate attributename="width" values="0;400;0" dur="5s" repeatcount="indefinite"></animate>
+      <animate attributename="x" values="100;100;500" dur="5s" repeatcount="indefinite"></animate>
+  </rect>
+        <rect x="0" y="107" width="400" height="43">
+    <animate attributename="width" values="0;400;0" dur="3.5s" repeatcount="indefinite"></animate>
+    <animate attributename="x" values="0;0;400" dur="3.5s" repeatcount="indefinite"></animate>
+  </rect>
+        <rect x="100" y="207" width="300" height="43">
+    <animate attributename="width" values="0;300;0" dur="3s" repeatcount="indefinite"></animate>
+    <animate attributename="x" values="100;100;400" dur="3s" repeatcount="indefinite"></animate>
+  </rect>
+        <rect x="100" y="307" width="400" height="43">
+    <animate attributename="width" values="0;400;0" dur="4s" repeatcount="indefinite"></animate>
+      <animate attributename="x" values="100;100;500" dur="4s" repeatcount="indefinite"></animate>
+  </rect>
+        <g style="fill:transparent;stroke-width:8; stroke-linejoin:round" rx="5">
+            <g transform="translate(45 50) rotate(-45)">
+                <circle r="33" cx="0" cy="0"></circle>
+                <rect x="-8" y="32" width="16" height="30"></rect>
+            </g>
+
+            <g transform="translate(450 152)">
+                <polyline points="-15,-20 -35,-20 -35,40 25,40 25,20"></polyline>
+                <rect x="-15" y="-40" width="60" height="60"></rect>
+            </g>
+
+            <g transform="translate(50 352)">
+                <polygon points="-35,-5 0,-40 35,-5"></polygon>
+                <polygon points="-35,10 0,45 35,10"></polygon>
+            </g>
+
+            <g transform="translate(75 250)">
+                <polyline points="-30,30 -60,0 -30,-30"></polyline>
+                <polyline points="0,30 -30,0 0,-30"></polyline>
+            </g>
+
+            <g transform="translate(425 250) rotate(180)">
+                <polyline points="-30,30 -60,0 -30,-30"></polyline>
+                <polyline points="0,30 -30,0 0,-30"></polyline>
+            </g>
+        </g>
+    </g>
+</svg>
+</a>
+        Loading ITables v2.7.3 from the internet...
+        (need <a href="https://mwouts.github.io/itables/troubleshooting.html">help</a>?)
+      </td>
+    </tr>
+  </tbody>
+</table>
+<link href="https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.css" rel="stylesheet">
+<script type="module">
+    import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
+
+    document.querySelectorAll("#itables_6397f666_7d5f_4e5c_a5c2_c5d3efdb08d3:not(.dataTable)").forEach(table => {
+        if (!(table instanceof HTMLTableElement))
+            return;
+
+        let dt_args = {
+          "classes": ["display"],
+          "columnDefs": [{"render": "function (data, type, row, meta) { return type === 'sort' || type === 'type' ? data[1] : data[0]; }", "targets": [3, 4]}],
+          "data_json": "[[\"barbell_default\", \"sup\", \"100x\", [\"0.00\", 0.0], [\"0.0\", 0.0], 0], [\"barbell_default\", \"sup\", \"50x\", [\"0.00\", 0.0], [\"0.0\", 0.0], 0], [\"barbell_default\", \"sup\", \"20x\", [\"0.08\", 0.08], [\"0.0\", 0.0], 1], [\"barbell_default\", \"hac\", \"100x\", [\"0.00\", 0.0], [\"0.0\", 0.0], 0], [\"barbell_default\", \"hac\", \"50x\", [\"0.00\", 0.0], [\"0.0\", 0.0], 0], [\"barbell_default\", \"hac\", \"20x\", [\"0.00\", 0.0], [\"0.0\", 0.0], 0], [\"barbell_max\", \"sup\", \"100x\", [\"0.00\", 0.0], [\"0.0\", 0.0], 0], [\"barbell_max\", \"sup\", \"50x\", [\"0.00\", 0.0], [\"0.0\", 0.0], 0], [\"barbell_max\", \"sup\", \"20x\", [\"0.08\", 0.08], [\"0.0\", 0.0], 1], [\"barbell_max\", \"hac\", \"100x\", [\"0.08\", 0.08], [\"0.0\", 0.0], 1], [\"barbell_max\", \"hac\", \"50x\", [\"0.00\", 0.0], [\"0.0\", 0.0], 0], [\"barbell_max\", \"hac\", \"20x\", [\"0.08\", 0.08], [\"0.0\", 0.0], 1], [\"dorado\", \"sup\", \"100x\", [\"0.15\", 0.15], [\"0.0\", 0.0], 2], [\"dorado\", \"sup\", \"50x\", [\"0.23\", 0.23], [\"0.0\", 0.0], 2], [\"dorado\", \"sup\", \"20x\", [\"0.08\", 0.08], [\"0.0\", 0.0], 1], [\"dorado\", \"hac\", \"100x\", [\"0.23\", 0.23], [\"0.0\", 0.0], 2], [\"dorado\", \"hac\", \"50x\", [\"0.31\", 0.31], [\"0.0\", 0.0], 2], [\"dorado\", \"hac\", \"20x\", [\"0.62\", 0.62], [\"0.0\", 0.0], 4], [\"fastplong\", \"sup\", \"100x\", [\"0.23\", 0.23], [\"0.0\", 0.0], 2], [\"fastplong\", \"sup\", \"50x\", [\"0.15\", 0.15], [\"0.0\", 0.0], 2], [\"fastplong\", \"sup\", \"20x\", [\"0.31\", 0.31], [\"0.0\", 0.0], 4], [\"fastplong\", \"hac\", \"100x\", [\"0.08\", 0.08], [\"0.0\", 0.0], 1], [\"fastplong\", \"hac\", \"50x\", [\"0.31\", 0.31], [\"0.0\", 0.0], 2], [\"fastplong\", \"hac\", \"20x\", [\"0.69\", 0.69], [\"0.0\", 0.0], 4], [\"porechop_abi_discard\", \"sup\", \"100x\", [\"0.00\", 0.0], [\"0.0\", 0.0], 0], [\"porechop_abi_discard\", \"sup\", \"50x\", [\"0.00\", 0.0], [\"0.0\", 0.0], 0], [\"porechop_abi_discard\", \"sup\", \"20x\", [\"0.00\", 0.0], [\"0.0\", 0.0], 0], [\"porechop_abi_discard\", \"hac\", \"100x\", [\"0.00\", 0.0], [\"0.0\", 0.0], 0], [\"porechop_abi_discard\", \"hac\", \"50x\", [\"0.08\", 0.08], [\"0.0\", 0.0], 1], [\"porechop_abi_discard\", \"hac\", \"20x\", [\"0.00\", 0.0], [\"0.0\", 0.0], 0], [\"porechop_abi_nocheck\", \"sup\", \"100x\", [\"0.00\", 0.0], [\"0.0\", 0.0], 0], [\"porechop_abi_nocheck\", \"sup\", \"50x\", [\"0.00\", 0.0], [\"0.0\", 0.0], 0], [\"porechop_abi_nocheck\", \"sup\", \"20x\", [\"0.00\", 0.0], [\"0.0\", 0.0], 0], [\"porechop_abi_nocheck\", \"hac\", \"100x\", [\"0.15\", 0.15], [\"0.0\", 0.0], 1], [\"porechop_abi_nocheck\", \"hac\", \"50x\", [\"0.08\", 0.08], [\"0.0\", 0.0], 1], [\"porechop_abi_nocheck\", \"hac\", \"20x\", [\"0.08\", 0.08], [\"0.0\", 0.0], 1], [\"porechop_abi_split\", \"sup\", \"100x\", [\"0.00\", 0.0], [\"0.0\", 0.0], 0], [\"porechop_abi_split\", \"sup\", \"50x\", [\"0.15\", 0.15], [\"0.0\", 0.0], 2], [\"porechop_abi_split\", \"sup\", \"20x\", [\"0.00\", 0.0], [\"0.0\", 0.0], 0], [\"porechop_abi_split\", \"hac\", \"100x\", [\"0.00\", 0.0], [\"0.0\", 0.0], 0], [\"porechop_abi_split\", \"hac\", \"50x\", [\"0.00\", 0.0], [\"0.0\", 0.0], 0], [\"porechop_abi_split\", \"hac\", \"20x\", [\"0.00\", 0.0], [\"0.0\", 0.0], 0], [\"untrimmed\", \"sup\", \"100x\", [\"0.38\", 0.38], [\"0.0\", 0.0], 3], [\"untrimmed\", \"sup\", \"50x\", [\"0.15\", 0.15], [\"0.0\", 0.0], 1], [\"untrimmed\", \"sup\", \"20x\", [\"0.85\", 0.85], [\"0.0\", 0.0], 3], [\"untrimmed\", \"hac\", \"100x\", [\"0.31\", 0.31], [\"0.0\", 0.0], 2], [\"untrimmed\", \"hac\", \"50x\", [\"0.54\", 0.54], [\"0.0\", 0.0], 2], [\"untrimmed\", \"hac\", \"20x\", [\"0.46\", 0.46], [\"0.0\", 0.0], 2]]",
+          "keys_to_be_evaluated": [["columnDefs", 0, "render"]],
+          "layout": {"bottomEnd": "paging", "bottomStart": "info", "topEnd": "search", "topStart": "pageLength"},
+          "lengthMenu": [10, 20, 50],
+          "order": [],
+          "paging": true,
+          "scrollX": true,
+          "style": {"caption-side": "bottom", "margin": "0", "table-layout": "auto", "width": "auto"},
+          "table_html": "<table><thead>\n    <tr style=\"text-align: right;\">\n      \n      <th>trimmer</th>\n      <th>model</th>\n      <th>depth</th>\n      <th>Mean</th>\n      <th>Median</th>\n      <th>Max</th>\n    </tr>\n  </thead></table>",
+          "text_in_header_can_be_selected": true
+        };
+        new ITable(table, dt_args);
+    });
+</script>
+</div>
+</div>
+<div id="502a7966" class="cell" data-execution_count="4">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>COVERAGE_THRESHOLD <span class="op">=</span> <span class="dv">90</span>  <span class="co"># Change this value to adjust the strictness</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>contamination_details <span class="op">=</span> pd.read_csv(<span class="st">"../results/tables/assess/assembly/metrics/contaminant_details.csv"</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> extract_all_coverages(row):</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co">    Extracts numerical percentages for all regions based on the kit type.</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    breakdown <span class="op">=</span> <span class="bu">str</span>(row[<span class="st">'region_breakdown'</span>])</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    kit <span class="op">=</span> <span class="bu">str</span>(row[<span class="st">'kit'</span>])</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    cov_data <span class="op">=</span> {</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">'adapter_cov'</span>: pd.NA,</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>        <span class="st">'left_cov'</span>: pd.NA,</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>        <span class="st">'barcode_cov'</span>: pd.NA,</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>        <span class="st">'right_cov'</span>: pd.NA</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> kit <span class="op">==</span> <span class="st">'rapid'</span>:</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>        m_left <span class="op">=</span> re.search(<span class="vs">r'Left:</span><span class="dv">\s</span><span class="op">*</span><span class="kw">(</span><span class="dv">\d</span><span class="op">+</span><span class="kw">)</span><span class="vs">%'</span>, breakdown)</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>        m_bar <span class="op">=</span> re.search(<span class="vs">r'Bar:</span><span class="dv">\s</span><span class="op">*</span><span class="kw">(</span><span class="dv">\d</span><span class="op">+</span><span class="kw">)</span><span class="vs">%'</span>, breakdown)</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>        m_right <span class="op">=</span> re.search(<span class="vs">r'Right:</span><span class="dv">\s</span><span class="op">*</span><span class="kw">(</span><span class="dv">\d</span><span class="op">+</span><span class="kw">)</span><span class="vs">%'</span>, breakdown)</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> m_left: cov_data[<span class="st">'left_cov'</span>] <span class="op">=</span> <span class="bu">int</span>(m_left.group(<span class="dv">1</span>))</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> m_bar: cov_data[<span class="st">'barcode_cov'</span>] <span class="op">=</span> <span class="bu">int</span>(m_bar.group(<span class="dv">1</span>))</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> m_right: cov_data[<span class="st">'right_cov'</span>] <span class="op">=</span> <span class="bu">int</span>(m_right.group(<span class="dv">1</span>))</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> <span class="st">'native'</span> <span class="kw">in</span> kit:</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>        m_adapter <span class="op">=</span> re.search(<span class="vs">r'Adapter:</span><span class="dv">\s</span><span class="op">*</span><span class="kw">(</span><span class="dv">\d</span><span class="op">+</span><span class="kw">)</span><span class="vs">%'</span>, breakdown)</span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>        m_bar <span class="op">=</span> re.search(<span class="vs">r'Bar</span><span class="ch">\+</span><span class="vs">Flank:</span><span class="dv">\s</span><span class="op">*</span><span class="kw">(</span><span class="dv">\d</span><span class="op">+</span><span class="kw">)</span><span class="vs">%'</span>, breakdown)</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> m_adapter: cov_data[<span class="st">'adapter_cov'</span>] <span class="op">=</span> <span class="bu">int</span>(m_adapter.group(<span class="dv">1</span>))</span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> m_bar: cov_data[<span class="st">'barcode_cov'</span>] <span class="op">=</span> <span class="bu">int</span>(m_bar.group(<span class="dv">1</span>))</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pd.Series(cov_data)</span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply the function and join the new columns</span></span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>extracted_cols <span class="op">=</span> contamination_details.<span class="bu">apply</span>(extract_all_coverages, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>contamination_details <span class="op">=</span> pd.concat([contamination_details, extracted_cols], axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a><span class="co"># Flag rows using the configurable threshold</span></span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>contamination_details[<span class="st">'bar_fully_covered'</span>] <span class="op">=</span> contamination_details[<span class="st">'barcode_cov'</span>] <span class="op">&gt;=</span> COVERAGE_THRESHOLD</span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>contamination_details[<span class="st">'adapter_fully_covered'</span>] <span class="op">=</span> contamination_details[<span class="st">'adapter_cov'</span>] <span class="op">&gt;=</span> COVERAGE_THRESHOLD</span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>contamination_details[<span class="st">'left_fully_covered'</span>] <span class="op">=</span> contamination_details[<span class="st">'left_cov'</span>] <span class="op">&gt;=</span> COVERAGE_THRESHOLD</span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>contamination_details[<span class="st">'right_fully_covered'</span>] <span class="op">=</span> contamination_details[<span class="st">'right_cov'</span>] <span class="op">&gt;=</span> COVERAGE_THRESHOLD</span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a><span class="co"># Force all combinations of Trimmer and Kit to appear (even if count is 0)</span></span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>all_trimmers <span class="op">=</span> contamination_details[<span class="st">'trimmer'</span>].unique()</span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>all_kits <span class="op">=</span> [<span class="st">'native_left'</span>, <span class="st">'native_right'</span>, <span class="st">'rapid'</span>]</span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>contamination_details[<span class="st">'trimmer'</span>] <span class="op">=</span> pd.Categorical(contamination_details[<span class="st">'trimmer'</span>], categories<span class="op">=</span>all_trimmers)</span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>contamination_details[<span class="st">'kit'</span>] <span class="op">=</span> pd.Categorical(contamination_details[<span class="st">'kit'</span>], categories<span class="op">=</span>all_kits)</span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Calculating summaries per trimmer (Threshold: &gt;=</span><span class="sc">{</span>COVERAGE_THRESHOLD<span class="sc">}</span><span class="ss">%)..."</span>)</span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a><span class="co"># 'observed=False' is the magic parameter that includes the empty groups</span></span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a>summary <span class="op">=</span> contamination_details.groupby([<span class="st">'trimmer'</span>, <span class="st">'kit'</span>], observed<span class="op">=</span><span class="va">False</span>).agg(</span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a>    total_hits<span class="op">=</span>(<span class="st">'kit'</span>, <span class="st">'count'</span>),</span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a>    bar_full_count<span class="op">=</span>(<span class="st">'bar_fully_covered'</span>, <span class="st">'sum'</span>),</span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a>    adapter_full_count<span class="op">=</span>(<span class="st">'adapter_fully_covered'</span>, <span class="st">'sum'</span>),</span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a>    left_full_count<span class="op">=</span>(<span class="st">'left_fully_covered'</span>, <span class="st">'sum'</span>),</span>
+<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a>    right_full_count<span class="op">=</span>(<span class="st">'right_fully_covered'</span>, <span class="st">'sum'</span>)</span>
+<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate percentages (using fillna(0) to avoid NaN when total_hits is 0)</span></span>
+<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a>summary[<span class="st">'%_Bar_Full'</span>] <span class="op">=</span> (summary[<span class="st">'bar_full_count'</span>] <span class="op">/</span> summary[<span class="st">'total_hits'</span>] <span class="op">*</span> <span class="dv">100</span>).fillna(<span class="dv">0</span>).<span class="bu">round</span>(<span class="dv">2</span>)</span>
+<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a>summary[<span class="st">'%_Adapter_Full'</span>] <span class="op">=</span> (summary[<span class="st">'adapter_full_count'</span>] <span class="op">/</span> summary[<span class="st">'total_hits'</span>] <span class="op">*</span> <span class="dv">100</span>).fillna(<span class="dv">0</span>).<span class="bu">round</span>(<span class="dv">2</span>)</span>
+<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a>summary[<span class="st">'%_Left_Full'</span>] <span class="op">=</span> (summary[<span class="st">'left_full_count'</span>] <span class="op">/</span> summary[<span class="st">'total_hits'</span>] <span class="op">*</span> <span class="dv">100</span>).fillna(<span class="dv">0</span>).<span class="bu">round</span>(<span class="dv">2</span>)</span>
+<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a>summary[<span class="st">'%_Right_Full'</span>] <span class="op">=</span> (summary[<span class="st">'right_full_count'</span>] <span class="op">/</span> summary[<span class="st">'total_hits'</span>] <span class="op">*</span> <span class="dv">100</span>).fillna(<span class="dv">0</span>).<span class="bu">round</span>(<span class="dv">2</span>)</span>
+<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a><span class="co"># Format the final output DataFrame</span></span>
+<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a>final_summary <span class="op">=</span> summary[[</span>
+<span id="cb4-77"><a href="#cb4-77" aria-hidden="true" tabindex="-1"></a>    <span class="st">'total_hits'</span>,</span>
+<span id="cb4-78"><a href="#cb4-78" aria-hidden="true" tabindex="-1"></a>    <span class="st">'%_Bar_Full'</span>,</span>
+<span id="cb4-79"><a href="#cb4-79" aria-hidden="true" tabindex="-1"></a>    <span class="st">'%_Adapter_Full'</span>,</span>
+<span id="cb4-80"><a href="#cb4-80" aria-hidden="true" tabindex="-1"></a>    <span class="st">'%_Left_Full'</span>,</span>
+<span id="cb4-81"><a href="#cb4-81" aria-hidden="true" tabindex="-1"></a>    <span class="st">'%_Right_Full'</span></span>
+<span id="cb4-82"><a href="#cb4-82" aria-hidden="true" tabindex="-1"></a>]].copy()</span>
+<span id="cb4-83"><a href="#cb4-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-84"><a href="#cb4-84" aria-hidden="true" tabindex="-1"></a><span class="co"># Fix the total_hits formatting (groupby sometimes converts zero-counts to floats)</span></span>
+<span id="cb4-85"><a href="#cb4-85" aria-hidden="true" tabindex="-1"></a>final_summary[<span class="st">'total_hits'</span>] <span class="op">=</span> final_summary[<span class="st">'total_hits'</span>].astype(<span class="bu">int</span>)</span>
+<span id="cb4-86"><a href="#cb4-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-87"><a href="#cb4-87" aria-hidden="true" tabindex="-1"></a>final_summary</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Calculating summaries per trimmer (Threshold: &gt;=90%)...</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">total_hits</th>
+<th data-quarto-table-cell-role="th">%_Bar_Full</th>
+<th data-quarto-table-cell-role="th">%_Adapter_Full</th>
+<th data-quarto-table-cell-role="th">%_Left_Full</th>
+<th data-quarto-table-cell-role="th">%_Right_Full</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">trimmer</th>
+<th data-quarto-table-cell-role="th">kit</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th rowspan="3" data-quarto-table-cell-role="th" data-valign="top">fastplong</th>
+<th data-quarto-table-cell-role="th">native_left</th>
+<td>20</td>
+<td>100.00</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.00</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">native_right</th>
+<td>0</td>
+<td>0.00</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.00</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">rapid</th>
+<td>3</td>
+<td>100.00</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>33.33</td>
+</tr>
+<tr class="even">
+<th rowspan="3" data-quarto-table-cell-role="th" data-valign="top">porechop_abi_nocheck</th>
+<th data-quarto-table-cell-role="th">native_left</th>
+<td>1</td>
+<td>100.00</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.00</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">native_right</th>
+<td>0</td>
+<td>0.00</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.00</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">rapid</th>
+<td>3</td>
+<td>100.00</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>33.33</td>
+</tr>
+<tr class="odd">
+<th rowspan="3" data-quarto-table-cell-role="th" data-valign="top">porechop_abi_discard</th>
+<th data-quarto-table-cell-role="th">native_left</th>
+<td>1</td>
+<td>100.00</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.00</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">native_right</th>
+<td>0</td>
+<td>0.00</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.00</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">rapid</th>
+<td>0</td>
+<td>0.00</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.00</td>
+</tr>
+<tr class="even">
+<th rowspan="3" data-quarto-table-cell-role="th" data-valign="top">porechop_abi_split</th>
+<th data-quarto-table-cell-role="th">native_left</th>
+<td>2</td>
+<td>100.00</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.00</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">native_right</th>
+<td>0</td>
+<td>0.00</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.00</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">rapid</th>
+<td>0</td>
+<td>0.00</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.00</td>
+</tr>
+<tr class="odd">
+<th rowspan="3" data-quarto-table-cell-role="th" data-valign="top">dorado</th>
+<th data-quarto-table-cell-role="th">native_left</th>
+<td>11</td>
+<td>100.00</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.00</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">native_right</th>
+<td>0</td>
+<td>0.00</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.00</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">rapid</th>
+<td>10</td>
+<td>80.00</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>40.00</td>
+</tr>
+<tr class="even">
+<th rowspan="3" data-quarto-table-cell-role="th" data-valign="top">barbell_default</th>
+<th data-quarto-table-cell-role="th">native_left</th>
+<td>1</td>
+<td>100.00</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.00</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">native_right</th>
+<td>0</td>
+<td>0.00</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.00</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">rapid</th>
+<td>0</td>
+<td>0.00</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.00</td>
+</tr>
+<tr class="odd">
+<th rowspan="3" data-quarto-table-cell-role="th" data-valign="top">barbell_max</th>
+<th data-quarto-table-cell-role="th">native_left</th>
+<td>2</td>
+<td>100.00</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.00</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">native_right</th>
+<td>0</td>
+<td>0.00</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.00</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">rapid</th>
+<td>1</td>
+<td>100.00</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.00</td>
+</tr>
+<tr class="even">
+<th rowspan="3" data-quarto-table-cell-role="th" data-valign="top">untrimmed</th>
+<th data-quarto-table-cell-role="th">native_left</th>
+<td>17</td>
+<td>100.00</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.00</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">native_right</th>
+<td>0</td>
+<td>0.00</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.00</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">rapid</th>
+<td>18</td>
+<td>88.89</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>61.11</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="efe1daf0" class="cell" data-execution_count="5">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>NATIVE_SAMPLES <span class="op">=</span> [<span class="st">'AJ292__202310'</span>, <span class="st">'RDH275__202311'</span>, <span class="st">'MMC234__202311'</span>, <span class="st">'BPH2947__202310'</span>, <span class="st">'AMtb_1__202402'</span>, <span class="st">'ATCC_33560__202309'</span>, <span class="st">'ATCC_35221__202309'</span>]</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>RAPID_SAMPLES_COUNT <span class="op">=</span> <span class="dv">9</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>NATIVE_SAMPLES_COUNT <span class="op">=</span> <span class="bu">len</span>(NATIVE_SAMPLES)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>PERMUTATIONS_PER_SAMPLE <span class="op">=</span> <span class="dv">6</span> <span class="co"># (3 depths: 20x, 50x, 100x) * (2 models: sup, hac)</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>TOTAL_NATIVE_ASSEMBLIES <span class="op">=</span> NATIVE_SAMPLES_COUNT <span class="op">*</span> PERMUTATIONS_PER_SAMPLE <span class="co"># 30</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>TOTAL_RAPID_ASSEMBLIES <span class="op">=</span> RAPID_SAMPLES_COUNT <span class="op">*</span> PERMUTATIONS_PER_SAMPLE   <span class="co"># 54</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Load data</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"../results/tables/assess/assembly/metrics/contaminant_details.csv"</span>)</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Categorize samples into Library Types</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'library_type'</span>] <span class="op">=</span> df[<span class="st">'sample'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: <span class="st">'Native-only'</span> <span class="cf">if</span> x <span class="kw">in</span> NATIVE_SAMPLES <span class="cf">else</span> <span class="st">'Rapid-only'</span>)</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure we see all combinations (including zero counts)</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>all_trimmers <span class="op">=</span> df[<span class="st">'trimmer'</span>].unique()</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>all_kits <span class="op">=</span> [<span class="st">'native_left'</span>, <span class="st">'native_right'</span>, <span class="st">'rapid'</span>]</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>all_lib_types <span class="op">=</span> [<span class="st">'Native-only'</span>, <span class="st">'Rapid-only'</span>]</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'trimmer'</span>] <span class="op">=</span> pd.Categorical(df[<span class="st">'trimmer'</span>], categories<span class="op">=</span>all_trimmers)</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'kit'</span>] <span class="op">=</span> pd.Categorical(df[<span class="st">'kit'</span>], categories<span class="op">=</span>all_kits)</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'library_type'</span>] <span class="op">=</span> pd.Categorical(df[<span class="st">'library_type'</span>], categories<span class="op">=</span>all_lib_types)</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Group by Trimmer, Kit, and Library Type to get total hits</span></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>grouped <span class="op">=</span> df.groupby([<span class="st">'trimmer'</span>, <span class="st">'kit'</span>, <span class="st">'library_type'</span>], observed<span class="op">=</span><span class="va">False</span>).size().reset_index(name<span class="op">=</span><span class="st">'total_hits'</span>)</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Pivot so Native-only and Mixed are side-by-side</span></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>pivot_df <span class="op">=</span> grouped.pivot(index<span class="op">=</span>[<span class="st">'trimmer'</span>, <span class="st">'kit'</span>], columns<span class="op">=</span><span class="st">'library_type'</span>, values<span class="op">=</span><span class="st">'total_hits'</span>).fillna(<span class="dv">0</span>)</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate Normalized Metrics (Average Hits per Assembly)</span></span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>pivot_df[<span class="st">'avg_hits_per_native_assembly'</span>] <span class="op">=</span> (pivot_df[<span class="st">'Native-only'</span>] <span class="op">/</span> TOTAL_NATIVE_ASSEMBLIES).<span class="bu">round</span>(<span class="dv">2</span>)</span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>pivot_df[<span class="st">'avg_hits_per_rapid_assembly'</span>] <span class="op">=</span> (pivot_df[<span class="st">'Rapid-only'</span>] <span class="op">/</span> TOTAL_RAPID_ASSEMBLIES).<span class="bu">round</span>(<span class="dv">2</span>)</span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a><span class="co"># Clean up the dataframe for display</span></span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>pivot_df.columns.name <span class="op">=</span> <span class="va">None</span> <span class="co"># Remove the 'library_type' index label on columns</span></span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>pivot_df <span class="op">=</span> pivot_df.rename(columns<span class="op">=</span>{</span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Native-only'</span>: <span class="st">'raw_hits_native'</span>,</span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Rapid-only'</span>: <span class="st">'raw_hits_rapid'</span></span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>}).reset_index()</span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure raw counts are integers</span></span>
+<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a>pivot_df[<span class="st">'raw_hits_native'</span>] <span class="op">=</span> pivot_df[<span class="st">'raw_hits_native'</span>].astype(<span class="bu">int</span>)</span>
+<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a>pivot_df[<span class="st">'raw_hits_rapid'</span>] <span class="op">=</span> pivot_df[<span class="st">'raw_hits_rapid'</span>].astype(<span class="bu">int</span>)</span>
+<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a>pivot_df</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">trimmer</th>
+<th data-quarto-table-cell-role="th">kit</th>
+<th data-quarto-table-cell-role="th">raw_hits_native</th>
+<th data-quarto-table-cell-role="th">raw_hits_rapid</th>
+<th data-quarto-table-cell-role="th">avg_hits_per_native_assembly</th>
+<th data-quarto-table-cell-role="th">avg_hits_per_rapid_assembly</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>fastplong</td>
+<td>native_left</td>
+<td>20</td>
+<td>0</td>
+<td>0.48</td>
+<td>0.00</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>fastplong</td>
+<td>native_right</td>
+<td>0</td>
+<td>0</td>
+<td>0.00</td>
+<td>0.00</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>fastplong</td>
+<td>rapid</td>
+<td>0</td>
+<td>3</td>
+<td>0.00</td>
+<td>0.06</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>porechop_abi_nocheck</td>
+<td>native_left</td>
+<td>1</td>
+<td>0</td>
+<td>0.02</td>
+<td>0.00</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>porechop_abi_nocheck</td>
+<td>native_right</td>
+<td>0</td>
+<td>0</td>
+<td>0.00</td>
+<td>0.00</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">5</th>
+<td>porechop_abi_nocheck</td>
+<td>rapid</td>
+<td>0</td>
+<td>3</td>
+<td>0.00</td>
+<td>0.06</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">6</th>
+<td>porechop_abi_discard</td>
+<td>native_left</td>
+<td>1</td>
+<td>0</td>
+<td>0.02</td>
+<td>0.00</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">7</th>
+<td>porechop_abi_discard</td>
+<td>native_right</td>
+<td>0</td>
+<td>0</td>
+<td>0.00</td>
+<td>0.00</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">8</th>
+<td>porechop_abi_discard</td>
+<td>rapid</td>
+<td>0</td>
+<td>0</td>
+<td>0.00</td>
+<td>0.00</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">9</th>
+<td>porechop_abi_split</td>
+<td>native_left</td>
+<td>2</td>
+<td>0</td>
+<td>0.05</td>
+<td>0.00</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">10</th>
+<td>porechop_abi_split</td>
+<td>native_right</td>
+<td>0</td>
+<td>0</td>
+<td>0.00</td>
+<td>0.00</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">11</th>
+<td>porechop_abi_split</td>
+<td>rapid</td>
+<td>0</td>
+<td>0</td>
+<td>0.00</td>
+<td>0.00</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">12</th>
+<td>dorado</td>
+<td>native_left</td>
+<td>11</td>
+<td>0</td>
+<td>0.26</td>
+<td>0.00</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">13</th>
+<td>dorado</td>
+<td>native_right</td>
+<td>0</td>
+<td>0</td>
+<td>0.00</td>
+<td>0.00</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">14</th>
+<td>dorado</td>
+<td>rapid</td>
+<td>0</td>
+<td>10</td>
+<td>0.00</td>
+<td>0.19</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">15</th>
+<td>barbell_default</td>
+<td>native_left</td>
+<td>1</td>
+<td>0</td>
+<td>0.02</td>
+<td>0.00</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">16</th>
+<td>barbell_default</td>
+<td>native_right</td>
+<td>0</td>
+<td>0</td>
+<td>0.00</td>
+<td>0.00</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">17</th>
+<td>barbell_default</td>
+<td>rapid</td>
+<td>0</td>
+<td>0</td>
+<td>0.00</td>
+<td>0.00</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">18</th>
+<td>barbell_max</td>
+<td>native_left</td>
+<td>2</td>
+<td>0</td>
+<td>0.05</td>
+<td>0.00</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">19</th>
+<td>barbell_max</td>
+<td>native_right</td>
+<td>0</td>
+<td>0</td>
+<td>0.00</td>
+<td>0.00</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">20</th>
+<td>barbell_max</td>
+<td>rapid</td>
+<td>0</td>
+<td>1</td>
+<td>0.00</td>
+<td>0.02</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">21</th>
+<td>untrimmed</td>
+<td>native_left</td>
+<td>17</td>
+<td>0</td>
+<td>0.40</td>
+<td>0.00</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">22</th>
+<td>untrimmed</td>
+<td>native_right</td>
+<td>0</td>
+<td>0</td>
+<td>0.00</td>
+<td>0.00</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">23</th>
+<td>untrimmed</td>
+<td>rapid</td>
+<td>0</td>
+<td>18</td>
+<td>0.00</td>
+<td>0.33</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="c381a1b6" class="cell" data-execution_count="6">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itables <span class="im">import</span> show</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>contamination_details <span class="op">=</span> pd.read_csv(<span class="st">"../results/tables/assess/assembly/metrics/contaminant_details.csv"</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>contamination_details.reset_index(drop<span class="op">=</span><span class="va">True</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>show(contamination_details, scrollX<span class="op">=</span><span class="va">True</span>, scrollY<span class="op">=</span><span class="st">"800px"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<!--| quarto-html-table-processing: none -->
+<table id="itables_dd0922a6_9eb3_44fa_9266_22cb0405528d">
+  <tbody>
+    <tr>
+      <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
+    <g style="fill:#d9d7fc">
+        <path d="M100,400H500V357H100Z"></path>
+        <path d="M100,300H400V257H100Z"></path>
+        <path d="M0,200H400V157H0Z"></path>
+        <path d="M100,100H500V57H100Z"></path>
+        <path d="M100,350H500V307H100Z"></path>
+        <path d="M100,250H400V207H100Z"></path>
+        <path d="M0,150H400V107H0Z"></path>
+        <path d="M100,50H500V7H100Z"></path>
+    </g>
+    <g style="fill:#1a1366;stroke:#1a1366;">
+   <rect x="100" y="7" width="400" height="43">
+    <animate attributename="width" values="0;400;0" dur="5s" repeatcount="indefinite"></animate>
+      <animate attributename="x" values="100;100;500" dur="5s" repeatcount="indefinite"></animate>
+  </rect>
+        <rect x="0" y="107" width="400" height="43">
+    <animate attributename="width" values="0;400;0" dur="3.5s" repeatcount="indefinite"></animate>
+    <animate attributename="x" values="0;0;400" dur="3.5s" repeatcount="indefinite"></animate>
+  </rect>
+        <rect x="100" y="207" width="300" height="43">
+    <animate attributename="width" values="0;300;0" dur="3s" repeatcount="indefinite"></animate>
+    <animate attributename="x" values="100;100;400" dur="3s" repeatcount="indefinite"></animate>
+  </rect>
+        <rect x="100" y="307" width="400" height="43">
+    <animate attributename="width" values="0;400;0" dur="4s" repeatcount="indefinite"></animate>
+      <animate attributename="x" values="100;100;500" dur="4s" repeatcount="indefinite"></animate>
+  </rect>
+        <g style="fill:transparent;stroke-width:8; stroke-linejoin:round" rx="5">
+            <g transform="translate(45 50) rotate(-45)">
+                <circle r="33" cx="0" cy="0"></circle>
+                <rect x="-8" y="32" width="16" height="30"></rect>
+            </g>
+
+            <g transform="translate(450 152)">
+                <polyline points="-15,-20 -35,-20 -35,40 25,40 25,20"></polyline>
+                <rect x="-15" y="-40" width="60" height="60"></rect>
+            </g>
+
+            <g transform="translate(50 352)">
+                <polygon points="-35,-5 0,-40 35,-5"></polygon>
+                <polygon points="-35,10 0,45 35,10"></polygon>
+            </g>
+
+            <g transform="translate(75 250)">
+                <polyline points="-30,30 -60,0 -30,-30"></polyline>
+                <polyline points="0,30 -30,0 0,-30"></polyline>
+            </g>
+
+            <g transform="translate(425 250) rotate(180)">
+                <polyline points="-30,30 -60,0 -30,-30"></polyline>
+                <polyline points="0,30 -30,0 0,-30"></polyline>
+            </g>
+        </g>
+    </g>
+</svg>
+</a>
+        Loading ITables v2.7.3 from the internet...
+        (need <a href="https://mwouts.github.io/itables/troubleshooting.html">help</a>?)
+      </td>
+    </tr>
+  </tbody>
+</table>
+<link href="https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.css" rel="stylesheet">
+<script type="module">
+    import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
+
+    document.querySelectorAll("#itables_dd0922a6_9eb3_44fa_9266_22cb0405528d:not(.dataTable)").forEach(table => {
+        if (!(table instanceof HTMLTableElement))
+            return;
+
+        let dt_args = {
+          "classes": ["display", "nowrap", "compact"],
+          "columnDefs": [{"render": "function (data, type, row, meta) { return type === 'sort' || type === 'type' ? data[1] : data[0]; }", "targets": [11]}],
+          "data_json": "[[\"fastplong\", \"20x\", \"BPH2947__202310\", \"hac\", \"Native_top_4\", \"native_left\", \"contig_3\", \"N\", \"+\", 0, 49, [\"0.96\", 0.96], 80, 36, \"start\", \"[Adapter: 28% | Bar+Flank: 100%]\"], [\"fastplong\", \"20x\", \"BPH2947__202310\", \"hac\", \"Native_top_4\", \"native_left\", \"contig_4\", \"N\", \"-\", 41021, 41070, [\"0.98\", 0.98], 96, 28, \"end\", \"[Adapter: 25% | Bar+Flank: 100%]\"], [\"fastplong\", \"20x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_1\", \"N\", \"+\", 14, 65, [\"1.00\", 1.0], 102, 60, \"start\", \"[Adapter: 31% | Bar+Flank: 100%]\"], [\"fastplong\", \"20x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"-\", 1678257, 1678304, [\"1.00\", 1.0], 94, 29, \"end\", \"[Adapter: 19% | Bar+Flank: 100%]\"], [\"fastplong\", \"20x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_4\", \"N\", \"+\", 0, 45, [\"1.00\", 1.0], 90, 28, \"start\", \"[Adapter: 14% | Bar+Flank: 100%]\"], [\"fastplong\", \"20x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_4\", \"N\", \"-\", 3604, 3644, [\"1.00\", 1.0], 80, 30, \"end\", \"[Adapter: 0% | Bar+Flank: 100%]\"], [\"fastplong\", \"20x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"+\", 0, 50, [\"0.98\", 0.98], 96, 28, \"start\", \"[Adapter: 28% | Bar+Flank: 100%]\"], [\"fastplong\", \"20x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"-\", 3610, 3659, [\"1.00\", 1.0], 98, 29, \"end\", \"[Adapter: 25% | Bar+Flank: 100%]\"], [\"fastplong\", \"20x\", \"MMC234__202311\", \"hac\", \"Native_top_10\", \"native_left\", \"contig_1\", \"N\", \"-\", 2207062, 2207111, [\"1.00\", 1.0], 98, 32, \"end\", \"[Adapter: 25% | Bar+Flank: 100%]\"], [\"fastplong\", \"20x\", \"AMtb_1__202402\", \"hac\", \"Native_top_81\", \"native_left\", \"contig_1\", \"N\", \"+\", 0, 49, [\"0.98\", 0.98], 88, 60, \"start\", \"[Adapter: 25% | Bar+Flank: 100%]\"], [\"fastplong\", \"20x\", \"AMtb_1__202402\", \"hac\", \"Native_top_81\", \"native_left\", \"contig_1\", \"N\", \"-\", 2836853, 2836898, [\"0.93\", 0.93], 54, 12, \"end\", \"[Adapter: 11% | Bar+Flank: 100%]\"], [\"fastplong\", \"20x\", \"AMtb_1__202402\", \"hac\", \"Native_top_82\", \"native_left\", \"contig_2\", \"N\", \"-\", 373, 424, [\"1.00\", 1.0], 102, 60, \"middle\", \"[Adapter: 31% | Bar+Flank: 100%]\"], [\"fastplong\", \"20x\", \"AMtb_1__202402\", \"hac\", \"Native_top_82\", \"native_left\", \"contig_2\", \"N\", \"+\", 446, 496, [\"1.00\", 1.0], 100, 60, \"middle\", \"[Adapter: 28% | Bar+Flank: 100%]\"], [\"fastplong\", \"50x\", \"ATCC_19119__202309\", \"hac\", \"BC13\", \"rapid\", \"contig_3\", \"N\", \"-\", 0, 69, [\"0.99\", 0.99], 132, 60, \"start\", \"[Left: 38% | Bar: 100% | Right: 78%]\"], [\"fastplong\", \"50x\", \"ATCC_19119__202309\", \"hac\", \"BC15\", \"rapid\", \"contig_3\", \"N\", \"+\", 4969, 5019, [\"1.00\", 1.0], 100, 31, \"end\", \"[Left: 38% | Bar: 100% | Right: 40%]\"], [\"fastplong\", \"50x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"+\", 0, 47, [\"1.00\", 1.0], 94, 29, \"start\", \"[Adapter: 19% | Bar+Flank: 100%]\"], [\"fastplong\", \"50x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"-\", 3605, 3645, [\"1.00\", 1.0], 80, 30, \"end\", \"[Adapter: 0% | Bar+Flank: 100%]\"], [\"fastplong\", \"50x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"+\", 0, 51, [\"0.98\", 0.98], 100, 60, \"start\", \"[Adapter: 31% | Bar+Flank: 100%]\"], [\"fastplong\", \"50x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"-\", 3609, 3649, [\"1.00\", 1.0], 80, 30, \"end\", \"[Adapter: 0% | Bar+Flank: 100%]\"], [\"fastplong\", \"100x\", \"ATCC_19119__202309\", \"sup\", \"BC11\", \"rapid\", \"contig_3\", \"N\", \"+\", 27, 108, [\"1.00\", 1.0], 162, 60, \"start\", \"[Left: 44% | Bar: 100% | Right: 100%]\"], [\"fastplong\", \"100x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_1\", \"N\", \"+\", 0, 46, [\"1.00\", 1.0], 92, 29, \"start\", \"[Adapter: 17% | Bar+Flank: 100%]\"], [\"fastplong\", \"100x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_1\", \"N\", \"-\", 3605, 3645, [\"1.00\", 1.0], 80, 30, \"end\", \"[Adapter: 0% | Bar+Flank: 100%]\"], [\"fastplong\", \"100x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"+\", 3, 51, [\"1.00\", 1.0], 96, 29, \"start\", \"[Adapter: 22% | Bar+Flank: 100%]\"], [\"porechop_abi_nocheck\", \"20x\", \"BPH2947__202310\", \"hac\", \"Native_top_4\", \"native_left\", \"contig_3\", \"N\", \"+\", 0, 40, [\"1.00\", 1.0], 80, 28, \"start\", \"[Adapter: 0% | Bar+Flank: 100%]\"], [\"porechop_abi_nocheck\", \"50x\", \"ATCC_17802__202309\", \"hac\", \"BC18\", \"rapid\", \"contig_4\", \"N\", \"-\", 655, 711, [\"0.90\", 0.9], 72, 51, \"middle\", \"[Left: 0% | Bar: 100% | Right: 72%]\"], [\"porechop_abi_nocheck\", \"100x\", \"ATCC_17802__202309\", \"hac\", \"BC18\", \"rapid\", \"contig_3\", \"N\", \"-\", 649, 705, [\"0.90\", 0.9], 72, 51, \"middle\", \"[Left: 0% | Bar: 100% | Right: 72%]\"], [\"porechop_abi_nocheck\", \"100x\", \"ATCC_19119__202309\", \"hac\", \"BC11\", \"rapid\", \"contig_3\", \"N\", \"-\", 3175, 3255, [\"1.00\", 1.0], 160, 60, \"end\", \"[Left: 38% | Bar: 100% | Right: 100%]\"], [\"porechop_abi_discard\", \"50x\", \"BPH2947__202310\", \"hac\", \"Native_top_4\", \"native_left\", \"contig_3\", \"N\", \"-\", 2014, 2052, [\"1.00\", 1.0], 76, 34, \"end\", \"[Adapter: 0% | Bar+Flank: 95%]\"], [\"porechop_abi_split\", \"50x\", \"BPH2947__202310\", \"sup\", \"Native_top_4\", \"native_left\", \"contig_3\", \"N\", \"+\", 0, 39, [\"1.00\", 1.0], 78, 36, \"start\", \"[Adapter: 0% | Bar+Flank: 98%]\"], [\"porechop_abi_split\", \"50x\", \"BPH2947__202310\", \"sup\", \"Native_top_4\", \"native_left\", \"contig_3\", \"N\", \"-\", 4685, 4723, [\"1.00\", 1.0], 76, 34, \"end\", \"[Adapter: 0% | Bar+Flank: 95%]\"], [\"dorado\", \"20x\", \"ATCC_17802__202309\", \"hac\", \"BC06\", \"rapid\", \"contig_3\", \"N\", \"-\", 4340, 4390, [\"1.00\", 1.0], 100, 29, \"middle\", \"[Left: 31% | Bar: 100% | Right: 42%]\"], [\"dorado\", \"20x\", \"ATCC_17802__202309\", \"hac\", \"BC05\", \"rapid\", \"contig_3\", \"N\", \"-\", 4432, 4503, [\"0.99\", 0.99], 132, 34, \"middle\", \"[Left: 81% | Bar: 100% | Right: 68%]\"], [\"dorado\", \"20x\", \"ATCC_17802__202309\", \"hac\", \"BC02\", \"rapid\", \"contig_3\", \"N\", \"-\", 4882, 4933, [\"1.00\", 1.0], 102, 1, \"middle\", \"[Left: 0% | Bar: 17% | Right: 94%]\"], [\"dorado\", \"20x\", \"ATCC_17802__202309\", \"hac\", \"BC17\", \"rapid\", \"contig_3\", \"N\", \"-\", 5000, 5071, [\"1.00\", 1.0], 142, 60, \"middle\", \"[Left: 75% | Bar: 100% | Right: 70%]\"], [\"dorado\", \"20x\", \"BPH2947__202310\", \"sup\", \"Native_top_53\", \"native_left\", \"contig_2\", \"N\", \"+\", 7, 47, [\"1.00\", 1.0], 80, 29, \"start\", \"[Adapter: 0% | Bar+Flank: 100%]\"], [\"dorado\", \"20x\", \"BPH2947__202310\", \"hac\", \"Native_top_4\", \"native_left\", \"contig_3\", \"N\", \"+\", 2, 52, [\"1.00\", 1.0], 100, 29, \"start\", \"[Adapter: 28% | Bar+Flank: 100%]\"], [\"dorado\", \"20x\", \"BPH2947__202310\", \"hac\", \"Native_top_4\", \"native_left\", \"contig_3\", \"N\", \"-\", 3061, 3108, [\"0.94\", 0.94], 68, 18, \"end\", \"[Adapter: 25% | Bar+Flank: 100%]\"], [\"dorado\", \"20x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_5\", \"N\", \"+\", 0, 49, [\"1.00\", 1.0], 98, 29, \"start\", \"[Adapter: 25% | Bar+Flank: 100%]\"], [\"dorado\", \"20x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_5\", \"N\", \"-\", 3607, 3647, [\"1.00\", 1.0], 80, 30, \"end\", \"[Adapter: 0% | Bar+Flank: 100%]\"], [\"dorado\", \"50x\", \"ATCC_17802__202309\", \"sup\", \"BC04\", \"rapid\", \"contig_3\", \"N\", \"-\", 0, 53, [\"0.96\", 0.96], 88, 48, \"start\", \"[Left: 31% | Bar: 100% | Right: 50%]\"], [\"dorado\", \"50x\", \"ATCC_17802__202309\", \"hac\", \"BC11\", \"rapid\", \"contig_3\", \"N\", \"-\", 1906, 1978, [\"1.00\", 1.0], 144, 60, \"middle\", \"[Left: 0% | Bar: 92% | Right: 100%]\"], [\"dorado\", \"50x\", \"ATCC_17802__202309\", \"hac\", \"BC17\", \"rapid\", \"contig_3\", \"N\", \"-\", 2114, 2181, [\"1.00\", 1.0], 134, 33, \"end\", \"[Left: 81% | Bar: 100% | Right: 60%]\"], [\"dorado\", \"50x\", \"ATCC_19119__202309\", \"sup\", \"BC11\", \"rapid\", \"contig_3\", \"N\", \"-\", 3156, 3224, [\"1.00\", 1.0], 136, 60, \"middle\", \"[Left: 0% | Bar: 75% | Right: 100%]\"], [\"dorado\", \"50x\", \"ATCC_19119__202309\", \"sup\", \"BC15\", \"rapid\", \"contig_3\", \"N\", \"-\", 3230, 3309, [\"1.00\", 1.0], 158, 60, \"end\", \"[Left: 38% | Bar: 100% | Right: 98%]\"], [\"dorado\", \"50x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_2\", \"N\", \"+\", 0, 50, [\"0.98\", 0.98], 96, 28, \"start\", \"[Adapter: 28% | Bar+Flank: 100%]\"], [\"dorado\", \"50x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_2\", \"N\", \"-\", 3608, 3648, [\"1.00\", 1.0], 80, 30, \"end\", \"[Adapter: 0% | Bar+Flank: 100%]\"], [\"dorado\", \"100x\", \"ATCC_17802__202309\", \"hac\", \"BC15\", \"rapid\", \"contig_6\", \"N\", \"-\", 2153, 2195, [\"0.98\", 0.98], 68, 27, \"middle\", \"[Left: 31% | Bar: 100% | Right: 24%]\"], [\"dorado\", \"100x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"+\", 0, 48, [\"1.00\", 1.0], 96, 29, \"start\", \"[Adapter: 22% | Bar+Flank: 100%]\"], [\"dorado\", \"100x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"-\", 3606, 3658, [\"1.00\", 1.0], 104, 60, \"end\", \"[Adapter: 33% | Bar+Flank: 100%]\"], [\"dorado\", \"100x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"+\", 0, 50, [\"1.00\", 1.0], 100, 60, \"start\", \"[Adapter: 28% | Bar+Flank: 100%]\"], [\"dorado\", \"100x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"-\", 3608, 3648, [\"1.00\", 1.0], 80, 30, \"end\", \"[Adapter: 0% | Bar+Flank: 100%]\"], [\"barbell_default\", \"20x\", \"ATCC_35221__202309\", \"sup\", \"Native_top_84\", \"native_left\", \"contig_1\", \"N\", \"+\", 13, 50, [\"1.00\", 1.0], 74, 33, \"start\", \"[Adapter: 0% | Bar+Flank: 92%]\"], [\"barbell_max\", \"20x\", \"ATCC_35221__202309\", \"hac\", \"Native_top_84\", \"native_left\", \"contig_1\", \"N\", \"+\", 11, 47, [\"1.00\", 1.0], 72, 31, \"start\", \"[Adapter: 0% | Bar+Flank: 90%]\"], [\"barbell_max\", \"20x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_6\", \"N\", \"-\", 38456, 38518, [\"0.92\", 0.92], 82, 36, \"end\", \"[Adapter: 72% | Bar+Flank: 100%]\"], [\"barbell_max\", \"100x\", \"ATCC_17802__202309\", \"hac\", \"BC18\", \"rapid\", \"contig_3\", \"N\", \"-\", 556, 612, [\"0.90\", 0.9], 72, 51, \"middle\", \"[Left: 0% | Bar: 100% | Right: 72%]\"], [\"untrimmed\", \"20x\", \"ATCC_10708__202309\", \"sup\", \"BC11\", \"rapid\", \"contig_7\", \"N\", \"+\", 49, 115, [\"0.94\", 0.94], 92, 24, \"start\", \"[Left: 0% | Bar: 67% | Right: 100%]\"], [\"untrimmed\", \"20x\", \"ATCC_10708__202309\", \"sup\", \"BC09\", \"rapid\", \"contig_7\", \"N\", \"-\", 4676, 4743, [\"1.00\", 1.0], 134, 60, \"middle\", \"[Left: 0% | Bar: 71% | Right: 100%]\"], [\"untrimmed\", \"20x\", \"ATCC_10708__202309\", \"sup\", \"BC01\", \"rapid\", \"contig_7\", \"N\", \"-\", 4743, 4823, [\"1.00\", 1.0], 160, 60, \"end\", \"[Left: 38% | Bar: 100% | Right: 100%]\"], [\"untrimmed\", \"20x\", \"ATCC_17802__202309\", \"sup\", \"BC18\", \"rapid\", \"contig_3\", \"N\", \"-\", 3406, 3486, [\"1.00\", 1.0], 160, 60, \"end\", \"[Left: 38% | Bar: 100% | Right: 100%]\"], [\"untrimmed\", \"20x\", \"ATCC_25922__202309\", \"hac\", \"BC11\", \"rapid\", \"contig_3\", \"N\", \"-\", 5129591, 5129653, [\"1.00\", 1.0], 124, 60, \"end\", \"[Left: 69% | Bar: 100% | Right: 54%]\"], [\"untrimmed\", \"20x\", \"ATCC_25922__202309\", \"hac\", \"BC11\", \"rapid\", \"contig_4\", \"N\", \"-\", 3304, 3384, [\"1.00\", 1.0], 160, 60, \"end\", \"[Left: 38% | Bar: 100% | Right: 100%]\"], [\"untrimmed\", \"20x\", \"ATCC_19119__202309\", \"sup\", \"BC11\", \"rapid\", \"contig_3\", \"N\", \"-\", 3162, 3246, [\"0.93\", 0.93], 122, 45, \"middle\", \"[Left: 38% | Bar: 100% | Right: 100%]\"], [\"untrimmed\", \"20x\", \"ATCC_19119__202309\", \"sup\", \"BC07\", \"rapid\", \"contig_3\", \"N\", \"-\", 3251, 3319, [\"1.00\", 1.0], 136, 60, \"end\", \"[Left: 44% | Bar: 100% | Right: 74%]\"], [\"untrimmed\", \"20x\", \"ATCC_BAA-679__202309\", \"hac\", \"BC08\", \"rapid\", \"contig_5\", \"N\", \"-\", 4664, 4745, [\"0.98\", 0.98], 136, 60, \"end\", \"[Left: 38% | Bar: 100% | Right: 100%]\"], [\"untrimmed\", \"20x\", \"BPH2947__202310\", \"sup\", \"Native_top_4\", \"native_left\", \"contig_3\", \"N\", \"+\", 0, 47, [\"1.00\", 1.0], 94, 29, \"start\", \"[Adapter: 19% | Bar+Flank: 100%]\"], [\"untrimmed\", \"20x\", \"BPH2947__202310\", \"sup\", \"Native_top_4\", \"native_left\", \"contig_3\", \"N\", \"-\", 3059, 3126, [\"1.00\", 1.0], 134, 60, \"end\", \"[Adapter: 75% | Bar+Flank: 100%]\"], [\"untrimmed\", \"20x\", \"BPH2947__202310\", \"hac\", \"Native_top_53\", \"native_left\", \"contig_2\", \"N\", \"-\", 55035, 55084, [\"0.98\", 0.98], 96, 30, \"end\", \"[Adapter: 25% | Bar+Flank: 100%]\"], [\"untrimmed\", \"20x\", \"AJ292__202310\", \"sup\", \"Native_top_22\", \"native_left\", \"contig_4\", \"N\", \"-\", 24791, 24849, [\"0.97\", 0.97], 96, 29, \"end\", \"[Adapter: 50% | Bar+Flank: 100%]\"], [\"untrimmed\", \"20x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"+\", 0, 48, [\"1.00\", 1.0], 96, 29, \"start\", \"[Adapter: 22% | Bar+Flank: 100%]\"], [\"untrimmed\", \"20x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"-\", 3607, 3671, [\"1.00\", 1.0], 128, 60, \"end\", \"[Adapter: 67% | Bar+Flank: 100%]\"], [\"untrimmed\", \"20x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"+\", 6, 56, [\"1.00\", 1.0], 100, 29, \"start\", \"[Adapter: 28% | Bar+Flank: 100%]\"], [\"untrimmed\", \"20x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"-\", 3615, 3683, [\"0.97\", 0.97], 112, 60, \"end\", \"[Adapter: 81% | Bar+Flank: 100%]\"], [\"untrimmed\", \"50x\", \"ATCC_10708__202309\", \"hac\", \"BC09\", \"rapid\", \"contig_5\", \"N\", \"-\", 3164, 3245, [\"0.95\", 0.95], 116, 56, \"end\", \"[Left: 38% | Bar: 100% | Right: 96%]\"], [\"untrimmed\", \"50x\", \"ATCC_19119__202309\", \"sup\", \"BC11\", \"rapid\", \"contig_3\", \"N\", \"-\", 3192, 3275, [\"1.00\", 1.0], 166, 60, \"end\", \"[Left: 56% | Bar: 100% | Right: 100%]\"], [\"untrimmed\", \"50x\", \"ATCC_19119__202309\", \"hac\", \"BC07\", \"rapid\", \"contig_3\", \"N\", \"-\", 3164, 3242, [\"1.00\", 1.0], 156, 60, \"end\", \"[Left: 38% | Bar: 100% | Right: 96%]\"], [\"untrimmed\", \"50x\", \"ATCC_BAA-679__202309\", \"hac\", \"BC11\", \"rapid\", \"contig_3\", \"N\", \"-\", 3237, 3297, [\"1.00\", 1.0], 120, 60, \"end\", \"[Left: 38% | Bar: 100% | Right: 60%]\"], [\"untrimmed\", \"50x\", \"BPH2947__202310\", \"hac\", \"Native_top_4\", \"native_left\", \"contig_2\", \"N\", \"+\", 0, 48, [\"0.98\", 0.98], 94, 28, \"start\", \"[Adapter: 22% | Bar+Flank: 100%]\"], [\"untrimmed\", \"50x\", \"BPH2947__202310\", \"hac\", \"Native_top_4\", \"native_left\", \"contig_2\", \"N\", \"-\", 3972, 4038, [\"1.00\", 1.0], 132, 60, \"end\", \"[Adapter: 72% | Bar+Flank: 100%]\"], [\"untrimmed\", \"50x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"+\", 0, 43, [\"1.00\", 1.0], 86, 28, \"start\", \"[Adapter: 8% | Bar+Flank: 100%]\"], [\"untrimmed\", \"50x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"+\", 11, 54, [\"1.00\", 1.0], 86, 28, \"start\", \"[Adapter: 8% | Bar+Flank: 100%]\"], [\"untrimmed\", \"50x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"-\", 3612, 3684, [\"0.99\", 0.99], 138, 60, \"end\", \"[Adapter: 89% | Bar+Flank: 100%]\"], [\"untrimmed\", \"100x\", \"ATCC_17802__202309\", \"sup\", \"BC13\", \"rapid\", \"contig_5\", \"N\", \"-\", 36, 88, [\"1.00\", 1.0], 104, 30, \"start\", \"[Left: 38% | Bar: 100% | Right: 44%]\"], [\"untrimmed\", \"100x\", \"ATCC_17802__202309\", \"sup\", \"BC04\", \"rapid\", \"contig_5\", \"N\", \"-\", 131, 208, [\"1.00\", 1.0], 154, 60, \"middle\", \"[Left: 75% | Bar: 100% | Right: 82%]\"], [\"untrimmed\", \"100x\", \"ATCC_17802__202309\", \"sup\", \"BC11\", \"rapid\", \"contig_5\", \"N\", \"-\", 2142, 2222, [\"1.00\", 1.0], 160, 60, \"end\", \"[Left: 38% | Bar: 100% | Right: 100%]\"], [\"untrimmed\", \"100x\", \"ATCC_19119__202309\", \"hac\", \"BC07\", \"rapid\", \"contig_3\", \"N\", \"+\", 39, 108, [\"1.00\", 1.0], 138, 60, \"start\", \"[Left: 38% | Bar: 100% | Right: 78%]\"], [\"untrimmed\", \"100x\", \"ATCC_19119__202309\", \"hac\", \"BC15\", \"rapid\", \"contig_3\", \"N\", \"-\", 4880, 4947, [\"1.00\", 1.0], 134, 60, \"end\", \"[Left: 38% | Bar: 100% | Right: 74%]\"], [\"untrimmed\", \"100x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"+\", 0, 47, [\"1.00\", 1.0], 94, 29, \"start\", \"[Adapter: 19% | Bar+Flank: 100%]\"], [\"untrimmed\", \"100x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"-\", 3606, 3677, [\"0.99\", 0.99], 138, 60, \"end\", \"[Adapter: 86% | Bar+Flank: 100%]\"], [\"untrimmed\", \"100x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"+\", 0, 46, [\"1.00\", 1.0], 92, 29, \"start\", \"[Adapter: 17% | Bar+Flank: 100%]\"], [\"untrimmed\", \"100x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"-\", 3604, 3646, [\"1.00\", 1.0], 84, 28, \"end\", \"[Adapter: 6% | Bar+Flank: 100%]\"]]",
+          "keys_to_be_evaluated": [["columnDefs", 0, "render"]],
+          "layout": {"bottomEnd": "paging", "bottomStart": "info", "topEnd": "search", "topStart": "pageLength"},
+          "order": [],
+          "scrollX": true,
+          "scrollY": "800px",
+          "style": {"caption-side": "bottom", "margin": "0", "table-layout": "auto", "width": "auto"},
+          "table_html": "<table><thead>\n    <tr style=\"text-align: right;\">\n      \n      <th>trimmer</th>\n      <th>depth</th>\n      <th>sample</th>\n      <th>model</th>\n      <th>query</th>\n      <th>kit</th>\n      <th>target_contig</th>\n      <th>is_circular</th>\n      <th>strand</th>\n      <th>c_start</th>\n      <th>c_end</th>\n      <th>identity</th>\n      <th>dp_score</th>\n      <th>mapq</th>\n      <th>position</th>\n      <th>region_breakdown</th>\n    </tr>\n  </thead></table>",
+          "text_in_header_can_be_selected": true
+        };
+        new ITable(table, dt_args);
+    });
+</script>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/adimascf\.github\.io\/biox7021\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>BIOX7021 Logbook - 2026</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
