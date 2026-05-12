@@ -485,7 +485,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
-<p>Pulled away the lowest depth sample, KPC2 (less than 100x in the original dataset). Left only 13 samples above.</p>
+<p>Removed the lowest-depth sample, KPC2__202310 (original depth &lt;100×), leaving 13 samples in the dataset.</p>
 </section>
 <section id="current-pipeline" class="level2">
 <h2 class="anchored" data-anchor-id="current-pipeline">Current pipeline</h2>
@@ -500,7 +500,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="assembly">Assembly</h2>
 <section id="contamination-count" class="level3">
 <h3 class="anchored" data-anchor-id="contamination-count">Contamination count</h3>
-<div id="41c0205a" class="cell" data-execution_count="1">
+<div id="b80d6c5b" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import pandas as pd</span></span>
@@ -552,6 +552,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </figure>
 </div>
 <ul>
+<li>Now the contamination counts are much lower overall, and the results are more comparable and less extreme than those from last week.</li>
 <li>Every single contig that has barcode/adapter contaminants is non-circular, even in the 100x datasets.</li>
 <li>Vast majority of the residual adapter/barcode are at the start or end of the contigs.</li>
 <li>Few intances are in the middle, does it indicate the chimeric reads?</li>
@@ -562,7 +563,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="contamination-details" class="level3">
 <h3 class="anchored" data-anchor-id="contamination-details">Contamination details</h3>
-<div id="2adfa4ba" class="cell" data-execution_count="2">
+<div id="bbdef0c0" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -576,7 +577,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_0b886677_ccf6_4e36_8955_73b849007c34">
+<table id="itables_2fa60d44_1f5f_43b0_ab20_18f52bef8377">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -646,7 +647,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_0b886677_ccf6_4e36_8955_73b849007c34:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_2fa60d44_1f5f_43b0_ab20_18f52bef8377:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
@@ -668,7 +669,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </script>
 </div>
 </div>
-<div id="ac629b3a" class="cell" data-execution_count="3">
+<div id="ac2bccbf" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import pandas as pd</span></span>
@@ -767,7 +768,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="sequence-and-structural-accuracy-average" class="level3">
 <h3 class="anchored" data-anchor-id="sequence-and-structural-accuracy-average">Sequence and Structural Accuracy (Average)</h3>
-<div id="0db57a78" class="cell" data-execution_count="4">
+<div id="f9b61559" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -787,7 +788,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_3e929dda_d438_48dd_8b3c_ef071381e2f9">
+<table id="itables_10b18c3a_4413_4175_b33d_8e06eb82c271">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -857,7 +858,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_3e929dda_d438_48dd_8b3c_ef071381e2f9:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_10b18c3a_4413_4175_b33d_8e06eb82c271:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
@@ -902,7 +903,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="variant-calling">Variant calling</h2>
 <section id="precision-recall-and-f1-scrore" class="level3">
 <h3 class="anchored" data-anchor-id="precision-recall-and-f1-scrore">Precision, Recall, and F1 scrore</h3>
-<div id="e80b4ef4" class="cell" data-execution_count="5">
+<div id="a647cef8" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -916,7 +917,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_571f98ee_fd58_4033_9c74_6039600d1764">
+<table id="itables_0e5e02bc_4b91_4211_a940_5820f682cd15">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -986,7 +987,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_571f98ee_fd58_4033_9c74_6039600d1764:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_0e5e02bc_4b91_4211_a940_5820f682cd15:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
