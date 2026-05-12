@@ -475,7 +475,7 @@ window.Quarto = {
 <p>Their fasta is here in <a href="https://github.com/rickbeeloo/barbell/blob/master/examples/rapid_bars.fasta">their repository</a>, and the information of this left flank - barcode right flank sequences is here on <a href="https://nanoporetech.com/document/chemistry-technical-document#barcode-sequences">ONT doc</a>.</p>
 <p>They set <code>k=20</code> in their script, meaning that sequences within a distance threshold up to 20bp are matched and reported as contaminants.</p>
 <p>Adapted from their script, I wrote <a href="">this script</a> to detect barcode contaminants in our tested assembly result. Before i tested in our assembly, I tested the script on their assembly result where they found three contaminants on it. I manually demultiplexed their fastq file, and ran their assembly pipeine (Flye -&gt; Medaka) to get their BC49 sample assembly.</p>
-<div id="3a7e439a" class="cell" data-execution_count="1">
+<div id="63a9a76d" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!python detect_adapter_contamination_cli.py -a bc49_medaka_consensus.114.fasta -b rapid_flanks_w_bars.fasta -o bc49_contam.114.tsv</span></span>
@@ -491,7 +491,7 @@ window.Quarto = {
 <p>It does match their finding where they found 3 contaminants hits in the BC49, including the 90bp contamination with 0 distance in the first 90 in the contig.</p>
 <p>I also did notice, they mention that they were using SQK-RBK110.96 kit in the paper, but they specify SQK-RBK114.96 kit for dorado demux command in their script. Not sure how much this discrepancy impact demultiplexing overall, but in my case, it does make difference on how many hits found.</p>
 <p>With the “correct” kit paramter <code>SQK-RBK110-96</code> for dorado demux, using the same script, I only found one hit (the hit with 0 distance)</p>
-<div id="9522f3cf" class="cell" data-execution_count="2">
+<div id="ba22b4c2" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!python detect_adapter_contamination_cli.py -a bc49_medaka_consensus.110.fasta -b rapid_flanks_w_bars.fasta -o bc49_contam.110.tsv</span></span>
@@ -523,14 +523,14 @@ window.Quarto = {
 <section id="absolute-number-of-contamination-count" class="level4">
 <h4 class="anchored" data-anchor-id="absolute-number-of-contamination-count">Absolute number of contamination count</h4>
 <p>Which condition that has the most, in average, contamination of native and/or rapid sequences:</p>
-<div id="bd555772" class="cell" data-execution_count="3">
+<div id="bbd37fb4" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import pandas as pd</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># import matplotlib.pyplot as plt</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># import seaborn as sns</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># contamination_count = pd.read_csv("../results/tables/assess/assembly/metrics/contaminant_summary_count.csv")</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># contamination_count = pd.read_csv("../results/tables/assess/assembly-prev/metrics/contaminant_summary_count.csv")</span></span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># sns.set_theme(style="whitegrid")</span></span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># models = ["sup", "hac"]</span></span>
@@ -565,25 +565,25 @@ window.Quarto = {
 <span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a><span class="co">#         ax.get_legend().remove()</span></span>
 <span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a><span class="co"># fig.tight_layout()</span></span>
-<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.savefig("../results/figures/assess/assembly/metrics/assembly_contamination.png")</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.savefig("../results/figures/assess/assembly-prev/metrics/assembly_contamination.png")</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="../results/figures/assess/assembly/metrics/assembly_contamination.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Adapter/Barcode contamination:"><img src="../results/figures/assess/assembly/metrics/assembly_contamination.png" class="img-fluid figure-img" alt="Adapter/Barcode contamination:"></a></p>
+<p><a href="../results/figures/assess/assembly-prev/metrics/assembly_contamination.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Adapter/Barcode contamination:"><img src="../results/figures/assess/assembly-prev/metrics/assembly_contamination.png" class="img-fluid figure-img" alt="Adapter/Barcode contamination:"></a></p>
 <figcaption>Adapter/Barcode contamination:</figcaption>
 </figure>
 </div>
 </section>
 <section id="mean-median-and-max-of-contamination-count" class="level4">
 <h4 class="anchored" data-anchor-id="mean-median-and-max-of-contamination-count">Mean, median, and max of contamination count</h4>
-<div id="3ef19dbc" class="cell" data-execution_count="4">
+<div id="82e52a1d" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import pandas as pd</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># from itables import show</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># contamination_count = pd.read_csv("../results/tables/assess/assembly/metrics/contaminant_summary_count.csv")</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># contamination_count = pd.read_csv("../results/tables/assess/assembly-prev/metrics/contaminant_summary_count.csv")</span></span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># # broup by trimmer, model, and depth, then calculate multiple statistics across the samples</span></span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># summary_stats = contamination_count.groupby(["trimmer", "model", "depth"])["contamination_count"].agg(</span></span>
@@ -619,7 +619,7 @@ window.Quarto = {
 </section>
 <section id="raw-counts" class="level4">
 <h4 class="anchored" data-anchor-id="raw-counts">Raw counts</h4>
-<div id="576e5ff3" class="cell" data-execution_count="5">
+<div id="947e1f2c" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># from itables import show</span></span>
@@ -631,10 +631,10 @@ window.Quarto = {
 <section id="contamination-details" class="level4">
 <h4 class="anchored" data-anchor-id="contamination-details">Contamination details</h4>
 <p>Actually, not all of the contamination hits have distance 0, they sometimes have high distance as well. For example here in the sup:</p>
-<div id="e8c00b6e" class="cell" data-execution_count="6">
+<div id="8d4f8148" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># contamination_details = pd.read_csv("../results/tables/assess/assembly/metrics/contaminant_details.csv")</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># contamination_details = pd.read_csv("../results/tables/assess/assembly-prev/metrics/contaminant_details.csv")</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># contamination_details_sup = contamination_details[contamination_details["model"]=="sup"]</span></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -652,7 +652,7 @@ window.Quarto = {
 <h4 class="anchored" data-anchor-id="mismatches-and-indels-in-sup-and-hac">Mismatches and INDELS in sup and hac</h4>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="../results/figures/assess/assembly/metrics/assembly_errors_per_100kbp.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Mismatches and INDELS"><img src="../results/figures/assess/assembly/metrics/assembly_errors_per_100kbp.png" class="img-fluid figure-img" alt="Mismatches and INDELS"></a></p>
+<p><a href="../results/figures/assess/assembly-prev/metrics/assembly_errors_per_100kbp.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Mismatches and INDELS"><img src="../results/figures/assess/assembly-prev/metrics/assembly_errors_per_100kbp.png" class="img-fluid figure-img" alt="Mismatches and INDELS"></a></p>
 <figcaption>Mismatches and INDELS</figcaption>
 </figure>
 </div>
@@ -661,7 +661,7 @@ window.Quarto = {
 <h4 class="anchored" data-anchor-id="mismatches-and-indels-in-sup-and-hac-comapred-against-untrimmed">Mismatches and INDELS in sup and hac (comapred against untrimmed)</h4>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="../results/figures/assess/assembly/metrics/assembly_delta_errors.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Mismatches and INDELS (Improvment)"><img src="../results/figures/assess/assembly/metrics/assembly_delta_errors.png" class="img-fluid figure-img" alt="Mismatches and INDELS (Improvment)"></a></p>
+<p><a href="../results/figures/assess/assembly-prev/metrics/assembly_delta_errors.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Mismatches and INDELS (Improvment)"><img src="../results/figures/assess/assembly-prev/metrics/assembly_delta_errors.png" class="img-fluid figure-img" alt="Mismatches and INDELS (Improvment)"></a></p>
 <figcaption>Mismatches and INDELS (Improvment)</figcaption>
 </figure>
 </div>
@@ -670,7 +670,7 @@ window.Quarto = {
 <h4 class="anchored" data-anchor-id="nga50-in-sup-and-hac">NGA50 in sup and hac</h4>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="../results/figures/assess/assembly/metrics/assembly_nga50.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="NGA50"><img src="../results/figures/assess/assembly/metrics/assembly_nga50.png" class="img-fluid figure-img" alt="NGA50"></a></p>
+<p><a href="../results/figures/assess/assembly-prev/metrics/assembly_nga50.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="NGA50"><img src="../results/figures/assess/assembly-prev/metrics/assembly_nga50.png" class="img-fluid figure-img" alt="NGA50"></a></p>
 <figcaption>NGA50</figcaption>
 </figure>
 </div>
@@ -679,7 +679,7 @@ window.Quarto = {
 <h4 class="anchored" data-anchor-id="nga50-in-sup-and-hac-compared-against-untrimmed">NGA50 in sup and hac (compared against untrimmed)</h4>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="../results/figures/assess/assembly/metrics/assembly_delta_nga50.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="NGA50 (Improvement)"><img src="../results/figures/assess/assembly/metrics/assembly_delta_nga50.png" class="img-fluid figure-img" alt="NGA50 (Improvement)"></a></p>
+<p><a href="../results/figures/assess/assembly-prev/metrics/assembly_delta_nga50.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="NGA50 (Improvement)"><img src="../results/figures/assess/assembly-prev/metrics/assembly_delta_nga50.png" class="img-fluid figure-img" alt="NGA50 (Improvement)"></a></p>
 <figcaption>NGA50 (Improvement)</figcaption>
 </figure>
 </div>
@@ -693,23 +693,23 @@ window.Quarto = {
 <p>Barbell with –maximize parameter seems to perform the best for all trimming tools both on sup low depth dataset</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="../results/figures/assess/call/metrics/trimming_variant_delta_fn.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="False negative"><img src="../results/figures/assess/call/metrics/trimming_variant_delta_fn.png" class="img-fluid figure-img" alt="False negative"></a></p>
+<p><a href="../results/figures/assess/call-prev/metrics/trimming_variant_delta_fn.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="False negative"><img src="../results/figures/assess/call-prev/metrics/trimming_variant_delta_fn.png" class="img-fluid figure-img" alt="False negative"></a></p>
 <figcaption>False negative</figcaption>
 </figure>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="../results/figures/assess/call/metrics/trimming_variant_delta_fp.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="False positive"><img src="../results/figures/assess/call/metrics/trimming_variant_delta_fp.png" class="img-fluid figure-img" alt="False positive"></a></p>
+<p><a href="../results/figures/assess/call-prev/metrics/trimming_variant_delta_fp.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="False positive"><img src="../results/figures/assess/call-prev/metrics/trimming_variant_delta_fp.png" class="img-fluid figure-img" alt="False positive"></a></p>
 <figcaption>False positive</figcaption>
 </figure>
 </div>
-<div id="072ca9ed" class="cell" data-execution_count="7">
+<div id="03fd8fdd" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itables <span class="im">import</span> show</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>fn_fp_numbers <span class="op">=</span> pd.read_csv(<span class="st">"../results/tables/assess/call/metrics/trimming_variant_summary_averages.csv"</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>fn_fp_numbers <span class="op">=</span> pd.read_csv(<span class="st">"../results/tables/assess/call-prev/metrics/trimming_variant_summary_averages.csv"</span>)</span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>fn_fp_numbers.reset_index(drop<span class="op">=</span><span class="va">True</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
@@ -717,7 +717,7 @@ window.Quarto = {
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_d2efd5b0_bdbc_4b6e_80f5_292dcd94ea36">
+<table id="itables_e1259e77_488e_4caf_aa45_abaecbbbe7fc">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -787,7 +787,7 @@ window.Quarto = {
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_d2efd5b0_bdbc_4b6e_80f5_292dcd94ea36:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_e1259e77_488e_4caf_aa45_abaecbbbe7fc:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
@@ -814,29 +814,29 @@ window.Quarto = {
 <h3 class="anchored" data-anchor-id="f1-recall-and-precision-in-variant-calling">F1, Recall, and Precision in Variant Calling</h3>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="../results/figures/assess/call/metrics/trimming_variant_f1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8" title="F1"><img src="../results/figures/assess/call/metrics/trimming_variant_f1.png" class="img-fluid figure-img" alt="F1"></a></p>
+<p><a href="../results/figures/assess/call-prev/metrics/trimming_variant_f1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8" title="F1"><img src="../results/figures/assess/call-prev/metrics/trimming_variant_f1.png" class="img-fluid figure-img" alt="F1"></a></p>
 <figcaption>F1</figcaption>
 </figure>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="../results/figures/assess/call/metrics/trimming_variant_precision.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9" title="Precision"><img src="../results/figures/assess/call/metrics/trimming_variant_precision.png" class="img-fluid figure-img" alt="Precision"></a></p>
+<p><a href="../results/figures/assess/call-prev/metrics/trimming_variant_precision.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9" title="Precision"><img src="../results/figures/assess/call-prev/metrics/trimming_variant_precision.png" class="img-fluid figure-img" alt="Precision"></a></p>
 <figcaption>Precision</figcaption>
 </figure>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="../results/figures/assess/call/metrics/trimming_variant_recall.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10" title="Recall"><img src="../results/figures/assess/call/metrics/trimming_variant_recall.png" class="img-fluid figure-img" alt="Recall"></a></p>
+<p><a href="../results/figures/assess/call-prev/metrics/trimming_variant_recall.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10" title="Recall"><img src="../results/figures/assess/call-prev/metrics/trimming_variant_recall.png" class="img-fluid figure-img" alt="Recall"></a></p>
 <figcaption>Recall</figcaption>
 </figure>
 </div>
-<div id="95e9663f" class="cell" data-execution_count="8">
+<div id="c8385d57" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itables <span class="im">import</span> show</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>average_metrics <span class="op">=</span> pd.read_csv(<span class="st">"../results/tables/assess/call/metrics/trimming_variant_summary_averages.csv"</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>average_metrics <span class="op">=</span> pd.read_csv(<span class="st">"../results/tables/assess/call-prev/metrics/trimming_variant_summary_averages.csv"</span>)</span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>average_metrics.reset_index(drop<span class="op">=</span><span class="va">True</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
@@ -844,7 +844,7 @@ window.Quarto = {
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_bfb906e3_8194_484e_8e76_95b2335602c6">
+<table id="itables_a0086b17_3c17_4232_95fa_6ed858dedbee">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -914,7 +914,7 @@ window.Quarto = {
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_bfb906e3_8194_484e_8e76_95b2335602c6:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_a0086b17_3c17_4232_95fa_6ed858dedbee:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 

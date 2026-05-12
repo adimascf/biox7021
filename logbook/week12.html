@@ -377,6 +377,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#samples-and-kit" id="toc-samples-and-kit" class="nav-link active" data-scroll-target="#samples-and-kit">13 Samples and kit</a></li>
   <li><a href="#current-pipeline" id="toc-current-pipeline" class="nav-link" data-scroll-target="#current-pipeline">Current pipeline</a></li>
+  <li><a href="#scan-barcodeadapter-contamination-in-the-reference-assemblies" id="toc-scan-barcodeadapter-contamination-in-the-reference-assemblies" class="nav-link" data-scroll-target="#scan-barcodeadapter-contamination-in-the-reference-assemblies">Scan barcode/adapter contamination in the reference assemblies</a></li>
   </ul>
 </nav>
     </div>
@@ -467,6 +468,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
+<p>Pulled away the lowest depth sample, KPC2 (less than 100x in the original dataset). Left only 13 samples above</p>
 </section>
 <section id="current-pipeline" class="level2">
 <h2 class="anchored" data-anchor-id="current-pipeline">Current pipeline</h2>
@@ -476,79 +478,73 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <figcaption>Pipeline with with trim and notrim at the start</figcaption>
 </figure>
 </div>
-<div id="407fe14b" class="cell" data-execution_count="1">
+<div id="07a672fe" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import pandas as pd</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># import matplotlib.pyplot as plt</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># import seaborn as sns</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>contamination_count <span class="op">=</span> pd.read_csv(<span class="st">"../results/tables/assess/assembly/metrics/contaminant_summary_count.csv"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># contamination_count = pd.read_csv("../results/tables/assess/assembly/metrics/contaminant_summary_count.csv")</span></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>sns.set_theme(style<span class="op">=</span><span class="st">"whitegrid"</span>)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>models <span class="op">=</span> [<span class="st">"sup"</span>, <span class="st">"hac"</span>]</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>hue_order <span class="op">=</span> [<span class="st">"100x"</span>, <span class="st">"50x"</span>, <span class="st">"20x"</span>]</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>order_abs <span class="op">=</span> <span class="bu">sorted</span>(contamination_count[<span class="st">"trimmer"</span>].unique())</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># sns.set_theme(style="whitegrid")</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># models = ["sup", "hac"]</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># hue_order = ["100x", "50x", "20x"]</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># order_abs = sorted(contamination_count["trimmer"].unique())</span></span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(nrows<span class="op">=</span><span class="dv">1</span>, ncols<span class="op">=</span><span class="bu">len</span>(models), figsize<span class="op">=</span>(<span class="dv">14</span>, <span class="fl">5.5</span>), dpi<span class="op">=</span><span class="dv">100</span>, sharex<span class="op">=</span><span class="va">True</span>, sharey<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># fig, axes = plt.subplots(nrows=1, ncols=len(models), figsize=(14, 5.5), dpi=100, sharex=True, sharey=True)</span></span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> c, model <span class="kw">in</span> <span class="bu">enumerate</span>(models):</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> axes[c]</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># During loop 1, the variable `model` equals "sup"</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    contamination_count_sub <span class="op">=</span> contamination_count.query(<span class="st">"model == @model"</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># for c, model in enumerate(models):</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">#     ax = axes[c]</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co">#     # During loop 1, the variable `model` equals "sup"</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co">#     contamination_count_sub = contamination_count.query("model == @model")</span></span>
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> contamination_count_sub.empty:</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>        sns.boxplot(data<span class="op">=</span>contamination_count_sub, x<span class="op">=</span><span class="st">"trimmer"</span>, y<span class="op">=</span><span class="st">"contamination_count"</span>, hue<span class="op">=</span><span class="st">"depth"</span>, order<span class="op">=</span>order_abs, hue_order<span class="op">=</span>hue_order, ax<span class="op">=</span>ax, fliersize<span class="op">=</span><span class="dv">0</span>, gap<span class="op">=</span><span class="fl">0.1</span>)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co">#     if not contamination_count_sub.empty:</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co">#         sns.boxplot(data=contamination_count_sub, x="trimmer", y="contamination_count", hue="depth", order=order_abs, hue_order=hue_order, ax=ax, fliersize=0, gap=0.1)</span></span>
 <span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>        sns.stripplot(data<span class="op">=</span>contamination_count_sub, x<span class="op">=</span><span class="st">"trimmer"</span>, y<span class="op">=</span><span class="st">"contamination_count"</span>, hue<span class="op">=</span><span class="st">"depth"</span>, order<span class="op">=</span>order_abs, hue_order<span class="op">=</span>hue_order, ax<span class="op">=</span>ax, alpha<span class="op">=</span><span class="fl">0.6</span>, dodge<span class="op">=</span><span class="va">True</span>, linewidth<span class="op">=</span><span class="fl">0.5</span>, edgecolor<span class="op">=</span><span class="st">"black"</span>, legend<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="co">#         sns.stripplot(data=contamination_count_sub, x="trimmer", y="contamination_count", hue="depth", order=order_abs, hue_order=hue_order, ax=ax, alpha=0.6, dodge=True, linewidth=0.5, edgecolor="black", legend=False)</span></span>
 <span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># force standard numbers instead of scientific notation</span></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    ax.yaxis.set_major_formatter(plt.ScalarFormatter())</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co">#     # force standard numbers instead of scientific notation</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="co">#     ax.yaxis.set_major_formatter(plt.ScalarFormatter())</span></span>
 <span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># clean up the labels for a polished look</span></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    ax.set_ylabel(<span class="st">"Contamination Count"</span> <span class="cf">if</span> c <span class="op">==</span> <span class="dv">0</span> <span class="cf">else</span> <span class="st">""</span>)</span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    ax.set_title(<span class="ss">f"Number of Contaminants - </span><span class="sc">{</span>model<span class="sc">.</span>upper()<span class="sc">}</span><span class="ss"> Model"</span>)</span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    ax.set_xlabel(<span class="st">""</span>)</span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    ax.set_xticks(ax.get_xticks())</span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>    ax.set_xticklabels(ax.get_xticklabels(), rotation<span class="op">=</span><span class="dv">45</span>, ha<span class="op">=</span><span class="st">"right"</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="co">#     # clean up the labels for a polished look</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="co">#     ax.set_ylabel("Contamination Count" if c == 0 else "")</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="co">#     ax.set_title(f"Number of Contaminants - {model.upper()} Model")</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="co">#     ax.set_xlabel("")</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="co">#     ax.set_xticks(ax.get_xticks())</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="co">#     ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha="right", fontsize=11)</span></span>
 <span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> c <span class="op">==</span> <span class="dv">1</span> <span class="kw">and</span> ax.get_legend() <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>        ax.legend(title<span class="op">=</span><span class="st">"Depth"</span>, bbox_to_anchor<span class="op">=</span>(<span class="fl">1.05</span>, <span class="dv">1</span>), loc<span class="op">=</span><span class="st">'upper left'</span>)</span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> ax.get_legend() <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>        ax.get_legend().remove()</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="co">#     if c == 1 and ax.get_legend() is not None:</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="co">#         ax.legend(title="Depth", bbox_to_anchor=(1.05, 1), loc='upper left')</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="co">#     elif ax.get_legend() is not None:</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="co">#         ax.get_legend().remove()</span></span>
 <span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>fig.tight_layout()</span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">"../results/figures/assess/assembly/metrics/assembly_contamination_minimap2_9may.png"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="co"># fig.tight_layout()</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.savefig("../results/figures/assess/assembly/metrics/assembly_contamination_minimap2_9may.png")</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="week12_files/figure-html/cell-2-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="week12_files/figure-html/cell-2-output-1.png" width="1387" height="534" class="figure-img"></a></p>
-</figure>
-</div>
-</div>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="../results/figures/assess/assembly/metrics/assembly_contamination_minimap2_9may.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Contamination count (minimap2)"><img src="../results/figures/assess/assembly/metrics/assembly_contamination_minimap2_9may.png" class="img-fluid figure-img" alt="Contamination count (minimap2)"></a></p>
+<p><a href="../results/figures/assess/assembly/metrics/assembly_contamination_minimap2_9may.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Contamination count (minimap2)"><img src="../results/figures/assess/assembly/metrics/assembly_contamination_minimap2_9may.png" class="img-fluid figure-img" alt="Contamination count (minimap2)"></a></p>
 <figcaption>Contamination count (minimap2)</figcaption>
 </figure>
 </div>
-<div id="a4f60b0a" class="cell" data-execution_count="2">
+<div id="8228d47e" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itables <span class="im">import</span> show</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>contamination_count <span class="op">=</span> pd.read_csv(<span class="st">"../results/tables/assess/assembly/metrics/contaminant_summary_count.csv"</span>)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itables <span class="im">import</span> show</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>contamination_details <span class="op">=</span> pd.read_csv(<span class="st">"../results/tables/assess/assembly/metrics/contaminant_details.csv"</span>)</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>contamination_count.reset_index(drop<span class="op">=</span><span class="va">True</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>show(contamination_count, scrollX<span class="op">=</span><span class="va">True</span>, scrollY<span class="op">=</span><span class="st">"800px"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>contamination_details.reset_index(drop<span class="op">=</span><span class="va">True</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>show(contamination_details, scrollX<span class="op">=</span><span class="va">True</span>, scrollY<span class="op">=</span><span class="st">"800px"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_dd9c1657_c58c_418f_9011_3434a5196740">
+<table id="itables_80ed6239_e2d8_4f92_8cb8_a092ac05bb48">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -618,7 +614,118 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_dd9c1657_c58c_418f_9011_3434a5196740:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_80ed6239_e2d8_4f92_8cb8_a092ac05bb48:not(.dataTable)").forEach(table => {
+        if (!(table instanceof HTMLTableElement))
+            return;
+
+        let dt_args = {
+          "classes": ["display", "nowrap", "compact"],
+          "columnDefs": [{"render": "function (data, type, row, meta) { return type === 'sort' || type === 'type' ? data[1] : data[0]; }", "targets": [11]}],
+          "data_json": "[[\"fastplong\", \"20x\", \"BPH2947__202310\", \"hac\", \"Native_top_4\", \"native_left\", \"contig_3\", \"N\", \"+\", 0, 49, [\"0.96\", 0.96], 80, 36, \"start\", \"[Adapter: 28% | Bar+Flank: 100%]\"], [\"fastplong\", \"20x\", \"BPH2947__202310\", \"hac\", \"Native_top_4\", \"native_left\", \"contig_4\", \"N\", \"-\", 41021, 41070, [\"0.98\", 0.98], 96, 28, \"end\", \"[Adapter: 25% | Bar+Flank: 100%]\"], [\"fastplong\", \"20x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_1\", \"N\", \"+\", 14, 65, [\"1.00\", 1.0], 102, 60, \"start\", \"[Adapter: 31% | Bar+Flank: 100%]\"], [\"fastplong\", \"20x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"-\", 1678257, 1678304, [\"1.00\", 1.0], 94, 29, \"end\", \"[Adapter: 19% | Bar+Flank: 100%]\"], [\"fastplong\", \"20x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_4\", \"N\", \"+\", 0, 45, [\"1.00\", 1.0], 90, 28, \"start\", \"[Adapter: 14% | Bar+Flank: 100%]\"], [\"fastplong\", \"20x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_4\", \"N\", \"-\", 3604, 3644, [\"1.00\", 1.0], 80, 30, \"end\", \"[Adapter: 0% | Bar+Flank: 100%]\"], [\"fastplong\", \"20x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"+\", 0, 50, [\"0.98\", 0.98], 96, 28, \"start\", \"[Adapter: 28% | Bar+Flank: 100%]\"], [\"fastplong\", \"20x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"-\", 3610, 3659, [\"1.00\", 1.0], 98, 29, \"end\", \"[Adapter: 25% | Bar+Flank: 100%]\"], [\"fastplong\", \"20x\", \"MMC234__202311\", \"hac\", \"Native_top_10\", \"native_left\", \"contig_1\", \"N\", \"-\", 2207062, 2207111, [\"1.00\", 1.0], 98, 32, \"end\", \"[Adapter: 25% | Bar+Flank: 100%]\"], [\"fastplong\", \"20x\", \"AMtb_1__202402\", \"hac\", \"Native_top_81\", \"native_left\", \"contig_1\", \"N\", \"+\", 0, 49, [\"0.98\", 0.98], 88, 60, \"start\", \"[Adapter: 25% | Bar+Flank: 100%]\"], [\"fastplong\", \"20x\", \"AMtb_1__202402\", \"hac\", \"Native_top_81\", \"native_left\", \"contig_1\", \"N\", \"-\", 2836853, 2836898, [\"0.93\", 0.93], 54, 12, \"end\", \"[Adapter: 11% | Bar+Flank: 100%]\"], [\"fastplong\", \"20x\", \"AMtb_1__202402\", \"hac\", \"Native_top_82\", \"native_left\", \"contig_2\", \"N\", \"-\", 373, 424, [\"1.00\", 1.0], 102, 60, \"middle\", \"[Adapter: 31% | Bar+Flank: 100%]\"], [\"fastplong\", \"20x\", \"AMtb_1__202402\", \"hac\", \"Native_top_82\", \"native_left\", \"contig_2\", \"N\", \"+\", 446, 496, [\"1.00\", 1.0], 100, 60, \"middle\", \"[Adapter: 28% | Bar+Flank: 100%]\"], [\"fastplong\", \"50x\", \"ATCC_19119__202309\", \"hac\", \"BC13\", \"rapid\", \"contig_3\", \"N\", \"-\", 0, 69, [\"0.99\", 0.99], 132, 60, \"start\", \"[Left: 38% | Bar: 100% | Right: 78%]\"], [\"fastplong\", \"50x\", \"ATCC_19119__202309\", \"hac\", \"BC15\", \"rapid\", \"contig_3\", \"N\", \"+\", 4969, 5019, [\"1.00\", 1.0], 100, 31, \"end\", \"[Left: 38% | Bar: 100% | Right: 40%]\"], [\"fastplong\", \"50x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"+\", 0, 47, [\"1.00\", 1.0], 94, 29, \"start\", \"[Adapter: 19% | Bar+Flank: 100%]\"], [\"fastplong\", \"50x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"-\", 3605, 3645, [\"1.00\", 1.0], 80, 30, \"end\", \"[Adapter: 0% | Bar+Flank: 100%]\"], [\"fastplong\", \"50x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"+\", 0, 51, [\"0.98\", 0.98], 100, 60, \"start\", \"[Adapter: 31% | Bar+Flank: 100%]\"], [\"fastplong\", \"50x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"-\", 3609, 3649, [\"1.00\", 1.0], 80, 30, \"end\", \"[Adapter: 0% | Bar+Flank: 100%]\"], [\"fastplong\", \"100x\", \"ATCC_19119__202309\", \"sup\", \"BC11\", \"rapid\", \"contig_3\", \"N\", \"+\", 27, 108, [\"1.00\", 1.0], 162, 60, \"start\", \"[Left: 44% | Bar: 100% | Right: 100%]\"], [\"fastplong\", \"100x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_1\", \"N\", \"+\", 0, 46, [\"1.00\", 1.0], 92, 29, \"start\", \"[Adapter: 17% | Bar+Flank: 100%]\"], [\"fastplong\", \"100x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_1\", \"N\", \"-\", 3605, 3645, [\"1.00\", 1.0], 80, 30, \"end\", \"[Adapter: 0% | Bar+Flank: 100%]\"], [\"fastplong\", \"100x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"+\", 3, 51, [\"1.00\", 1.0], 96, 29, \"start\", \"[Adapter: 22% | Bar+Flank: 100%]\"], [\"porechop_abi_nocheck\", \"20x\", \"BPH2947__202310\", \"hac\", \"Native_top_4\", \"native_left\", \"contig_3\", \"N\", \"+\", 0, 40, [\"1.00\", 1.0], 80, 28, \"start\", \"[Adapter: 0% | Bar+Flank: 100%]\"], [\"porechop_abi_nocheck\", \"50x\", \"ATCC_17802__202309\", \"hac\", \"BC18\", \"rapid\", \"contig_4\", \"N\", \"-\", 655, 711, [\"0.90\", 0.9], 72, 51, \"middle\", \"[Left: 0% | Bar: 100% | Right: 72%]\"], [\"porechop_abi_nocheck\", \"100x\", \"ATCC_17802__202309\", \"hac\", \"BC18\", \"rapid\", \"contig_3\", \"N\", \"-\", 649, 705, [\"0.90\", 0.9], 72, 51, \"middle\", \"[Left: 0% | Bar: 100% | Right: 72%]\"], [\"porechop_abi_nocheck\", \"100x\", \"ATCC_19119__202309\", \"hac\", \"BC11\", \"rapid\", \"contig_3\", \"N\", \"-\", 3175, 3255, [\"1.00\", 1.0], 160, 60, \"end\", \"[Left: 38% | Bar: 100% | Right: 100%]\"], [\"porechop_abi_discard\", \"50x\", \"BPH2947__202310\", \"hac\", \"Native_top_4\", \"native_left\", \"contig_3\", \"N\", \"-\", 2014, 2052, [\"1.00\", 1.0], 76, 34, \"end\", \"[Adapter: 0% | Bar+Flank: 95%]\"], [\"porechop_abi_split\", \"50x\", \"BPH2947__202310\", \"sup\", \"Native_top_4\", \"native_left\", \"contig_3\", \"N\", \"+\", 0, 39, [\"1.00\", 1.0], 78, 36, \"start\", \"[Adapter: 0% | Bar+Flank: 98%]\"], [\"porechop_abi_split\", \"50x\", \"BPH2947__202310\", \"sup\", \"Native_top_4\", \"native_left\", \"contig_3\", \"N\", \"-\", 4685, 4723, [\"1.00\", 1.0], 76, 34, \"end\", \"[Adapter: 0% | Bar+Flank: 95%]\"], [\"dorado\", \"20x\", \"ATCC_17802__202309\", \"hac\", \"BC06\", \"rapid\", \"contig_3\", \"N\", \"-\", 4340, 4390, [\"1.00\", 1.0], 100, 29, \"middle\", \"[Left: 31% | Bar: 100% | Right: 42%]\"], [\"dorado\", \"20x\", \"ATCC_17802__202309\", \"hac\", \"BC05\", \"rapid\", \"contig_3\", \"N\", \"-\", 4432, 4503, [\"0.99\", 0.99], 132, 34, \"middle\", \"[Left: 81% | Bar: 100% | Right: 68%]\"], [\"dorado\", \"20x\", \"ATCC_17802__202309\", \"hac\", \"BC02\", \"rapid\", \"contig_3\", \"N\", \"-\", 4882, 4933, [\"1.00\", 1.0], 102, 1, \"middle\", \"[Left: 0% | Bar: 17% | Right: 94%]\"], [\"dorado\", \"20x\", \"ATCC_17802__202309\", \"hac\", \"BC17\", \"rapid\", \"contig_3\", \"N\", \"-\", 5000, 5071, [\"1.00\", 1.0], 142, 60, \"middle\", \"[Left: 75% | Bar: 100% | Right: 70%]\"], [\"dorado\", \"20x\", \"BPH2947__202310\", \"sup\", \"Native_top_53\", \"native_left\", \"contig_2\", \"N\", \"+\", 7, 47, [\"1.00\", 1.0], 80, 29, \"start\", \"[Adapter: 0% | Bar+Flank: 100%]\"], [\"dorado\", \"20x\", \"BPH2947__202310\", \"hac\", \"Native_top_4\", \"native_left\", \"contig_3\", \"N\", \"+\", 2, 52, [\"1.00\", 1.0], 100, 29, \"start\", \"[Adapter: 28% | Bar+Flank: 100%]\"], [\"dorado\", \"20x\", \"BPH2947__202310\", \"hac\", \"Native_top_4\", \"native_left\", \"contig_3\", \"N\", \"-\", 3061, 3108, [\"0.94\", 0.94], 68, 18, \"end\", \"[Adapter: 25% | Bar+Flank: 100%]\"], [\"dorado\", \"20x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_5\", \"N\", \"+\", 0, 49, [\"1.00\", 1.0], 98, 29, \"start\", \"[Adapter: 25% | Bar+Flank: 100%]\"], [\"dorado\", \"20x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_5\", \"N\", \"-\", 3607, 3647, [\"1.00\", 1.0], 80, 30, \"end\", \"[Adapter: 0% | Bar+Flank: 100%]\"], [\"dorado\", \"50x\", \"ATCC_17802__202309\", \"sup\", \"BC04\", \"rapid\", \"contig_3\", \"N\", \"-\", 0, 53, [\"0.96\", 0.96], 88, 48, \"start\", \"[Left: 31% | Bar: 100% | Right: 50%]\"], [\"dorado\", \"50x\", \"ATCC_17802__202309\", \"hac\", \"BC11\", \"rapid\", \"contig_3\", \"N\", \"-\", 1906, 1978, [\"1.00\", 1.0], 144, 60, \"middle\", \"[Left: 0% | Bar: 92% | Right: 100%]\"], [\"dorado\", \"50x\", \"ATCC_17802__202309\", \"hac\", \"BC17\", \"rapid\", \"contig_3\", \"N\", \"-\", 2114, 2181, [\"1.00\", 1.0], 134, 33, \"end\", \"[Left: 81% | Bar: 100% | Right: 60%]\"], [\"dorado\", \"50x\", \"ATCC_19119__202309\", \"sup\", \"BC11\", \"rapid\", \"contig_3\", \"N\", \"-\", 3156, 3224, [\"1.00\", 1.0], 136, 60, \"middle\", \"[Left: 0% | Bar: 75% | Right: 100%]\"], [\"dorado\", \"50x\", \"ATCC_19119__202309\", \"sup\", \"BC15\", \"rapid\", \"contig_3\", \"N\", \"-\", 3230, 3309, [\"1.00\", 1.0], 158, 60, \"end\", \"[Left: 38% | Bar: 100% | Right: 98%]\"], [\"dorado\", \"50x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_2\", \"N\", \"+\", 0, 50, [\"0.98\", 0.98], 96, 28, \"start\", \"[Adapter: 28% | Bar+Flank: 100%]\"], [\"dorado\", \"50x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_2\", \"N\", \"-\", 3608, 3648, [\"1.00\", 1.0], 80, 30, \"end\", \"[Adapter: 0% | Bar+Flank: 100%]\"], [\"dorado\", \"100x\", \"ATCC_17802__202309\", \"hac\", \"BC15\", \"rapid\", \"contig_6\", \"N\", \"-\", 2153, 2195, [\"0.98\", 0.98], 68, 27, \"middle\", \"[Left: 31% | Bar: 100% | Right: 24%]\"], [\"dorado\", \"100x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"+\", 0, 48, [\"1.00\", 1.0], 96, 29, \"start\", \"[Adapter: 22% | Bar+Flank: 100%]\"], [\"dorado\", \"100x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"-\", 3606, 3658, [\"1.00\", 1.0], 104, 60, \"end\", \"[Adapter: 33% | Bar+Flank: 100%]\"], [\"dorado\", \"100x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"+\", 0, 50, [\"1.00\", 1.0], 100, 60, \"start\", \"[Adapter: 28% | Bar+Flank: 100%]\"], [\"dorado\", \"100x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"-\", 3608, 3648, [\"1.00\", 1.0], 80, 30, \"end\", \"[Adapter: 0% | Bar+Flank: 100%]\"], [\"barbell_default\", \"20x\", \"ATCC_35221__202309\", \"sup\", \"Native_top_84\", \"native_left\", \"contig_1\", \"N\", \"+\", 13, 50, [\"1.00\", 1.0], 74, 33, \"start\", \"[Adapter: 0% | Bar+Flank: 92%]\"], [\"barbell_max\", \"20x\", \"ATCC_35221__202309\", \"hac\", \"Native_top_84\", \"native_left\", \"contig_1\", \"N\", \"+\", 11, 47, [\"1.00\", 1.0], 72, 31, \"start\", \"[Adapter: 0% | Bar+Flank: 90%]\"], [\"barbell_max\", \"20x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_6\", \"N\", \"-\", 38456, 38518, [\"0.92\", 0.92], 82, 36, \"end\", \"[Adapter: 72% | Bar+Flank: 100%]\"], [\"barbell_max\", \"100x\", \"ATCC_17802__202309\", \"hac\", \"BC18\", \"rapid\", \"contig_3\", \"N\", \"-\", 556, 612, [\"0.90\", 0.9], 72, 51, \"middle\", \"[Left: 0% | Bar: 100% | Right: 72%]\"], [\"untrimmed\", \"20x\", \"ATCC_10708__202309\", \"sup\", \"BC11\", \"rapid\", \"contig_7\", \"N\", \"+\", 49, 115, [\"0.94\", 0.94], 92, 24, \"start\", \"[Left: 0% | Bar: 67% | Right: 100%]\"], [\"untrimmed\", \"20x\", \"ATCC_10708__202309\", \"sup\", \"BC09\", \"rapid\", \"contig_7\", \"N\", \"-\", 4676, 4743, [\"1.00\", 1.0], 134, 60, \"middle\", \"[Left: 0% | Bar: 71% | Right: 100%]\"], [\"untrimmed\", \"20x\", \"ATCC_10708__202309\", \"sup\", \"BC01\", \"rapid\", \"contig_7\", \"N\", \"-\", 4743, 4823, [\"1.00\", 1.0], 160, 60, \"end\", \"[Left: 38% | Bar: 100% | Right: 100%]\"], [\"untrimmed\", \"20x\", \"ATCC_17802__202309\", \"sup\", \"BC18\", \"rapid\", \"contig_3\", \"N\", \"-\", 3406, 3486, [\"1.00\", 1.0], 160, 60, \"end\", \"[Left: 38% | Bar: 100% | Right: 100%]\"], [\"untrimmed\", \"20x\", \"ATCC_25922__202309\", \"hac\", \"BC11\", \"rapid\", \"contig_3\", \"N\", \"-\", 5129591, 5129653, [\"1.00\", 1.0], 124, 60, \"end\", \"[Left: 69% | Bar: 100% | Right: 54%]\"], [\"untrimmed\", \"20x\", \"ATCC_25922__202309\", \"hac\", \"BC11\", \"rapid\", \"contig_4\", \"N\", \"-\", 3304, 3384, [\"1.00\", 1.0], 160, 60, \"end\", \"[Left: 38% | Bar: 100% | Right: 100%]\"], [\"untrimmed\", \"20x\", \"ATCC_19119__202309\", \"sup\", \"BC11\", \"rapid\", \"contig_3\", \"N\", \"-\", 3162, 3246, [\"0.93\", 0.93], 122, 45, \"middle\", \"[Left: 38% | Bar: 100% | Right: 100%]\"], [\"untrimmed\", \"20x\", \"ATCC_19119__202309\", \"sup\", \"BC07\", \"rapid\", \"contig_3\", \"N\", \"-\", 3251, 3319, [\"1.00\", 1.0], 136, 60, \"end\", \"[Left: 44% | Bar: 100% | Right: 74%]\"], [\"untrimmed\", \"20x\", \"ATCC_BAA-679__202309\", \"hac\", \"BC08\", \"rapid\", \"contig_5\", \"N\", \"-\", 4664, 4745, [\"0.98\", 0.98], 136, 60, \"end\", \"[Left: 38% | Bar: 100% | Right: 100%]\"], [\"untrimmed\", \"20x\", \"BPH2947__202310\", \"sup\", \"Native_top_4\", \"native_left\", \"contig_3\", \"N\", \"+\", 0, 47, [\"1.00\", 1.0], 94, 29, \"start\", \"[Adapter: 19% | Bar+Flank: 100%]\"], [\"untrimmed\", \"20x\", \"BPH2947__202310\", \"sup\", \"Native_top_4\", \"native_left\", \"contig_3\", \"N\", \"-\", 3059, 3126, [\"1.00\", 1.0], 134, 60, \"end\", \"[Adapter: 75% | Bar+Flank: 100%]\"], [\"untrimmed\", \"20x\", \"BPH2947__202310\", \"hac\", \"Native_top_53\", \"native_left\", \"contig_2\", \"N\", \"-\", 55035, 55084, [\"0.98\", 0.98], 96, 30, \"end\", \"[Adapter: 25% | Bar+Flank: 100%]\"], [\"untrimmed\", \"20x\", \"AJ292__202310\", \"sup\", \"Native_top_22\", \"native_left\", \"contig_4\", \"N\", \"-\", 24791, 24849, [\"0.97\", 0.97], 96, 29, \"end\", \"[Adapter: 50% | Bar+Flank: 100%]\"], [\"untrimmed\", \"20x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"+\", 0, 48, [\"1.00\", 1.0], 96, 29, \"start\", \"[Adapter: 22% | Bar+Flank: 100%]\"], [\"untrimmed\", \"20x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"-\", 3607, 3671, [\"1.00\", 1.0], 128, 60, \"end\", \"[Adapter: 67% | Bar+Flank: 100%]\"], [\"untrimmed\", \"20x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"+\", 6, 56, [\"1.00\", 1.0], 100, 29, \"start\", \"[Adapter: 28% | Bar+Flank: 100%]\"], [\"untrimmed\", \"20x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"-\", 3615, 3683, [\"0.97\", 0.97], 112, 60, \"end\", \"[Adapter: 81% | Bar+Flank: 100%]\"], [\"untrimmed\", \"50x\", \"ATCC_10708__202309\", \"hac\", \"BC09\", \"rapid\", \"contig_5\", \"N\", \"-\", 3164, 3245, [\"0.95\", 0.95], 116, 56, \"end\", \"[Left: 38% | Bar: 100% | Right: 96%]\"], [\"untrimmed\", \"50x\", \"ATCC_19119__202309\", \"sup\", \"BC11\", \"rapid\", \"contig_3\", \"N\", \"-\", 3192, 3275, [\"1.00\", 1.0], 166, 60, \"end\", \"[Left: 56% | Bar: 100% | Right: 100%]\"], [\"untrimmed\", \"50x\", \"ATCC_19119__202309\", \"hac\", \"BC07\", \"rapid\", \"contig_3\", \"N\", \"-\", 3164, 3242, [\"1.00\", 1.0], 156, 60, \"end\", \"[Left: 38% | Bar: 100% | Right: 96%]\"], [\"untrimmed\", \"50x\", \"ATCC_BAA-679__202309\", \"hac\", \"BC11\", \"rapid\", \"contig_3\", \"N\", \"-\", 3237, 3297, [\"1.00\", 1.0], 120, 60, \"end\", \"[Left: 38% | Bar: 100% | Right: 60%]\"], [\"untrimmed\", \"50x\", \"BPH2947__202310\", \"hac\", \"Native_top_4\", \"native_left\", \"contig_2\", \"N\", \"+\", 0, 48, [\"0.98\", 0.98], 94, 28, \"start\", \"[Adapter: 22% | Bar+Flank: 100%]\"], [\"untrimmed\", \"50x\", \"BPH2947__202310\", \"hac\", \"Native_top_4\", \"native_left\", \"contig_2\", \"N\", \"-\", 3972, 4038, [\"1.00\", 1.0], 132, 60, \"end\", \"[Adapter: 72% | Bar+Flank: 100%]\"], [\"untrimmed\", \"50x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"+\", 0, 43, [\"1.00\", 1.0], 86, 28, \"start\", \"[Adapter: 8% | Bar+Flank: 100%]\"], [\"untrimmed\", \"50x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"+\", 11, 54, [\"1.00\", 1.0], 86, 28, \"start\", \"[Adapter: 8% | Bar+Flank: 100%]\"], [\"untrimmed\", \"50x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"-\", 3612, 3684, [\"0.99\", 0.99], 138, 60, \"end\", \"[Adapter: 89% | Bar+Flank: 100%]\"], [\"untrimmed\", \"100x\", \"ATCC_17802__202309\", \"sup\", \"BC13\", \"rapid\", \"contig_5\", \"N\", \"-\", 36, 88, [\"1.00\", 1.0], 104, 30, \"start\", \"[Left: 38% | Bar: 100% | Right: 44%]\"], [\"untrimmed\", \"100x\", \"ATCC_17802__202309\", \"sup\", \"BC04\", \"rapid\", \"contig_5\", \"N\", \"-\", 131, 208, [\"1.00\", 1.0], 154, 60, \"middle\", \"[Left: 75% | Bar: 100% | Right: 82%]\"], [\"untrimmed\", \"100x\", \"ATCC_17802__202309\", \"sup\", \"BC11\", \"rapid\", \"contig_5\", \"N\", \"-\", 2142, 2222, [\"1.00\", 1.0], 160, 60, \"end\", \"[Left: 38% | Bar: 100% | Right: 100%]\"], [\"untrimmed\", \"100x\", \"ATCC_19119__202309\", \"hac\", \"BC07\", \"rapid\", \"contig_3\", \"N\", \"+\", 39, 108, [\"1.00\", 1.0], 138, 60, \"start\", \"[Left: 38% | Bar: 100% | Right: 78%]\"], [\"untrimmed\", \"100x\", \"ATCC_19119__202309\", \"hac\", \"BC15\", \"rapid\", \"contig_3\", \"N\", \"-\", 4880, 4947, [\"1.00\", 1.0], 134, 60, \"end\", \"[Left: 38% | Bar: 100% | Right: 74%]\"], [\"untrimmed\", \"100x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"+\", 0, 47, [\"1.00\", 1.0], 94, 29, \"start\", \"[Adapter: 19% | Bar+Flank: 100%]\"], [\"untrimmed\", \"100x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"-\", 3606, 3677, [\"0.99\", 0.99], 138, 60, \"end\", \"[Adapter: 86% | Bar+Flank: 100%]\"], [\"untrimmed\", \"100x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"+\", 0, 46, [\"1.00\", 1.0], 92, 29, \"start\", \"[Adapter: 17% | Bar+Flank: 100%]\"], [\"untrimmed\", \"100x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"-\", 3604, 3646, [\"1.00\", 1.0], 84, 28, \"end\", \"[Adapter: 6% | Bar+Flank: 100%]\"]]",
+          "keys_to_be_evaluated": [["columnDefs", 0, "render"]],
+          "layout": {"bottomEnd": "paging", "bottomStart": "info", "topEnd": "search", "topStart": "pageLength"},
+          "order": [],
+          "scrollX": true,
+          "scrollY": "800px",
+          "style": {"caption-side": "bottom", "margin": "0", "table-layout": "auto", "width": "auto"},
+          "table_html": "<table><thead>\n    <tr style=\"text-align: right;\">\n      \n      <th>trimmer</th>\n      <th>depth</th>\n      <th>sample</th>\n      <th>model</th>\n      <th>query</th>\n      <th>kit</th>\n      <th>target_contig</th>\n      <th>is_circular</th>\n      <th>strand</th>\n      <th>c_start</th>\n      <th>c_end</th>\n      <th>identity</th>\n      <th>dp_score</th>\n      <th>mapq</th>\n      <th>position</th>\n      <th>region_breakdown</th>\n    </tr>\n  </thead></table>",
+          "text_in_header_can_be_selected": true
+        };
+        new ITable(table, dt_args);
+    });
+</script>
+</div>
+</div>
+<ul>
+<li>Every single contig that has barcode/adapter contaminants is non-circular, even in the 100x datasets.</li>
+<li>Vast majority of the residual adapter/barcode are at the start or end of the contigs.</li>
+<li>Few intances are in the middle, does it indicate the chimeric reads?</li>
+</ul>
+<div id="f13ec1ca" class="cell" data-execution_count="3">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itables <span class="im">import</span> show</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>contamination_count <span class="op">=</span> pd.read_csv(<span class="st">"../results/tables/assess/assembly/metrics/contaminant_summary_count.csv"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>contamination_count.reset_index(drop<span class="op">=</span><span class="va">True</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>show(contamination_count, scrollX<span class="op">=</span><span class="va">True</span>, scrollY<span class="op">=</span><span class="st">"800px"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<!--| quarto-html-table-processing: none -->
+<table id="itables_3d007cc4_7194_4c02_b874_860dd549a58c">
+  <tbody>
+    <tr>
+      <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
+    <g style="fill:#d9d7fc">
+        <path d="M100,400H500V357H100Z"></path>
+        <path d="M100,300H400V257H100Z"></path>
+        <path d="M0,200H400V157H0Z"></path>
+        <path d="M100,100H500V57H100Z"></path>
+        <path d="M100,350H500V307H100Z"></path>
+        <path d="M100,250H400V207H100Z"></path>
+        <path d="M0,150H400V107H0Z"></path>
+        <path d="M100,50H500V7H100Z"></path>
+    </g>
+    <g style="fill:#1a1366;stroke:#1a1366;">
+   <rect x="100" y="7" width="400" height="43">
+    <animate attributename="width" values="0;400;0" dur="5s" repeatcount="indefinite"></animate>
+      <animate attributename="x" values="100;100;500" dur="5s" repeatcount="indefinite"></animate>
+  </rect>
+        <rect x="0" y="107" width="400" height="43">
+    <animate attributename="width" values="0;400;0" dur="3.5s" repeatcount="indefinite"></animate>
+    <animate attributename="x" values="0;0;400" dur="3.5s" repeatcount="indefinite"></animate>
+  </rect>
+        <rect x="100" y="207" width="300" height="43">
+    <animate attributename="width" values="0;300;0" dur="3s" repeatcount="indefinite"></animate>
+    <animate attributename="x" values="100;100;400" dur="3s" repeatcount="indefinite"></animate>
+  </rect>
+        <rect x="100" y="307" width="400" height="43">
+    <animate attributename="width" values="0;400;0" dur="4s" repeatcount="indefinite"></animate>
+      <animate attributename="x" values="100;100;500" dur="4s" repeatcount="indefinite"></animate>
+  </rect>
+        <g style="fill:transparent;stroke-width:8; stroke-linejoin:round" rx="5">
+            <g transform="translate(45 50) rotate(-45)">
+                <circle r="33" cx="0" cy="0"></circle>
+                <rect x="-8" y="32" width="16" height="30"></rect>
+            </g>
+
+            <g transform="translate(450 152)">
+                <polyline points="-15,-20 -35,-20 -35,40 25,40 25,20"></polyline>
+                <rect x="-15" y="-40" width="60" height="60"></rect>
+            </g>
+
+            <g transform="translate(50 352)">
+                <polygon points="-35,-5 0,-40 35,-5"></polygon>
+                <polygon points="-35,10 0,45 35,10"></polygon>
+            </g>
+
+            <g transform="translate(75 250)">
+                <polyline points="-30,30 -60,0 -30,-30"></polyline>
+                <polyline points="0,30 -30,0 0,-30"></polyline>
+            </g>
+
+            <g transform="translate(425 250) rotate(180)">
+                <polyline points="-30,30 -60,0 -30,-30"></polyline>
+                <polyline points="0,30 -30,0 0,-30"></polyline>
+            </g>
+        </g>
+    </g>
+</svg>
+</a>
+        Loading ITables v2.7.3 from the internet...
+        (need <a href="https://mwouts.github.io/itables/troubleshooting.html">help</a>?)
+      </td>
+    </tr>
+  </tbody>
+</table>
+<link href="https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.css" rel="stylesheet">
+<script type="module">
+    import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
+
+    document.querySelectorAll("#itables_3d007cc4_7194_4c02_b874_860dd549a58c:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
@@ -638,40 +745,40 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </script>
 </div>
 </div>
-<div id="6dbd9700" class="cell" data-execution_count="3">
+<div id="8d313336" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itables <span class="im">import</span> show</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>contamination_count <span class="op">=</span> pd.read_csv(<span class="st">"../results/tables/assess/assembly/metrics/contaminant_summary_count.csv"</span>)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># broup by trimmer, model, and depth, then calculate multiple statistics across the samples</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>summary_stats <span class="op">=</span> contamination_count.groupby([<span class="st">"trimmer"</span>, <span class="st">"model"</span>, <span class="st">"depth"</span>])[<span class="st">"contamination_count"</span>].agg(</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    Mean<span class="op">=</span><span class="st">'mean'</span>,</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    Median<span class="op">=</span><span class="st">'median'</span>,</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    Max<span class="op">=</span><span class="st">'max'</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>).reset_index()</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Round them</span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>summary_stats[<span class="st">'Mean'</span>] <span class="op">=</span> summary_stats[<span class="st">'Mean'</span>].<span class="bu">round</span>(<span class="dv">2</span>)</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply ythe sorting logic so the table is perfectly organised</span></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>depth_order <span class="op">=</span> pd.CategoricalDtype(categories<span class="op">=</span>[<span class="st">"100x"</span>, <span class="st">"50x"</span>, <span class="st">"20x"</span>], ordered<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>model_order <span class="op">=</span> pd.CategoricalDtype(categories<span class="op">=</span>[<span class="st">"sup"</span>, <span class="st">"hac"</span>], ordered<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>summary_stats[<span class="st">'depth'</span>] <span class="op">=</span> summary_stats[<span class="st">'depth'</span>].astype(depth_order)</span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>summary_stats[<span class="st">'model'</span>] <span class="op">=</span> summary_stats[<span class="st">'model'</span>].astype(model_order)</span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort: Trimmer -&gt; Model -&gt; Depth</span></span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>summary_stats <span class="op">=</span> summary_stats.sort_values(by<span class="op">=</span>[<span class="st">"trimmer"</span>, <span class="st">"model"</span>, <span class="st">"depth"</span>])</span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>summary_stats.reset_index(drop<span class="op">=</span><span class="va">True</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>show(summary_stats, classes<span class="op">=</span><span class="st">"display"</span>, scrollX<span class="op">=</span><span class="va">True</span>, paging<span class="op">=</span><span class="va">True</span>, lengthMenu<span class="op">=</span>[<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">50</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itables <span class="im">import</span> show</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>contamination_count <span class="op">=</span> pd.read_csv(<span class="st">"../results/tables/assess/assembly/metrics/contaminant_summary_count.csv"</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># broup by trimmer, model, and depth, then calculate multiple statistics across the samples</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>summary_stats <span class="op">=</span> contamination_count.groupby([<span class="st">"trimmer"</span>, <span class="st">"model"</span>, <span class="st">"depth"</span>])[<span class="st">"contamination_count"</span>].agg(</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    Mean<span class="op">=</span><span class="st">'mean'</span>,</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    Median<span class="op">=</span><span class="st">'median'</span>,</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    Max<span class="op">=</span><span class="st">'max'</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>).reset_index()</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Round them</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>summary_stats[<span class="st">'Mean'</span>] <span class="op">=</span> summary_stats[<span class="st">'Mean'</span>].<span class="bu">round</span>(<span class="dv">2</span>)</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply ythe sorting logic so the table is perfectly organised</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>depth_order <span class="op">=</span> pd.CategoricalDtype(categories<span class="op">=</span>[<span class="st">"100x"</span>, <span class="st">"50x"</span>, <span class="st">"20x"</span>], ordered<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>model_order <span class="op">=</span> pd.CategoricalDtype(categories<span class="op">=</span>[<span class="st">"sup"</span>, <span class="st">"hac"</span>], ordered<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>summary_stats[<span class="st">'depth'</span>] <span class="op">=</span> summary_stats[<span class="st">'depth'</span>].astype(depth_order)</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>summary_stats[<span class="st">'model'</span>] <span class="op">=</span> summary_stats[<span class="st">'model'</span>].astype(model_order)</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort: Trimmer -&gt; Model -&gt; Depth</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>summary_stats <span class="op">=</span> summary_stats.sort_values(by<span class="op">=</span>[<span class="st">"trimmer"</span>, <span class="st">"model"</span>, <span class="st">"depth"</span>])</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>summary_stats.reset_index(drop<span class="op">=</span><span class="va">True</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>show(summary_stats, classes<span class="op">=</span><span class="st">"display"</span>, scrollX<span class="op">=</span><span class="va">True</span>, paging<span class="op">=</span><span class="va">True</span>, lengthMenu<span class="op">=</span>[<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">50</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_6397f666_7d5f_4e5c_a5c2_c5d3efdb08d3">
+<table id="itables_67003b90_1a23_4250_a58e_186ab2039e69">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -741,7 +848,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_6397f666_7d5f_4e5c_a5c2_c5d3efdb08d3:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_67003b90_1a23_4250_a58e_186ab2039e69:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
@@ -764,101 +871,101 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </script>
 </div>
 </div>
-<div id="502a7966" class="cell" data-execution_count="4">
+<div id="1633cb65" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>COVERAGE_THRESHOLD <span class="op">=</span> <span class="dv">90</span>  <span class="co"># Change this value to adjust the strictness</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>contamination_details <span class="op">=</span> pd.read_csv(<span class="st">"../results/tables/assess/assembly/metrics/contaminant_details.csv"</span>)</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> extract_all_coverages(row):</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co">    Extracts numerical percentages for all regions based on the kit type.</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    breakdown <span class="op">=</span> <span class="bu">str</span>(row[<span class="st">'region_breakdown'</span>])</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    kit <span class="op">=</span> <span class="bu">str</span>(row[<span class="st">'kit'</span>])</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    cov_data <span class="op">=</span> {</span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">'adapter_cov'</span>: pd.NA,</span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>        <span class="st">'left_cov'</span>: pd.NA,</span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>        <span class="st">'barcode_cov'</span>: pd.NA,</span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>        <span class="st">'right_cov'</span>: pd.NA</span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> kit <span class="op">==</span> <span class="st">'rapid'</span>:</span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>        m_left <span class="op">=</span> re.search(<span class="vs">r'Left:</span><span class="dv">\s</span><span class="op">*</span><span class="kw">(</span><span class="dv">\d</span><span class="op">+</span><span class="kw">)</span><span class="vs">%'</span>, breakdown)</span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>        m_bar <span class="op">=</span> re.search(<span class="vs">r'Bar:</span><span class="dv">\s</span><span class="op">*</span><span class="kw">(</span><span class="dv">\d</span><span class="op">+</span><span class="kw">)</span><span class="vs">%'</span>, breakdown)</span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>        m_right <span class="op">=</span> re.search(<span class="vs">r'Right:</span><span class="dv">\s</span><span class="op">*</span><span class="kw">(</span><span class="dv">\d</span><span class="op">+</span><span class="kw">)</span><span class="vs">%'</span>, breakdown)</span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> m_left: cov_data[<span class="st">'left_cov'</span>] <span class="op">=</span> <span class="bu">int</span>(m_left.group(<span class="dv">1</span>))</span>
-<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> m_bar: cov_data[<span class="st">'barcode_cov'</span>] <span class="op">=</span> <span class="bu">int</span>(m_bar.group(<span class="dv">1</span>))</span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> m_right: cov_data[<span class="st">'right_cov'</span>] <span class="op">=</span> <span class="bu">int</span>(m_right.group(<span class="dv">1</span>))</span>
-<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> <span class="st">'native'</span> <span class="kw">in</span> kit:</span>
-<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>        m_adapter <span class="op">=</span> re.search(<span class="vs">r'Adapter:</span><span class="dv">\s</span><span class="op">*</span><span class="kw">(</span><span class="dv">\d</span><span class="op">+</span><span class="kw">)</span><span class="vs">%'</span>, breakdown)</span>
-<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>        m_bar <span class="op">=</span> re.search(<span class="vs">r'Bar</span><span class="ch">\+</span><span class="vs">Flank:</span><span class="dv">\s</span><span class="op">*</span><span class="kw">(</span><span class="dv">\d</span><span class="op">+</span><span class="kw">)</span><span class="vs">%'</span>, breakdown)</span>
-<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> m_adapter: cov_data[<span class="st">'adapter_cov'</span>] <span class="op">=</span> <span class="bu">int</span>(m_adapter.group(<span class="dv">1</span>))</span>
-<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> m_bar: cov_data[<span class="st">'barcode_cov'</span>] <span class="op">=</span> <span class="bu">int</span>(m_bar.group(<span class="dv">1</span>))</span>
-<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pd.Series(cov_data)</span>
-<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply the function and join the new columns</span></span>
-<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>extracted_cols <span class="op">=</span> contamination_details.<span class="bu">apply</span>(extract_all_coverages, axis<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>contamination_details <span class="op">=</span> pd.concat([contamination_details, extracted_cols], axis<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a><span class="co"># Flag rows using the configurable threshold</span></span>
-<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>contamination_details[<span class="st">'bar_fully_covered'</span>] <span class="op">=</span> contamination_details[<span class="st">'barcode_cov'</span>] <span class="op">&gt;=</span> COVERAGE_THRESHOLD</span>
-<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>contamination_details[<span class="st">'adapter_fully_covered'</span>] <span class="op">=</span> contamination_details[<span class="st">'adapter_cov'</span>] <span class="op">&gt;=</span> COVERAGE_THRESHOLD</span>
-<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>contamination_details[<span class="st">'left_fully_covered'</span>] <span class="op">=</span> contamination_details[<span class="st">'left_cov'</span>] <span class="op">&gt;=</span> COVERAGE_THRESHOLD</span>
-<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>contamination_details[<span class="st">'right_fully_covered'</span>] <span class="op">=</span> contamination_details[<span class="st">'right_cov'</span>] <span class="op">&gt;=</span> COVERAGE_THRESHOLD</span>
-<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a><span class="co"># Force all combinations of Trimmer and Kit to appear (even if count is 0)</span></span>
-<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>all_trimmers <span class="op">=</span> contamination_details[<span class="st">'trimmer'</span>].unique()</span>
-<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>all_kits <span class="op">=</span> [<span class="st">'native_left'</span>, <span class="st">'native_right'</span>, <span class="st">'rapid'</span>]</span>
-<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>contamination_details[<span class="st">'trimmer'</span>] <span class="op">=</span> pd.Categorical(contamination_details[<span class="st">'trimmer'</span>], categories<span class="op">=</span>all_trimmers)</span>
-<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>contamination_details[<span class="st">'kit'</span>] <span class="op">=</span> pd.Categorical(contamination_details[<span class="st">'kit'</span>], categories<span class="op">=</span>all_kits)</span>
-<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Calculating summaries per trimmer (Threshold: &gt;=</span><span class="sc">{</span>COVERAGE_THRESHOLD<span class="sc">}</span><span class="ss">%)..."</span>)</span>
-<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a><span class="co"># 'observed=False' is the magic parameter that includes the empty groups</span></span>
-<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a>summary <span class="op">=</span> contamination_details.groupby([<span class="st">'trimmer'</span>, <span class="st">'kit'</span>], observed<span class="op">=</span><span class="va">False</span>).agg(</span>
-<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a>    total_hits<span class="op">=</span>(<span class="st">'kit'</span>, <span class="st">'count'</span>),</span>
-<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a>    bar_full_count<span class="op">=</span>(<span class="st">'bar_fully_covered'</span>, <span class="st">'sum'</span>),</span>
-<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a>    adapter_full_count<span class="op">=</span>(<span class="st">'adapter_fully_covered'</span>, <span class="st">'sum'</span>),</span>
-<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a>    left_full_count<span class="op">=</span>(<span class="st">'left_fully_covered'</span>, <span class="st">'sum'</span>),</span>
-<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a>    right_full_count<span class="op">=</span>(<span class="st">'right_fully_covered'</span>, <span class="st">'sum'</span>)</span>
-<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate percentages (using fillna(0) to avoid NaN when total_hits is 0)</span></span>
-<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a>summary[<span class="st">'%_Bar_Full'</span>] <span class="op">=</span> (summary[<span class="st">'bar_full_count'</span>] <span class="op">/</span> summary[<span class="st">'total_hits'</span>] <span class="op">*</span> <span class="dv">100</span>).fillna(<span class="dv">0</span>).<span class="bu">round</span>(<span class="dv">2</span>)</span>
-<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a>summary[<span class="st">'%_Adapter_Full'</span>] <span class="op">=</span> (summary[<span class="st">'adapter_full_count'</span>] <span class="op">/</span> summary[<span class="st">'total_hits'</span>] <span class="op">*</span> <span class="dv">100</span>).fillna(<span class="dv">0</span>).<span class="bu">round</span>(<span class="dv">2</span>)</span>
-<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a>summary[<span class="st">'%_Left_Full'</span>] <span class="op">=</span> (summary[<span class="st">'left_full_count'</span>] <span class="op">/</span> summary[<span class="st">'total_hits'</span>] <span class="op">*</span> <span class="dv">100</span>).fillna(<span class="dv">0</span>).<span class="bu">round</span>(<span class="dv">2</span>)</span>
-<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a>summary[<span class="st">'%_Right_Full'</span>] <span class="op">=</span> (summary[<span class="st">'right_full_count'</span>] <span class="op">/</span> summary[<span class="st">'total_hits'</span>] <span class="op">*</span> <span class="dv">100</span>).fillna(<span class="dv">0</span>).<span class="bu">round</span>(<span class="dv">2</span>)</span>
-<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a><span class="co"># Format the final output DataFrame</span></span>
-<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a>final_summary <span class="op">=</span> summary[[</span>
-<span id="cb4-77"><a href="#cb4-77" aria-hidden="true" tabindex="-1"></a>    <span class="st">'total_hits'</span>,</span>
-<span id="cb4-78"><a href="#cb4-78" aria-hidden="true" tabindex="-1"></a>    <span class="st">'%_Bar_Full'</span>,</span>
-<span id="cb4-79"><a href="#cb4-79" aria-hidden="true" tabindex="-1"></a>    <span class="st">'%_Adapter_Full'</span>,</span>
-<span id="cb4-80"><a href="#cb4-80" aria-hidden="true" tabindex="-1"></a>    <span class="st">'%_Left_Full'</span>,</span>
-<span id="cb4-81"><a href="#cb4-81" aria-hidden="true" tabindex="-1"></a>    <span class="st">'%_Right_Full'</span></span>
-<span id="cb4-82"><a href="#cb4-82" aria-hidden="true" tabindex="-1"></a>]].copy()</span>
-<span id="cb4-83"><a href="#cb4-83" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-84"><a href="#cb4-84" aria-hidden="true" tabindex="-1"></a><span class="co"># Fix the total_hits formatting (groupby sometimes converts zero-counts to floats)</span></span>
-<span id="cb4-85"><a href="#cb4-85" aria-hidden="true" tabindex="-1"></a>final_summary[<span class="st">'total_hits'</span>] <span class="op">=</span> final_summary[<span class="st">'total_hits'</span>].astype(<span class="bu">int</span>)</span>
-<span id="cb4-86"><a href="#cb4-86" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-87"><a href="#cb4-87" aria-hidden="true" tabindex="-1"></a>final_summary</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>COVERAGE_THRESHOLD <span class="op">=</span> <span class="dv">90</span>  <span class="co"># Change this value to adjust the strictness</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>contamination_details <span class="op">=</span> pd.read_csv(<span class="st">"../results/tables/assess/assembly/metrics/contaminant_details.csv"</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> extract_all_coverages(row):</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co">    Extracts numerical percentages for all regions based on the kit type.</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    breakdown <span class="op">=</span> <span class="bu">str</span>(row[<span class="st">'region_breakdown'</span>])</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    kit <span class="op">=</span> <span class="bu">str</span>(row[<span class="st">'kit'</span>])</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    cov_data <span class="op">=</span> {</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">'adapter_cov'</span>: pd.NA,</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>        <span class="st">'left_cov'</span>: pd.NA,</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>        <span class="st">'barcode_cov'</span>: pd.NA,</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>        <span class="st">'right_cov'</span>: pd.NA</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> kit <span class="op">==</span> <span class="st">'rapid'</span>:</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>        m_left <span class="op">=</span> re.search(<span class="vs">r'Left:</span><span class="dv">\s</span><span class="op">*</span><span class="kw">(</span><span class="dv">\d</span><span class="op">+</span><span class="kw">)</span><span class="vs">%'</span>, breakdown)</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>        m_bar <span class="op">=</span> re.search(<span class="vs">r'Bar:</span><span class="dv">\s</span><span class="op">*</span><span class="kw">(</span><span class="dv">\d</span><span class="op">+</span><span class="kw">)</span><span class="vs">%'</span>, breakdown)</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>        m_right <span class="op">=</span> re.search(<span class="vs">r'Right:</span><span class="dv">\s</span><span class="op">*</span><span class="kw">(</span><span class="dv">\d</span><span class="op">+</span><span class="kw">)</span><span class="vs">%'</span>, breakdown)</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> m_left: cov_data[<span class="st">'left_cov'</span>] <span class="op">=</span> <span class="bu">int</span>(m_left.group(<span class="dv">1</span>))</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> m_bar: cov_data[<span class="st">'barcode_cov'</span>] <span class="op">=</span> <span class="bu">int</span>(m_bar.group(<span class="dv">1</span>))</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> m_right: cov_data[<span class="st">'right_cov'</span>] <span class="op">=</span> <span class="bu">int</span>(m_right.group(<span class="dv">1</span>))</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> <span class="st">'native'</span> <span class="kw">in</span> kit:</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>        m_adapter <span class="op">=</span> re.search(<span class="vs">r'Adapter:</span><span class="dv">\s</span><span class="op">*</span><span class="kw">(</span><span class="dv">\d</span><span class="op">+</span><span class="kw">)</span><span class="vs">%'</span>, breakdown)</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>        m_bar <span class="op">=</span> re.search(<span class="vs">r'Bar</span><span class="ch">\+</span><span class="vs">Flank:</span><span class="dv">\s</span><span class="op">*</span><span class="kw">(</span><span class="dv">\d</span><span class="op">+</span><span class="kw">)</span><span class="vs">%'</span>, breakdown)</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> m_adapter: cov_data[<span class="st">'adapter_cov'</span>] <span class="op">=</span> <span class="bu">int</span>(m_adapter.group(<span class="dv">1</span>))</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> m_bar: cov_data[<span class="st">'barcode_cov'</span>] <span class="op">=</span> <span class="bu">int</span>(m_bar.group(<span class="dv">1</span>))</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pd.Series(cov_data)</span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply the function and join the new columns</span></span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>extracted_cols <span class="op">=</span> contamination_details.<span class="bu">apply</span>(extract_all_coverages, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>contamination_details <span class="op">=</span> pd.concat([contamination_details, extracted_cols], axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a><span class="co"># Flag rows using the configurable threshold</span></span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>contamination_details[<span class="st">'bar_fully_covered'</span>] <span class="op">=</span> contamination_details[<span class="st">'barcode_cov'</span>] <span class="op">&gt;=</span> COVERAGE_THRESHOLD</span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>contamination_details[<span class="st">'adapter_fully_covered'</span>] <span class="op">=</span> contamination_details[<span class="st">'adapter_cov'</span>] <span class="op">&gt;=</span> COVERAGE_THRESHOLD</span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>contamination_details[<span class="st">'left_fully_covered'</span>] <span class="op">=</span> contamination_details[<span class="st">'left_cov'</span>] <span class="op">&gt;=</span> COVERAGE_THRESHOLD</span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>contamination_details[<span class="st">'right_fully_covered'</span>] <span class="op">=</span> contamination_details[<span class="st">'right_cov'</span>] <span class="op">&gt;=</span> COVERAGE_THRESHOLD</span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a><span class="co"># Force all combinations of Trimmer and Kit to appear (even if count is 0)</span></span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a>all_trimmers <span class="op">=</span> contamination_details[<span class="st">'trimmer'</span>].unique()</span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a>all_kits <span class="op">=</span> [<span class="st">'native_left'</span>, <span class="st">'native_right'</span>, <span class="st">'rapid'</span>]</span>
+<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>contamination_details[<span class="st">'trimmer'</span>] <span class="op">=</span> pd.Categorical(contamination_details[<span class="st">'trimmer'</span>], categories<span class="op">=</span>all_trimmers)</span>
+<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a>contamination_details[<span class="st">'kit'</span>] <span class="op">=</span> pd.Categorical(contamination_details[<span class="st">'kit'</span>], categories<span class="op">=</span>all_kits)</span>
+<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Calculating summaries per trimmer (Threshold: &gt;=</span><span class="sc">{</span>COVERAGE_THRESHOLD<span class="sc">}</span><span class="ss">%)..."</span>)</span>
+<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a><span class="co"># 'observed=False' is the magic parameter that includes the empty groups</span></span>
+<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a>summary <span class="op">=</span> contamination_details.groupby([<span class="st">'trimmer'</span>, <span class="st">'kit'</span>], observed<span class="op">=</span><span class="va">False</span>).agg(</span>
+<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a>    total_hits<span class="op">=</span>(<span class="st">'kit'</span>, <span class="st">'count'</span>),</span>
+<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a>    bar_full_count<span class="op">=</span>(<span class="st">'bar_fully_covered'</span>, <span class="st">'sum'</span>),</span>
+<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a>    adapter_full_count<span class="op">=</span>(<span class="st">'adapter_fully_covered'</span>, <span class="st">'sum'</span>),</span>
+<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a>    left_full_count<span class="op">=</span>(<span class="st">'left_fully_covered'</span>, <span class="st">'sum'</span>),</span>
+<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a>    right_full_count<span class="op">=</span>(<span class="st">'right_fully_covered'</span>, <span class="st">'sum'</span>)</span>
+<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate percentages (using fillna(0) to avoid NaN when total_hits is 0)</span></span>
+<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a>summary[<span class="st">'%_Bar_Full'</span>] <span class="op">=</span> (summary[<span class="st">'bar_full_count'</span>] <span class="op">/</span> summary[<span class="st">'total_hits'</span>] <span class="op">*</span> <span class="dv">100</span>).fillna(<span class="dv">0</span>).<span class="bu">round</span>(<span class="dv">2</span>)</span>
+<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a>summary[<span class="st">'%_Adapter_Full'</span>] <span class="op">=</span> (summary[<span class="st">'adapter_full_count'</span>] <span class="op">/</span> summary[<span class="st">'total_hits'</span>] <span class="op">*</span> <span class="dv">100</span>).fillna(<span class="dv">0</span>).<span class="bu">round</span>(<span class="dv">2</span>)</span>
+<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a>summary[<span class="st">'%_Left_Full'</span>] <span class="op">=</span> (summary[<span class="st">'left_full_count'</span>] <span class="op">/</span> summary[<span class="st">'total_hits'</span>] <span class="op">*</span> <span class="dv">100</span>).fillna(<span class="dv">0</span>).<span class="bu">round</span>(<span class="dv">2</span>)</span>
+<span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a>summary[<span class="st">'%_Right_Full'</span>] <span class="op">=</span> (summary[<span class="st">'right_full_count'</span>] <span class="op">/</span> summary[<span class="st">'total_hits'</span>] <span class="op">*</span> <span class="dv">100</span>).fillna(<span class="dv">0</span>).<span class="bu">round</span>(<span class="dv">2</span>)</span>
+<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a><span class="co"># Format the final output DataFrame</span></span>
+<span id="cb5-76"><a href="#cb5-76" aria-hidden="true" tabindex="-1"></a>final_summary <span class="op">=</span> summary[[</span>
+<span id="cb5-77"><a href="#cb5-77" aria-hidden="true" tabindex="-1"></a>    <span class="st">'total_hits'</span>,</span>
+<span id="cb5-78"><a href="#cb5-78" aria-hidden="true" tabindex="-1"></a>    <span class="st">'%_Bar_Full'</span>,</span>
+<span id="cb5-79"><a href="#cb5-79" aria-hidden="true" tabindex="-1"></a>    <span class="st">'%_Adapter_Full'</span>,</span>
+<span id="cb5-80"><a href="#cb5-80" aria-hidden="true" tabindex="-1"></a>    <span class="st">'%_Left_Full'</span>,</span>
+<span id="cb5-81"><a href="#cb5-81" aria-hidden="true" tabindex="-1"></a>    <span class="st">'%_Right_Full'</span></span>
+<span id="cb5-82"><a href="#cb5-82" aria-hidden="true" tabindex="-1"></a>]].copy()</span>
+<span id="cb5-83"><a href="#cb5-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-84"><a href="#cb5-84" aria-hidden="true" tabindex="-1"></a><span class="co"># Fix the total_hits formatting (groupby sometimes converts zero-counts to floats)</span></span>
+<span id="cb5-85"><a href="#cb5-85" aria-hidden="true" tabindex="-1"></a>final_summary[<span class="st">'total_hits'</span>] <span class="op">=</span> final_summary[<span class="st">'total_hits'</span>].astype(<span class="bu">int</span>)</span>
+<span id="cb5-86"><a href="#cb5-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-87"><a href="#cb5-87" aria-hidden="true" tabindex="-1"></a>final_summary</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Calculating summaries per trimmer (Threshold: &gt;=90%)...</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="4">
+<div class="cell-output cell-output-display" data-execution_count="5">
 <div>
 
 
@@ -1090,60 +1197,60 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div id="efe1daf0" class="cell" data-execution_count="5">
+<div id="8ce6cf77" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>NATIVE_SAMPLES <span class="op">=</span> [<span class="st">'AJ292__202310'</span>, <span class="st">'RDH275__202311'</span>, <span class="st">'MMC234__202311'</span>, <span class="st">'BPH2947__202310'</span>, <span class="st">'AMtb_1__202402'</span>, <span class="st">'ATCC_33560__202309'</span>, <span class="st">'ATCC_35221__202309'</span>]</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>RAPID_SAMPLES_COUNT <span class="op">=</span> <span class="dv">9</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>NATIVE_SAMPLES_COUNT <span class="op">=</span> <span class="bu">len</span>(NATIVE_SAMPLES)</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>PERMUTATIONS_PER_SAMPLE <span class="op">=</span> <span class="dv">6</span> <span class="co"># (3 depths: 20x, 50x, 100x) * (2 models: sup, hac)</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>TOTAL_NATIVE_ASSEMBLIES <span class="op">=</span> NATIVE_SAMPLES_COUNT <span class="op">*</span> PERMUTATIONS_PER_SAMPLE <span class="co"># 30</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>TOTAL_RAPID_ASSEMBLIES <span class="op">=</span> RAPID_SAMPLES_COUNT <span class="op">*</span> PERMUTATIONS_PER_SAMPLE   <span class="co"># 54</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Load data</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"../results/tables/assess/assembly/metrics/contaminant_details.csv"</span>)</span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Categorize samples into Library Types</span></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'library_type'</span>] <span class="op">=</span> df[<span class="st">'sample'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: <span class="st">'Native-only'</span> <span class="cf">if</span> x <span class="kw">in</span> NATIVE_SAMPLES <span class="cf">else</span> <span class="st">'Rapid-only'</span>)</span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure we see all combinations (including zero counts)</span></span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>all_trimmers <span class="op">=</span> df[<span class="st">'trimmer'</span>].unique()</span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>all_kits <span class="op">=</span> [<span class="st">'native_left'</span>, <span class="st">'native_right'</span>, <span class="st">'rapid'</span>]</span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>all_lib_types <span class="op">=</span> [<span class="st">'Native-only'</span>, <span class="st">'Rapid-only'</span>]</span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'trimmer'</span>] <span class="op">=</span> pd.Categorical(df[<span class="st">'trimmer'</span>], categories<span class="op">=</span>all_trimmers)</span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'kit'</span>] <span class="op">=</span> pd.Categorical(df[<span class="st">'kit'</span>], categories<span class="op">=</span>all_kits)</span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'library_type'</span>] <span class="op">=</span> pd.Categorical(df[<span class="st">'library_type'</span>], categories<span class="op">=</span>all_lib_types)</span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Group by Trimmer, Kit, and Library Type to get total hits</span></span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>grouped <span class="op">=</span> df.groupby([<span class="st">'trimmer'</span>, <span class="st">'kit'</span>, <span class="st">'library_type'</span>], observed<span class="op">=</span><span class="va">False</span>).size().reset_index(name<span class="op">=</span><span class="st">'total_hits'</span>)</span>
-<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Pivot so Native-only and Mixed are side-by-side</span></span>
-<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>pivot_df <span class="op">=</span> grouped.pivot(index<span class="op">=</span>[<span class="st">'trimmer'</span>, <span class="st">'kit'</span>], columns<span class="op">=</span><span class="st">'library_type'</span>, values<span class="op">=</span><span class="st">'total_hits'</span>).fillna(<span class="dv">0</span>)</span>
-<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate Normalized Metrics (Average Hits per Assembly)</span></span>
-<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>pivot_df[<span class="st">'avg_hits_per_native_assembly'</span>] <span class="op">=</span> (pivot_df[<span class="st">'Native-only'</span>] <span class="op">/</span> TOTAL_NATIVE_ASSEMBLIES).<span class="bu">round</span>(<span class="dv">2</span>)</span>
-<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>pivot_df[<span class="st">'avg_hits_per_rapid_assembly'</span>] <span class="op">=</span> (pivot_df[<span class="st">'Rapid-only'</span>] <span class="op">/</span> TOTAL_RAPID_ASSEMBLIES).<span class="bu">round</span>(<span class="dv">2</span>)</span>
-<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a><span class="co"># Clean up the dataframe for display</span></span>
-<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>pivot_df.columns.name <span class="op">=</span> <span class="va">None</span> <span class="co"># Remove the 'library_type' index label on columns</span></span>
-<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>pivot_df <span class="op">=</span> pivot_df.rename(columns<span class="op">=</span>{</span>
-<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Native-only'</span>: <span class="st">'raw_hits_native'</span>,</span>
-<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Rapid-only'</span>: <span class="st">'raw_hits_rapid'</span></span>
-<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>}).reset_index()</span>
-<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure raw counts are integers</span></span>
-<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a>pivot_df[<span class="st">'raw_hits_native'</span>] <span class="op">=</span> pivot_df[<span class="st">'raw_hits_native'</span>].astype(<span class="bu">int</span>)</span>
-<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a>pivot_df[<span class="st">'raw_hits_rapid'</span>] <span class="op">=</span> pivot_df[<span class="st">'raw_hits_rapid'</span>].astype(<span class="bu">int</span>)</span>
-<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a>pivot_df</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>NATIVE_SAMPLES <span class="op">=</span> [<span class="st">'AJ292__202310'</span>, <span class="st">'RDH275__202311'</span>, <span class="st">'MMC234__202311'</span>, <span class="st">'BPH2947__202310'</span>, <span class="st">'AMtb_1__202402'</span>, <span class="st">'ATCC_33560__202309'</span>, <span class="st">'ATCC_35221__202309'</span>]</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>RAPID_SAMPLES_COUNT <span class="op">=</span> <span class="dv">9</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>NATIVE_SAMPLES_COUNT <span class="op">=</span> <span class="bu">len</span>(NATIVE_SAMPLES)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>PERMUTATIONS_PER_SAMPLE <span class="op">=</span> <span class="dv">6</span> <span class="co"># (3 depths: 20x, 50x, 100x) * (2 models: sup, hac)</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>TOTAL_NATIVE_ASSEMBLIES <span class="op">=</span> NATIVE_SAMPLES_COUNT <span class="op">*</span> PERMUTATIONS_PER_SAMPLE <span class="co"># 30</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>TOTAL_RAPID_ASSEMBLIES <span class="op">=</span> RAPID_SAMPLES_COUNT <span class="op">*</span> PERMUTATIONS_PER_SAMPLE   <span class="co"># 54</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Load data</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"../results/tables/assess/assembly/metrics/contaminant_details.csv"</span>)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Categorize samples into Library Types</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'library_type'</span>] <span class="op">=</span> df[<span class="st">'sample'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: <span class="st">'Native-only'</span> <span class="cf">if</span> x <span class="kw">in</span> NATIVE_SAMPLES <span class="cf">else</span> <span class="st">'Rapid-only'</span>)</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure we see all combinations (including zero counts)</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>all_trimmers <span class="op">=</span> df[<span class="st">'trimmer'</span>].unique()</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>all_kits <span class="op">=</span> [<span class="st">'native_left'</span>, <span class="st">'native_right'</span>, <span class="st">'rapid'</span>]</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>all_lib_types <span class="op">=</span> [<span class="st">'Native-only'</span>, <span class="st">'Rapid-only'</span>]</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'trimmer'</span>] <span class="op">=</span> pd.Categorical(df[<span class="st">'trimmer'</span>], categories<span class="op">=</span>all_trimmers)</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'kit'</span>] <span class="op">=</span> pd.Categorical(df[<span class="st">'kit'</span>], categories<span class="op">=</span>all_kits)</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'library_type'</span>] <span class="op">=</span> pd.Categorical(df[<span class="st">'library_type'</span>], categories<span class="op">=</span>all_lib_types)</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Group by Trimmer, Kit, and Library Type to get total hits</span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>grouped <span class="op">=</span> df.groupby([<span class="st">'trimmer'</span>, <span class="st">'kit'</span>, <span class="st">'library_type'</span>], observed<span class="op">=</span><span class="va">False</span>).size().reset_index(name<span class="op">=</span><span class="st">'total_hits'</span>)</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Pivot so Native-only and Mixed are side-by-side</span></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>pivot_df <span class="op">=</span> grouped.pivot(index<span class="op">=</span>[<span class="st">'trimmer'</span>, <span class="st">'kit'</span>], columns<span class="op">=</span><span class="st">'library_type'</span>, values<span class="op">=</span><span class="st">'total_hits'</span>).fillna(<span class="dv">0</span>)</span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate Normalized Metrics (Average Hits per Assembly)</span></span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>pivot_df[<span class="st">'avg_hits_per_native_assembly'</span>] <span class="op">=</span> (pivot_df[<span class="st">'Native-only'</span>] <span class="op">/</span> TOTAL_NATIVE_ASSEMBLIES).<span class="bu">round</span>(<span class="dv">2</span>)</span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>pivot_df[<span class="st">'avg_hits_per_rapid_assembly'</span>] <span class="op">=</span> (pivot_df[<span class="st">'Rapid-only'</span>] <span class="op">/</span> TOTAL_RAPID_ASSEMBLIES).<span class="bu">round</span>(<span class="dv">2</span>)</span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a><span class="co"># Clean up the dataframe for display</span></span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>pivot_df.columns.name <span class="op">=</span> <span class="va">None</span> <span class="co"># Remove the 'library_type' index label on columns</span></span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>pivot_df <span class="op">=</span> pivot_df.rename(columns<span class="op">=</span>{</span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Native-only'</span>: <span class="st">'raw_hits_native'</span>,</span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Rapid-only'</span>: <span class="st">'raw_hits_rapid'</span></span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>}).reset_index()</span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure raw counts are integers</span></span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>pivot_df[<span class="st">'raw_hits_native'</span>] <span class="op">=</span> pivot_df[<span class="st">'raw_hits_native'</span>].astype(<span class="bu">int</span>)</span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>pivot_df[<span class="st">'raw_hits_rapid'</span>] <span class="op">=</span> pivot_df[<span class="st">'raw_hits_rapid'</span>].astype(<span class="bu">int</span>)</span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a>pivot_df</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="5">
+<div class="cell-output cell-output-display" data-execution_count="6">
 <div>
 
 
@@ -1382,112 +1489,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div id="c381a1b6" class="cell" data-execution_count="6">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itables <span class="im">import</span> show</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>contamination_details <span class="op">=</span> pd.read_csv(<span class="st">"../results/tables/assess/assembly/metrics/contaminant_details.csv"</span>)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>contamination_details.reset_index(drop<span class="op">=</span><span class="va">True</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>show(contamination_details, scrollX<span class="op">=</span><span class="va">True</span>, scrollY<span class="op">=</span><span class="st">"800px"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-display">
-<!--| quarto-html-table-processing: none -->
-<table id="itables_dd0922a6_9eb3_44fa_9266_22cb0405528d">
-  <tbody>
-    <tr>
-      <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
-    <g style="fill:#d9d7fc">
-        <path d="M100,400H500V357H100Z"></path>
-        <path d="M100,300H400V257H100Z"></path>
-        <path d="M0,200H400V157H0Z"></path>
-        <path d="M100,100H500V57H100Z"></path>
-        <path d="M100,350H500V307H100Z"></path>
-        <path d="M100,250H400V207H100Z"></path>
-        <path d="M0,150H400V107H0Z"></path>
-        <path d="M100,50H500V7H100Z"></path>
-    </g>
-    <g style="fill:#1a1366;stroke:#1a1366;">
-   <rect x="100" y="7" width="400" height="43">
-    <animate attributename="width" values="0;400;0" dur="5s" repeatcount="indefinite"></animate>
-      <animate attributename="x" values="100;100;500" dur="5s" repeatcount="indefinite"></animate>
-  </rect>
-        <rect x="0" y="107" width="400" height="43">
-    <animate attributename="width" values="0;400;0" dur="3.5s" repeatcount="indefinite"></animate>
-    <animate attributename="x" values="0;0;400" dur="3.5s" repeatcount="indefinite"></animate>
-  </rect>
-        <rect x="100" y="207" width="300" height="43">
-    <animate attributename="width" values="0;300;0" dur="3s" repeatcount="indefinite"></animate>
-    <animate attributename="x" values="100;100;400" dur="3s" repeatcount="indefinite"></animate>
-  </rect>
-        <rect x="100" y="307" width="400" height="43">
-    <animate attributename="width" values="0;400;0" dur="4s" repeatcount="indefinite"></animate>
-      <animate attributename="x" values="100;100;500" dur="4s" repeatcount="indefinite"></animate>
-  </rect>
-        <g style="fill:transparent;stroke-width:8; stroke-linejoin:round" rx="5">
-            <g transform="translate(45 50) rotate(-45)">
-                <circle r="33" cx="0" cy="0"></circle>
-                <rect x="-8" y="32" width="16" height="30"></rect>
-            </g>
-
-            <g transform="translate(450 152)">
-                <polyline points="-15,-20 -35,-20 -35,40 25,40 25,20"></polyline>
-                <rect x="-15" y="-40" width="60" height="60"></rect>
-            </g>
-
-            <g transform="translate(50 352)">
-                <polygon points="-35,-5 0,-40 35,-5"></polygon>
-                <polygon points="-35,10 0,45 35,10"></polygon>
-            </g>
-
-            <g transform="translate(75 250)">
-                <polyline points="-30,30 -60,0 -30,-30"></polyline>
-                <polyline points="0,30 -30,0 0,-30"></polyline>
-            </g>
-
-            <g transform="translate(425 250) rotate(180)">
-                <polyline points="-30,30 -60,0 -30,-30"></polyline>
-                <polyline points="0,30 -30,0 0,-30"></polyline>
-            </g>
-        </g>
-    </g>
-</svg>
-</a>
-        Loading ITables v2.7.3 from the internet...
-        (need <a href="https://mwouts.github.io/itables/troubleshooting.html">help</a>?)
-      </td>
-    </tr>
-  </tbody>
-</table>
-<link href="https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.css" rel="stylesheet">
-<script type="module">
-    import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
-
-    document.querySelectorAll("#itables_dd0922a6_9eb3_44fa_9266_22cb0405528d:not(.dataTable)").forEach(table => {
-        if (!(table instanceof HTMLTableElement))
-            return;
-
-        let dt_args = {
-          "classes": ["display", "nowrap", "compact"],
-          "columnDefs": [{"render": "function (data, type, row, meta) { return type === 'sort' || type === 'type' ? data[1] : data[0]; }", "targets": [11]}],
-          "data_json": "[[\"fastplong\", \"20x\", \"BPH2947__202310\", \"hac\", \"Native_top_4\", \"native_left\", \"contig_3\", \"N\", \"+\", 0, 49, [\"0.96\", 0.96], 80, 36, \"start\", \"[Adapter: 28% | Bar+Flank: 100%]\"], [\"fastplong\", \"20x\", \"BPH2947__202310\", \"hac\", \"Native_top_4\", \"native_left\", \"contig_4\", \"N\", \"-\", 41021, 41070, [\"0.98\", 0.98], 96, 28, \"end\", \"[Adapter: 25% | Bar+Flank: 100%]\"], [\"fastplong\", \"20x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_1\", \"N\", \"+\", 14, 65, [\"1.00\", 1.0], 102, 60, \"start\", \"[Adapter: 31% | Bar+Flank: 100%]\"], [\"fastplong\", \"20x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"-\", 1678257, 1678304, [\"1.00\", 1.0], 94, 29, \"end\", \"[Adapter: 19% | Bar+Flank: 100%]\"], [\"fastplong\", \"20x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_4\", \"N\", \"+\", 0, 45, [\"1.00\", 1.0], 90, 28, \"start\", \"[Adapter: 14% | Bar+Flank: 100%]\"], [\"fastplong\", \"20x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_4\", \"N\", \"-\", 3604, 3644, [\"1.00\", 1.0], 80, 30, \"end\", \"[Adapter: 0% | Bar+Flank: 100%]\"], [\"fastplong\", \"20x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"+\", 0, 50, [\"0.98\", 0.98], 96, 28, \"start\", \"[Adapter: 28% | Bar+Flank: 100%]\"], [\"fastplong\", \"20x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"-\", 3610, 3659, [\"1.00\", 1.0], 98, 29, \"end\", \"[Adapter: 25% | Bar+Flank: 100%]\"], [\"fastplong\", \"20x\", \"MMC234__202311\", \"hac\", \"Native_top_10\", \"native_left\", \"contig_1\", \"N\", \"-\", 2207062, 2207111, [\"1.00\", 1.0], 98, 32, \"end\", \"[Adapter: 25% | Bar+Flank: 100%]\"], [\"fastplong\", \"20x\", \"AMtb_1__202402\", \"hac\", \"Native_top_81\", \"native_left\", \"contig_1\", \"N\", \"+\", 0, 49, [\"0.98\", 0.98], 88, 60, \"start\", \"[Adapter: 25% | Bar+Flank: 100%]\"], [\"fastplong\", \"20x\", \"AMtb_1__202402\", \"hac\", \"Native_top_81\", \"native_left\", \"contig_1\", \"N\", \"-\", 2836853, 2836898, [\"0.93\", 0.93], 54, 12, \"end\", \"[Adapter: 11% | Bar+Flank: 100%]\"], [\"fastplong\", \"20x\", \"AMtb_1__202402\", \"hac\", \"Native_top_82\", \"native_left\", \"contig_2\", \"N\", \"-\", 373, 424, [\"1.00\", 1.0], 102, 60, \"middle\", \"[Adapter: 31% | Bar+Flank: 100%]\"], [\"fastplong\", \"20x\", \"AMtb_1__202402\", \"hac\", \"Native_top_82\", \"native_left\", \"contig_2\", \"N\", \"+\", 446, 496, [\"1.00\", 1.0], 100, 60, \"middle\", \"[Adapter: 28% | Bar+Flank: 100%]\"], [\"fastplong\", \"50x\", \"ATCC_19119__202309\", \"hac\", \"BC13\", \"rapid\", \"contig_3\", \"N\", \"-\", 0, 69, [\"0.99\", 0.99], 132, 60, \"start\", \"[Left: 38% | Bar: 100% | Right: 78%]\"], [\"fastplong\", \"50x\", \"ATCC_19119__202309\", \"hac\", \"BC15\", \"rapid\", \"contig_3\", \"N\", \"+\", 4969, 5019, [\"1.00\", 1.0], 100, 31, \"end\", \"[Left: 38% | Bar: 100% | Right: 40%]\"], [\"fastplong\", \"50x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"+\", 0, 47, [\"1.00\", 1.0], 94, 29, \"start\", \"[Adapter: 19% | Bar+Flank: 100%]\"], [\"fastplong\", \"50x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"-\", 3605, 3645, [\"1.00\", 1.0], 80, 30, \"end\", \"[Adapter: 0% | Bar+Flank: 100%]\"], [\"fastplong\", \"50x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"+\", 0, 51, [\"0.98\", 0.98], 100, 60, \"start\", \"[Adapter: 31% | Bar+Flank: 100%]\"], [\"fastplong\", \"50x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"-\", 3609, 3649, [\"1.00\", 1.0], 80, 30, \"end\", \"[Adapter: 0% | Bar+Flank: 100%]\"], [\"fastplong\", \"100x\", \"ATCC_19119__202309\", \"sup\", \"BC11\", \"rapid\", \"contig_3\", \"N\", \"+\", 27, 108, [\"1.00\", 1.0], 162, 60, \"start\", \"[Left: 44% | Bar: 100% | Right: 100%]\"], [\"fastplong\", \"100x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_1\", \"N\", \"+\", 0, 46, [\"1.00\", 1.0], 92, 29, \"start\", \"[Adapter: 17% | Bar+Flank: 100%]\"], [\"fastplong\", \"100x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_1\", \"N\", \"-\", 3605, 3645, [\"1.00\", 1.0], 80, 30, \"end\", \"[Adapter: 0% | Bar+Flank: 100%]\"], [\"fastplong\", \"100x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"+\", 3, 51, [\"1.00\", 1.0], 96, 29, \"start\", \"[Adapter: 22% | Bar+Flank: 100%]\"], [\"porechop_abi_nocheck\", \"20x\", \"BPH2947__202310\", \"hac\", \"Native_top_4\", \"native_left\", \"contig_3\", \"N\", \"+\", 0, 40, [\"1.00\", 1.0], 80, 28, \"start\", \"[Adapter: 0% | Bar+Flank: 100%]\"], [\"porechop_abi_nocheck\", \"50x\", \"ATCC_17802__202309\", \"hac\", \"BC18\", \"rapid\", \"contig_4\", \"N\", \"-\", 655, 711, [\"0.90\", 0.9], 72, 51, \"middle\", \"[Left: 0% | Bar: 100% | Right: 72%]\"], [\"porechop_abi_nocheck\", \"100x\", \"ATCC_17802__202309\", \"hac\", \"BC18\", \"rapid\", \"contig_3\", \"N\", \"-\", 649, 705, [\"0.90\", 0.9], 72, 51, \"middle\", \"[Left: 0% | Bar: 100% | Right: 72%]\"], [\"porechop_abi_nocheck\", \"100x\", \"ATCC_19119__202309\", \"hac\", \"BC11\", \"rapid\", \"contig_3\", \"N\", \"-\", 3175, 3255, [\"1.00\", 1.0], 160, 60, \"end\", \"[Left: 38% | Bar: 100% | Right: 100%]\"], [\"porechop_abi_discard\", \"50x\", \"BPH2947__202310\", \"hac\", \"Native_top_4\", \"native_left\", \"contig_3\", \"N\", \"-\", 2014, 2052, [\"1.00\", 1.0], 76, 34, \"end\", \"[Adapter: 0% | Bar+Flank: 95%]\"], [\"porechop_abi_split\", \"50x\", \"BPH2947__202310\", \"sup\", \"Native_top_4\", \"native_left\", \"contig_3\", \"N\", \"+\", 0, 39, [\"1.00\", 1.0], 78, 36, \"start\", \"[Adapter: 0% | Bar+Flank: 98%]\"], [\"porechop_abi_split\", \"50x\", \"BPH2947__202310\", \"sup\", \"Native_top_4\", \"native_left\", \"contig_3\", \"N\", \"-\", 4685, 4723, [\"1.00\", 1.0], 76, 34, \"end\", \"[Adapter: 0% | Bar+Flank: 95%]\"], [\"dorado\", \"20x\", \"ATCC_17802__202309\", \"hac\", \"BC06\", \"rapid\", \"contig_3\", \"N\", \"-\", 4340, 4390, [\"1.00\", 1.0], 100, 29, \"middle\", \"[Left: 31% | Bar: 100% | Right: 42%]\"], [\"dorado\", \"20x\", \"ATCC_17802__202309\", \"hac\", \"BC05\", \"rapid\", \"contig_3\", \"N\", \"-\", 4432, 4503, [\"0.99\", 0.99], 132, 34, \"middle\", \"[Left: 81% | Bar: 100% | Right: 68%]\"], [\"dorado\", \"20x\", \"ATCC_17802__202309\", \"hac\", \"BC02\", \"rapid\", \"contig_3\", \"N\", \"-\", 4882, 4933, [\"1.00\", 1.0], 102, 1, \"middle\", \"[Left: 0% | Bar: 17% | Right: 94%]\"], [\"dorado\", \"20x\", \"ATCC_17802__202309\", \"hac\", \"BC17\", \"rapid\", \"contig_3\", \"N\", \"-\", 5000, 5071, [\"1.00\", 1.0], 142, 60, \"middle\", \"[Left: 75% | Bar: 100% | Right: 70%]\"], [\"dorado\", \"20x\", \"BPH2947__202310\", \"sup\", \"Native_top_53\", \"native_left\", \"contig_2\", \"N\", \"+\", 7, 47, [\"1.00\", 1.0], 80, 29, \"start\", \"[Adapter: 0% | Bar+Flank: 100%]\"], [\"dorado\", \"20x\", \"BPH2947__202310\", \"hac\", \"Native_top_4\", \"native_left\", \"contig_3\", \"N\", \"+\", 2, 52, [\"1.00\", 1.0], 100, 29, \"start\", \"[Adapter: 28% | Bar+Flank: 100%]\"], [\"dorado\", \"20x\", \"BPH2947__202310\", \"hac\", \"Native_top_4\", \"native_left\", \"contig_3\", \"N\", \"-\", 3061, 3108, [\"0.94\", 0.94], 68, 18, \"end\", \"[Adapter: 25% | Bar+Flank: 100%]\"], [\"dorado\", \"20x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_5\", \"N\", \"+\", 0, 49, [\"1.00\", 1.0], 98, 29, \"start\", \"[Adapter: 25% | Bar+Flank: 100%]\"], [\"dorado\", \"20x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_5\", \"N\", \"-\", 3607, 3647, [\"1.00\", 1.0], 80, 30, \"end\", \"[Adapter: 0% | Bar+Flank: 100%]\"], [\"dorado\", \"50x\", \"ATCC_17802__202309\", \"sup\", \"BC04\", \"rapid\", \"contig_3\", \"N\", \"-\", 0, 53, [\"0.96\", 0.96], 88, 48, \"start\", \"[Left: 31% | Bar: 100% | Right: 50%]\"], [\"dorado\", \"50x\", \"ATCC_17802__202309\", \"hac\", \"BC11\", \"rapid\", \"contig_3\", \"N\", \"-\", 1906, 1978, [\"1.00\", 1.0], 144, 60, \"middle\", \"[Left: 0% | Bar: 92% | Right: 100%]\"], [\"dorado\", \"50x\", \"ATCC_17802__202309\", \"hac\", \"BC17\", \"rapid\", \"contig_3\", \"N\", \"-\", 2114, 2181, [\"1.00\", 1.0], 134, 33, \"end\", \"[Left: 81% | Bar: 100% | Right: 60%]\"], [\"dorado\", \"50x\", \"ATCC_19119__202309\", \"sup\", \"BC11\", \"rapid\", \"contig_3\", \"N\", \"-\", 3156, 3224, [\"1.00\", 1.0], 136, 60, \"middle\", \"[Left: 0% | Bar: 75% | Right: 100%]\"], [\"dorado\", \"50x\", \"ATCC_19119__202309\", \"sup\", \"BC15\", \"rapid\", \"contig_3\", \"N\", \"-\", 3230, 3309, [\"1.00\", 1.0], 158, 60, \"end\", \"[Left: 38% | Bar: 100% | Right: 98%]\"], [\"dorado\", \"50x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_2\", \"N\", \"+\", 0, 50, [\"0.98\", 0.98], 96, 28, \"start\", \"[Adapter: 28% | Bar+Flank: 100%]\"], [\"dorado\", \"50x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_2\", \"N\", \"-\", 3608, 3648, [\"1.00\", 1.0], 80, 30, \"end\", \"[Adapter: 0% | Bar+Flank: 100%]\"], [\"dorado\", \"100x\", \"ATCC_17802__202309\", \"hac\", \"BC15\", \"rapid\", \"contig_6\", \"N\", \"-\", 2153, 2195, [\"0.98\", 0.98], 68, 27, \"middle\", \"[Left: 31% | Bar: 100% | Right: 24%]\"], [\"dorado\", \"100x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"+\", 0, 48, [\"1.00\", 1.0], 96, 29, \"start\", \"[Adapter: 22% | Bar+Flank: 100%]\"], [\"dorado\", \"100x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"-\", 3606, 3658, [\"1.00\", 1.0], 104, 60, \"end\", \"[Adapter: 33% | Bar+Flank: 100%]\"], [\"dorado\", \"100x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"+\", 0, 50, [\"1.00\", 1.0], 100, 60, \"start\", \"[Adapter: 28% | Bar+Flank: 100%]\"], [\"dorado\", \"100x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"-\", 3608, 3648, [\"1.00\", 1.0], 80, 30, \"end\", \"[Adapter: 0% | Bar+Flank: 100%]\"], [\"barbell_default\", \"20x\", \"ATCC_35221__202309\", \"sup\", \"Native_top_84\", \"native_left\", \"contig_1\", \"N\", \"+\", 13, 50, [\"1.00\", 1.0], 74, 33, \"start\", \"[Adapter: 0% | Bar+Flank: 92%]\"], [\"barbell_max\", \"20x\", \"ATCC_35221__202309\", \"hac\", \"Native_top_84\", \"native_left\", \"contig_1\", \"N\", \"+\", 11, 47, [\"1.00\", 1.0], 72, 31, \"start\", \"[Adapter: 0% | Bar+Flank: 90%]\"], [\"barbell_max\", \"20x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_6\", \"N\", \"-\", 38456, 38518, [\"0.92\", 0.92], 82, 36, \"end\", \"[Adapter: 72% | Bar+Flank: 100%]\"], [\"barbell_max\", \"100x\", \"ATCC_17802__202309\", \"hac\", \"BC18\", \"rapid\", \"contig_3\", \"N\", \"-\", 556, 612, [\"0.90\", 0.9], 72, 51, \"middle\", \"[Left: 0% | Bar: 100% | Right: 72%]\"], [\"untrimmed\", \"20x\", \"ATCC_10708__202309\", \"sup\", \"BC11\", \"rapid\", \"contig_7\", \"N\", \"+\", 49, 115, [\"0.94\", 0.94], 92, 24, \"start\", \"[Left: 0% | Bar: 67% | Right: 100%]\"], [\"untrimmed\", \"20x\", \"ATCC_10708__202309\", \"sup\", \"BC09\", \"rapid\", \"contig_7\", \"N\", \"-\", 4676, 4743, [\"1.00\", 1.0], 134, 60, \"middle\", \"[Left: 0% | Bar: 71% | Right: 100%]\"], [\"untrimmed\", \"20x\", \"ATCC_10708__202309\", \"sup\", \"BC01\", \"rapid\", \"contig_7\", \"N\", \"-\", 4743, 4823, [\"1.00\", 1.0], 160, 60, \"end\", \"[Left: 38% | Bar: 100% | Right: 100%]\"], [\"untrimmed\", \"20x\", \"ATCC_17802__202309\", \"sup\", \"BC18\", \"rapid\", \"contig_3\", \"N\", \"-\", 3406, 3486, [\"1.00\", 1.0], 160, 60, \"end\", \"[Left: 38% | Bar: 100% | Right: 100%]\"], [\"untrimmed\", \"20x\", \"ATCC_25922__202309\", \"hac\", \"BC11\", \"rapid\", \"contig_3\", \"N\", \"-\", 5129591, 5129653, [\"1.00\", 1.0], 124, 60, \"end\", \"[Left: 69% | Bar: 100% | Right: 54%]\"], [\"untrimmed\", \"20x\", \"ATCC_25922__202309\", \"hac\", \"BC11\", \"rapid\", \"contig_4\", \"N\", \"-\", 3304, 3384, [\"1.00\", 1.0], 160, 60, \"end\", \"[Left: 38% | Bar: 100% | Right: 100%]\"], [\"untrimmed\", \"20x\", \"ATCC_19119__202309\", \"sup\", \"BC11\", \"rapid\", \"contig_3\", \"N\", \"-\", 3162, 3246, [\"0.93\", 0.93], 122, 45, \"middle\", \"[Left: 38% | Bar: 100% | Right: 100%]\"], [\"untrimmed\", \"20x\", \"ATCC_19119__202309\", \"sup\", \"BC07\", \"rapid\", \"contig_3\", \"N\", \"-\", 3251, 3319, [\"1.00\", 1.0], 136, 60, \"end\", \"[Left: 44% | Bar: 100% | Right: 74%]\"], [\"untrimmed\", \"20x\", \"ATCC_BAA-679__202309\", \"hac\", \"BC08\", \"rapid\", \"contig_5\", \"N\", \"-\", 4664, 4745, [\"0.98\", 0.98], 136, 60, \"end\", \"[Left: 38% | Bar: 100% | Right: 100%]\"], [\"untrimmed\", \"20x\", \"BPH2947__202310\", \"sup\", \"Native_top_4\", \"native_left\", \"contig_3\", \"N\", \"+\", 0, 47, [\"1.00\", 1.0], 94, 29, \"start\", \"[Adapter: 19% | Bar+Flank: 100%]\"], [\"untrimmed\", \"20x\", \"BPH2947__202310\", \"sup\", \"Native_top_4\", \"native_left\", \"contig_3\", \"N\", \"-\", 3059, 3126, [\"1.00\", 1.0], 134, 60, \"end\", \"[Adapter: 75% | Bar+Flank: 100%]\"], [\"untrimmed\", \"20x\", \"BPH2947__202310\", \"hac\", \"Native_top_53\", \"native_left\", \"contig_2\", \"N\", \"-\", 55035, 55084, [\"0.98\", 0.98], 96, 30, \"end\", \"[Adapter: 25% | Bar+Flank: 100%]\"], [\"untrimmed\", \"20x\", \"AJ292__202310\", \"sup\", \"Native_top_22\", \"native_left\", \"contig_4\", \"N\", \"-\", 24791, 24849, [\"0.97\", 0.97], 96, 29, \"end\", \"[Adapter: 50% | Bar+Flank: 100%]\"], [\"untrimmed\", \"20x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"+\", 0, 48, [\"1.00\", 1.0], 96, 29, \"start\", \"[Adapter: 22% | Bar+Flank: 100%]\"], [\"untrimmed\", \"20x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"-\", 3607, 3671, [\"1.00\", 1.0], 128, 60, \"end\", \"[Adapter: 67% | Bar+Flank: 100%]\"], [\"untrimmed\", \"20x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"+\", 6, 56, [\"1.00\", 1.0], 100, 29, \"start\", \"[Adapter: 28% | Bar+Flank: 100%]\"], [\"untrimmed\", \"20x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"-\", 3615, 3683, [\"0.97\", 0.97], 112, 60, \"end\", \"[Adapter: 81% | Bar+Flank: 100%]\"], [\"untrimmed\", \"50x\", \"ATCC_10708__202309\", \"hac\", \"BC09\", \"rapid\", \"contig_5\", \"N\", \"-\", 3164, 3245, [\"0.95\", 0.95], 116, 56, \"end\", \"[Left: 38% | Bar: 100% | Right: 96%]\"], [\"untrimmed\", \"50x\", \"ATCC_19119__202309\", \"sup\", \"BC11\", \"rapid\", \"contig_3\", \"N\", \"-\", 3192, 3275, [\"1.00\", 1.0], 166, 60, \"end\", \"[Left: 56% | Bar: 100% | Right: 100%]\"], [\"untrimmed\", \"50x\", \"ATCC_19119__202309\", \"hac\", \"BC07\", \"rapid\", \"contig_3\", \"N\", \"-\", 3164, 3242, [\"1.00\", 1.0], 156, 60, \"end\", \"[Left: 38% | Bar: 100% | Right: 96%]\"], [\"untrimmed\", \"50x\", \"ATCC_BAA-679__202309\", \"hac\", \"BC11\", \"rapid\", \"contig_3\", \"N\", \"-\", 3237, 3297, [\"1.00\", 1.0], 120, 60, \"end\", \"[Left: 38% | Bar: 100% | Right: 60%]\"], [\"untrimmed\", \"50x\", \"BPH2947__202310\", \"hac\", \"Native_top_4\", \"native_left\", \"contig_2\", \"N\", \"+\", 0, 48, [\"0.98\", 0.98], 94, 28, \"start\", \"[Adapter: 22% | Bar+Flank: 100%]\"], [\"untrimmed\", \"50x\", \"BPH2947__202310\", \"hac\", \"Native_top_4\", \"native_left\", \"contig_2\", \"N\", \"-\", 3972, 4038, [\"1.00\", 1.0], 132, 60, \"end\", \"[Adapter: 72% | Bar+Flank: 100%]\"], [\"untrimmed\", \"50x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"+\", 0, 43, [\"1.00\", 1.0], 86, 28, \"start\", \"[Adapter: 8% | Bar+Flank: 100%]\"], [\"untrimmed\", \"50x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"+\", 11, 54, [\"1.00\", 1.0], 86, 28, \"start\", \"[Adapter: 8% | Bar+Flank: 100%]\"], [\"untrimmed\", \"50x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"-\", 3612, 3684, [\"0.99\", 0.99], 138, 60, \"end\", \"[Adapter: 89% | Bar+Flank: 100%]\"], [\"untrimmed\", \"100x\", \"ATCC_17802__202309\", \"sup\", \"BC13\", \"rapid\", \"contig_5\", \"N\", \"-\", 36, 88, [\"1.00\", 1.0], 104, 30, \"start\", \"[Left: 38% | Bar: 100% | Right: 44%]\"], [\"untrimmed\", \"100x\", \"ATCC_17802__202309\", \"sup\", \"BC04\", \"rapid\", \"contig_5\", \"N\", \"-\", 131, 208, [\"1.00\", 1.0], 154, 60, \"middle\", \"[Left: 75% | Bar: 100% | Right: 82%]\"], [\"untrimmed\", \"100x\", \"ATCC_17802__202309\", \"sup\", \"BC11\", \"rapid\", \"contig_5\", \"N\", \"-\", 2142, 2222, [\"1.00\", 1.0], 160, 60, \"end\", \"[Left: 38% | Bar: 100% | Right: 100%]\"], [\"untrimmed\", \"100x\", \"ATCC_19119__202309\", \"hac\", \"BC07\", \"rapid\", \"contig_3\", \"N\", \"+\", 39, 108, [\"1.00\", 1.0], 138, 60, \"start\", \"[Left: 38% | Bar: 100% | Right: 78%]\"], [\"untrimmed\", \"100x\", \"ATCC_19119__202309\", \"hac\", \"BC15\", \"rapid\", \"contig_3\", \"N\", \"-\", 4880, 4947, [\"1.00\", 1.0], 134, 60, \"end\", \"[Left: 38% | Bar: 100% | Right: 74%]\"], [\"untrimmed\", \"100x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"+\", 0, 47, [\"1.00\", 1.0], 94, 29, \"start\", \"[Adapter: 19% | Bar+Flank: 100%]\"], [\"untrimmed\", \"100x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"-\", 3606, 3677, [\"0.99\", 0.99], 138, 60, \"end\", \"[Adapter: 86% | Bar+Flank: 100%]\"], [\"untrimmed\", \"100x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"+\", 0, 46, [\"1.00\", 1.0], 92, 29, \"start\", \"[Adapter: 17% | Bar+Flank: 100%]\"], [\"untrimmed\", \"100x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"-\", 3604, 3646, [\"1.00\", 1.0], 84, 28, \"end\", \"[Adapter: 6% | Bar+Flank: 100%]\"]]",
-          "keys_to_be_evaluated": [["columnDefs", 0, "render"]],
-          "layout": {"bottomEnd": "paging", "bottomStart": "info", "topEnd": "search", "topStart": "pageLength"},
-          "order": [],
-          "scrollX": true,
-          "scrollY": "800px",
-          "style": {"caption-side": "bottom", "margin": "0", "table-layout": "auto", "width": "auto"},
-          "table_html": "<table><thead>\n    <tr style=\"text-align: right;\">\n      \n      <th>trimmer</th>\n      <th>depth</th>\n      <th>sample</th>\n      <th>model</th>\n      <th>query</th>\n      <th>kit</th>\n      <th>target_contig</th>\n      <th>is_circular</th>\n      <th>strand</th>\n      <th>c_start</th>\n      <th>c_end</th>\n      <th>identity</th>\n      <th>dp_score</th>\n      <th>mapq</th>\n      <th>position</th>\n      <th>region_breakdown</th>\n    </tr>\n  </thead></table>",
-          "text_in_header_can_be_selected": true
-        };
-        new ITable(table, dt_args);
-    });
-</script>
-</div>
-</div>
+</section>
+<section id="scan-barcodeadapter-contamination-in-the-reference-assemblies" class="level2">
+<h2 class="anchored" data-anchor-id="scan-barcodeadapter-contamination-in-the-reference-assemblies">Scan barcode/adapter contamination in the reference assemblies</h2>
+<p>No contaminat detected in the reference assemblies</p>
 
 
 </section>
