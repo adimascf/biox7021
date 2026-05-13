@@ -135,6 +135,8 @@ def parse_filter(process, barcodes_fa, min_region_cov=0.80, min_identity=0.90):
         else:
             position = "middle"
 
+        dist_closest_end = min(contig_start, contig_length - contig_end)
+
         if is_hit and identity >= min_identity:
             valid_hits.append({
                 'barcode_name': barcode_name,
@@ -143,6 +145,7 @@ def parse_filter(process, barcodes_fa, min_region_cov=0.80, min_identity=0.90):
                 'strand': strand,
                 'c_start': contig_start,
                 'c_end': contig_end,
+                'dist_end': dist_closest_end,
                 'identity': identity,
                 'dp_score': dp_score,
                 'mapq': mapping_quality,
@@ -256,10 +259,10 @@ print(f"Detected {len(final_resolved_hits)} contaminants.")
 print(f"Writing results to {output_tsv}...")
 
 with open(output_tsv, "w") as out_file:
-    out_file.write("query\tkit\ttarget_contig\tis_circular\tstrand\tc_start\tc_end\tidentity\tdp_score\tmapq\tposition\tregion_breakdown\n")
+    out_file.write("query\tkit\ttarget_contig\tis_circular\tstrand\tdist_end\tidentity\tdp_score\tmapq\tposition\tregion_breakdown\n")
     for hit in final_resolved_hits:
         id_str = f"{hit['identity']:.2f}"
         is_circ = circularity.get(hit['contig_name'], 'Not found')
-        out_file.write(f"{hit['barcode_name']}\t{hit['kit_type']}\t{hit['contig_name']}\t{is_circ}\t{hit['strand']}\t{hit['c_start']}\t{hit['c_end']}\t{id_str}\t{hit['dp_score']}\t{hit['mapq']}\t{hit['position']}\t{hit['breakdown']}\n")
+        out_file.write(f"{hit['barcode_name']}\t{hit['kit_type']}\t{hit['contig_name']}\t{is_circ}\t{hit['strand']}\t{hit['dist_end']}\t{id_str}\t{hit['dp_score']}\t{hit['mapq']}\t{hit['position']}\t{hit['breakdown']}\n")
 
 print("Done!")
