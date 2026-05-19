@@ -454,7 +454,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="genome-assembly-metrics-contamination" class="level3">
 <h3 class="anchored" data-anchor-id="genome-assembly-metrics-contamination">Genome assembly metrics: contamination</h3>
 <p>Overall, we found fewer contamination when we specify the kit. More importantly, we ne longer see adapter/barcode contaminant in the <code>fastplong</code> and <code>porcehop_abi</code> split/discard assemblies, both hac and sup dataset.</p>
-<div id="4f5fec20" class="cell" data-execution_count="1">
+<div id="59ecf4fb" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import pandas as pd</span></span>
@@ -501,13 +501,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="../results/figures/assess/assembly/metrics/assembly_contamination_minimap2_trimkit.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Contamination count (with kit speciifed)"><img src="../results/figures/assess/assembly/metrics/assembly_contamination_minimap2_trimkit.png" class="img-fluid figure-img" alt="Contamination count (with kit speciifed)"></a></p>
-<figcaption>Contamination count (with kit speciifed)</figcaption>
+<p><a href="../results/figures/assess/assembly/metrics/assembly_contamination_minimap2_trimkit.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Contamination count (with kit speciifed in the basecalling command)"><img src="../results/figures/assess/assembly/metrics/assembly_contamination_minimap2_trimkit.png" class="img-fluid figure-img" alt="Contamination count (with kit speciifed in the basecalling command)"></a></p>
+<figcaption>Contamination count (with kit speciifed in the basecalling command)</figcaption>
 </figure>
 </div>
 <section id="contamination-details" class="level4">
 <h4 class="anchored" data-anchor-id="contamination-details">Contamination details</h4>
-<div id="32c3c99b" class="cell" data-execution_count="2">
+<div id="64c4a2a2" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -521,7 +521,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_fb75953a_6a31_45c9_89d8_2552d28ba854">
+<table id="itables_2d0d7720_da82_48c8_99fc_49d1a1878165">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -591,7 +591,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_fb75953a_6a31_45c9_89d8_2552d28ba854:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_2d0d7720_da82_48c8_99fc_49d1a1878165:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
@@ -618,7 +618,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="genome-assembly-metrics-sequence-and-structural-accuracy" class="level3">
 <h3 class="anchored" data-anchor-id="genome-assembly-metrics-sequence-and-structural-accuracy">Genome assembly metrics: Sequence and Structural Accuracy</h3>
-<div id="73a55a3b" class="cell" data-execution_count="3">
+<div id="d6c33126" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -638,7 +638,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_46a9af8a_4809_4cbf_91a5_1a92a2480fca">
+<table id="itables_7a66f767_8ec2_43b8_bf7c_7d2e4176d598">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -708,7 +708,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_46a9af8a_4809_4cbf_91a5_1a92a2480fca:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_7a66f767_8ec2_43b8_bf7c_7d2e4176d598:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
@@ -750,7 +750,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="variant-calling-metrics">Variant calling Metrics</h3>
 <section id="f1-scrore" class="level4">
 <h4 class="anchored" data-anchor-id="f1-scrore">F1 scrore</h4>
-<div id="90077e1b" class="cell" data-execution_count="4">
+<div id="32a32860" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -764,7 +764,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_110acab6_a7ae_4371_8c2e_59928fcd45a9">
+<table id="itables_3ed58478_ace4_489b_aa0e_cacd0ab0ea01">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -834,7 +834,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_110acab6_a7ae_4371_8c2e_59928fcd45a9:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_3ed58478_ace4_489b_aa0e_cacd0ab0ea01:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
@@ -866,7 +866,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="sum-of-fn-and-fp" class="level4">
 <h4 class="anchored" data-anchor-id="sum-of-fn-and-fp">Sum of FN and FP</h4>
-<div id="5f6e5401" class="cell" data-execution_count="5">
+<div id="5fc94fff" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -887,7 +887,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_c56ddf09_9758_4830_8fbc_e9ddfb4f54e8">
+<table id="itables_0aecac7f_2834_4103_ba90_e39608241eee">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -957,7 +957,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_c56ddf09_9758_4830_8fbc_e9ddfb4f54e8:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_0aecac7f_2834_4103_ba90_e39608241eee:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
@@ -977,7 +977,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </script>
 </div>
 </div>
-<div id="158427e4" class="cell" data-execution_count="6">
+<div id="cb8400f0" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import pandas as pd</span></span>
@@ -1040,14 +1040,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <figcaption>False Negative</figcaption>
 </figure>
 </div>
-<p>From the total of false negative metric, <code>barbell</code> <code>dorado</code>, and <code>fastplong</code> might seem to damage the SNP variant calling perfomrance if we compare them against the untrimmed dataste across three different depths in sup datasets.</p>
+<p>From the total of false negative metric, <code>barbell</code> <code>dorado</code>, and <code>fastplong</code> might seem to damage the SNP variant calling perfomrance if we compare them against the untrimmed dataste across three different depths in sup datasets. In low depth samples, <code>untrimmed</code> dataset perfomed best with fewer false negative SNp calls. By trimming adapter sequence (that is defined internally by each tool), it might also remove useful data that is importat for the variant caller?</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><a href="../results/figures/assess/call-alltrim/metrics/quality_FalsePositives_sum.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="False Positive"><img src="../results/figures/assess/call-alltrim/metrics/quality_FalsePositives_sum.png" class="img-fluid figure-img" alt="False Positive"></a></p>
 <figcaption>False Positive</figcaption>
 </figure>
 </div>
-<div id="d7f8e22a" class="cell" data-execution_count="7">
+</section>
+</section>
+</section>
+<section id="quality-processed-tools" class="level2">
+<h2 class="anchored" data-anchor-id="quality-processed-tools">Quality processed tools</h2>
+<section id="variant-calling-metrics-1" class="level3">
+<h3 class="anchored" data-anchor-id="variant-calling-metrics-1">Variant calling Metrics</h3>
+<section id="f1-scrore-1" class="level4">
+<h4 class="anchored" data-anchor-id="f1-scrore-1">F1 scrore</h4>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../results/figures/assess/call-qual/metrics/quality_variant_f1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="F1 Score"><img src="../results/figures/assess/call-qual/metrics/quality_variant_f1.png" class="img-fluid figure-img" alt="F1 Score"></a></p>
+<figcaption>F1 Score</figcaption>
+</figure>
+</div>
+<p><code>chopper</code> with trimming approach split performed worst and damage the F1 score of SNP and INDELs call both in sup and hac dataset. However, <code>chopper</code> with trimming approach trim and filtlong perfomed best in the SNP calling in hac sup dataset, but not by much if we compared against the unprocessed dataset.</p>
+</section>
+<section id="sum-of-fn-and-fp-1" class="level4">
+<h4 class="anchored" data-anchor-id="sum-of-fn-and-fp-1">Sum of FN and FP</h4>
+<div id="83c8f47e" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -1068,7 +1087,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_9560e523_619d_4714_bbb8_f42b07e875e2">
+<table id="itables_b2d60278_c642_4719_a08b_6d6588c7860e">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -1138,7 +1157,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_9560e523_619d_4714_bbb8_f42b07e875e2:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_b2d60278_c642_4719_a08b_6d6588c7860e:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
@@ -1158,26 +1177,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </script>
 </div>
 </div>
-</section>
-</section>
-</section>
-<section id="quality-processed-tools" class="level2">
-<h2 class="anchored" data-anchor-id="quality-processed-tools">Quality processed tools</h2>
-<section id="variant-calling-metrics-1" class="level3">
-<h3 class="anchored" data-anchor-id="variant-calling-metrics-1">Variant calling Metrics</h3>
-<section id="f1-scrore-1" class="level4">
-<h4 class="anchored" data-anchor-id="f1-scrore-1">F1 scrore</h4>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="../results/figures/assess/call-qual/metrics/quality_variant_f1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="F1 Score"><img src="../results/figures/assess/call-qual/metrics/quality_variant_f1.png" class="img-fluid figure-img" alt="F1 Score"></a></p>
-<figcaption>F1 Score</figcaption>
-</figure>
-</div>
-<p><code>chopper</code> with trimming approach split performed worst and damage the F1 score of SNP and INDELs call both in sup and hac dataset. However, <code>chopper</code> with trimming approach trim and filtlong perfomed best in the SNP calling in hac sup dataset, but not by much if we compared against the unprocessed dataset.</p>
-</section>
-<section id="sum-of-fn-and-fp-1" class="level4">
-<h4 class="anchored" data-anchor-id="sum-of-fn-and-fp-1">Sum of FN and FP</h4>
-<div id="f7d9ed6b" class="cell" data-execution_count="8">
+<div id="56c6fd76" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import pandas as pd</span></span>
@@ -1249,6 +1249,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="genome-assembly-metrics-sequence-and-structural-accuracy-1" class="level3">
 <h3 class="anchored" data-anchor-id="genome-assembly-metrics-sequence-and-structural-accuracy-1">Genome assembly metrics: Sequence and Structural Accuracy</h3>
+<p><code>chopper</code> with the split trimming option failed in the <code>flye</code> assembly process, giving an error about 0 disjointigs. I think it may have made the dataset more fragmented or reduced read length too much. I could try loosening the parameters, but the variant calling results weren’t promising anyway, so I didn’t bother rerunning it with more lenient settings.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><a href="../results/figures/assess/assembly-qual/quality_assembly_errors_per_100kbp.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10" title="Mismatches and INDELs"><img src="../results/figures/assess/assembly-qual/quality_assembly_errors_per_100kbp.png" class="img-fluid figure-img" alt="Mismatches and INDELs"></a></p>
@@ -1261,8 +1262,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <figcaption>NGA50</figcaption>
 </figure>
 </div>
-<p><code>chopper</code> standard (just filter the reads based on average phred quality and read length) seems to damage the NG50 metrics in hac dataset, and also performed slighly worst than unprocessed/untrimmed dataset.</p>
-<div id="06f6c1d8" class="cell" data-execution_count="9">
+<p><code>chopper</code> standard (just filter the reads based on average phred quality and read length) seems to damage the NG50 metrics in hac dataset, and also performed slightly worst than unprocessed/untrimmed dataset.</p>
+<div id="dd59aaf1" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import pandas as pd</span></span>
@@ -1316,7 +1317,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="contamination-details-1" class="level4">
 <h4 class="anchored" data-anchor-id="contamination-details-1">contamination details</h4>
-<div id="b015b831" class="cell" data-execution_count="10">
+<div id="a844d177" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -1330,7 +1331,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_a8879173_0e35_451a_b0ca_c4f827985219">
+<table id="itables_2ee289aa_59f2_41c9_83a9_eca12f995e6c">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -1400,7 +1401,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_a8879173_0e35_451a_b0ca_c4f827985219:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_2ee289aa_59f2_41c9_83a9_eca12f995e6c:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
@@ -1429,7 +1430,49 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="selecting-the-tools-for-main-pipeline">Selecting the tools for main pipeline</h2>
 <p>Based on the results above when we are assessing the tools in isolation, actually still hard to find the differences across the tools, except <code>chopper</code> with trimming approach <code>split</code>. However, I would argue that these tools below are pretty good of the tools we assesed, altough not very different from the unporcessed data.</p>
 <p>6 Adapter/barcode trimming: <code>fastplong</code> (quality off), <code>porechop_abi</code> split (which is the default feature), dorado trim, barbell default, and untrimmed</p>
-<p>4 quality based processing: <code>fastplong</code> (quality on), filtlong, chopper (trimming apparoach trim), and untrimmed/unprocessed.</p>
+<p>4 quality based processing: <code>fastplong</code> (quality on), filtlong, chopper (trimming apparoach trim) or just the standard filtering?, and untrimmed/unprocessed.</p>
+<div id="4c2550d9" class="cell" data-execution_count="11">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> itertools</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>trimming_tools <span class="op">=</span> [<span class="st">"porechop_abi_split"</span>, <span class="st">"fastplong"</span>, <span class="st">"barbell"</span>, <span class="st">"dorado"</span>, <span class="st">"untrimmed"</span>]</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>filtering_tools <span class="op">=</span> [<span class="st">"fastplong"</span>, <span class="st">"fitlong"</span>, <span class="st">"chopper_trim"</span>, <span class="st">"none"</span>]</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="co"># all possible combinations</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>pipelines <span class="op">=</span> <span class="bu">list</span>(itertools.product(trimming_tools, filtering_tools))</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, (trim, filt,) <span class="kw">in</span> <span class="bu">enumerate</span>(pipelines, start<span class="op">=</span><span class="dv">1</span>):</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Run </span><span class="sc">{</span>i<span class="sc">:02}</span><span class="ss">: </span><span class="sc">{</span>trim<span class="sc">}</span><span class="ss"> -&gt; </span><span class="sc">{</span>filt<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Total pipeline to be benchmarked (single dataset): </span><span class="sc">{</span><span class="bu">len</span>(pipelines)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Run 01: porechop_abi_split -&gt; fastplong
+Run 02: porechop_abi_split -&gt; fitlong
+Run 03: porechop_abi_split -&gt; chopper_trim
+Run 04: porechop_abi_split -&gt; none
+Run 05: fastplong -&gt; fastplong
+Run 06: fastplong -&gt; fitlong
+Run 07: fastplong -&gt; chopper_trim
+Run 08: fastplong -&gt; none
+Run 09: barbell -&gt; fastplong
+Run 10: barbell -&gt; fitlong
+Run 11: barbell -&gt; chopper_trim
+Run 12: barbell -&gt; none
+Run 13: dorado -&gt; fastplong
+Run 14: dorado -&gt; fitlong
+Run 15: dorado -&gt; chopper_trim
+Run 16: dorado -&gt; none
+Run 17: untrimmed -&gt; fastplong
+Run 18: untrimmed -&gt; fitlong
+Run 19: untrimmed -&gt; chopper_trim
+Run 20: untrimmed -&gt; none
+
+Total pipeline to be benchmarked (single dataset): 20</code></pre>
+</div>
+</div>
+<p>20 permutations? x 3 depths x models x applications</p>
 
 
 </section>
