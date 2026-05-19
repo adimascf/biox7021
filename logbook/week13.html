@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Week 13: Basecalling with kitname and Choosing quality processing tools – BIOX7021 LOGBOOK - 2026</title>
+<title>Week 13: Basecalling with kit name specified and selection of quality preprocessing tools – BIOX7021 LOGBOOK - 2026</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -418,7 +418,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Week 13: Basecalling with kitname and Choosing quality processing tools</h1>
+<h1 class="title">Week 13: Basecalling with kit name specified and selection of quality preprocessing tools</h1>
 </div>
 
 
@@ -437,15 +437,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="overview" class="level2">
 <h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p>Reevaluating trimming tools using kit specified basecalling, calculating FN and FP sums, and assessing quality preprocessing tools in isolation.</p>
 </section>
 <section id="weekly-meeting-and-action-items-20-05-2026" class="level2">
 <h2 class="anchored" data-anchor-id="weekly-meeting-and-action-items-20-05-2026">Weekly meeting and action items (20-05-2026)</h2>
 <ul>
-<li>I reran the pipline assesment of adapter/barcode trimming tools using input from fastq generated from basecalling with kit name specified</li>
+<li>I reran the pipeline assessment of the adapter/barcode trimming tools using fastq files generated from basecalling with the kit name specified.</li>
 <li>Added sum of FN and FP metrics, and visualised them in bar charts</li>
-<li>Chose the quality based preprocessing tools and also their corrresponding options or paramters.</li>
-<li>Need to chose representatvie tools from both adapter/barcode trimming and quality based filtering tools to be included in the main pipeline</li>
-<li>How many permutation we can have?</li>
+<li>I chose the quality based preprocessing tools along with their corresponding options/parameters, and assessed them in isolation, similar to the adapter trimming tools.</li>
+<li>Need to choose representative tools from both adapter/barcode trimming and quality-based filtering tools to include in the main pipeline. We can select these tools based on the current results from both the variant calling metrics and genome assembly metrics.</li>
+<li>How many permutations can we have?</li>
 </ul>
 </section>
 <section id="results-when-we-specify-the-kit-name-in-the-basecalling-process" class="level2">
@@ -453,7 +454,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="genome-assembly-metrics-contamination" class="level3">
 <h3 class="anchored" data-anchor-id="genome-assembly-metrics-contamination">Genome assembly metrics: contamination</h3>
 <p>Overall, we found fewer contamination when we specify the kit. More importantly, we ne longer see adapter/barcode contaminant in the <code>fastplong</code> and <code>porcehop_abi</code> split/discard assemblies, both hac and sup dataset.</p>
-<div id="01dffd56" class="cell" data-execution_count="1">
+<div id="4f5fec20" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import pandas as pd</span></span>
@@ -506,7 +507,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="contamination-details" class="level4">
 <h4 class="anchored" data-anchor-id="contamination-details">Contamination details</h4>
-<div id="652af3ad" class="cell" data-execution_count="2">
+<div id="32c3c99b" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -520,7 +521,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_54e0a8ca_8cc0_40f4_a838_d2d38ac381d2">
+<table id="itables_fb75953a_6a31_45c9_89d8_2552d28ba854">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -590,7 +591,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_54e0a8ca_8cc0_40f4_a838_d2d38ac381d2:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_fb75953a_6a31_45c9_89d8_2552d28ba854:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
@@ -617,7 +618,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="genome-assembly-metrics-sequence-and-structural-accuracy" class="level3">
 <h3 class="anchored" data-anchor-id="genome-assembly-metrics-sequence-and-structural-accuracy">Genome assembly metrics: Sequence and Structural Accuracy</h3>
-<div id="0f331315" class="cell" data-execution_count="3">
+<div id="73a55a3b" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -637,7 +638,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_19a57666_8bcd_4b07_984c_3f1c246b7502">
+<table id="itables_46a9af8a_4809_4cbf_91a5_1a92a2480fca">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -707,7 +708,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_19a57666_8bcd_4b07_984c_3f1c246b7502:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_46a9af8a_4809_4cbf_91a5_1a92a2480fca:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
@@ -749,7 +750,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="variant-calling-metrics">Variant calling Metrics</h3>
 <section id="f1-scrore" class="level4">
 <h4 class="anchored" data-anchor-id="f1-scrore">F1 scrore</h4>
-<div id="afebbe8d" class="cell" data-execution_count="4">
+<div id="90077e1b" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -763,7 +764,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_53ea545d_3699_4a3e_8a57_bfa369e1a7c7">
+<table id="itables_110acab6_a7ae_4371_8c2e_59928fcd45a9">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -833,7 +834,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_53ea545d_3699_4a3e_8a57_bfa369e1a7c7:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_110acab6_a7ae_4371_8c2e_59928fcd45a9:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
@@ -865,7 +866,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="sum-of-fn-and-fp" class="level4">
 <h4 class="anchored" data-anchor-id="sum-of-fn-and-fp">Sum of FN and FP</h4>
-<div id="b9b90d72" class="cell" data-execution_count="5">
+<div id="5f6e5401" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -886,7 +887,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_f4bb61da_3b9a_40a4_803b_ba17fb1197ef">
+<table id="itables_c56ddf09_9758_4830_8fbc_e9ddfb4f54e8">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -956,7 +957,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_f4bb61da_3b9a_40a4_803b_ba17fb1197ef:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_c56ddf09_9758_4830_8fbc_e9ddfb4f54e8:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
@@ -976,7 +977,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </script>
 </div>
 </div>
-<div id="d11be1f0" class="cell" data-execution_count="6">
+<div id="158427e4" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import pandas as pd</span></span>
@@ -1046,7 +1047,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <figcaption>False Positive</figcaption>
 </figure>
 </div>
-<div id="fb5c7c00" class="cell" data-execution_count="7">
+<div id="d7f8e22a" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -1067,7 +1068,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_635bd9e5_0b9a_41b1_b36c_48163cb67cfe">
+<table id="itables_9560e523_619d_4714_bbb8_f42b07e875e2">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -1137,7 +1138,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_635bd9e5_0b9a_41b1_b36c_48163cb67cfe:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_9560e523_619d_4714_bbb8_f42b07e875e2:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
@@ -1176,7 +1177,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="sum-of-fn-and-fp-1" class="level4">
 <h4 class="anchored" data-anchor-id="sum-of-fn-and-fp-1">Sum of FN and FP</h4>
-<div id="32640519" class="cell" data-execution_count="8">
+<div id="f7d9ed6b" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import pandas as pd</span></span>
@@ -1260,68 +1261,62 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <figcaption>NGA50</figcaption>
 </figure>
 </div>
-<div id="99936d47" class="cell" data-execution_count="9">
+<p><code>chopper</code> standard (just filter the reads based on average phred quality and read length) seems to damage the NG50 metrics in hac dataset, and also performed slighly worst than unprocessed/untrimmed dataset.</p>
+<div id="06f6c1d8" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import pandas as pd</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># import matplotlib.pyplot as plt</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># import seaborn as sns</span></span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>contamination_count <span class="op">=</span> pd.read_csv(<span class="st">"../results/tables/assess/assembly-quality/metrics/quality_contaminant_summary_count.csv"</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># contamination_count = pd.read_csv("../results/tables/assess/assembly-quality/metrics/quality_contaminant_summary_count.csv")</span></span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>sns.set_theme(style<span class="op">=</span><span class="st">"whitegrid"</span>)</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>models <span class="op">=</span> [<span class="st">"sup"</span>, <span class="st">"hac"</span>]</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>hue_order <span class="op">=</span> [<span class="st">"100x"</span>, <span class="st">"50x"</span>, <span class="st">"20x"</span>]</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>order_abs <span class="op">=</span> <span class="bu">sorted</span>(contamination_count[<span class="st">"trimmer"</span>].unique())</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co"># sns.set_theme(style="whitegrid")</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co"># models = ["sup", "hac"]</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co"># hue_order = ["100x", "50x", "20x"]</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co"># order_abs = sorted(contamination_count["trimmer"].unique())</span></span>
 <span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(nrows<span class="op">=</span><span class="dv">1</span>, ncols<span class="op">=</span><span class="bu">len</span>(models), figsize<span class="op">=</span>(<span class="dv">14</span>, <span class="fl">5.5</span>), dpi<span class="op">=</span><span class="dv">100</span>, sharex<span class="op">=</span><span class="va">True</span>, sharey<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="co"># fig, axes = plt.subplots(nrows=1, ncols=len(models), figsize=(14, 5.5), dpi=100, sharex=True, sharey=True)</span></span>
 <span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> c, model <span class="kw">in</span> <span class="bu">enumerate</span>(models):</span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> axes[c]</span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># During loop 1, the variable `model` equals "sup"</span></span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    contamination_count_sub <span class="op">=</span> contamination_count.query(<span class="st">"model == @model"</span>)</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="co"># for c, model in enumerate(models):</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="co">#     ax = axes[c]</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="co">#     # During loop 1, the variable `model` equals "sup"</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="co">#     contamination_count_sub = contamination_count.query("model == @model")</span></span>
 <span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> contamination_count_sub.empty:</span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>        sns.boxplot(data<span class="op">=</span>contamination_count_sub, x<span class="op">=</span><span class="st">"trimmer"</span>, y<span class="op">=</span><span class="st">"contamination_count"</span>, hue<span class="op">=</span><span class="st">"depth"</span>, order<span class="op">=</span>order_abs, hue_order<span class="op">=</span>hue_order, ax<span class="op">=</span>ax, fliersize<span class="op">=</span><span class="dv">0</span>, gap<span class="op">=</span><span class="fl">0.1</span>)</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="co">#     if not contamination_count_sub.empty:</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="co">#         sns.boxplot(data=contamination_count_sub, x="trimmer", y="contamination_count", hue="depth", order=order_abs, hue_order=hue_order, ax=ax, fliersize=0, gap=0.1)</span></span>
 <span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>        sns.stripplot(data<span class="op">=</span>contamination_count_sub, x<span class="op">=</span><span class="st">"trimmer"</span>, y<span class="op">=</span><span class="st">"contamination_count"</span>, hue<span class="op">=</span><span class="st">"depth"</span>, order<span class="op">=</span>order_abs, hue_order<span class="op">=</span>hue_order, ax<span class="op">=</span>ax, alpha<span class="op">=</span><span class="fl">0.6</span>, dodge<span class="op">=</span><span class="va">True</span>, linewidth<span class="op">=</span><span class="fl">0.5</span>, edgecolor<span class="op">=</span><span class="st">"black"</span>, legend<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a><span class="co">#         sns.stripplot(data=contamination_count_sub, x="trimmer", y="contamination_count", hue="depth", order=order_abs, hue_order=hue_order, ax=ax, alpha=0.6, dodge=True, linewidth=0.5, edgecolor="black", legend=False)</span></span>
 <span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># force standard numbers instead of scientific notation</span></span>
-<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>    ax.yaxis.set_major_formatter(plt.ScalarFormatter())</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a><span class="co">#     # force standard numbers instead of scientific notation</span></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a><span class="co">#     ax.yaxis.set_major_formatter(plt.ScalarFormatter())</span></span>
 <span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># clean up the labels for a polished look</span></span>
-<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>    ax.set_ylabel(<span class="st">"Contamination Count"</span> <span class="cf">if</span> c <span class="op">==</span> <span class="dv">0</span> <span class="cf">else</span> <span class="st">""</span>)</span>
-<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>    ax.set_title(<span class="ss">f"Number of Contaminants - </span><span class="sc">{</span>model<span class="sc">.</span>upper()<span class="sc">}</span><span class="ss"> Model"</span>)</span>
-<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>    ax.set_xlabel(<span class="st">""</span>)</span>
-<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>    ax.set_xticks(ax.get_xticks())</span>
-<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>    ax.set_xticklabels(ax.get_xticklabels(), rotation<span class="op">=</span><span class="dv">45</span>, ha<span class="op">=</span><span class="st">"right"</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a><span class="co">#     # clean up the labels for a polished look</span></span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a><span class="co">#     ax.set_ylabel("Contamination Count" if c == 0 else "")</span></span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a><span class="co">#     ax.set_title(f"Number of Contaminants - {model.upper()} Model")</span></span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a><span class="co">#     ax.set_xlabel("")</span></span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a><span class="co">#     ax.set_xticks(ax.get_xticks())</span></span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a><span class="co">#     ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha="right", fontsize=11)</span></span>
 <span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> c <span class="op">==</span> <span class="dv">1</span> <span class="kw">and</span> ax.get_legend() <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
-<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>        ax.legend(title<span class="op">=</span><span class="st">"Depth"</span>, bbox_to_anchor<span class="op">=</span>(<span class="fl">1.05</span>, <span class="dv">1</span>), loc<span class="op">=</span><span class="st">'upper left'</span>)</span>
-<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> ax.get_legend() <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
-<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>        ax.get_legend().remove()</span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a><span class="co">#     if c == 1 and ax.get_legend() is not None:</span></span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a><span class="co">#         ax.legend(title="Depth", bbox_to_anchor=(1.05, 1), loc='upper left')</span></span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a><span class="co">#     elif ax.get_legend() is not None:</span></span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a><span class="co">#         ax.get_legend().remove()</span></span>
 <span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>fig.tight_layout()</span>
-<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">"../results/figures/assess/assembly-qual/quality_contamination_count.png"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a><span class="co"># fig.tight_layout()</span></span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.savefig("../results/figures/assess/assembly-qual/quality_contamination_count.png")</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="week13_files/figure-html/cell-10-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-12"><img src="week13_files/figure-html/cell-10-output-1.png" width="1388" height="534" class="figure-img"></a></p>
-</figure>
-</div>
-</div>
 </div>
 </section>
 <section id="genome-assembly-metrics-contamination-1" class="level3">
 <h3 class="anchored" data-anchor-id="genome-assembly-metrics-contamination-1">Genome assembly metrics: contamination</h3>
 <section id="contamination-count" class="level4">
 <h4 class="anchored" data-anchor-id="contamination-count">contamination count</h4>
-<p><a href="../results/figures/assess/assembly-qual/quality_contamination_count.png" class="lightbox" data-gallery="quarto-lightbox-gallery-13"><img src="../results/figures/assess/assembly-qual/quality_contamination_count.png" class="img-fluid"></a></p>
+<p><a href="../results/figures/assess/assembly-qual/quality_contamination_count.png" class="lightbox" data-gallery="quarto-lightbox-gallery-12"><img src="../results/figures/assess/assembly-qual/quality_contamination_count.png" class="img-fluid"></a></p>
 </section>
 <section id="contamination-details-1" class="level4">
 <h4 class="anchored" data-anchor-id="contamination-details-1">contamination details</h4>
-<div id="51881ec7" class="cell" data-execution_count="10">
+<div id="b015b831" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -1335,7 +1330,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_55968dfa_46d2_4c08_992c_fb0e6e1eba09">
+<table id="itables_a8879173_0e35_451a_b0ca_c4f827985219">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -1405,7 +1400,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_55968dfa_46d2_4c08_992c_fb0e6e1eba09:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_a8879173_0e35_451a_b0ca_c4f827985219:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
