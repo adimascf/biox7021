@@ -1,37 +1,9 @@
-rule faidx_self:
-	input:
-		reference=get_reference_genome,
-	log:
-		LOGS / "faidx_reference/{sample}.log",
-	resources:
-		mem="1GiB",
-		runtime="5m"
-	conda:
-		ENVS / "rasusa.yaml"
-	output:
-		fasta=RESULTS / "reference/{sample}.fa",
-		faidx=RESULTS / "reference/{sample}.fa.fai",
-	shell:
-		"""
-		cp {input.reference} {output.fasta} 2> {log}
-		samtools faidx {output.fasta} 2>> {log}
-		"""
-
-use rule faidx_self as faidx_mutref with: 
-	input:
-		reference=get_mutreference_genome
-	log:
-		LOGS / "faidx_reference/{sample}.mutref.log"
-	output:
-		fasta=RESULTS / "mutreference/{sample}.mutref.fa",
-		faidx=RESULTS / "mutreference/{sample}.mutref.fa.fai"
-
 rule downsample_rasusa:
 	input:
-		reads=RESULTS / "QC/trimming/{trimmer}/{model}/{sample}.{trimmer}.fastq",
+		reads=RESULTS / "QC/trimming/{tool}/{model}/{sample}.{tool}.fastq",
 		faidx=rules.faidx_self.output.faidx
 	log:
-		LOGS / "QC/downsampling/{trimmer}/{depth}x/{model}/{sample}.{trimmer}.rasusa.log"
+		LOGS / "QC/downsampling/{tool}/{depth}x/{model}/{sample}.{tool}.rasusa.log"
 	resources:
 		mem="64GiB",
 		runtime="30m"
@@ -40,7 +12,7 @@ rule downsample_rasusa:
 	params:
 		seed="1"
 	output:
-		reads=RESULTS / "QC/downsampling/{trimmer}/{depth}x/{model}/{sample}.{trimmer}.rasusa.fastq",
+		reads=RESULTS / "QC/downsampling/{tool}/{depth}x/{model}/{sample}.{tool}.rasusa.fastq",
 	shell:
 		"""
 		rasusa reads -c {wildcards.depth} -g {input.faidx} -s {params.seed} -o {output.reads} {input.reads} 2> {log}

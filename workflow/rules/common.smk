@@ -20,4 +20,16 @@ def get_truth_vcf(wildcards):
 def get_sequencing_kits(wildcards):
 	return pep.get_sample(wildcards.sample)["sequencing_kits"]
 
+def get_quality_threshold(wildcards):
+	if wildcards.model == "hac":
+		return 10
+	elif wildcards.model == "sup":
+		return 15
+	else:
+		return 15 # default
 
+def get_target_bases(wildcards, input):
+	# sum the lengths of all contigs (column 2 in the .fai file)
+	with open(input.faidx, "r") as lines:
+		genome_size = sum(int(line.split("\t")[1]) for line in lines)
+	return genome_size * 100
