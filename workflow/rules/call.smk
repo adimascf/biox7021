@@ -36,7 +36,7 @@ rule call_clair3:
 		mem="128GiB",
 		runtime="6h"
 	container:
-		"docker://hkubal/clair3:v2.0.0"
+		"docker://hkubal/clair3:v2.0.1"
 	shadow:
 		"shallow"
 	output:
