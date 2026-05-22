@@ -72,7 +72,7 @@ rule quality_fastplong_2:
 	conda:
 		ENVS / "fastplong.yaml"
 	params:
-		no_adapt_trimming="--disable_adapter_trimming"
+		no_adapt_trimming="--disable_adapter_trimming",
 		quality_threshold=get_quality_threshold, # hac is 10, sup is 15
 		length_threshold=1000
 	output:
@@ -328,4 +328,3 @@ rule trim_notrim:
 		# here we just copy the input file, no quality trimming/filtering process being perfomed
 		cp {input.reads} {output.reads}
 		"""
-

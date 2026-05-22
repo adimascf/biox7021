@@ -9,9 +9,18 @@ ref="${snakemake_input[reference]}"
 outvcf="${snakemake_output[vcf]}"
 
 sample="${snakemake_wildcards[sample]}"
+basecall_model="${snakemake_wildcards[model]}"
 
-model_name="r1041_e82_400bps_sup_v500"
-model_path="/opt/models/${model_name}"
+if [[ "$basecall_model" == "sup" ]]; then
+    model_name="r1041_e82_400bps_sup_v520"
+elif [[ "$basecall_model" == "hac" ]]; then
+    model_name="r1041_e82_400bps_hac_v520"
+else
+    echo "Error: Unknown basecalling model '${basecall_model}' provided by Snakemake." >&2
+    exit 1
+fi
+
+model_path="/scratch/user/s4897040/biox7021/data/clair3_models/${model_name}"
 tmpoutdir=$(mktemp -d)
 
 trap 'rm -rf "$tmpoutdir"' EXIT

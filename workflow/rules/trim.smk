@@ -23,7 +23,6 @@ rule trim_fastplong:
 	shell:
 		"""
 		fastplong -i {input.reads} -o {output.reads} {params.nofilter} --thread {threads} \
-				-s TTTTTTTTCCTGTACTTCGTTCAGTTACGTATTGCT -e ACGTAACTGAACGAAGTACAGG \
 				--json {output.json} --html {output.html} --verbose 2> {log}
 		"""
 
