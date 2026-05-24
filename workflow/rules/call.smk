@@ -7,7 +7,7 @@ rule align_minimap2:
 	threads: 4
 	resources:
 		mem="32GiB",
-		runtime="5m"
+		runtime="1h"
 	conda:
 		ENVS / "align.yaml"
 	params:

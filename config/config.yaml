@@ -18,7 +18,9 @@ trimming:
   - dorado
   - barbell
 
-filtering:
+quality:
   - fastplong
   - filtlong
+  - chopper
+  - seqkit
 

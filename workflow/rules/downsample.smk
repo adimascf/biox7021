@@ -1,6 +1,6 @@
 rule downsample_rasusa:
 	input:
-		reads=RESULTS / "QC/trimming/{tool}/{model}/{sample}.{tool}.fastq",
+		reads=RESULTS / "QC/quality/{tool}/{model}/{sample}.{tool}.fastq",
 		faidx=rules.faidx_self.output.faidx
 	log:
 		LOGS / "QC/downsampling/{tool}/{depth}x/{model}/{sample}.{tool}.rasusa.log"

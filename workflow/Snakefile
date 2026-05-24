@@ -19,8 +19,8 @@ pepfile: str(CONFIG / "pep/project_config.yaml")
 pepschema: str(CONFIG / "pep/pep_schema.yaml")
 
 SAMPLES = pep.sample_table["sample_name"]
-TRIMMING = config["trimming"] + ["untrimmed"]
-FILTERING = config["filtering"]
+# TRIMMING = config["trimming"] + ["untrimmed"]
+QUALITY = config["quality"] + ["untrimmed"]
 DEPTHS = config["depth"]
 MODELS = config["model"]
 REPEAT = config["repeat"]
@@ -29,64 +29,111 @@ KITS = pep.sample_table["sequencing_kits"]
 
 PORECHOP_ABI_SETTINGS = ["nocheck", "discard", "split"]
 BARBELL_KIT_SETTINGS = ["default", "max"]
+FASTPLONG_SEQKIT_SETTINGS = ["100", "1000"]
+FILTLONG_SETTINGS = ["meanq", "len", "default"]
+CHOPPER_SETTINGS = ["trim100", "trim1000", "extract100", "extract1000"]
 
 # Reorganise the target file uusing expand function https://snakemake.readthedocs.io/en/stable/snakefiles/rules.html#the-expand-function
-EVAL_TRIMMERS = []
-for t in TRIMMING:
-    if t == "porechop_abi":
-        EVAL_TRIMMERS.extend([f"{t}_{s}" for s in PORECHOP_ABI_SETTINGS])
-    elif t == "barbell":
-        EVAL_TRIMMERS.extend([f"{t}_{s}" for s in BARBELL_KIT_SETTINGS])
-    else:
-        EVAL_TRIMMERS.append(t)
+# EVAL_TRIMMERS = []
+# for t in TRIMMING:
+#     if t == "porechop_abi":
+#         EVAL_TRIMMERS.extend([f"{t}_{s}" for s in PORECHOP_ABI_SETTINGS])
+#     elif t == "barbell":
+#         EVAL_TRIMMERS.extend([f"{t}_{s}" for s in BARBELL_KIT_SETTINGS])
+#     else:
+#         EVAL_TRIMMERS.append(t)
+#
+# QENDS_TRIMMERS = [t for t in EVAL_TRIMMERS if "porechop_abi" not in t or t == "porechop_abi_nocheck"]
+#
+# pr_files = expand(
+#     RESULTS / "assess/call/{trimmer}/{depth}x/{sample}/{model}/{sample}.precision-recall.tsv",
+#     trimmer=EVAL_TRIMMERS, depth=DEPTHS, sample=SAMPLES, model=MODELS
+# )
+#
+# contam_report_files = expand(
+#     RESULTS / "assess/assembly/contaminant/{trimmer}/{depth}x/{sample}/{model}/{sample}.{trimmer}.contaminants.tsv",
+#     trimmer=EVAL_TRIMMERS, depth=DEPTHS, sample=SAMPLES, model=MODELS
+# )
+#
+# target_files = expand(
+#     [
+#         RESULTS / "assess/call/{trimmer}/{depth}x/{sample}/{model}/{sample}.precision-recall-summary.tsv",
+#         RESULTS / "assess/assembly/quast/{trimmer}/{depth}x/{sample}/{model}/{sample}.{trimmer}.report.tsv",
+#         RESULTS / "assess/assembly/contaminant/{trimmer}/{depth}x/{sample}/{model}/{sample}.{trimmer}.contaminants.tsv"
+#     ],
+#     trimmer=EVAL_TRIMMERS, depth=DEPTHS, sample=SAMPLES, model=MODELS
+# )
 
-QENDS_TRIMMERS = [t for t in EVAL_TRIMMERS if "porechop_abi" not in t or t == "porechop_abi_nocheck"]
+EVAL_TOOLS = []
+for t in QUALITY:
+	if t == "fastplong":
+		EVAL_TOOLS.extend([f"{t}_{s}" for s in FASTPLONG_SEQKIT_SETTINGS])
+	elif t == "seqkit":
+		EVAL_TOOLS.extend([f"{t}_{s}" for s in FASTPLONG_SEQKIT_SETTINGS])
+	elif t == "filtlong":
+		EVAL_TOOLS.extend([f"{t}_{s}" for s in FILTLONG_SETTINGS])
+	elif t == "chopper":
+		EVAL_TOOLS.extend([f"{t}_{s}" for s in CHOPPER_SETTINGS])
+	else: # untrimmed
+		EVAL_TOOLS.append(t)
+
 
 pr_files = expand(
-    RESULTS / "assess/call/{trimmer}/{depth}x/{sample}/{model}/{sample}.precision-recall.tsv",
-    trimmer=EVAL_TRIMMERS, depth=DEPTHS, sample=SAMPLES, model=MODELS
+    RESULTS / "assess/call/{tool}/{depth}x/{sample}/{model}/{sample}.precision-recall.tsv",
+    tool=EVAL_TOOLS, depth=DEPTHS, sample=SAMPLES, model=MODELS
 )
 
 contam_report_files = expand(
-    RESULTS / "assess/assembly/contaminant/{trimmer}/{depth}x/{sample}/{model}/{sample}.{trimmer}.contaminants.tsv",
-    trimmer=EVAL_TRIMMERS, depth=DEPTHS, sample=SAMPLES, model=MODELS
+    RESULTS / "assess/assembly/contaminant/{tool}/{depth}x/{sample}/{model}/{sample}.{tool}.contaminants.tsv",
+    tool=EVAL_TOOLS, depth=DEPTHS, sample=SAMPLES, model=MODELS
 )
 
 target_files = expand(
     [
-        RESULTS / "assess/call/{trimmer}/{depth}x/{sample}/{model}/{sample}.precision-recall-summary.tsv",
-        RESULTS / "assess/assembly/quast/{trimmer}/{depth}x/{sample}/{model}/{sample}.{trimmer}.report.tsv",
-        RESULTS / "assess/assembly/contaminant/{trimmer}/{depth}x/{sample}/{model}/{sample}.{trimmer}.contaminants.tsv"
+        RESULTS / "assess/call/{tool}/{depth}x/{sample}/{model}/{sample}.precision-recall-summary.tsv",
+        RESULTS / "assess/assembly/quast/{tool}/{depth}x/{sample}/{model}/{sample}.{tool}.report.tsv",
+        RESULTS / "assess/assembly/contaminant/{tool}/{depth}x/{sample}/{model}/{sample}.{tool}.contaminants.tsv"
     ],
-    trimmer=EVAL_TRIMMERS, depth=DEPTHS, sample=SAMPLES, model=MODELS
+    tool=EVAL_TOOLS, depth=DEPTHS, sample=SAMPLES, model=MODELS
 )
-
-# qends_files = expand(
-#     RESULTS / "QC/ends/{trimmer}/{model}/{sample}.{trimmer}.ends.tsv",
-#     trimmer=QENDS_TRIMMERS, model=MODELS, sample=SAMPLES
-# )
 
 rule all:
 	input:
 		target_files,
-		FIGURES / "assess/call/metrics/trimming_variant_f1.png",
-		FIGURES / "assess/call/metrics/trimming_variant_recall.png",
-		FIGURES / "assess/call/metrics/trimming_variant_precision.png",
-		TABLES / "assess/call/metrics/trimming_variant_summary.csv",
-		TABLES / "assess/call/metrics/trimming_variant_summary_averages.csv",
-		TABLES / "assess/call/metrics/trimming_variant_fnfp.csv",
-		TABLES / "assess/assembly/metrics/contaminant_summary_count.csv",
-		TABLES / "assess/assembly/metrics/contaminant_details.csv",
-		TABLES / "assess/assembly/metrics/quast_compiled_metrics.csv",
-		FIGURES / "assess/assembly/metrics/assembly_errors_per_100kbp.png",
-		FIGURES / "assess/assembly/metrics/assembly_nga50.png",
-		FIGURES / "assess/assembly/metrics/assembly_delta_errors.png",
-		FIGURES / "assess/assembly/metrics/assembly_delta_nga50.png",
-		FIGURES / "assess/call/metrics/trimming_variant_delta_fp.png"
+		# FIGURES / "assess/call/metrics/trimming_variant_f1.png",
+		# FIGURES / "assess/call/metrics/trimming_variant_recall.png",
+		# FIGURES / "assess/call/metrics/trimming_variant_precision.png",
+		# TABLES / "assess/call/metrics/trimming_variant_summary.csv",
+		# TABLES / "assess/call/metrics/trimming_variant_summary_averages.csv",
+		# TABLES / "assess/call/metrics/trimming_variant_fnfp.csv",
+		# TABLES / "assess/assembly/metrics/contaminant_summary_count.csv",
+		# TABLES / "assess/assembly/metrics/contaminant_details.csv",
+		# TABLES / "assess/assembly/metrics/quast_compiled_metrics.csv",
+		# FIGURES / "assess/assembly/metrics/assembly_errors_per_100kbp.png",
+		# FIGURES / "assess/assembly/metrics/assembly_nga50.png",
+		# FIGURES / "assess/assembly/metrics/assembly_delta_errors.png",
+		# FIGURES / "assess/assembly/metrics/assembly_delta_nga50.png",
+		# FIGURES / "assess/call/metrics/trimming_variant_delta_fp.png"
+		
+		FIGURES / "assess/call/metrics/quality_variant_f1.png",
+		FIGURES / "assess/call/metrics/quality_variant_recall.png",
+		FIGURES / "assess/call/metrics/quality_variant_precision.png",
+		TABLES / "assess/call/metrics/quality_variant_summary.csv",
+		TABLES / "assess/call/metrics/quality_variant_summary_averages.csv",
+		TABLES / "assess/call/metrics/quality_variant_fnfp.csv",
+		TABLES / "assess/assembly/metrics/quality_contaminant_summary_count.csv",
+		TABLES / "assess/assembly/metrics/quality_contaminant_details.csv",
+		TABLES / "assess/assembly/metrics/quality_quast_compiled_metrics.csv",
+		FIGURES / "assess/assembly/metrics/quality_assembly_errors_per_100kbp.png",
+		FIGURES / "assess/assembly/metrics/quality_assembly_nga50.png",
+		FIGURES / "assess/assembly/metrics/quality_assembly_delta_errors.png",
+		FIGURES / "assess/assembly/metrics/quality_assembly_delta_nga50.png",
+		FIGURES / "assess/call/metrics/quality_variant_delta_fp.png"
 
 include: RULES / "common.smk"
-include: RULES / "trim.smk"
+# include: RULES / "trim.smk"
 # include: RULES / "check.smk"
+include: RULES / "quality.smk"
 include: RULES / "downsample.smk"
 include: RULES / "call.smk"
 include: RULES / "assembly.smk"

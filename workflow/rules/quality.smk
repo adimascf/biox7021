@@ -37,7 +37,7 @@ rule quality_fastplong_1:
 		LOGS / f"QC/quality/{tool}/{{model}}/{{sample}}.log"
 	threads: 8
 	resources:
-		mem="64GiB",
+		mem="16GiB",
 		runtime=f"{5 * REPEAT}m"
 	conda:
 		ENVS / "fastplong.yaml"
@@ -54,8 +54,8 @@ rule quality_fastplong_1:
 	shell:    
 		"""   
 		fastplong -i {input.reads} -o {output.reads} {params.no_adapt_trimming} \
-				--min_length {params.length_threshold} \
-				--min_qual {params.quality_threshold} \
+				--length_required {params.length_threshold} \
+				--mean_qual {params.quality_threshold} \
 				--json {output.json} --html {output.html} --verbose 2> {log} 
 		"""    
     
@@ -67,7 +67,7 @@ rule quality_fastplong_2:
 		LOGS / f"QC/quality/{tool}/{{model}}/{{sample}}.log"
 	threads: 8
 	resources:
-		mem="64GiB",
+		mem="16GiB",
 		runtime=f"{5 * REPEAT}m"
 	conda:
 		ENVS / "fastplong.yaml"
@@ -84,9 +84,9 @@ rule quality_fastplong_2:
 	shell:    
 		"""   
 		fastplong -i {input.reads} -o {output.reads} {params.no_adapt_trimming} \
-				 --min_length {params.length_threshold} \
-				 --min_qual {params.quality_threshold} \
-				 --json {output.json} --html {output.html} --verbose 2> {log} 
+				--length_required {params.length_threshold} \
+				--mean_qual {params.quality_threshold} \
+				--json {output.json} --html {output.html} --verbose 2> {log} 
 		"""    
 
 tool = "seqkit_100"
@@ -97,7 +97,7 @@ rule quality_seqkit_1:
 		LOGS / f"QC/quality/{tool}/{{model}}/{{sample}}.log"
 	threads: 8
 	resources:
-		mem="64GiB",
+		mem="16GiB",
 		runtime=f"{5 * REPEAT}m"
 	conda:
 		ENVS / "seqkit.yaml"
@@ -110,7 +110,7 @@ rule quality_seqkit_1:
 		repeat(BENCHMARK / f"QC/quality/{tool}/{{model}}/{{sample}}.{tool}.tsv", REPEAT)
 	shell:    
 		"""
-		seqkit seq --verbose --min-len {params.length_threshold} --min-qual {params.quality_threshold} -o {output.reads} {input.reads} 2> {log}
+		seqkit seq --min-len {params.length_threshold} --min-qual {params.quality_threshold} -o {output.reads} {input.reads} 2> {log}
 		"""    
 
 tool = "seqkit_1000"
@@ -121,7 +121,7 @@ rule quality_seqkit_2:
 		LOGS / f"QC/quality/{tool}/{{model}}/{{sample}}.log"
 	threads: 8
 	resources:
-		mem="64GiB",
+		mem="16GiB",
 		runtime=f"{5 * REPEAT}m"
 	conda:
 		ENVS / "seqkit.yaml"
@@ -134,7 +134,7 @@ rule quality_seqkit_2:
 		repeat(BENCHMARK / f"QC/quality/{tool}/{{model}}/{{sample}}.{tool}.tsv", REPEAT)
 	shell:    
 		"""
-		seqkit seq --verbose --min-len {params.length_threshold} --min-qual {params.quality_threshold} -o {output.reads} {input.reads} 2> {log}
+		seqkit seq --min-len {params.length_threshold} --min-qual {params.quality_threshold} -o {output.reads} {input.reads} 2> {log}
 		"""    
 
 tool = "filtlong_meanq"    
@@ -146,7 +146,7 @@ rule quality_filtlong_1:
 		LOGS / f"QC/quality/{tool}/{{model}}/{{sample}}.log" 
 	threads: 8
 	resources:
-		mem="64GiB",
+		mem="16GiB",
 		runtime=f"{60 * REPEAT}m"
 	conda:
 		ENVS / "filtlong.yaml"
@@ -171,7 +171,7 @@ rule quality_filtlong_2:
 		LOGS / f"QC/quality/{tool}/{{model}}/{{sample}}.log" 
 	threads: 8
 	resources:
-		mem="64GiB",
+		mem="16GiB",
 		runtime=f"{60 * REPEAT}m"
 	conda:
 		ENVS / "filtlong.yaml"
@@ -196,7 +196,7 @@ rule quality_filtlong_3:
 		LOGS / f"QC/quality/{tool}/{{model}}/{{sample}}.log" 
 	threads: 8
 	resources:
-		mem="64GiB",
+		mem="16GiB",
 		runtime=f"{60 * REPEAT}m"
 	conda:
 		ENVS / "filtlong.yaml"
@@ -220,7 +220,7 @@ rule quality_chopper_1:
 		LOGS / f"QC/quality/{tool}/{{model}}/{{sample}}.log"
 	threads: 8
 	resources:
-		mem="64GiB",
+		mem="16GiB",
 		runtime=f"{25 * REPEAT}m"
 	conda:
 		ENVS / "chopper.yaml"
@@ -245,7 +245,7 @@ rule quality_chopper_2:
 		LOGS / f"QC/quality/{tool}/{{model}}/{{sample}}.log"
 	threads: 8
 	resources:
-		mem="64GiB",
+		mem="16GiB",
 		runtime=f"{25 * REPEAT}m"
 	conda:
 		ENVS / "chopper.yaml"
@@ -270,7 +270,7 @@ rule quality_chopper_3:
 		LOGS / f"QC/quality/{tool}/{{model}}/{{sample}}.log"
 	threads: 8
 	resources:
-		mem="64GiB",
+		mem="16GiB",
 		runtime=f"{25 * REPEAT}m"
 	conda:
 		ENVS / "chopper.yaml"
@@ -295,7 +295,7 @@ rule quality_chopper_4:
 		LOGS / f"QC/quality/{tool}/{{model}}/{{sample}}.log"
 	threads: 8
 	resources:
-		mem="64GiB",
+		mem="16GiB",
 		runtime=f"{25 * REPEAT}m"
 	conda:
 		ENVS / "chopper.yaml"
