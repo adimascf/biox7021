@@ -27,11 +27,12 @@ for path in snakemake.output.figures:
 frames = []
 for p in map(Path, snakemake.input.pr):
     df = pd.read_csv(p, sep="\t")
-    # Path: ../<trimmer>/<depth>/<sample>/<model>/<file.tsv>
+    # Path parsing: .../assess/call/<combo>/<depth>x/<model>/<sample>.precision-recall.tsv
     df["model"] = p.parts[-2]
-    df["sample"] = p.parts[-3]
-    df["depth"] = p.parts[-4]
-    df["trimmer"] = p.parts[-5]
+    df["depth"] = p.parts[-3]
+    df["combo"] = p.parts[-4]
+    
+    df["sample"] = p.name.split('.')[0]
     frames.append(df)
 
 pr_df = pd.concat(frames)
@@ -42,10 +43,10 @@ vartypes = ["SNP", "INDEL"]
 models = ["sup", "hac"]
 
 # Group by the new 'model' column as well to get the max F1 per specific condition
-dataix = pr_df.groupby(["trimmer", "depth", "VAR_TYPE", "sample", "model"])["F1_SCORE"].idxmax()
+dataix = pr_df.groupby(["combo", "depth", "VAR_TYPE", "sample", "model"])["F1_SCORE"].idxmax()
 data = pr_df.iloc[dataix].copy()
 
-order = sorted(set(data["trimmer"]))
+order = sorted(set(data["combo"]))
 hue_order = ["100x", "50x", "20x"]
 
 # Generate the plots
@@ -76,12 +77,12 @@ for y in metrics:
             # Only plot if data exists for this combination
             if not df.empty:
                 sns.boxplot(
-                    data=df, x="trimmer", y=y, hue="depth", 
+                    data=df, x="combo", y=y, hue="depth", 
                     order=order, hue_order=hue_order, 
                     ax=ax, fliersize=0, gap=0.2
                 )
                 sns.stripplot(
-                    data=df, x="trimmer", y=y, hue="depth", 
+                    data=df, x="combo", y=y, hue="depth", 
                     order=order, hue_order=hue_order, ax=ax,
                     alpha=0.6, dodge=True, linewidth=0.5, edgecolor="black", legend=False
                 )
@@ -126,5 +127,5 @@ for y in metrics:
 
 # Save the subsetted data to CSV
 data = data.query("VAR_TYPE not in ('ALL', 'SV')")
-data.sort_values(by=["trimmer", "sample", "model", "depth"], inplace=True)
+data.sort_values(by=["combo", "sample", "model", "depth"], inplace=True)
 data.to_csv(snakemake.output.csv, index=False)

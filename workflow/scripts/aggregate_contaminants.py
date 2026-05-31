@@ -21,11 +21,12 @@ print(f"Aggregating {len(snakemake.input.contam_report)} contamination files..."
 for sample_report in snakemake.input.contam_report:
     p = Path(sample_report)
     
-    # Path: .../contaminant/<trimmer>/<depth>/<sample>/<model>/<file.tsv>
-    trimmer = p.parts[-5]
-    depth = p.parts[-4]
-    sample = p.parts[-3]
+    # Path: .../contaminant/<combo>/<depth>/<model>/<sample>.file.tsv
     model = p.parts[-2]
+    depth = p.parts[-3]
+    combo = p.parts[-4]
+
+    sample = p.name.split('.')[0]
 
     # Handle potentially completely empty files just in case, 
     # but primarily rely on pandas to read the header
@@ -38,10 +39,10 @@ for sample_report in snakemake.input.contam_report:
     # If the file only had a header and no data rows, length will be 0
     if len(df) == 0:
         summary_records.append({
-            'trimmer': trimmer, 'depth': depth, 'sample': sample, 'model': model, 'contamination_count': 0
+            'combo': combo, 'depth': depth, 'sample': sample, 'model': model, 'contamination_count': 0
         })
     else:
-        df['trimmer'] = trimmer
+        df['combo'] = combo
         df['depth'] = depth
         df['sample'] = sample
         df['model'] = model
@@ -50,13 +51,13 @@ for sample_report in snakemake.input.contam_report:
         
         # Record the actual number of contaminant hits
         summary_records.append({
-            'trimmer': trimmer, 'depth': depth, 'sample': sample, 'model': model, 'contamination_count': len(df)
+            'combo': combo, 'depth': depth, 'sample': sample, 'model': model, 'contamination_count': len(df)
         })
 
 if data_frames:
     combined_df = pd.concat(data_frames, ignore_index=True)
     # Reorder columns to put our pipeline metadata first
-    final_cols = ['trimmer', 'depth', 'sample', 'model'] + col_names
+    final_cols = ['combo', 'depth', 'sample', 'model'] + col_names
     combined_df = combined_df[final_cols]
     
     combined_df.to_csv(snakemake.output.details, index=False)
@@ -64,7 +65,7 @@ if data_frames:
 
 else:
     # no contamination is found anywhere across all files
-    pd.DataFrame(columns=['trimmer', 'depth', 'sample', 'model'] + col_names).to_csv(snakemake.output.details, index=False)
+    pd.DataFrame(columns=['combo', 'depth', 'sample', 'model'] + col_names).to_csv(snakemake.output.details, index=False)
     print("No detailed contaminations found. Empty template created.")
 
 
@@ -78,11 +79,11 @@ if summary_records:
     model_order = {"sup": 1, "hac": 2}
     summary_df['model_sort'] = summary_df['model'].map(model_order).fillna(3)
     
-    trimmer_order = {t: i for i, t in enumerate(sorted(summary_df['trimmer'].unique())) if t != 'untrimmed'}
+    trimmer_order = {t: i for i, t in enumerate(sorted(summary_df['combo'].unique())) if t != 'untrimmed'}
     trimmer_order['untrimmed'] = 999 # force to the end
-    summary_df['trimmer_sort'] = summary_df['trimmer'].map(trimmer_order)
+    summary_df['trimmer_sort'] = summary_df['combo'].map(trimmer_order)
     
-    # Sort the summary_df: sample -> model -> depth -> trimmer
+    # Sort the summary_df: sample -> model -> depth -> combo
     summary_df = summary_df.sort_values(
         by=['sample', 'model_sort', 'depth_sort', 'trimmer_sort']
     ).drop(columns=['depth_sort', 'model_sort', 'trimmer_sort'])

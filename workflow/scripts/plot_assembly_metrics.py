@@ -16,11 +16,13 @@ for file_path in snakemake.input.reports:
     try:
         p = Path(file_path)
         
-        # Path: .../quast/<trimmer>/<depth>/<sample>/<model>/<file.tsv>
+        # Path: ../quast/<combo>/<depth>x/<model>/<sample>.<combo>.report.tsv
         model = p.parts[-2]
-        sample = p.parts[-3]
-        depth = p.parts[-4]
-        trimmer = p.parts[-5]
+        depth = p.parts[-3]
+        combo = p.parts[-4]
+        
+        # Extract the sample name from the file name (everything before the first '.')
+        sample = p.name.split('.')[0]
 
         # index_col=0 sets the metric names as the row index
         df_quast = pd.read_csv(p, sep='\t', index_col=0)
@@ -32,7 +34,7 @@ for file_path in snakemake.input.reports:
         misassemblies = int(df_quast.loc['# misassemblies', col_name])
 
         assembly_metrics.append({
-            'trimmer': trimmer, 'depth': depth, 'sample': sample, 'model': model,
+            'combo': combo, 'depth': depth, 'sample': sample, 'model': model,
             'Mismatches per 100kbp': mismatches,
             'Indels per 100kbp': indels,
             'NGA50': nga,
@@ -43,12 +45,12 @@ for file_path in snakemake.input.reports:
         print(f"Skipping {file_path} due to error: {e}")
 
 df = pd.DataFrame(assembly_metrics)
-df.sort_values(by=["trimmer", "sample", "model", "depth"], inplace=True)
+df.sort_values(by=["combo", "sample", "model", "depth"], inplace=True)
 df.to_csv(snakemake.output.csv, index=False)
 
 
 # Calcualte baseline using delta
-baseline = df[df['trimmer'] == 'untrimmed'].set_index(['sample', 'depth', 'model'])[['Mismatches per 100kbp', 'Indels per 100kbp', 'NGA50']]
+baseline = df[df['combo'] == 'unprocessed-untrimmed'].set_index(['sample', 'depth', 'model'])[['Mismatches per 100kbp', 'Indels per 100kbp', 'NGA50']]
 
 df_merged = df.set_index(['sample', 'depth', 'model']).join(baseline, rsuffix='_baseline').reset_index()
 
@@ -58,16 +60,16 @@ df_merged['Delta_Indels'] = df_merged['Indels per 100kbp_baseline'] - df_merged[
 # Calculate Log2FC (Handling zeroes gracefully if NGA50 is ever exactly 0)
 df_merged['Log2FC_NGA50'] = np.log2((df_merged['NGA50'] + 1) / (df_merged['NGA50_baseline'] + 1))
 
-# Remove untrimmed from the delta plots
-df_delta = df_merged[df_merged['trimmer'] != 'untrimmed'].copy()
+# Remove unprocessed-untrimmed from the delta plots
+df_delta = df_merged[df_merged['combo'] != 'unprocessed-untrimmed'].copy()
 
 
 ## PLOTTING (ABSOLUTE SNP AND MISMATCHES AND NGA50)
 sns.set_theme(style="whitegrid")
 models = ["sup", "hac"]
 hue_order = ["100x", "50x", "20x"]
-order_abs = sorted(df["trimmer"].unique())
-order_delta = sorted(df_delta['trimmer'].unique())
+order_abs = sorted(df["combo"].unique())
+order_delta = sorted(df_delta['combo'].unique())
 
 # Absolute Mismatches and Indels
 metrics_abs = ["Mismatches per 100kbp", "Indels per 100kbp"]
@@ -79,8 +81,8 @@ for r, metric in enumerate(metrics_abs):
         df_sub = df.query("model == @model")
 
         if not df_sub.empty:
-            sns.boxplot(data=df_sub, x="trimmer", y=metric, hue="depth", order=order_abs, hue_order=hue_order, ax=ax, fliersize=0, gap=0.1)
-            sns.stripplot(data=df_sub, x="trimmer", y=metric, hue="depth", order=order_abs, hue_order=hue_order, ax=ax, alpha=0.6, dodge=True, linewidth=0.5, edgecolor="black", legend=False)
+            sns.boxplot(data=df_sub, x="combo", y=metric, hue="depth", order=order_abs, hue_order=hue_order, ax=ax, fliersize=0, gap=0.1)
+            sns.stripplot(data=df_sub, x="combo", y=metric, hue="depth", order=order_abs, hue_order=hue_order, ax=ax, alpha=0.6, dodge=True, linewidth=0.5, edgecolor="black", legend=False)
 
         ax.set_ylabel(metric if c == 0 else "")
         ax.set_title(f"{model} model" if r == 0 else "")
@@ -103,8 +105,8 @@ for c, model in enumerate(models):
     df_sub = df.query("model == @model")
 
     if not df_sub.empty:
-        sns.boxplot(data=df_sub, x="trimmer", y="NGA50", hue="depth", order=order_abs, hue_order=hue_order, ax=ax, fliersize=0, gap=0.1)
-        sns.stripplot(data=df_sub, x="trimmer", y="NGA50", hue="depth", order=order_abs, hue_order=hue_order, ax=ax, alpha=0.6, dodge=True, linewidth=0.5, edgecolor="black", legend=False)
+        sns.boxplot(data=df_sub, x="combo", y="NGA50", hue="depth", order=order_abs, hue_order=hue_order, ax=ax, fliersize=0, gap=0.1)
+        sns.stripplot(data=df_sub, x="combo", y="NGA50", hue="depth", order=order_abs, hue_order=hue_order, ax=ax, alpha=0.6, dodge=True, linewidth=0.5, edgecolor="black", legend=False)
 
     ax.set_ylabel("NGA50" if c == 0 else "")
     ax.set_title(f"NGA50 - {model} model")
@@ -133,8 +135,8 @@ for r, metric in enumerate(metrics_delta):
         ax.axhline(0, color='red', linestyle='--', linewidth=1.5, zorder=0, label="Untrimmed Baseline")
 
         if not df_sub.empty:
-            sns.boxplot(data=df_sub, x='trimmer', y=metric, hue='depth', order=order_delta, hue_order=hue_order, ax=ax, fliersize=0, gap=0.1)
-            sns.stripplot(data=df_sub, x='trimmer', y=metric, hue='depth', order=order_delta, hue_order=hue_order, ax=ax, alpha=0.6, dodge=True, linewidth=0.5, edgecolor="black", legend=False)
+            sns.boxplot(data=df_sub, x='combo', y=metric, hue='depth', order=order_delta, hue_order=hue_order, ax=ax, fliersize=0, gap=0.1)
+            sns.stripplot(data=df_sub, x='combo', y=metric, hue='depth', order=order_delta, hue_order=hue_order, ax=ax, alpha=0.6, dodge=True, linewidth=0.5, edgecolor="black", legend=False)
 
         clean_name = metric.replace("Delta_", "Errors Prevented: ")
         ax.set_ylabel(clean_name if c == 0 else "")
@@ -165,8 +167,8 @@ for c, model in enumerate(models):
     ax.set_ylim(-y_limit, y_limit)
 
     if not df_sub.empty:
-        sns.boxplot(data=df_sub, x='trimmer', y='Log2FC_NGA50', hue='depth', order=order_delta, hue_order=hue_order, ax=ax, fliersize=0, gap=0.1)
-        sns.stripplot(data=df_sub, x='trimmer', y='Log2FC_NGA50', hue='depth', order=order_delta, hue_order=hue_order, ax=ax, alpha=0.6, dodge=True, linewidth=0.5, edgecolor="black", legend=False)
+        sns.boxplot(data=df_sub, x='combo', y='Log2FC_NGA50', hue='depth', order=order_delta, hue_order=hue_order, ax=ax, fliersize=0, gap=0.1)
+        sns.stripplot(data=df_sub, x='combo', y='Log2FC_NGA50', hue='depth', order=order_delta, hue_order=hue_order, ax=ax, alpha=0.6, dodge=True, linewidth=0.5, edgecolor="black", legend=False)
 
     ax.set_ylabel("Log2 Fold Change" if c == 0 else "")
     ax.set_title(f"Symmetric NGA50 Improv/Damage - {model}")

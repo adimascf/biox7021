@@ -13,22 +13,23 @@ print(f"Processing {len(snakemake.input.pr)} precision-recall files...")
 frames = []
 for p in map(Path, snakemake.input.pr):
     df = pd.read_csv(p, sep="\t")
-    # Path: .../<trimmer>/<depth>x/<sample>/<model>/<sample>.precision-recall.tsv
+    # Path: .../<combo>/<depth>x/<model>/<sample>.precision-recall.tsv
     df["model"] = p.parts[-2]
-    df["sample"] = p.parts[-3]
-    df["depth"] = p.parts[-4]
-    df["trimmer"] = p.parts[-5]
+    df["depth"] = p.parts[-3]
+    df["combo"] = p.parts[-4]
+
+    df["sample"] = p.name.split('.')[0]
     frames.append(df)
 
 pr_df = pd.concat(frames)
 pr_df.reset_index(inplace=True, drop=True)
 
 # Get the row with the maximum F1 score for each combination
-dataix = pr_df.groupby(["trimmer", "depth", "VAR_TYPE", "sample", "model"])["F1_SCORE"].idxmax()
+dataix = pr_df.groupby(["combo", "depth", "VAR_TYPE", "sample", "model"])["F1_SCORE"].idxmax()
 data = pr_df.iloc[dataix]
 
 # Copy relevant columns
-data_fnfp = data[['trimmer', 'depth', 'sample', 'model', 'VAR_TYPE', 'TRUTH_FN', 'QUERY_FP', 'TRUTH_TOTAL', "F1_SCORE", "PREC", "RECALL"]].copy()
+data_fnfp = data[['combo', 'depth', 'sample', 'model', 'VAR_TYPE', 'TRUTH_FN', 'QUERY_FP', 'TRUTH_TOTAL', "F1_SCORE", "PREC", "RECALL"]].copy()
 data_fnfp = data_fnfp[(data_fnfp["VAR_TYPE"] == "SNP") | (data_fnfp["VAR_TYPE"] == "INDEL")]
 
 # Sorting maps
@@ -38,9 +39,9 @@ data_fnfp['depth_sort'] = data_fnfp['depth'].map(depth_order)
 model_order = {"sup": 1, "hac": 2}
 data_fnfp['model_sort'] = data_fnfp['model'].map(model_order).fillna(3)
 
-trimmer_order = {t: i for i, t in enumerate(sorted(data_fnfp['trimmer'].unique())) if t != 'untrimmed'}
-trimmer_order['untrimmed'] = 999 # force to the end
-data_fnfp['trimmer_sort'] = data_fnfp['trimmer'].map(trimmer_order)
+trimmer_order = {t: i for i, t in enumerate(sorted(data_fnfp['combo'].unique())) if t != 'unprocessed-untrimmed'}
+trimmer_order['unprocessed-untrimmed'] = 999 # force to the end
+data_fnfp['trimmer_sort'] = data_fnfp['combo'].map(trimmer_order)
 
 # Sort the data_fnfp
 data_fnfp = data_fnfp.sort_values(
@@ -55,19 +56,19 @@ print(f"Saved compiled FN/FP metrics to {snakemake.output.csv}")
 # Data Processing: Calculate Deltas
 df_plot = data_fnfp.copy()
 
-# Isolate the untrimmed baseline
-baseline = df_plot[df_plot['trimmer'] == 'untrimmed'].set_index(['sample', 'depth', 'model', 'VAR_TYPE'])[['TRUTH_FN', 'QUERY_FP']]
+# Isolate the unprocessed-untrimmed baseline
+baseline = df_plot[df_plot['combo'] == 'unprocessed-untrimmed'].set_index(['sample', 'depth', 'model', 'VAR_TYPE'])[['TRUTH_FN', 'QUERY_FP']]
 
 # Join the baseline back to the main dataframe
 df_merged = df_plot.set_index(['sample', 'depth', 'model', 'VAR_TYPE']).join(baseline, rsuffix='_baseline').reset_index()
 
-# Calculate the Deltas (baseline - trimmer)
+# Calculate the Deltas (baseline - combo)
 # Positive value = tool PREVENTED errors compared to baseline
 df_merged['FN_Prevented'] = df_merged['TRUTH_FN_baseline'] - df_merged['TRUTH_FN']
 df_merged['FP_Prevented'] = df_merged['QUERY_FP_baseline'] - df_merged['QUERY_FP']
 
-# Remove the untrimmed rows
-df_final = df_merged[df_merged['trimmer'] != 'untrimmed'].copy()
+# Remove the unprocessed-untrimmed rows
+df_final = df_merged[df_merged['combo'] != 'unprocessed-untrimmed'].copy()
 
 # Plotting Setup
 sns.set_theme(style="whitegrid")
@@ -81,7 +82,7 @@ metrics_to_plot = {
 rows = ["SNP", "INDEL"]
 models = ["sup", "hac"]
 hue_order = ["100x", "50x", "20x"]
-order = sorted(df_final['trimmer'].unique())
+order = sorted(df_final['combo'].unique())
 
 # Loop through both metrics and generate a separate 2x2 grid for each
 for metric_col, output_file in metrics_to_plot.items():
@@ -95,16 +96,16 @@ for metric_col, output_file in metrics_to_plot.items():
             ax = axes[r, c]
             df_sub = df_final.query("VAR_TYPE == @vartype and model == @model")
 
-            # Draw the zero-baseline (represents 'untrimmed')
+            # Draw the zero-baseline (represents 'unprocessed-untrimmed')
             ax.axhline(0, color='red', linestyle='--', linewidth=1.5, zorder=0, label="Untrimmed Baseline")
 
             if not df_sub.empty:
                 sns.boxplot(
-                    data=df_sub, x="trimmer", y=metric_col, hue="depth", 
+                    data=df_sub, x="combo", y=metric_col, hue="depth", 
                     order=order, hue_order=hue_order, ax=ax, fliersize=0, gap=0.2
                 )
                 sns.stripplot(
-                    data=df_sub, x="trimmer", y=metric_col, hue="depth", 
+                    data=df_sub, x="combo", y=metric_col, hue="depth", 
                     order=order, hue_order=hue_order, ax=ax, 
                     alpha=0.6, dodge=True, linewidth=0.5, edgecolor="black", legend=False
                 )

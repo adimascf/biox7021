@@ -9,7 +9,7 @@ output_file=snakemake.output.csv
 
 df = pd.read_csv(input_file)
 
-summary = df.groupby(["trimmer", "model", "depth", "VAR_TYPE"])[["PREC", "RECALL", "F1_SCORE"]].mean().reset_index()
+summary = df.groupby(["combo", "model", "depth", "VAR_TYPE"])[["PREC", "RECALL", "F1_SCORE"]].mean().reset_index()
 summary = summary.round(5)
 
 # sort 100x, 50x, and 20x
@@ -18,7 +18,7 @@ summary["depth"] = pd.Categorical(summary["depth"], categories=["100x", "50x", "
 summary["model"] = pd.Categorical(summary["model"], categories=["sup", "hac"], ordered=True)
 
 # Aplly sort logic
-summary = summary.sort_values(by=["trimmer", "model", "depth", "VAR_TYPE"])
+summary = summary.sort_values(by=["combo", "model", "depth", "VAR_TYPE"])
 
 summary.to_csv(output_file, index=False)
 print(f"Successfully calculated averages and saved to: {output_file}")

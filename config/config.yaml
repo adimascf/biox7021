@@ -13,7 +13,6 @@ depth:
   - 100
 
 trimming:
-  - fastplong
   - porechop_abi
   - dorado
   - barbell

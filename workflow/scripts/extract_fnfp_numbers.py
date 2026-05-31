@@ -11,22 +11,22 @@ output_file=snakemake.output.csv
 frames = []
 for p in map(Path, input_files):
     df = pd.read_csv(p, sep="\t")
-    # .../<trimmer>/<depth>/<sample>/<model>/<file.tsv>
+    # .../<combo>/<depth>/<model>/<sample>.file.tsv
     df["model"] = p.parts[-2]
-    df["sample"] = p.parts[-3]
-    df["depth"] = p.parts[-4]
-    df["trimmer"] = p.parts[-4]
+    df["depth"] = p.parts[-3]
+    df["combo"] = p.parts[-4]
+    df["sample"] = p.name.split('.')[0]
     frames.append(df)
 
 pr_df = pd.concat(frames)
 pr_df.reset_index(inplace=True, drop=True)
 
 # Get the row with the maximum F1 score for each combination
-dataix = pr_df.groupby(["trimmer", "depth", "VAR_TYPE", "sample", "model"])["F1_SCORE"].idxmax()
+dataix = pr_df.groupby(["combo", "depth", "VAR_TYPE", "sample", "model"])["F1_SCORE"].idxmax()
 data = pr_df.iloc[dataix]
 
-# order it to make it easy to compare trimmer performance
-data_fnfp = data[['trimmer', 'depth', 'sample', 'model', 'VAR_TYPE', 'TRUTH_FN', 'QUERY_FP', 'TRUTH_TOTAL']].copy()
+# order it to make it easy to compare combo performance
+data_fnfp = data[['combo', 'depth', 'sample', 'model', 'VAR_TYPE', 'TRUTH_FN', 'QUERY_FP', 'TRUTH_TOTAL']].copy()
 data_fnfp = data_fnfp[(data_fnfp["VAR_TYPE"] == "SNP") | (data_fnfp["VAR_TYPE"] == "INDEL")]
 
 # Sort mappings
@@ -36,11 +36,11 @@ data_fnfp['depth_sort'] = data_fnfp['depth'].map(depth_order)
 model_order = {"sup": 1, "hac": 2}
 data_fnfp['model_sort'] = data_fnfp['model'].map(model_order).fillna(3)
 
-trimmer_order = {t: i for i, t in enumerate(sorted(data_fnfp['trimmer'].unique())) if t != 'untrimmed'}
-trimmer_order['untrimmed'] = 999 # force to the end
-data_fnfp['trimmer_sort'] = data_fnfp['trimmer'].map(trimmer_order)
+trimmer_order = {t: i for i, t in enumerate(sorted(data_fnfp['combo'].unique())) if t != 'unprocessed-untrimmed'}
+trimmer_order['unprocessed-untrimmed'] = 999 # force to the end
+data_fnfp['trimmer_sort'] = data_fnfp['combo'].map(trimmer_order)
 
-# sort the data_fnfp: sample -> model -> depth -> variant type -> trimmer
+# sort the data_fnfp: sample -> model -> depth -> variant type -> combo
 data_fnfp = data_fnfp.sort_values(
     by=['sample', 'model_sort', 'depth_sort', 'VAR_TYPE', 'trimmer_sort']
 ).drop(columns=['depth_sort', 'model_sort', 'trimmer_sort'])
