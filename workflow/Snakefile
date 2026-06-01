@@ -62,20 +62,41 @@ rule all:
 	input:
 		target_files,
 		
-		FIGURES / "assess/call/metrics/combo_variant_f1.png",
-		FIGURES / "assess/call/metrics/combo_variant_recall.png",
-		FIGURES / "assess/call/metrics/combo_variant_precision.png",
+		FIGURES / "assess/call/metrics/combo_variant_f1_mean_pointplot.png",
+		FIGURES / "assess/call/metrics/combo_variant_precision_mean_pointplot.png",
+		FIGURES / "assess/call/metrics/combo_variant_recall_mean_pointplot.png",
+		FIGURES / "assess/call/metrics/combo_variant_f1_median_pointplot.png",
+		FIGURES / "assess/call/metrics/combo_variant_precision_median_pointplot.png",
+		FIGURES / "assess/call/metrics/combo_variant_recall_median_pointplot.png",
+
+		FIGURES / "assess/call/metrics/combo_variant_f1_mean_stripplot.png",
+		FIGURES / "assess/call/metrics/combo_variant_precision_mean_stripplot.png",
+		FIGURES / "assess/call/metrics/combo_variant_recall_mean_stripplot.png",
+		FIGURES / "assess/call/metrics/combo_variant_f1_median_stripplot.png",
+		FIGURES / "assess/call/metrics/combo_variant_precision_median_stripplot.png",
+		FIGURES / "assess/call/metrics/combo_variant_recall_median_stripplot.png",
+		
 		TABLES / "assess/call/metrics/combo_variant_summary.csv",
 		TABLES / "assess/call/metrics/combo_variant_summary_averages.csv",
 		TABLES / "assess/call/metrics/combo_variant_fnfp.csv",
+		FIGURES / "assess/call/metrics/combo_variant_fp.png",
+		FIGURES / "assess/call/metrics/combo_variant_fn.png",
+
 		TABLES / "assess/assembly/metrics/combo_contaminant_summary_count.csv",
 		TABLES / "assess/assembly/metrics/combo_contaminant_details.csv",
+		FIGURES / "assess/assembly/metrics/combo_contaminant_count.png",
 		TABLES / "assess/assembly/metrics/combo_quast_compiled_metrics.csv",
-		FIGURES / "assess/assembly/metrics/combo_assembly_errors_per_100kbp.png",
-		FIGURES / "assess/assembly/metrics/combo_assembly_nga50.png",
-		FIGURES / "assess/assembly/metrics/combo_assembly_delta_errors.png",
-		FIGURES / "assess/assembly/metrics/combo_assembly_delta_nga50.png",
-		FIGURES / "assess/call/metrics/combo_variant_delta_fp.png"
+		FIGURES / "assess/assembly/metrics/combo_assembly_errors_per_100kbp_barplot.png",
+		FIGURES / "assess/assembly/metrics/combo_assembly_errors_per_100kbp_stripplot.png",
+
+		FIGURES / "assess/assembly/metrics/combo_assembly_nga50_normalised_linear_pointplot_mean.png",
+		FIGURES / "assess/assembly/metrics/combo_assembly_nga50_normalised_linear_pointplot_median.png",
+		FIGURES / "assess/assembly/metrics/combo_assembly_nga50_normalised_linear_stripplot_mean.png",
+		FIGURES / "assess/assembly/metrics/combo_assembly_nga50_normalised_linear_stripplot_median.png",
+		FIGURES / "assess/assembly/metrics/combo_assembly_nga50_normalised_logit_stripplot_mean.png",
+		FIGURES / "assess/assembly/metrics/combo_assembly_nga50_normalised_logit_stripplot_median.png",
+		FIGURES / "assess/assembly/metrics/combo_assembly_nga50_normalised_logit_pointplot_mean.png",
+		FIGURES / "assess/assembly/metrics/combo_assembly_nga50_normalised_logit_pointplot_median.png"
 
 include: RULES / "common.smk"
 include: RULES / "trim.smk"

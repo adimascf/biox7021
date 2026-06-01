@@ -59,8 +59,10 @@ rule assess_variant_plot:
 		ENVS / "generate_figure_python.yaml"
 	output:
 		figures=[
-				FIGURES / f"assess/call/metrics/combo_variant_{metric}.png"
+				FIGURES / f"assess/call/metrics/combo_variant_{metric}_{est}_{p_type}.png"
 				for metric in ["f1", "recall", "precision"]
+				for est in ["mean", "median"]
+				for p_type in ["pointplot", "stripplot"]
 				],
 		csv=TABLES / "assess/call/metrics/combo_variant_summary.csv"
 	script:
@@ -83,7 +85,7 @@ rule assess_variant_average:
 
 rule assess_variant_fnfp:
 	input:
-		pr=list(pr_files)
+		csv=rules.assess_variant_plot.output.csv
 	log:
 		LOGS / "assess_mutref_calls/trimming_variant_fnfp.log"
 	resources:
@@ -93,8 +95,10 @@ rule assess_variant_fnfp:
 		ENVS / "generate_figure_python.yaml"
 	output:
 		csv=TABLES / "assess/call/metrics/combo_variant_fnfp.csv",
-		fn_plot=FIGURES / "assess/call/metrics/combo_variant_delta_fn.png",
-		fp_plot=FIGURES / "assess/call/metrics/combo_variant_delta_fp.png"
+		figures=[
+				FIGURES / f"assess/call/metrics/combo_variant_{metric}.png"
+				for metric in ["fn", "fp"]
+				]
 	script:
 		"../scripts/extract_plot_fnfp.py"
 
@@ -174,26 +178,79 @@ rule aggregate_assembly_contam:
 	script:
 		"../scripts/aggregate_contaminants.py"
 
-rule plot_assembly_quast_metrics:
+rule plot_assembly_contam:
+	input:
+		csv=rules.aggregate_assembly_contam.output.summary
+	log:
+		LOGS / "assess/assembly/contaminant/plot_assembly_contam.log"
+	threads: 4
+	resources:
+		mem="8GiB",
+		runtime="20m"
+	conda:
+		ENVS / "generate_figure_python.yaml"
+	output:
+		figure=FIGURES / "assess/assembly/metrics/combo_contaminant_count.png"
+	script:
+		"../scripts/plot_assembly_contam_count.py"
+
+rule compile_quast_metrics:
 	input:
 		reports=expand(
 				RESULTS / "assess/assembly/quast/{combo}/{depth}x/{model}/{sample}.{combo}.report.tsv",
 				combo=COMBINATIONS,
 				depth=DEPTHS,
 				sample=SAMPLES,
-				model=MODELS)
+				model=MODELS),
+		fai=expand(
+				RESULTS / "reference/{sample}.fa.fai",
+				sample=SAMPLES)
 	log:
-		LOGS / "assess/assembly/plot_quast_metrics.log"
+		LOGS / "assess/assembly/compile_quast_metrics.log"
 	resources:
 		mem="16GiB",
 		runtime="20m"
 	conda:
 		ENVS / "generate_figure_python.yaml"
 	output:
-		csv=TABLES / "assess/assembly/metrics/combo_quast_compiled_metrics.csv",
-		error_plot=FIGURES / "assess/assembly/metrics/combo_assembly_errors_per_100kbp.png",
-		nga50_plot=FIGURES / "assess/assembly/metrics/combo_assembly_nga50.png",
-		delta_error_plot=FIGURES / "assess/assembly/metrics/combo_assembly_delta_errors.png",
-		delta_nga50_plot=FIGURES / "assess/assembly/metrics/combo_assembly_delta_nga50.png"
+		csv=TABLES / "assess/assembly/metrics/combo_quast_compiled_metrics.csv"
 	script:
-		"../scripts/plot_assembly_metrics.py"
+		"../scripts/compile_quast_metrics.py"
+
+rule plot_assembly_error:
+	input:
+		csv=rules.compile_quast_metrics.output.csv
+	log:
+		LOGS / "assess/assembly/plot_quast_metrics_assembly_error.log"
+	resources:
+		mem="16GiB",
+		runtime="20m"
+	conda:
+		ENVS / "generate_figure_python.yaml"
+	output:
+		figures=[
+				FIGURES / f"assess/assembly/metrics/combo_assembly_errors_per_100kbp_{p_type}.png"
+				for p_type in ["barplot", "stripplot"]
+				]
+	script:
+		"../scripts/plot_assembly_errors.py"
+
+rule plot_assembly_nga50:
+	input:
+		csv=rules.compile_quast_metrics.output.csv
+	log:
+		LOGS / "assess/assembly/plot_quast_metrics_nga50.log"
+	resources:
+		mem="16GiB",
+		runtime="20m"
+	conda:
+		ENVS / "generate_figure_python.yaml"
+	output:
+		figures=[
+				FIGURES / f"assess/assembly/metrics/combo_assembly_nga50_normalised_{scale}_{p_type}_{est}.png"
+				for scale in ["linear", "logit"]
+				for p_type in ["pointplot", "stripplot"]
+				for est in ["mean", "median"]
+				]
+	script:
+		"../scripts/plot_assembly_nga50.py"
