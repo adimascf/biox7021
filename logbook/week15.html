@@ -445,13 +445,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="overview" class="level2">
 <h2 class="anchored" data-anchor-id="overview">Overview</h2>
-<p>I assessed combination of adapter trimming tools and quality based preprocessing tools, where the trimming step was pefromed before quality trimming and/or filtering. I also compiled resources usage metrics for each tool. Overall, `filtlong, remained the best performning tool across variant calling and genome assembly metrices.</p>
+<p>I assessed combination of adapter trimming tools and quality based preprocessing tools, where the trimming step was pefromed before quality trimming and/or filtering. The generated plots are now colourblind-friendly using <a href="https://github.com/mbhall88/cud">cud palette</a>, and the x axes are now sorted by the best overall perfomance tool(s).</p>
+<p>I also compiled resources usage metrics for each tool. Overall, <code>filtlong</code>, remained the best performning tool across variant calling and genome assembly metrices.</p>
 </section>
 <section id="weekly-meeting-and-action-items-03-06-2026" class="level2">
 <h2 class="anchored" data-anchor-id="weekly-meeting-and-action-items-03-06-2026">Weekly meeting and action items (03-06-2026)</h2>
 <ul>
-<li>porechop_abi discard or porechop_abi split?</li>
-<li>for untrimmeed (not processed trough adapter trimming step), do we chose fastq from basecaller <code>--trim</code> or <code>--no-trim</code>?. In the previous quality preprocessing only assessment, I used FASTQ files generated with the default trimming enabled. In this combined assessment, however, <code>untrimmed</code> refers to FASTQ files generated using Dorado with the <code>--no-trim</code> option.</li>
+<li><code>porechop_abi --discard</code> or <code>porechop_abi --split</code>?</li>
+<li>for untrimmeed (not processed trough adapter trimming step), do we chose fastq from basecaller <code>--trim</code> or <code>--no-trim</code>? In the previous quality preprocessing only assessment, I used FASTQ files generated with the default trimming enabled. In this combined assessment, however, <code>untrimmed</code> refers to FASTQ files generated using Dorado with the <code>--no-trim</code> option.</li>
 </ul>
 </section>
 <section id="tools-selection" class="level2">
@@ -460,21 +461,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="residual-adapter-processing-tools">Residual adapter processing tools</h3>
 <ul>
 <li><p><code>untrimmed</code> -&gt; The baseline control, fastq files from <code>--no-trim</code> basecalling process</p></li>
-<li><p><code>dorado trim</code> -&gt; The ndustry standard. If purely based on performance, <code>fastplong</code> is arguably a better choice here (and much faster)</p></li>
-<li><p><code>barbell_default</code> -&gt; Performed better than the <code>--maximize</code> option overall. In particular, <code>barbell_max</code> showed a significant drop in mean NGA50 at 20× depth.</p></li>
+<li><p><code>dorado trim</code> -&gt; The ndustry standard. If purely based on performance, <code>fastplong</code> is arguably a better choice here.</p></li>
+<li><p><code>barbell_default</code> -&gt; A relatively new and actively maintained tool. The default setting performed better than the <code>--maximize</code> option overall. In particular, <code>barbell_max</code> showed a significant drop in mean NGA50 at 20× depth.</p></li>
 <li><p><code>porechop_abi_discard</code> -&gt; Performed much better overall compared to the <code>--no_check</code>option in both variant calling and assembly metrics. While it performed close to the <strong>default</strong> parameters (<code>--split</code>), <code>porechop_abi_discard</code> showed great F1 scores on HAC data.</p></li>
 </ul>
 </section>
 <section id="quality-based-preprocessing-tools" class="level3">
 <h3 class="anchored" data-anchor-id="quality-based-preprocessing-tools">Quality based preprocessing tools</h3>
-<p>With the help of gemini, i chose:</p>
+<p>With the help of Gemini, I selected the following tools:</p>
 <ul>
 <li><p><code>filtlong_default</code> -&gt; Clearly the best performing tool overall. It has the highest F1 score and among the lowest assembly errors tools.</p></li>
-<li><p><code>chopper_extract100</code> -&gt; It resulted in fewer assembly errors overall while maintaining competitive F1 scores. chopper_extract1000 is also a reasonable choice, but <code>chopper_extract100</code> generally produced fewer false positives.</p></li>
-<li><p><code>seqkit_1000</code> -&gt; Achieved pretty good F1 scores and was among the best performing tools in terms of minimising assembly errors, while also maintaining NGA50 well.</p></li>
+<li><p><code>chopper_extract100</code> -&gt; It resulted in fewer assembly errors overall while maintaining competitive F1 scores. <code>chopper_extract1000</code> is also a reasonable choice, but <code>chopper_extract100</code> generally produced fewer false positives.</p></li>
+<li><p><code>seqkit_1000</code> -&gt; Achieved pretty good F1 scores and was among the best performing tools in terms of minimising assembly errors, while also maintaining NGA50 reasonably good.</p></li>
 <li><p><code>unprocessed</code> -&gt; Negative control</p></li>
 </ul>
-<p>I also assessed a tool that performs both adapter trimming and quality based preprocessing by default. Without adding much complexity to the pipeline, I included <code>fastplong_all</code> (length ≥ 100 and quality ≥ 15 for SUP, ≥ 10 for HAC) as a standalone option in the pipeline.</p>
+<p>I decided to also include a tool that performs both adapter trimming and quality based preprocessing by default. Without adding much complexity to the pipeline, I included <code>fastplong_all</code> (length ≥ 100 and quality ≥ 15 for SUP, ≥ 10 for HAC) as a standalone option in the pipeline.</p>
 <p>I make the pipeline so that the tool selection is flexible. If we decide to include additional tools or replace any of the currently assessed tools, I can easily update the pipeline.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -490,7 +491,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="variant-calling">Variant Calling</h3>
 <section id="f1-score-sorted-by-overall-perfromance" class="level4">
 <h4 class="anchored" data-anchor-id="f1-score-sorted-by-overall-perfromance">F1 score (sorted by overall perfromance)</h4>
-<div id="705d8caa" class="cell" data-execution_count="1">
+<div id="48a20236" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
@@ -653,7 +654,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="genome-assembly">Genome Assembly</h3>
 <section id="sequence-accruacy-mismatches-and-indels" class="level4">
 <h4 class="anchored" data-anchor-id="sequence-accruacy-mismatches-and-indels">Sequence accruacy (mismatches and INDELs)</h4>
-<div id="2114b9e2" class="cell" data-execution_count="2">
+<div id="20f3d917" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
@@ -752,7 +753,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="contamination" class="level4">
 <h4 class="anchored" data-anchor-id="contamination">Contamination</h4>
-<div id="fb08c40d" class="cell" data-execution_count="3">
+<div id="cb196fa9" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -844,7 +845,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>If there is a tie, the tools are sorted <strong>lexicographically</strong></p>
 <section id="contamination-details" class="level5">
 <h5 class="anchored" data-anchor-id="contamination-details">Contamination details</h5>
-<div id="d72214f2" class="cell" data-execution_count="4">
+<div id="80b2d70d" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -858,7 +859,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_dfa3fb4e_010c_4aec_b345_d23a9b4c007f">
+<table id="itables_b451b10a_f7f2_4cc4_82ab_1bf6eb102dc7">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -928,7 +929,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_dfa3fb4e_010c_4aec_b345_d23a9b4c007f:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_b451b10a_f7f2_4cc4_82ab_1bf6eb102dc7:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
@@ -954,7 +955,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="structural-accruacy-nga50" class="level4">
 <h4 class="anchored" data-anchor-id="structural-accruacy-nga50">Structural accruacy (NGA50)</h4>
-<div id="62738dab" class="cell" data-execution_count="5">
+<div id="a8c4edb0" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
