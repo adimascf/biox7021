@@ -364,6 +364,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="../logbook/week14.html">
  <span class="dropdown-text">Week 14</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../logbook/week15.html">
+ <span class="dropdown-text">Week 15</span></a>
+  </li>  
     </ul>
   </li>
 </ul>
@@ -463,7 +467,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="genome-assembly-metrics-contamination" class="level3">
 <h3 class="anchored" data-anchor-id="genome-assembly-metrics-contamination">Genome assembly metrics: contamination</h3>
 <p>Overall, we found fewer contamination when we specify the kit. More importantly, we ne longer see adapter/barcode contaminant in the <code>fastplong</code> and <code>porcehop_abi</code> split/discard assemblies, both hac and sup dataset.</p>
-<div id="37fdbda8" class="cell" data-execution_count="1">
+<div id="90fd9803" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import pandas as pd</span></span>
@@ -516,7 +520,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="contamination-details" class="level4">
 <h4 class="anchored" data-anchor-id="contamination-details">Contamination details</h4>
-<div id="1f7559a5" class="cell" data-execution_count="2">
+<div id="44a55cb6" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -530,7 +534,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_186b5615_246e_4ae6_bdec_8e2becd97dea">
+<table id="itables_3267401e_18b4_42c3_8bb3_79dcd54967da">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -600,7 +604,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_186b5615_246e_4ae6_bdec_8e2becd97dea:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_3267401e_18b4_42c3_8bb3_79dcd54967da:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
@@ -627,7 +631,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="genome-assembly-metrics-sequence-and-structural-accuracy" class="level3">
 <h3 class="anchored" data-anchor-id="genome-assembly-metrics-sequence-and-structural-accuracy">Genome assembly metrics: Sequence and Structural Accuracy</h3>
-<div id="c0e569f3" class="cell" data-execution_count="3">
+<div id="99ccb03d" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -647,7 +651,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_94b11434_a477_43d1_a5da_00762c290f7a">
+<table id="itables_26b9e57e_e59d_4eff_a1a0_7d8c9a378b6d">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -717,7 +721,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_94b11434_a477_43d1_a5da_00762c290f7a:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_26b9e57e_e59d_4eff_a1a0_7d8c9a378b6d:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
@@ -759,7 +763,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="variant-calling-metrics">Variant calling Metrics</h3>
 <section id="f1-scrore" class="level4">
 <h4 class="anchored" data-anchor-id="f1-scrore">F1 scrore</h4>
-<div id="87f6df01" class="cell" data-execution_count="4">
+<div id="17ffcb61" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -773,7 +777,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_e0c223d1_4172_42b9_965e_c99bf994f922">
+<table id="itables_5ce97a14_c64a_4b31_b88b_1454e4fb3176">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -843,7 +847,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_e0c223d1_4172_42b9_965e_c99bf994f922:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_5ce97a14_c64a_4b31_b88b_1454e4fb3176:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
@@ -875,7 +879,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="sum-of-fn-and-fp" class="level4">
 <h4 class="anchored" data-anchor-id="sum-of-fn-and-fp">Sum of FN and FP</h4>
-<div id="4a8616f2" class="cell" data-execution_count="5">
+<div id="dc3b29a2" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -896,7 +900,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_c8fb6553_fb63_4ff9_9284_3ddb21253198">
+<table id="itables_088dd712_765c_40ca_abb5_bf7e5a33a27f">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -966,7 +970,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_c8fb6553_fb63_4ff9_9284_3ddb21253198:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_088dd712_765c_40ca_abb5_bf7e5a33a27f:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
@@ -986,7 +990,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </script>
 </div>
 </div>
-<div id="79bfe053" class="cell" data-execution_count="6">
+<div id="8382b27b" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import pandas as pd</span></span>
@@ -1078,7 +1082,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="sum-of-fn-and-fp-1" class="level4">
 <h4 class="anchored" data-anchor-id="sum-of-fn-and-fp-1">Sum of FN and FP</h4>
-<div id="f61510de" class="cell" data-execution_count="7">
+<div id="e442e2b9" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -1099,7 +1103,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_87c37b46_83f4_4120_bbe6_60caa3a06a9e">
+<table id="itables_58ee8c6d_6dca_40d7_8f8b_29f04b7e58b3">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -1169,7 +1173,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_87c37b46_83f4_4120_bbe6_60caa3a06a9e:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_58ee8c6d_6dca_40d7_8f8b_29f04b7e58b3:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
@@ -1189,7 +1193,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </script>
 </div>
 </div>
-<div id="e11170df" class="cell" data-execution_count="8">
+<div id="d64b249f" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import pandas as pd</span></span>
@@ -1275,7 +1279,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </figure>
 </div>
 <p><code>chopper</code> standard (just filter the reads based on average phred quality and read length) seems to damage the NG50 metrics in hac dataset, and also performed slightly worst than unprocessed/untrimmed dataset.</p>
-<div id="07ff6e6c" class="cell" data-execution_count="9">
+<div id="8bfb170d" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import pandas as pd</span></span>
@@ -1329,7 +1333,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="contamination-details-1" class="level4">
 <h4 class="anchored" data-anchor-id="contamination-details-1">contamination details</h4>
-<div id="8d12b417" class="cell" data-execution_count="10">
+<div id="41dd728a" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -1343,7 +1347,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_aa306101_d0be_401c_a2dc_4f2aa99ad055">
+<table id="itables_223272c7_3d29_4504_8d3d_b8f0d0e9b487">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -1413,7 +1417,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_aa306101_d0be_401c_a2dc_4f2aa99ad055:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_223272c7_3d29_4504_8d3d_b8f0d0e9b487:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
@@ -1443,7 +1447,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Based on the results above when we are assessing the tools in isolation, actually still hard to find the differences across the tools, except <code>chopper</code> with trimming approach <code>split</code>. However, I would argue that these tools below are pretty good of the tools we assesed, altough not very different from the unporcessed data.</p>
 <p>6 Adapter/barcode trimming: <code>fastplong</code> (quality off), <code>porechop_abi</code> split (which is the default feature), dorado trim, barbell default, and untrimmed</p>
 <p>4 quality based processing: <code>fastplong</code> (quality on), filtlong, chopper (trimming apparoach trim) or just the standard filtering?, and untrimmed/unprocessed.</p>
-<div id="28e51bdf" class="cell" data-execution_count="11">
+<div id="73ac2909" class="cell" data-execution_count="11">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> itertools</span>

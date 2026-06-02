@@ -1,0 +1,1578 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Week 15: Combination betweeen trimming tools and quality tools – BIOX7021 LOGBOOK - 2026</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-adfb2833bc15652ec5881dc6381ea988.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-60eb8141d3f50090c0f52d36a83ed331.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-adfb2833bc15652ec5881dc6381ea988.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-4e9ad7d76a7588ccb413114a9399086d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-c1fa6ec9ca7e8a29d4233392a81542ce.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-4e9ad7d76a7588ccb413114a9399086d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+</head>
+
+<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">BIOX7021 LOGBOOK - 2026</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../home.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-weekly-logs" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Weekly Logs</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-weekly-logs">    
+        <li>
+    <a class="dropdown-item" href="../logbook/week01.html">
+ <span class="dropdown-text">Week 1</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../logbook/week02.html">
+ <span class="dropdown-text">Week 2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../logbook/week03.html">
+ <span class="dropdown-text">Week 3</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../logbook/week04.html">
+ <span class="dropdown-text">Week 4</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../logbook/week05.html">
+ <span class="dropdown-text">Week 5</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../logbook/week06.html">
+ <span class="dropdown-text">Week 6</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../logbook/week07.html">
+ <span class="dropdown-text">Week 7</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../logbook/week08.html">
+ <span class="dropdown-text">Week 8</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../logbook/week09.html">
+ <span class="dropdown-text">Week 9</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../logbook/week10.html">
+ <span class="dropdown-text">Week 10</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../logbook/week11.html">
+ <span class="dropdown-text">Week 11</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../logbook/week12.html">
+ <span class="dropdown-text">Week 12</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../logbook/week13.html">
+ <span class="dropdown-text">Week 13</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../logbook/week14.html">
+ <span class="dropdown-text">Week 14</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../logbook/week15.html">
+ <span class="dropdown-text">Week 15</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#weekly-meeting-and-action-items-03-06-2026" id="toc-weekly-meeting-and-action-items-03-06-2026" class="nav-link" data-scroll-target="#weekly-meeting-and-action-items-03-06-2026">Weekly meeting and action items (03-06-2026)</a></li>
+  <li><a href="#tools-selection" id="toc-tools-selection" class="nav-link" data-scroll-target="#tools-selection">Tools selection</a>
+  <ul>
+  <li><a href="#residual-adapter-processing-tools" id="toc-residual-adapter-processing-tools" class="nav-link" data-scroll-target="#residual-adapter-processing-tools">Residual adapter processing tools</a></li>
+  <li><a href="#quality-based-preprocessing-tools" id="toc-quality-based-preprocessing-tools" class="nav-link" data-scroll-target="#quality-based-preprocessing-tools">Quality based preprocessing tools</a></li>
+  </ul></li>
+  <li><a href="#asses-the-combinations" id="toc-asses-the-combinations" class="nav-link" data-scroll-target="#asses-the-combinations">Asses the combinations</a>
+  <ul>
+  <li><a href="#variant-calling" id="toc-variant-calling" class="nav-link" data-scroll-target="#variant-calling">Variant Calling</a>
+  <ul>
+  <li><a href="#f1-score-sorted-by-overall-perfromance" id="toc-f1-score-sorted-by-overall-perfromance" class="nav-link" data-scroll-target="#f1-score-sorted-by-overall-perfromance">F1 score (sorted by overall perfromance)</a>
+  <ul class="collapse">
+  <li><a href="#estimator-mean" id="toc-estimator-mean" class="nav-link" data-scroll-target="#estimator-mean">Estimator = mean</a></li>
+  <li><a href="#estimator-median" id="toc-estimator-median" class="nav-link" data-scroll-target="#estimator-median">Estimator = median</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#genome-assembly" id="toc-genome-assembly" class="nav-link" data-scroll-target="#genome-assembly">Genome Assembly</a>
+  <ul>
+  <li><a href="#sequence-accruacy-mismatches-and-indels" id="toc-sequence-accruacy-mismatches-and-indels" class="nav-link" data-scroll-target="#sequence-accruacy-mismatches-and-indels">Sequence accruacy (mismatches and INDELs)</a></li>
+  <li><a href="#contamination" id="toc-contamination" class="nav-link" data-scroll-target="#contamination">Contamination</a>
+  <ul class="collapse">
+  <li><a href="#contamination-details" id="toc-contamination-details" class="nav-link" data-scroll-target="#contamination-details">Contamination details</a></li>
+  </ul></li>
+  <li><a href="#structural-accruacy-nga50" id="toc-structural-accruacy-nga50" class="nav-link" data-scroll-target="#structural-accruacy-nga50">Structural accruacy (NGA50)</a></li>
+  </ul></li>
+  <li><a href="#resource-usage" id="toc-resource-usage" class="nav-link" data-scroll-target="#resource-usage">Resource usage</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Week 15: Combination betweeen trimming tools and quality tools</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p>I assessed combination of adapter trimming tools and quality based preprocessing tools, where the trimming step was pefromed before quality trimming and/or filtering. I also compiled resources usage metrics for each tool. Overall, `filtlong, remained the best performning tool across variant calling and genome assembly metrices.</p>
+</section>
+<section id="weekly-meeting-and-action-items-03-06-2026" class="level2">
+<h2 class="anchored" data-anchor-id="weekly-meeting-and-action-items-03-06-2026">Weekly meeting and action items (03-06-2026)</h2>
+<ul>
+<li>porechop_abi discard or porechop_abi split?</li>
+<li>for untrimmeed (not processed trough adapter trimming step), do we chose fastq from basecaller <code>--trim</code> or <code>--no-trim</code>?. In the previous quality preprocessing only assessment, I used FASTQ files generated with the default trimming enabled. In this combined assessment, however, <code>untrimmed</code> refers to FASTQ files generated using Dorado with the <code>--no-trim</code> option.</li>
+</ul>
+</section>
+<section id="tools-selection" class="level2">
+<h2 class="anchored" data-anchor-id="tools-selection">Tools selection</h2>
+<section id="residual-adapter-processing-tools" class="level3">
+<h3 class="anchored" data-anchor-id="residual-adapter-processing-tools">Residual adapter processing tools</h3>
+<ul>
+<li><p><code>untrimmed</code> -&gt; The baseline control, fastq files from <code>--no-trim</code> basecalling process</p></li>
+<li><p><code>dorado trim</code> -&gt; The ndustry standard. If purely based on performance, <code>fastplong</code> is arguably a better choice here (and much faster)</p></li>
+<li><p><code>barbell_default</code> -&gt; Performed better than the <code>--maximize</code> option overall. In particular, <code>barbell_max</code> showed a significant drop in mean NGA50 at 20× depth.</p></li>
+<li><p><code>porechop_abi_discard</code> -&gt; Performed much better overall compared to the <code>--no_check</code>option in both variant calling and assembly metrics. While it performed close to the <strong>default</strong> parameters (<code>--split</code>), <code>porechop_abi_discard</code> showed great F1 scores on HAC data.</p></li>
+</ul>
+</section>
+<section id="quality-based-preprocessing-tools" class="level3">
+<h3 class="anchored" data-anchor-id="quality-based-preprocessing-tools">Quality based preprocessing tools</h3>
+<p>With the help of gemini, i chose: - <code>filtlong_default</code> -&gt; Clearly the best-performing tool overall. It has the highest F1 score and among the lowest assembly errors tools.</p>
+<ul>
+<li><p><code>chopper_extract100</code> -&gt; It resulted in fewer assembly errors overall while maintaining competitive F1 scores. chopper_extract1000 is also a reasonable choice, but <code>chopper_extract100</code> generally produced fewer false positives.</p></li>
+<li><p><code>seqkit_1000</code> -&gt; Achieved pretty good F1 scores and was among the best performing tools in terms of minimising assembly errors, while also maintaining NGA50 well.</p></li>
+<li><p><code>unprocessed</code> -&gt; Negative control</p></li>
+</ul>
+<p>I also assessed a tool that performs both adapter trimming and quality based preprocessing by default. Without adding much complexity to the pipeline, I included <code>fastplong_all</code> (length ≥ 100 and quality ≥ 15 for SUP, ≥ 10 for HAC) as a standalone option in the pipeline.</p>
+<p>I make the pipeline so that the tool selection is flexible. If we decide to include additional tools or replace any of the currently assessed tools, I can easily update the pipeline.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../results/figures/horisontal_rulegraph.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Snakemake rulegraph"><img src="../results/figures/horisontal_rulegraph.png" class="img-fluid figure-img" alt="Snakemake rulegraph"></a></p>
+<figcaption>Snakemake rulegraph</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="asses-the-combinations" class="level2">
+<h2 class="anchored" data-anchor-id="asses-the-combinations">Asses the combinations</h2>
+<section id="variant-calling" class="level3">
+<h3 class="anchored" data-anchor-id="variant-calling">Variant Calling</h3>
+<section id="f1-score-sorted-by-overall-perfromance" class="level4">
+<h4 class="anchored" data-anchor-id="f1-score-sorted-by-overall-perfromance">F1 score (sorted by overall perfromance)</h4>
+<div id="18ec93c0" class="cell" data-execution_count="1">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># colourblind-friendly palette from colour universal design (CUD)</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># https://jfly.uni-koeln.de/color/</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># https://github.com/mbhall88/cud</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>named_colors <span class="op">=</span> {</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"black"</span>: <span class="st">"#000000"</span>,</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"orange"</span>: <span class="st">"#e69f00"</span>,</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"skyblue"</span>: <span class="st">"#56b4e9"</span>,</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"vermilion"</span>: <span class="st">"#d55e00"</span>,</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"bluish green"</span>: <span class="st">"#009e73"</span>,</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"yellow"</span>: <span class="st">"#f0e442"</span>,</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"blue"</span>: <span class="st">"#0072b2"</span>,</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"reddish purple"</span>: <span class="st">"#cc79a7"</span>,</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>cud_palette <span class="op">=</span> <span class="bu">list</span>(named_colors.values())</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> cud(n: <span class="bu">int</span> <span class="op">=</span> <span class="bu">len</span>(cud_palette), start: <span class="bu">int</span> <span class="op">=</span> <span class="dv">0</span>) <span class="op">-&gt;</span> List[<span class="bu">str</span>]:</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    remainder <span class="op">=</span> cud_palette[:start]</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    palette <span class="op">=</span> cud_palette[start:] <span class="op">+</span> remainder</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> palette[:n]</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>input_csv <span class="op">=</span> <span class="st">"../results/tables/assess/call-combo/metrics/combo_variant_summary.csv"</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>sns.set_theme(style<span class="op">=</span><span class="st">"whitegrid"</span>)</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>pr_df <span class="op">=</span> pd.read_csv(input_csv)</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>metrics <span class="op">=</span> [<span class="st">"F1_SCORE"</span>]</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>vartypes <span class="op">=</span> [<span class="st">"SNP"</span>, <span class="st">"INDEL"</span>]</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>models <span class="op">=</span> [<span class="st">"sup"</span>, <span class="st">"hac"</span>]</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>estimators <span class="op">=</span> [<span class="st">"mean"</span>, <span class="st">"median"</span>]</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>hue_order <span class="op">=</span> [<span class="st">"100x"</span>, <span class="st">"50x"</span>, <span class="st">"20x"</span>]</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> y <span class="kw">in</span> metrics:</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> est <span class="kw">in</span> estimators:</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Calculate OVERALL performance to sort from best (highest) to worst (lowest)</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> est <span class="op">==</span> <span class="st">"mean"</span>:</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>            combo_perf <span class="op">=</span> pr_df.groupby(<span class="st">"combo"</span>)[y].mean()</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>            est_func <span class="op">=</span> <span class="st">'mean'</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>            combo_perf <span class="op">=</span> pr_df.groupby(<span class="st">"combo"</span>)[y].median()</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>            est_func <span class="op">=</span> <span class="st">'median'</span></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>        order <span class="op">=</span> combo_perf.sort_values(ascending<span class="op">=</span><span class="va">False</span>).index.tolist()</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>        fig, axes <span class="op">=</span> plt.subplots(</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>            nrows<span class="op">=</span><span class="bu">len</span>(vartypes),</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>            ncols<span class="op">=</span><span class="bu">len</span>(models),</span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>            figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">10</span>),</span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>            dpi<span class="op">=</span><span class="dv">300</span>,</span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>            sharex<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>            sharey<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> r, vartype <span class="kw">in</span> <span class="bu">enumerate</span>(vartypes):</span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> c, model <span class="kw">in</span> <span class="bu">enumerate</span>(models):</span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>                ax <span class="op">=</span> axes[r, c]</span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>                df <span class="op">=</span> pr_df.query(<span class="st">"VAR_TYPE == @vartype and model == @model"</span>).copy()</span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>                cap <span class="op">=</span> <span class="fl">0.99999</span></span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a>                df.loc[:, y] <span class="op">=</span> df[y].<span class="bu">apply</span>(<span class="kw">lambda</span> v: cap <span class="cf">if</span> v <span class="op">&gt;</span> cap <span class="cf">else</span> v)</span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a>                yticks <span class="op">=</span> [<span class="fl">0.01</span>, <span class="fl">0.1</span>, <span class="fl">0.5</span>, <span class="fl">0.8</span>, <span class="fl">0.9</span>, <span class="fl">0.99</span>, <span class="fl">0.999</span>, <span class="fl">0.9999</span>, cap]</span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a>                yticklabels <span class="op">=</span> [<span class="ss">f"</span><span class="sc">{</span>yval<span class="sc">:.2%}</span><span class="ss">"</span> <span class="cf">for</span> yval <span class="kw">in</span> yticks]</span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> <span class="kw">not</span> df.empty:</span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a>                    sns.pointplot(</span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a>                        data<span class="op">=</span>df, x<span class="op">=</span><span class="st">"combo"</span>, y<span class="op">=</span>y, hue<span class="op">=</span><span class="st">"depth"</span>,</span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a>                        order<span class="op">=</span>order, hue_order<span class="op">=</span>hue_order,</span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a>                        palette<span class="op">=</span>cud(<span class="bu">len</span>(hue_order), start<span class="op">=</span><span class="dv">2</span>),</span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a>                        ax<span class="op">=</span>ax,</span>
+<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a>                        dodge<span class="op">=</span><span class="fl">0.3</span>,</span>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a>                        errorbar<span class="op">=</span>(<span class="st">'ci'</span>, <span class="dv">95</span>),</span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a>                        capsize<span class="op">=</span><span class="fl">0.1</span>,</span>
+<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a>                        err_kws<span class="op">=</span>{<span class="st">'linewidth'</span>: <span class="fl">1.5</span>},</span>
+<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a>                        estimator<span class="op">=</span>est_func</span>
+<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a>                    )</span>
+<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a>                ax.set_yscale(<span class="st">"logit"</span>, nonpositive<span class="op">=</span><span class="st">"clip"</span>)</span>
+<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a>                ax.set_yticks(yticks)</span>
+<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a>                ax.set_yticklabels(yticklabels)</span>
+<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a>                ax.set_ylabel(<span class="ss">f"</span><span class="sc">{</span>vartype<span class="sc">}</span><span class="ss"> F1 score (</span><span class="sc">{</span>est<span class="sc">}</span><span class="ss">)"</span>)</span>
+<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> r <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a>                    ax.set_title(<span class="ss">f"</span><span class="sc">{</span>model<span class="sc">}</span><span class="ss"> model"</span>, fontsize<span class="op">=</span><span class="dv">14</span>)</span>
+<span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a>                <span class="cf">else</span>:</span>
+<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a>                    ax.set_title(<span class="st">""</span>)</span>
+<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a>                ax.tick_params(axis<span class="op">=</span><span class="st">"x"</span>, labelrotation<span class="op">=</span><span class="dv">45</span>, labelsize<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a>                ax.set_xlabel(<span class="st">""</span>)</span>
+<span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a>                ax.set_xticks(<span class="bu">range</span>(<span class="bu">len</span>(order)))</span>
+<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a>                ax.set_xticklabels(order, rotation<span class="op">=</span><span class="dv">45</span>, ha<span class="op">=</span><span class="st">"right"</span>, rotation_mode<span class="op">=</span><span class="st">"anchor"</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a>                ax.xaxis.grid(<span class="va">True</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, color<span class="op">=</span><span class="st">'lightgrey'</span>, zorder<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a>                <span class="co"># Legend on the top right plot</span></span>
+<span id="cb1-106"><a href="#cb1-106" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> r <span class="op">==</span> <span class="dv">0</span> <span class="kw">and</span> c <span class="op">==</span> <span class="dv">1</span>:</span>
+<span id="cb1-107"><a href="#cb1-107" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">if</span> ax.get_legend() <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb1-108"><a href="#cb1-108" aria-hidden="true" tabindex="-1"></a>                        ax.legend(title<span class="op">=</span><span class="st">"Depth"</span>, bbox_to_anchor<span class="op">=</span>(<span class="fl">1.05</span>, <span class="dv">1</span>), loc<span class="op">=</span><span class="st">'upper left'</span>)</span>
+<span id="cb1-109"><a href="#cb1-109" aria-hidden="true" tabindex="-1"></a>                <span class="cf">else</span>:</span>
+<span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">if</span> ax.get_legend() <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a>                        ax.get_legend().remove()</span>
+<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a>        fig.tight_layout()</span>
+<span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a>        fig.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<section id="estimator-mean" class="level5">
+<h5 class="anchored" data-anchor-id="estimator-mean">Estimator = mean</h5>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../results/figures/assess/call-combo/metrics/combo_variant_f1_mean_pointplot.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="F1 score (mean)"><img src="../results/figures/assess/call-combo/metrics/combo_variant_f1_mean_pointplot.png" class="img-fluid figure-img" alt="F1 score (mean)"></a></p>
+<figcaption>F1 score (mean)</figcaption>
+</figure>
+</div>
+</section>
+<section id="estimator-median" class="level5">
+<h5 class="anchored" data-anchor-id="estimator-median">Estimator = median</h5>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../results/figures/assess/call-combo/metrics/combo_variant_f1_median_pointplot.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="F1 score (median)"><img src="../results/figures/assess/call-combo/metrics/combo_variant_f1_median_pointplot.png" class="img-fluid figure-img" alt="F1 score (median)"></a></p>
+<figcaption>F1 score (median)</figcaption>
+</figure>
+</div>
+<p>Most of the Filtlong processing datasets are grouped on the left. Using Filtlong, with or without trimming tool combinations, improves the variant calling results!</p>
+<p>I sorted the x axis based on <strong>OVERALL</strong> performance across all depths, variant types, and basecalling models, using either the mean or median (depending on the estimator). This keeps the x axis order consistent across all four subplots and makes the results easier to compare (I also easier to make 😬)</p>
+</section>
+</section>
+</section>
+<section id="genome-assembly" class="level3">
+<h3 class="anchored" data-anchor-id="genome-assembly">Genome Assembly</h3>
+<section id="sequence-accruacy-mismatches-and-indels" class="level4">
+<h4 class="anchored" data-anchor-id="sequence-accruacy-mismatches-and-indels">Sequence accruacy (mismatches and INDELs)</h4>
+<div id="cc63861a" class="cell" data-execution_count="2">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>named_colors <span class="op">=</span> {</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"black"</span>: <span class="st">"#000000"</span>,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"orange"</span>: <span class="st">"#e69f00"</span>,</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"skyblue"</span>: <span class="st">"#56b4e9"</span>,</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"vermilion"</span>: <span class="st">"#d55e00"</span>,</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"bluish green"</span>: <span class="st">"#009e73"</span>,</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"yellow"</span>: <span class="st">"#f0e442"</span>,</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"blue"</span>: <span class="st">"#0072b2"</span>,</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"reddish purple"</span>: <span class="st">"#cc79a7"</span>,</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>cud_palette <span class="op">=</span> <span class="bu">list</span>(named_colors.values())</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> cud(n: <span class="bu">int</span> <span class="op">=</span> <span class="bu">len</span>(cud_palette), start: <span class="bu">int</span> <span class="op">=</span> <span class="dv">0</span>) <span class="op">-&gt;</span> List[<span class="bu">str</span>]:</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    remainder <span class="op">=</span> cud_palette[:start]</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    palette <span class="op">=</span> cud_palette[start:] <span class="op">+</span> remainder</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> palette[:n]</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"../results/tables/assess/assembly-quality/metrics/quality_quast_compiled_metrics.csv"</span>)</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>sns.set_theme(style<span class="op">=</span><span class="st">"whitegrid"</span>)</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>models <span class="op">=</span> [<span class="st">"sup"</span>, <span class="st">"hac"</span>]</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>hue_order <span class="op">=</span> [<span class="st">"100x"</span>, <span class="st">"50x"</span>, <span class="st">"20x"</span>]</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate a combined error rate per row</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"Total_Errors"</span>] <span class="op">=</span> df[<span class="st">"Mismatches per 100kbp"</span>] <span class="op">+</span> df[<span class="st">"Indels per 100kbp"</span>]</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort by the MEAN of the total errors across all samples (Lowest errors = Best = Left)</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>combo_perf <span class="op">=</span> df.groupby(<span class="st">"trimmer"</span>)[<span class="st">"Total_Errors"</span>].mean()</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>order_abs <span class="op">=</span> combo_perf.sort_values(ascending<span class="op">=</span><span class="va">True</span>).index.tolist()</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Absolute Mismatches and Indels</span></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>metrics_abs <span class="op">=</span> [<span class="st">"Mismatches per 100kbp"</span>, <span class="st">"Indels per 100kbp"</span>]</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(nrows<span class="op">=</span><span class="bu">len</span>(metrics_abs), ncols<span class="op">=</span><span class="bu">len</span>(models), figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">10</span>), dpi<span class="op">=</span><span class="dv">300</span>, sharex<span class="op">=</span><span class="va">True</span>, sharey<span class="op">=</span><span class="st">'row'</span>)</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> r, metric <span class="kw">in</span> <span class="bu">enumerate</span>(metrics_abs):</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> c, model <span class="kw">in</span> <span class="bu">enumerate</span>(models):</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>        ax <span class="op">=</span> axes[r, c]</span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>        df_sub <span class="op">=</span> df.query(<span class="st">"model == @model"</span>).copy()</span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">not</span> df_sub.empty:</span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>            sns.boxplot(</span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>                data<span class="op">=</span>df_sub, x<span class="op">=</span><span class="st">"trimmer"</span>, y<span class="op">=</span>metric, hue<span class="op">=</span><span class="st">"depth"</span>, </span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>                order<span class="op">=</span>order_abs, hue_order<span class="op">=</span>hue_order, </span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>                palette<span class="op">=</span>cud(<span class="bu">len</span>(hue_order), start<span class="op">=</span><span class="dv">2</span>),</span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>                ax<span class="op">=</span>ax, fliersize<span class="op">=</span><span class="dv">0</span>, gap<span class="op">=</span><span class="fl">0.1</span></span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>            )</span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>            sns.stripplot(</span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>                data<span class="op">=</span>df_sub, x<span class="op">=</span><span class="st">"trimmer"</span>, y<span class="op">=</span>metric, hue<span class="op">=</span><span class="st">"depth"</span>, </span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>                order<span class="op">=</span>order_abs, hue_order<span class="op">=</span>hue_order, </span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>                palette<span class="op">=</span>cud(<span class="bu">len</span>(hue_order), start<span class="op">=</span><span class="dv">2</span>),</span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>                ax<span class="op">=</span>ax, alpha<span class="op">=</span><span class="fl">0.6</span>, dodge<span class="op">=</span><span class="va">True</span>, linewidth<span class="op">=</span><span class="fl">0.5</span>, edgecolor<span class="op">=</span><span class="st">"black"</span>, legend<span class="op">=</span><span class="va">False</span></span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a>            )</span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>        ax.set_ylabel(metric <span class="cf">if</span> c <span class="op">==</span> <span class="dv">0</span> <span class="cf">else</span> <span class="st">""</span>)</span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>        ax.set_title(<span class="ss">f"</span><span class="sc">{</span>model<span class="sc">}</span><span class="ss"> model"</span> <span class="cf">if</span> r <span class="op">==</span> <span class="dv">0</span> <span class="cf">else</span> <span class="st">""</span>)</span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a>        ax.set_xlabel(<span class="st">""</span>)</span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>        ax.set_xticks(<span class="bu">range</span>(<span class="bu">len</span>(order_abs)))</span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>        ax.set_xticklabels(order_abs, rotation<span class="op">=</span><span class="dv">45</span>, ha<span class="op">=</span><span class="st">"right"</span>, rotation_mode<span class="op">=</span><span class="st">"anchor"</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a>        ax.xaxis.grid(<span class="va">True</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, color<span class="op">=</span><span class="st">'lightgrey'</span>, zorder<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Legend handling</span></span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> r <span class="op">==</span> <span class="dv">0</span> <span class="kw">and</span> c <span class="op">==</span> <span class="dv">1</span>:</span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> ax.get_legend() <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a>                ax.legend(title<span class="op">=</span><span class="st">"Depth"</span>, bbox_to_anchor<span class="op">=</span>(<span class="fl">1.05</span>, <span class="dv">1</span>), loc<span class="op">=</span><span class="st">'upper left'</span>)</span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> ax.get_legend() <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a>                ax.get_legend().remove()</span>
+<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a>fig.tight_layout()</span>
+<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a>fig.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>I sorted the tool combinations based on their overall performance (mean value). To ensure a consistent x-axis order across all plots, I combined the mismatch and indel counts, calculated the mean, and used that to rank the tool combinations.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../results/figures/assess/assembly-combo/metrics/combo_assembly_errors_per_100kbp_stripplot.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Sequence accuracy (stripplot)"><img src="../results/figures/assess/assembly-combo/metrics/combo_assembly_errors_per_100kbp_stripplot.png" class="img-fluid figure-img" alt="Sequence accuracy (stripplot)"></a></p>
+<figcaption>Sequence accuracy (stripplot)</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../results/figures/assess/assembly-combo/metrics/combo_assembly_errors_per_100kbp_barplot.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Sequence accuracy (barplot)"><img src="../results/figures/assess/assembly-combo/metrics/combo_assembly_errors_per_100kbp_barplot.png" class="img-fluid figure-img" alt="Sequence accuracy (barplot)"></a></p>
+<figcaption>Sequence accuracy (barplot)</figcaption>
+</figure>
+</div>
+</section>
+<section id="contamination" class="level4">
+<h4 class="anchored" data-anchor-id="contamination">Contamination</h4>
+<div id="d5b41978" class="cell" data-execution_count="3">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># colourblind-friendly palette from colour universal design (CUD)</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>named_colors <span class="op">=</span> {</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"black"</span>: <span class="st">"#000000"</span>,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"orange"</span>: <span class="st">"#e69f00"</span>,</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"skyblue"</span>: <span class="st">"#56b4e9"</span>,</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"vermilion"</span>: <span class="st">"#d55e00"</span>,</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"bluish green"</span>: <span class="st">"#009e73"</span>,</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"yellow"</span>: <span class="st">"#f0e442"</span>,</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"blue"</span>: <span class="st">"#0072b2"</span>,</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"reddish purple"</span>: <span class="st">"#cc79a7"</span>,</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>cud_palette <span class="op">=</span> <span class="bu">list</span>(named_colors.values())</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> cud(n: <span class="bu">int</span> <span class="op">=</span> <span class="bu">len</span>(cud_palette), start: <span class="bu">int</span> <span class="op">=</span> <span class="dv">0</span>) <span class="op">-&gt;</span> List[<span class="bu">str</span>]:</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    remainder <span class="op">=</span> cud_palette[:start]</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    palette <span class="op">=</span> cud_palette[start:] <span class="op">+</span> remainder</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> palette[:n]</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>contamination_count <span class="op">=</span> pd.read_csv(<span class="st">"../results/tables/assess/assembly-combo/metrics/combo_contaminant_summary_count.csv"</span>)</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>sns.set_theme(style<span class="op">=</span><span class="st">"whitegrid"</span>)</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>models <span class="op">=</span> [<span class="st">"sup"</span>, <span class="st">"hac"</span>]</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>hue_order <span class="op">=</span> [<span class="st">"100x"</span>, <span class="st">"50x"</span>, <span class="st">"20x"</span>]</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort by lowest mean contamination (Best to Worst)</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>combo_perf <span class="op">=</span> contamination_count.groupby(<span class="st">"combo"</span>)[<span class="st">"contamination_count"</span>].mean()</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>order_abs <span class="op">=</span> combo_perf.sort_values(ascending<span class="op">=</span><span class="va">True</span>).index.tolist()</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(nrows<span class="op">=</span><span class="dv">1</span>, ncols<span class="op">=</span><span class="bu">len</span>(models), figsize<span class="op">=</span>(<span class="dv">14</span>, <span class="fl">5.5</span>), dpi<span class="op">=</span><span class="dv">300</span>, sharex<span class="op">=</span><span class="va">True</span>, sharey<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> c, model <span class="kw">in</span> <span class="bu">enumerate</span>(models):</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> axes[c]</span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>    df_sub <span class="op">=</span> contamination_count.query(<span class="st">"model == @model"</span>).copy()</span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> df_sub.empty:</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Boxplot with fill=False applies the palette directly to the lines</span></span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>        <span class="co"># sns.boxplot(</span></span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>        <span class="co">#     data=df_sub, x="combo", y="contamination_count", hue="depth", </span></span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>        <span class="co">#     order=order_abs, hue_order=hue_order,</span></span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>        <span class="co">#     palette=cud(len(hue_order), start=2), </span></span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>        <span class="co">#     fill=False, # Makes boxes transparent</span></span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>        <span class="co">#     ax=ax, fliersize=0, gap=0.1</span></span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>        <span class="co"># )</span></span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>        sns.stripplot(</span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>            data<span class="op">=</span>df_sub, x<span class="op">=</span><span class="st">"combo"</span>, y<span class="op">=</span><span class="st">"contamination_count"</span>, hue<span class="op">=</span><span class="st">"depth"</span>, </span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>            order<span class="op">=</span>order_abs, hue_order<span class="op">=</span>hue_order,</span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a>            palette<span class="op">=</span>cud(<span class="bu">len</span>(hue_order), start<span class="op">=</span><span class="dv">2</span>), </span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a>            ax<span class="op">=</span>ax, alpha<span class="op">=</span><span class="fl">0.6</span>, dodge<span class="op">=</span><span class="va">True</span>, linewidth<span class="op">=</span><span class="fl">0.5</span>, edgecolor<span class="op">=</span><span class="st">"black"</span>, legend<span class="op">=</span><span class="va">False</span></span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a>    <span class="co"># force standard numbers instead of scientific notation</span></span>
+<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a>    ax.yaxis.set_major_formatter(plt.ScalarFormatter())</span>
+<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a>    <span class="co"># clean up the labels for a polished look</span></span>
+<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a>    ax.set_ylabel(<span class="st">"Contamination Count"</span> <span class="cf">if</span> c <span class="op">==</span> <span class="dv">0</span> <span class="cf">else</span> <span class="st">""</span>)</span>
+<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a>    ax.set_title(<span class="ss">f"Number of Contaminants - </span><span class="sc">{</span>model<span class="sc">.</span>upper()<span class="sc">}</span><span class="ss"> Model"</span>)</span>
+<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a>    ax.set_xlabel(<span class="st">""</span>)</span>
+<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a>    ax.set_xticks(<span class="bu">range</span>(<span class="bu">len</span>(order_abs)))</span>
+<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a>    ax.set_xticklabels(order_abs, rotation<span class="op">=</span><span class="dv">45</span>, ha<span class="op">=</span><span class="st">"right"</span>, rotation_mode<span class="op">=</span><span class="st">"anchor"</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a>    ax.xaxis.grid(<span class="va">True</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, color<span class="op">=</span><span class="st">'lightgrey'</span>, zorder<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Legend handling</span></span>
+<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> c <span class="op">==</span> <span class="dv">1</span> <span class="kw">and</span> ax.get_legend() <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a>        ax.legend(title<span class="op">=</span><span class="st">"Depth"</span>, bbox_to_anchor<span class="op">=</span>(<span class="fl">1.05</span>, <span class="dv">1</span>), loc<span class="op">=</span><span class="st">'upper left'</span>)</span>
+<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> ax.get_legend() <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a>        ax.get_legend().remove()</span>
+<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a>fig.tight_layout()</span>
+<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../results/figures/assess/assembly-combo/metrics/combo_contaminant_count.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="Contamination count"><img src="../results/figures/assess/assembly-combo/metrics/combo_contaminant_count.png" class="img-fluid figure-img" alt="Contamination count"></a></p>
+<figcaption>Contamination count</figcaption>
+</figure>
+</div>
+<p>If tie, the code sort the tools lexicographically</p>
+<section id="contamination-details" class="level5">
+<h5 class="anchored" data-anchor-id="contamination-details">Contamination details</h5>
+<div id="be7a3ef1" class="cell" data-execution_count="4">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itables <span class="im">import</span> show</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>contamination_details <span class="op">=</span> pd.read_csv(<span class="st">"../results/tables/assess/assembly-combo/metrics/combo_contaminant_details.csv"</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>contamination_details.reset_index(drop<span class="op">=</span><span class="va">True</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>show(contamination_details, scrollX<span class="op">=</span><span class="va">True</span>, scrollY<span class="op">=</span><span class="st">"800px"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<!--| quarto-html-table-processing: none -->
+<table id="itables_d4ef2e90_a4b6_4c7b_9791_eeb390f03f58">
+  <tbody>
+    <tr>
+      <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
+    <g style="fill:#d9d7fc">
+        <path d="M100,400H500V357H100Z"></path>
+        <path d="M100,300H400V257H100Z"></path>
+        <path d="M0,200H400V157H0Z"></path>
+        <path d="M100,100H500V57H100Z"></path>
+        <path d="M100,350H500V307H100Z"></path>
+        <path d="M100,250H400V207H100Z"></path>
+        <path d="M0,150H400V107H0Z"></path>
+        <path d="M100,50H500V7H100Z"></path>
+    </g>
+    <g style="fill:#1a1366;stroke:#1a1366;">
+   <rect x="100" y="7" width="400" height="43">
+    <animate attributename="width" values="0;400;0" dur="5s" repeatcount="indefinite"></animate>
+      <animate attributename="x" values="100;100;500" dur="5s" repeatcount="indefinite"></animate>
+  </rect>
+        <rect x="0" y="107" width="400" height="43">
+    <animate attributename="width" values="0;400;0" dur="3.5s" repeatcount="indefinite"></animate>
+    <animate attributename="x" values="0;0;400" dur="3.5s" repeatcount="indefinite"></animate>
+  </rect>
+        <rect x="100" y="207" width="300" height="43">
+    <animate attributename="width" values="0;300;0" dur="3s" repeatcount="indefinite"></animate>
+    <animate attributename="x" values="100;100;400" dur="3s" repeatcount="indefinite"></animate>
+  </rect>
+        <rect x="100" y="307" width="400" height="43">
+    <animate attributename="width" values="0;400;0" dur="4s" repeatcount="indefinite"></animate>
+      <animate attributename="x" values="100;100;500" dur="4s" repeatcount="indefinite"></animate>
+  </rect>
+        <g style="fill:transparent;stroke-width:8; stroke-linejoin:round" rx="5">
+            <g transform="translate(45 50) rotate(-45)">
+                <circle r="33" cx="0" cy="0"></circle>
+                <rect x="-8" y="32" width="16" height="30"></rect>
+            </g>
+
+            <g transform="translate(450 152)">
+                <polyline points="-15,-20 -35,-20 -35,40 25,40 25,20"></polyline>
+                <rect x="-15" y="-40" width="60" height="60"></rect>
+            </g>
+
+            <g transform="translate(50 352)">
+                <polygon points="-35,-5 0,-40 35,-5"></polygon>
+                <polygon points="-35,10 0,45 35,10"></polygon>
+            </g>
+
+            <g transform="translate(75 250)">
+                <polyline points="-30,30 -60,0 -30,-30"></polyline>
+                <polyline points="0,30 -30,0 0,-30"></polyline>
+            </g>
+
+            <g transform="translate(425 250) rotate(180)">
+                <polyline points="-30,30 -60,0 -30,-30"></polyline>
+                <polyline points="0,30 -30,0 0,-30"></polyline>
+            </g>
+        </g>
+    </g>
+</svg>
+</a>
+        Loading ITables v2.7.3 from the internet...
+        (need <a href="https://mwouts.github.io/itables/troubleshooting.html">help</a>?)
+      </td>
+    </tr>
+  </tbody>
+</table>
+<link href="https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.css" rel="stylesheet">
+<script type="module">
+    import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
+
+    document.querySelectorAll("#itables_d4ef2e90_a4b6_4c7b_9791_eeb390f03f58:not(.dataTable)").forEach(table => {
+        if (!(table instanceof HTMLTableElement))
+            return;
+
+        let dt_args = {
+          "classes": ["display", "nowrap", "compact"],
+          "columnDefs": [{"render": "function (data, type, row, meta) { return type === 'sort' || type === 'type' ? data[1] : data[0]; }", "targets": [10]}],
+          "data_json": "[[\"filtlong-dorado\", \"20x\", \"AMtb_1__202402\", \"sup\", \"Native_top_81\", \"native_left\", \"contig_3\", \"N\", \"-\", 4, [\"1.00\", 1.0], 92, 30, \"end\", \"[Adapter: 17% | Bar+Flank: 100%]\"], [\"filtlong-untrimmed\", \"20x\", \"AMtb_1__202402\", \"hac\", \"Native_top_81\", \"native_left\", \"contig_4\", \"N\", \"-\", 0, [\"1.00\", 1.0], 98, 60, \"end\", \"[Adapter: 25% | Bar+Flank: 100%]\"], [\"filtlong-untrimmed\", \"50x\", \"BPH2947__202310\", \"sup\", \"Native_top_4\", \"native_left\", \"contig_1\", \"N\", \"+\", 0, [\"1.00\", 1.0], 92, 29, \"start\", \"[Adapter: 17% | Bar+Flank: 100%]\"], [\"chopper-untrimmed\", \"20x\", \"ATCC_17802__202309\", \"sup\", \"BC11\", \"rapid\", \"contig_3\", \"N\", \"-\", 0, [\"1.00\", 1.0], 122, 36, \"end\", \"[Left: 0% | Bar: 46% | Right: 100%]\"], [\"chopper-untrimmed\", \"20x\", \"ATCC_17802__202309\", \"hac\", \"BC11\", \"rapid\", \"contig_3\", \"N\", \"-\", 0, [\"1.00\", 1.0], 158, 60, \"end\", \"[Left: 44% | Bar: 100% | Right: 96%]\"], [\"chopper-untrimmed\", \"20x\", \"ATCC_19119__202309\", \"hac\", \"BC11\", \"rapid\", \"contig_3\", \"N\", \"-\", 2, [\"1.00\", 1.0], 160, 60, \"end\", \"[Left: 38% | Bar: 100% | Right: 100%]\"], [\"chopper-untrimmed\", \"20x\", \"ATCC_BAA-679__202309\", \"hac\", \"BC16\", \"rapid\", \"contig_2\", \"N\", \"+\", 0, [\"1.00\", 1.0], 164, 60, \"start\", \"[Left: 50% | Bar: 100% | Right: 100%]\"], [\"chopper-untrimmed\", \"20x\", \"ATCC_BAA-679__202309\", \"hac\", \"BC17\", \"rapid\", \"contig_2\", \"N\", \"-\", 91, [\"1.00\", 1.0], 106, 1, \"end\", \"[Left: 0% | Bar: 12% | Right: 100%]\"], [\"chopper-untrimmed\", \"20x\", \"ATCC_BAA-679__202309\", \"hac\", \"BC19\", \"rapid\", \"contig_2\", \"N\", \"-\", 0, [\"1.00\", 1.0], 150, 37, \"end\", \"[Left: 6% | Bar: 100% | Right: 100%]\"], [\"chopper-untrimmed\", \"20x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"-\", 0, [\"1.00\", 1.0], 78, 30, \"end\", \"[Adapter: 0% | Bar+Flank: 98%]\"], [\"chopper-untrimmed\", \"20x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"+\", 0, [\"1.00\", 1.0], 80, 30, \"start\", \"[Adapter: 0% | Bar+Flank: 100%]\"], [\"chopper-untrimmed\", \"20x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"-\", 0, [\"0.98\", 0.98], 128, 60, \"end\", \"[Adapter: 69% | Bar+Flank: 100%]\"], [\"chopper-untrimmed\", \"20x\", \"MMC234__202311\", \"hac\", \"Native_bottom_10\", \"native_right\", \"contig_3\", \"N\", \"+\", 0, [\"1.00\", 1.0], 98, 32, \"end\", \"[Adapter: 33% | Bar+Flank: 100%]\"], [\"chopper-untrimmed\", \"50x\", \"ATCC_10708__202309\", \"hac\", \"BC11\", \"rapid\", \"contig_2\", \"N\", \"+\", 0, [\"0.95\", 0.95], 114, 60, \"start\", \"[Left: 19% | Bar: 100% | Right: 100%]\"], [\"chopper-untrimmed\", \"50x\", \"ATCC_17802__202309\", \"sup\", \"BC11\", \"rapid\", \"contig_3\", \"N\", \"-\", 0, [\"1.00\", 1.0], 122, 36, \"end\", \"[Left: 0% | Bar: 46% | Right: 100%]\"], [\"chopper-untrimmed\", \"50x\", \"ATCC_17802__202309\", \"hac\", \"BC11\", \"rapid\", \"contig_3\", \"N\", \"-\", 0, [\"1.00\", 1.0], 154, 60, \"end\", \"[Left: 19% | Bar: 100% | Right: 100%]\"], [\"chopper-untrimmed\", \"50x\", \"ATCC_19119__202309\", \"hac\", \"BC11\", \"rapid\", \"contig_3\", \"N\", \"+\", 0, [\"0.99\", 0.99], 160, 60, \"start\", \"[Left: 50% | Bar: 100% | Right: 100%]\"], [\"chopper-untrimmed\", \"50x\", \"BPH2947__202310\", \"sup\", \"Native_top_53\", \"native_left\", \"contig_5\", \"N\", \"-\", 0, [\"1.00\", 1.0], 90, 30, \"end\", \"[Adapter: 14% | Bar+Flank: 100%]\"], [\"chopper-untrimmed\", \"50x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"+\", 0, [\"1.00\", 1.0], 94, 29, \"start\", \"[Adapter: 19% | Bar+Flank: 100%]\"], [\"chopper-untrimmed\", \"50x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"+\", 0, [\"1.00\", 1.0], 98, 29, \"start\", \"[Adapter: 25% | Bar+Flank: 100%]\"], [\"chopper-untrimmed\", \"50x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"-\", 0, [\"1.00\", 1.0], 120, 60, \"end\", \"[Adapter: 56% | Bar+Flank: 100%]\"], [\"chopper-untrimmed\", \"100x\", \"ATCC_10708__202309\", \"hac\", \"BC11\", \"rapid\", \"contig_2\", \"N\", \"+\", 0, [\"1.00\", 1.0], 124, 60, \"start\", \"[Left: 19% | Bar: 100% | Right: 70%]\"], [\"chopper-untrimmed\", \"100x\", \"ATCC_10708__202309\", \"hac\", \"BC11\", \"rapid\", \"contig_2\", \"N\", \"-\", 0, [\"1.00\", 1.0], 120, 60, \"end\", \"[Left: 12% | Bar: 100% | Right: 68%]\"], [\"chopper-untrimmed\", \"100x\", \"ATCC_17802__202309\", \"sup\", \"BC11\", \"rapid\", \"contig_3\", \"N\", \"-\", 0, [\"1.00\", 1.0], 138, 60, \"end\", \"[Left: 0% | Bar: 79% | Right: 100%]\"], [\"chopper-untrimmed\", \"100x\", \"ATCC_19119__202309\", \"hac\", \"BC15\", \"rapid\", \"contig_3\", \"N\", \"-\", 76, [\"1.00\", 1.0], 132, 60, \"end\", \"[Left: 0% | Bar: 67% | Right: 100%]\"], [\"chopper-untrimmed\", \"100x\", \"ATCC_19119__202309\", \"hac\", \"BC11\", \"rapid\", \"contig_3\", \"N\", \"-\", 0, [\"1.00\", 1.0], 152, 60, \"end\", \"[Left: 12% | Bar: 100% | Right: 100%]\"], [\"chopper-untrimmed\", \"100x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_1\", \"N\", \"-\", 0, [\"1.00\", 1.0], 112, 60, \"end\", \"[Adapter: 44% | Bar+Flank: 100%]\"], [\"chopper-untrimmed\", \"100x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"+\", 0, [\"1.00\", 1.0], 86, 28, \"start\", \"[Adapter: 8% | Bar+Flank: 100%]\"], [\"seqkit-porechop_abi\", \"20x\", \"ATCC_10708__202309\", \"hac\", \"BC06\", \"rapid\", \"contig_2\", \"N\", \"+\", 46, [\"0.97\", 0.97], 62, 21, \"end\", \"[Left: 44% | Bar: 100% | Right: 10%]\"], [\"seqkit-untrimmed\", \"20x\", \"ATCC_17802__202309\", \"sup\", \"BC11\", \"rapid\", \"contig_3\", \"N\", \"+\", 29, [\"1.00\", 1.0], 148, 60, \"start\", \"[Left: 69% | Bar: 100% | Right: 78%]\"], [\"seqkit-untrimmed\", \"20x\", \"ATCC_17802__202309\", \"sup\", \"BC11\", \"rapid\", \"contig_3\", \"N\", \"-\", 25, [\"1.00\", 1.0], 160, 60, \"end\", \"[Left: 38% | Bar: 100% | Right: 100%]\"], [\"seqkit-untrimmed\", \"20x\", \"ATCC_17802__202309\", \"hac\", \"BC11\", \"rapid\", \"contig_3\", \"N\", \"-\", 46, [\"1.00\", 1.0], 126, 35, \"end\", \"[Left: 0% | Bar: 54% | Right: 100%]\"], [\"seqkit-untrimmed\", \"20x\", \"ATCC_25922__202309\", \"sup\", \"BC11\", \"rapid\", \"contig_4\", \"N\", \"-\", 30, [\"1.00\", 1.0], 172, 60, \"end\", \"[Left: 75% | Bar: 100% | Right: 100%]\"], [\"seqkit-untrimmed\", \"20x\", \"ATCC_25922__202309\", \"hac\", \"BC11\", \"rapid\", \"contig_1\", \"N\", \"+\", 33, [\"1.00\", 1.0], 170, 60, \"start\", \"[Left: 69% | Bar: 100% | Right: 100%]\"], [\"seqkit-untrimmed\", \"20x\", \"ATCC_35897__202309\", \"sup\", \"BC11\", \"rapid\", \"contig_3\", \"N\", \"-\", 27, [\"1.00\", 1.0], 156, 60, \"end\", \"[Left: 44% | Bar: 100% | Right: 94%]\"], [\"seqkit-untrimmed\", \"20x\", \"BPH2947__202310\", \"sup\", \"Native_top_53\", \"native_left\", \"contig_3\", \"N\", \"+\", 9, [\"1.00\", 1.0], 126, 60, \"start\", \"[Adapter: 64% | Bar+Flank: 100%]\"], [\"seqkit-untrimmed\", \"20x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"+\", 0, [\"1.00\", 1.0], 94, 29, \"start\", \"[Adapter: 19% | Bar+Flank: 100%]\"], [\"seqkit-untrimmed\", \"20x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"-\", 0, [\"0.99\", 0.99], 138, 60, \"end\", \"[Adapter: 86% | Bar+Flank: 100%]\"], [\"seqkit-untrimmed\", \"20x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"+\", 0, [\"0.98\", 0.98], 100, 29, \"start\", \"[Adapter: 31% | Bar+Flank: 100%]\"], [\"seqkit-untrimmed\", \"20x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"-\", 6, [\"1.00\", 1.0], 138, 60, \"end\", \"[Adapter: 81% | Bar+Flank: 100%]\"], [\"seqkit-untrimmed\", \"50x\", \"ATCC_10708__202309\", \"hac\", \"BC11\", \"rapid\", \"contig_2\", \"N\", \"-\", 28, [\"1.00\", 1.0], 160, 60, \"end\", \"[Left: 38% | Bar: 100% | Right: 100%]\"], [\"seqkit-untrimmed\", \"50x\", \"ATCC_17802__202309\", \"hac\", \"BC11\", \"rapid\", \"contig_5\", \"N\", \"-\", 33, [\"1.00\", 1.0], 160, 60, \"end\", \"[Left: 38% | Bar: 100% | Right: 100%]\"], [\"seqkit-untrimmed\", \"50x\", \"ATCC_19119__202309\", \"hac\", \"BC11\", \"rapid\", \"contig_3\", \"N\", \"-\", 31, [\"0.99\", 0.99], 146, 60, \"end\", \"[Left: 38% | Bar: 100% | Right: 100%]\"], [\"seqkit-untrimmed\", \"50x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"-\", 0, [\"1.00\", 1.0], 84, 28, \"end\", \"[Adapter: 6% | Bar+Flank: 100%]\"], [\"seqkit-untrimmed\", \"50x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_2\", \"N\", \"+\", 0, [\"0.98\", 0.98], 100, 29, \"start\", \"[Adapter: 31% | Bar+Flank: 100%]\"], [\"seqkit-untrimmed\", \"50x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_2\", \"N\", \"-\", 0, [\"0.99\", 0.99], 136, 60, \"end\", \"[Adapter: 81% | Bar+Flank: 100%]\"], [\"seqkit-untrimmed\", \"100x\", \"ATCC_25922__202309\", \"sup\", \"BC11\", \"rapid\", \"contig_4\", \"N\", \"+\", 20, [\"0.95\", 0.95], 126, 60, \"start\", \"[Left: 75% | Bar: 100% | Right: 100%]\"], [\"seqkit-untrimmed\", \"100x\", \"ATCC_25922__202309\", \"sup\", \"BC11\", \"rapid\", \"contig_4\", \"N\", \"-\", 38, [\"1.00\", 1.0], 162, 60, \"end\", \"[Left: 44% | Bar: 100% | Right: 100%]\"], [\"seqkit-untrimmed\", \"100x\", \"ATCC_19119__202309\", \"hac\", \"BC11\", \"rapid\", \"contig_3\", \"N\", \"-\", 152, [\"0.97\", 0.97], 112, 60, \"middle\", \"[Left: 0% | Bar: 96% | Right: 86%]\"], [\"seqkit-untrimmed\", \"100x\", \"ATCC_19119__202309\", \"hac\", \"BC15\", \"rapid\", \"contig_3\", \"N\", \"-\", 36, [\"1.00\", 1.0], 132, 60, \"end\", \"[Left: 44% | Bar: 100% | Right: 70%]\"], [\"seqkit-untrimmed\", \"100x\", \"BPH2947__202310\", \"sup\", \"Native_top_53\", \"native_left\", \"contig_2\", \"N\", \"+\", 0, [\"1.00\", 1.0], 96, 30, \"start\", \"[Adapter: 22% | Bar+Flank: 100%]\"], [\"seqkit-untrimmed\", \"100x\", \"BPH2947__202310\", \"sup\", \"Native_top_4\", \"native_left\", \"contig_2\", \"N\", \"-\", 7, [\"1.00\", 1.0], 134, 60, \"end\", \"[Adapter: 75% | Bar+Flank: 100%]\"], [\"seqkit-untrimmed\", \"100x\", \"BPH2947__202310\", \"hac\", \"Native_top_4\", \"native_left\", \"contig_3\", \"N\", \"-\", 0, [\"0.97\", 0.97], 126, 60, \"end\", \"[Adapter: 89% | Bar+Flank: 100%]\"], [\"seqkit-untrimmed\", \"100x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_2\", \"N\", \"+\", 0, [\"1.00\", 1.0], 86, 28, \"start\", \"[Adapter: 8% | Bar+Flank: 100%]\"], [\"seqkit-untrimmed\", \"100x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_2\", \"N\", \"-\", 0, [\"1.00\", 1.0], 90, 28, \"end\", \"[Adapter: 14% | Bar+Flank: 100%]\"], [\"seqkit-untrimmed\", \"100x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_2\", \"N\", \"+\", 12, [\"1.00\", 1.0], 80, 30, \"start\", \"[Adapter: 0% | Bar+Flank: 100%]\"], [\"seqkit-untrimmed\", \"100x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_2\", \"N\", \"-\", 0, [\"0.96\", 0.96], 128, 60, \"end\", \"[Adapter: 100% | Bar+Flank: 100%]\"], [\"unprocessed-dorado\", \"20x\", \"ATCC_17802__202309\", \"hac\", \"BC04\", \"rapid\", \"contig_6\", \"N\", \"-\", 294, [\"1.00\", 1.0], 72, 38, \"middle\", \"[Left: 38% | Bar: 100% | Right: 12%]\"], [\"unprocessed-dorado\", \"50x\", \"ATCC_17802__202309\", \"hac\", \"BC04\", \"rapid\", \"contig_4\", \"N\", \"-\", 294, [\"1.00\", 1.0], 72, 38, \"middle\", \"[Left: 38% | Bar: 100% | Right: 12%]\"], [\"unprocessed-dorado\", \"100x\", \"ATCC_10708__202309\", \"hac\", \"BC09\", \"rapid\", \"contig_5\", \"N\", \"-\", 77, [\"1.00\", 1.0], 144, 60, \"start\", \"[Left: 75% | Bar: 100% | Right: 72%]\"], [\"unprocessed-dorado\", \"100x\", \"ATCC_17802__202309\", \"hac\", \"BC07\", \"rapid\", \"contig_6\", \"N\", \"-\", 164, [\"1.00\", 1.0], 134, 60, \"middle\", \"[Left: 44% | Bar: 100% | Right: 72%]\"], [\"unprocessed-dorado\", \"100x\", \"ATCC_17802__202309\", \"hac\", \"BC04\", \"rapid\", \"contig_6\", \"N\", \"-\", 302, [\"1.00\", 1.0], 72, 50, \"middle\", \"[Left: 38% | Bar: 100% | Right: 12%]\"], [\"unprocessed-barbell\", \"20x\", \"ATCC_35221__202309\", \"sup\", \"Native_top_84\", \"native_left\", \"contig_1\", \"N\", \"+\", 13, [\"1.00\", 1.0], 74, 33, \"start\", \"[Adapter: 0% | Bar+Flank: 92%]\"], [\"unprocessed-untrimmed\", \"20x\", \"ATCC_10708__202309\", \"sup\", \"BC11\", \"rapid\", \"contig_7\", \"N\", \"+\", 49, [\"0.94\", 0.94], 92, 24, \"start\", \"[Left: 0% | Bar: 67% | Right: 100%]\"], [\"unprocessed-untrimmed\", \"20x\", \"ATCC_10708__202309\", \"sup\", \"BC09\", \"rapid\", \"contig_7\", \"N\", \"-\", 117, [\"1.00\", 1.0], 134, 60, \"middle\", \"[Left: 0% | Bar: 71% | Right: 100%]\"], [\"unprocessed-untrimmed\", \"20x\", \"ATCC_10708__202309\", \"sup\", \"BC01\", \"rapid\", \"contig_7\", \"N\", \"-\", 37, [\"1.00\", 1.0], 160, 60, \"end\", \"[Left: 38% | Bar: 100% | Right: 100%]\"], [\"unprocessed-untrimmed\", \"20x\", \"ATCC_17802__202309\", \"sup\", \"BC18\", \"rapid\", \"contig_3\", \"N\", \"-\", 29, [\"1.00\", 1.0], 160, 60, \"end\", \"[Left: 38% | Bar: 100% | Right: 100%]\"], [\"unprocessed-untrimmed\", \"20x\", \"ATCC_25922__202309\", \"hac\", \"BC11\", \"rapid\", \"contig_3\", \"N\", \"-\", 38, [\"0.96\", 0.96], 140, 60, \"end\", \"[Left: 69% | Bar: 100% | Right: 100%]\"], [\"unprocessed-untrimmed\", \"20x\", \"ATCC_25922__202309\", \"hac\", \"BC11\", \"rapid\", \"contig_4\", \"N\", \"-\", 34, [\"1.00\", 1.0], 160, 60, \"end\", \"[Left: 38% | Bar: 100% | Right: 100%]\"], [\"unprocessed-untrimmed\", \"20x\", \"ATCC_19119__202309\", \"sup\", \"BC11\", \"rapid\", \"contig_3\", \"N\", \"-\", 106, [\"0.93\", 0.93], 122, 45, \"middle\", \"[Left: 38% | Bar: 100% | Right: 100%]\"], [\"unprocessed-untrimmed\", \"20x\", \"ATCC_19119__202309\", \"sup\", \"BC07\", \"rapid\", \"contig_3\", \"N\", \"-\", 33, [\"1.00\", 1.0], 136, 60, \"end\", \"[Left: 44% | Bar: 100% | Right: 74%]\"], [\"unprocessed-untrimmed\", \"20x\", \"ATCC_BAA-679__202309\", \"hac\", \"BC08\", \"rapid\", \"contig_5\", \"N\", \"-\", 36, [\"0.98\", 0.98], 136, 60, \"end\", \"[Left: 38% | Bar: 100% | Right: 100%]\"], [\"unprocessed-untrimmed\", \"20x\", \"BPH2947__202310\", \"sup\", \"Native_top_4\", \"native_left\", \"contig_3\", \"N\", \"+\", 0, [\"1.00\", 1.0], 94, 29, \"start\", \"[Adapter: 19% | Bar+Flank: 100%]\"], [\"unprocessed-untrimmed\", \"20x\", \"BPH2947__202310\", \"sup\", \"Native_top_4\", \"native_left\", \"contig_3\", \"N\", \"-\", 5, [\"1.00\", 1.0], 134, 60, \"end\", \"[Adapter: 75% | Bar+Flank: 100%]\"], [\"unprocessed-untrimmed\", \"20x\", \"BPH2947__202310\", \"hac\", \"Native_top_53\", \"native_left\", \"contig_2\", \"N\", \"-\", 0, [\"0.98\", 0.98], 96, 30, \"end\", \"[Adapter: 25% | Bar+Flank: 100%]\"], [\"unprocessed-untrimmed\", \"20x\", \"AJ292__202310\", \"sup\", \"Native_top_22\", \"native_left\", \"contig_4\", \"N\", \"-\", 16, [\"0.97\", 0.97], 96, 29, \"end\", \"[Adapter: 50% | Bar+Flank: 100%]\"], [\"unprocessed-untrimmed\", \"20x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"+\", 0, [\"1.00\", 1.0], 96, 29, \"start\", \"[Adapter: 22% | Bar+Flank: 100%]\"], [\"unprocessed-untrimmed\", \"20x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"-\", 14, [\"1.00\", 1.0], 128, 60, \"end\", \"[Adapter: 67% | Bar+Flank: 100%]\"], [\"unprocessed-untrimmed\", \"20x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"+\", 6, [\"1.00\", 1.0], 100, 29, \"start\", \"[Adapter: 28% | Bar+Flank: 100%]\"], [\"unprocessed-untrimmed\", \"20x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"-\", 0, [\"0.97\", 0.97], 112, 60, \"end\", \"[Adapter: 81% | Bar+Flank: 100%]\"], [\"unprocessed-untrimmed\", \"50x\", \"ATCC_10708__202309\", \"hac\", \"BC09\", \"rapid\", \"contig_5\", \"N\", \"-\", 27, [\"0.95\", 0.95], 116, 56, \"end\", \"[Left: 38% | Bar: 100% | Right: 96%]\"], [\"unprocessed-untrimmed\", \"50x\", \"ATCC_19119__202309\", \"sup\", \"BC11\", \"rapid\", \"contig_3\", \"N\", \"-\", 33, [\"1.00\", 1.0], 166, 60, \"end\", \"[Left: 56% | Bar: 100% | Right: 100%]\"], [\"unprocessed-untrimmed\", \"50x\", \"ATCC_19119__202309\", \"hac\", \"BC15\", \"rapid\", \"contig_3\", \"N\", \"-\", 34, [\"1.00\", 1.0], 160, 60, \"end\", \"[Left: 38% | Bar: 100% | Right: 100%]\"], [\"unprocessed-untrimmed\", \"50x\", \"ATCC_BAA-679__202309\", \"hac\", \"BC11\", \"rapid\", \"contig_3\", \"N\", \"-\", 20, [\"1.00\", 1.0], 120, 60, \"end\", \"[Left: 38% | Bar: 100% | Right: 60%]\"], [\"unprocessed-untrimmed\", \"50x\", \"BPH2947__202310\", \"hac\", \"Native_top_4\", \"native_left\", \"contig_2\", \"N\", \"+\", 0, [\"0.98\", 0.98], 94, 28, \"start\", \"[Adapter: 22% | Bar+Flank: 100%]\"], [\"unprocessed-untrimmed\", \"50x\", \"BPH2947__202310\", \"hac\", \"Native_top_4\", \"native_left\", \"contig_2\", \"N\", \"-\", 3, [\"1.00\", 1.0], 132, 60, \"end\", \"[Adapter: 72% | Bar+Flank: 100%]\"], [\"unprocessed-untrimmed\", \"50x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"+\", 0, [\"1.00\", 1.0], 86, 28, \"start\", \"[Adapter: 8% | Bar+Flank: 100%]\"], [\"unprocessed-untrimmed\", \"50x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"+\", 11, [\"1.00\", 1.0], 86, 28, \"start\", \"[Adapter: 8% | Bar+Flank: 100%]\"], [\"unprocessed-untrimmed\", \"50x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"-\", 0, [\"0.99\", 0.99], 138, 60, \"end\", \"[Adapter: 89% | Bar+Flank: 100%]\"], [\"unprocessed-untrimmed\", \"100x\", \"ATCC_17802__202309\", \"sup\", \"BC13\", \"rapid\", \"contig_5\", \"N\", \"-\", 36, [\"1.00\", 1.0], 104, 30, \"start\", \"[Left: 38% | Bar: 100% | Right: 44%]\"], [\"unprocessed-untrimmed\", \"100x\", \"ATCC_17802__202309\", \"sup\", \"BC04\", \"rapid\", \"contig_5\", \"N\", \"-\", 131, [\"1.00\", 1.0], 154, 60, \"middle\", \"[Left: 75% | Bar: 100% | Right: 82%]\"], [\"unprocessed-untrimmed\", \"100x\", \"ATCC_17802__202309\", \"sup\", \"BC11\", \"rapid\", \"contig_5\", \"N\", \"-\", 28, [\"1.00\", 1.0], 160, 60, \"end\", \"[Left: 38% | Bar: 100% | Right: 100%]\"], [\"unprocessed-untrimmed\", \"100x\", \"ATCC_19119__202309\", \"hac\", \"BC07\", \"rapid\", \"contig_3\", \"N\", \"+\", 38, [\"1.00\", 1.0], 138, 60, \"start\", \"[Left: 38% | Bar: 100% | Right: 78%]\"], [\"unprocessed-untrimmed\", \"100x\", \"ATCC_19119__202309\", \"hac\", \"BC15\", \"rapid\", \"contig_3\", \"N\", \"-\", 42, [\"0.99\", 0.99], 124, 60, \"end\", \"[Left: 38% | Bar: 100% | Right: 74%]\"], [\"unprocessed-untrimmed\", \"100x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"+\", 0, [\"1.00\", 1.0], 94, 29, \"start\", \"[Adapter: 19% | Bar+Flank: 100%]\"], [\"unprocessed-untrimmed\", \"100x\", \"RDH275__202311\", \"sup\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"-\", 0, [\"0.99\", 0.99], 138, 60, \"end\", \"[Adapter: 86% | Bar+Flank: 100%]\"], [\"unprocessed-untrimmed\", \"100x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"+\", 0, [\"1.00\", 1.0], 86, 28, \"start\", \"[Adapter: 8% | Bar+Flank: 100%]\"], [\"unprocessed-untrimmed\", \"100x\", \"RDH275__202311\", \"hac\", \"Native_top_6\", \"native_left\", \"contig_3\", \"N\", \"-\", 0, [\"1.00\", 1.0], 90, 28, \"end\", \"[Adapter: 14% | Bar+Flank: 100%]\"]]",
+          "keys_to_be_evaluated": [["columnDefs", 0, "render"]],
+          "layout": {"bottomEnd": "paging", "bottomStart": "info", "topEnd": "search", "topStart": "pageLength"},
+          "order": [],
+          "scrollX": true,
+          "scrollY": "800px",
+          "style": {"caption-side": "bottom", "margin": "0", "table-layout": "auto", "width": "auto"},
+          "table_html": "<table><thead>\n    <tr style=\"text-align: right;\">\n      \n      <th>combo</th>\n      <th>depth</th>\n      <th>sample</th>\n      <th>model</th>\n      <th>query</th>\n      <th>kit</th>\n      <th>target_contig</th>\n      <th>is_circular</th>\n      <th>strand</th>\n      <th>dist_end</th>\n      <th>identity</th>\n      <th>dp_score</th>\n      <th>mapq</th>\n      <th>position</th>\n      <th>region_breakdown</th>\n    </tr>\n  </thead></table>",
+          "text_in_header_can_be_selected": true
+        };
+        new ITable(table, dt_args);
+    });
+</script>
+</div>
+</div>
+</section>
+</section>
+<section id="structural-accruacy-nga50" class="level4">
+<h4 class="anchored" data-anchor-id="structural-accruacy-nga50">Structural accruacy (NGA50)</h4>
+<div id="2d473e89" class="cell" data-execution_count="5">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co"># colourblind-friendly palette from colour universal design (CUD)</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>named_colors <span class="op">=</span> {</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"black"</span>: <span class="st">"#000000"</span>,</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"orange"</span>: <span class="st">"#e69f00"</span>,</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"skyblue"</span>: <span class="st">"#56b4e9"</span>,</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"vermilion"</span>: <span class="st">"#d55e00"</span>,</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"bluish green"</span>: <span class="st">"#009e73"</span>,</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"yellow"</span>: <span class="st">"#f0e442"</span>,</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"blue"</span>: <span class="st">"#0072b2"</span>,</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"reddish purple"</span>: <span class="st">"#cc79a7"</span>,</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>cud_palette <span class="op">=</span> <span class="bu">list</span>(named_colors.values())</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> cud(n: <span class="bu">int</span> <span class="op">=</span> <span class="bu">len</span>(cud_palette), start: <span class="bu">int</span> <span class="op">=</span> <span class="dv">0</span>) <span class="op">-&gt;</span> List[<span class="bu">str</span>]:</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    remainder <span class="op">=</span> cud_palette[:start]</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    palette <span class="op">=</span> cud_palette[start:] <span class="op">+</span> remainder</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> palette[:n]</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_genome_size(sample_name):</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Parses the fasta index file to sum the total genome size for a sample."""</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>    fai_path <span class="op">=</span> Path(<span class="ss">f"../results/reference/</span><span class="sc">{</span>sample_name<span class="sc">}</span><span class="ss">.fa.fai"</span>)</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>        <span class="cf">with</span> <span class="bu">open</span>(fai_path, <span class="st">"r"</span>) <span class="im">as</span> f:</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="bu">sum</span>(<span class="bu">int</span>(line.split(<span class="st">"</span><span class="ch">\t</span><span class="st">"</span>)[<span class="dv">1</span>]) <span class="cf">for</span> line <span class="kw">in</span> f)</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">FileNotFoundError</span>:</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Warning: .fai file not found for </span><span class="sc">{</span>sample_name<span class="sc">}</span><span class="ss">. Returning NaN."</span>)</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> np.nan</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"../results/tables/assess/assembly-combo/metrics/combo_quast_compiled_metrics.csv"</span>)</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Normalise NGA50 per species</span></span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'genome_size'</span>] <span class="op">=</span> df[<span class="st">'sample'</span>].<span class="bu">apply</span>(get_genome_size)</span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'NGA50_norm'</span>] <span class="op">=</span> df[<span class="st">'NGA50'</span>] <span class="op">/</span> df[<span class="st">'genome_size'</span>]</span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>sns.set_theme(style<span class="op">=</span><span class="st">"whitegrid"</span>)</span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>models <span class="op">=</span> [<span class="st">"sup"</span>, <span class="st">"hac"</span>]</span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>hue_order <span class="op">=</span> [<span class="st">"100x"</span>, <span class="st">"50x"</span>, <span class="st">"20x"</span>]</span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>plot_types <span class="op">=</span> [<span class="st">"pointplot"</span>, <span class="st">"stripplot"</span>]</span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>estimators <span class="op">=</span> [<span class="st">"mean"</span>, <span class="st">"median"</span>] </span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>scales <span class="op">=</span> [<span class="st">"linear"</span>, <span class="st">"logit"</span>] <span class="co"># Added scales array</span></span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a>out_dir <span class="op">=</span> Path(<span class="st">'../results/figures/assess/assembly-combo/metrics/'</span>)</span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a>out_dir.mkdir(parents<span class="op">=</span><span class="va">True</span>, exist_ok<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> est <span class="kw">in</span> estimators:</span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> est <span class="op">==</span> <span class="st">"mean"</span>:</span>
+<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>        combo_perf <span class="op">=</span> df.groupby(<span class="st">"combo"</span>)[<span class="st">"NGA50_norm"</span>].mean()</span>
+<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a>        est_func <span class="op">=</span> np.mean</span>
+<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a>        combo_perf <span class="op">=</span> df.groupby(<span class="st">"combo"</span>)[<span class="st">"NGA50_norm"</span>].median()</span>
+<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a>        est_func <span class="op">=</span> np.median</span>
+<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a>    order_abs <span class="op">=</span> combo_perf.sort_values(ascending<span class="op">=</span><span class="va">False</span>).index.tolist()</span>
+<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a>    <span class="co"># if 'unprocessed-untrimmed' in order_abs:</span></span>
+<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     order_abs.remove('unprocessed-untrimmed')</span></span>
+<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     order_abs.append('unprocessed-untrimmed')</span></span>
+<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> p_type <span class="kw">in</span> plot_types:</span>
+<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> scale <span class="kw">in</span> scales: <span class="co"># Nested scale loop</span></span>
+<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a>            fig, axes <span class="op">=</span> plt.subplots(nrows<span class="op">=</span><span class="dv">1</span>, ncols<span class="op">=</span><span class="bu">len</span>(models), figsize<span class="op">=</span>(<span class="dv">14</span>, <span class="fl">5.5</span>), dpi<span class="op">=</span><span class="dv">300</span>, sharex<span class="op">=</span><span class="va">True</span>, sharey<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> c, model <span class="kw">in</span> <span class="bu">enumerate</span>(models):</span>
+<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a>                ax <span class="op">=</span> axes[c]</span>
+<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a>                df_sub <span class="op">=</span> df.query(<span class="st">"model == @model"</span>).copy()</span>
+<span id="cb5-76"><a href="#cb5-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-77"><a href="#cb5-77" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> <span class="kw">not</span> df_sub.empty:</span>
+<span id="cb5-78"><a href="#cb5-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-79"><a href="#cb5-79" aria-hidden="true" tabindex="-1"></a>                    cap <span class="op">=</span> <span class="fl">0.9999</span></span>
+<span id="cb5-80"><a href="#cb5-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-81"><a href="#cb5-81" aria-hidden="true" tabindex="-1"></a>                    <span class="co"># Apply logit cap ONLY if plotting logit scale</span></span>
+<span id="cb5-82"><a href="#cb5-82" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">if</span> scale <span class="op">==</span> <span class="st">"logit"</span>:</span>
+<span id="cb5-83"><a href="#cb5-83" aria-hidden="true" tabindex="-1"></a>                        df_sub[<span class="st">'NGA50_norm'</span>] <span class="op">=</span> df_sub[<span class="st">'NGA50_norm'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> v: cap <span class="cf">if</span> v <span class="op">&gt;=</span> cap <span class="cf">else</span> (<span class="fl">0.00001</span> <span class="cf">if</span> v <span class="op">&lt;=</span> <span class="dv">0</span> <span class="cf">else</span> v))</span>
+<span id="cb5-84"><a href="#cb5-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-85"><a href="#cb5-85" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">if</span> p_type <span class="op">==</span> <span class="st">"pointplot"</span>:</span>
+<span id="cb5-86"><a href="#cb5-86" aria-hidden="true" tabindex="-1"></a>                        sns.pointplot(</span>
+<span id="cb5-87"><a href="#cb5-87" aria-hidden="true" tabindex="-1"></a>                            data<span class="op">=</span>df_sub, x<span class="op">=</span><span class="st">"combo"</span>, y<span class="op">=</span><span class="st">"NGA50_norm"</span>, hue<span class="op">=</span><span class="st">"depth"</span>,</span>
+<span id="cb5-88"><a href="#cb5-88" aria-hidden="true" tabindex="-1"></a>                            order<span class="op">=</span>order_abs, hue_order<span class="op">=</span>hue_order,</span>
+<span id="cb5-89"><a href="#cb5-89" aria-hidden="true" tabindex="-1"></a>                            palette<span class="op">=</span>cud(<span class="bu">len</span>(hue_order), start<span class="op">=</span><span class="dv">2</span>),</span>
+<span id="cb5-90"><a href="#cb5-90" aria-hidden="true" tabindex="-1"></a>                            ax<span class="op">=</span>ax, dodge<span class="op">=</span><span class="fl">0.3</span>, errorbar<span class="op">=</span>(<span class="st">'ci'</span>, <span class="dv">95</span>), capsize<span class="op">=</span><span class="fl">0.1</span>,</span>
+<span id="cb5-91"><a href="#cb5-91" aria-hidden="true" tabindex="-1"></a>                            err_kws<span class="op">=</span>{<span class="st">'linewidth'</span>: <span class="fl">1.5</span>}, estimator<span class="op">=</span>est_func</span>
+<span id="cb5-92"><a href="#cb5-92" aria-hidden="true" tabindex="-1"></a>                        )</span>
+<span id="cb5-93"><a href="#cb5-93" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">elif</span> p_type <span class="op">==</span> <span class="st">"stripplot"</span>:</span>
+<span id="cb5-94"><a href="#cb5-94" aria-hidden="true" tabindex="-1"></a>                        sns.boxplot(</span>
+<span id="cb5-95"><a href="#cb5-95" aria-hidden="true" tabindex="-1"></a>                            data<span class="op">=</span>df_sub, x<span class="op">=</span><span class="st">"combo"</span>, y<span class="op">=</span><span class="st">"NGA50_norm"</span>, hue<span class="op">=</span><span class="st">"depth"</span>,</span>
+<span id="cb5-96"><a href="#cb5-96" aria-hidden="true" tabindex="-1"></a>                            order<span class="op">=</span>order_abs, hue_order<span class="op">=</span>hue_order,</span>
+<span id="cb5-97"><a href="#cb5-97" aria-hidden="true" tabindex="-1"></a>                            palette<span class="op">=</span>cud(<span class="bu">len</span>(hue_order), start<span class="op">=</span><span class="dv">2</span>),</span>
+<span id="cb5-98"><a href="#cb5-98" aria-hidden="true" tabindex="-1"></a>                            ax<span class="op">=</span>ax, fliersize<span class="op">=</span><span class="dv">0</span>, gap<span class="op">=</span><span class="fl">0.1</span></span>
+<span id="cb5-99"><a href="#cb5-99" aria-hidden="true" tabindex="-1"></a>                        )</span>
+<span id="cb5-100"><a href="#cb5-100" aria-hidden="true" tabindex="-1"></a>                        sns.stripplot(</span>
+<span id="cb5-101"><a href="#cb5-101" aria-hidden="true" tabindex="-1"></a>                            data<span class="op">=</span>df_sub, x<span class="op">=</span><span class="st">"combo"</span>, y<span class="op">=</span><span class="st">"NGA50_norm"</span>, hue<span class="op">=</span><span class="st">"depth"</span>,</span>
+<span id="cb5-102"><a href="#cb5-102" aria-hidden="true" tabindex="-1"></a>                            order<span class="op">=</span>order_abs, hue_order<span class="op">=</span>hue_order,</span>
+<span id="cb5-103"><a href="#cb5-103" aria-hidden="true" tabindex="-1"></a>                            palette<span class="op">=</span>cud(<span class="bu">len</span>(hue_order), start<span class="op">=</span><span class="dv">2</span>),</span>
+<span id="cb5-104"><a href="#cb5-104" aria-hidden="true" tabindex="-1"></a>                            ax<span class="op">=</span>ax, alpha<span class="op">=</span><span class="fl">0.6</span>, dodge<span class="op">=</span><span class="va">True</span>, linewidth<span class="op">=</span><span class="fl">0.5</span>, edgecolor<span class="op">=</span><span class="st">"black"</span>, legend<span class="op">=</span><span class="va">False</span></span>
+<span id="cb5-105"><a href="#cb5-105" aria-hidden="true" tabindex="-1"></a>                        )</span>
+<span id="cb5-106"><a href="#cb5-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-107"><a href="#cb5-107" aria-hidden="true" tabindex="-1"></a>                <span class="co"># Dynamic Axis Scaling and Zoom</span></span>
+<span id="cb5-108"><a href="#cb5-108" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> scale <span class="op">==</span> <span class="st">"logit"</span>:</span>
+<span id="cb5-109"><a href="#cb5-109" aria-hidden="true" tabindex="-1"></a>                    ax.set_yscale(<span class="st">"logit"</span>, nonpositive<span class="op">=</span><span class="st">"clip"</span>)</span>
+<span id="cb5-110"><a href="#cb5-110" aria-hidden="true" tabindex="-1"></a>                    ax.set_ylim(<span class="fl">0.5</span>, <span class="fl">0.999</span>)</span>
+<span id="cb5-111"><a href="#cb5-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-112"><a href="#cb5-112" aria-hidden="true" tabindex="-1"></a>                    <span class="co"># Custom ticks for the zoomed logit region</span></span>
+<span id="cb5-113"><a href="#cb5-113" aria-hidden="true" tabindex="-1"></a>                    yticks <span class="op">=</span> [<span class="fl">0.5</span>, <span class="fl">0.6</span>, <span class="fl">0.7</span>, <span class="fl">0.8</span>, <span class="fl">0.9</span>, <span class="fl">0.99</span>, <span class="fl">0.999</span>, cap]</span>
+<span id="cb5-114"><a href="#cb5-114" aria-hidden="true" tabindex="-1"></a>                    yticklabels <span class="op">=</span> [<span class="ss">f"</span><span class="sc">{</span>yval<span class="sc">:.2%}</span><span class="ss">"</span> <span class="cf">for</span> yval <span class="kw">in</span> yticks]</span>
+<span id="cb5-115"><a href="#cb5-115" aria-hidden="true" tabindex="-1"></a>                    ax.set_yticks(yticks)</span>
+<span id="cb5-116"><a href="#cb5-116" aria-hidden="true" tabindex="-1"></a>                    ax.set_yticklabels(yticklabels)</span>
+<span id="cb5-117"><a href="#cb5-117" aria-hidden="true" tabindex="-1"></a>                <span class="cf">elif</span> scale <span class="op">==</span> <span class="st">"linear"</span>:</span>
+<span id="cb5-118"><a href="#cb5-118" aria-hidden="true" tabindex="-1"></a>                    ax.set_yscale(<span class="st">"linear"</span>)</span>
+<span id="cb5-119"><a href="#cb5-119" aria-hidden="true" tabindex="-1"></a>                    ax.set_ylim(<span class="op">-</span><span class="fl">0.05</span>, <span class="fl">1.05</span>)</span>
+<span id="cb5-120"><a href="#cb5-120" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-121"><a href="#cb5-121" aria-hidden="true" tabindex="-1"></a>                <span class="co"># Text Formatting</span></span>
+<span id="cb5-122"><a href="#cb5-122" aria-hidden="true" tabindex="-1"></a>                ax.set_ylabel(<span class="ss">f"NGA50 (Norm) [</span><span class="sc">{</span>scale<span class="sc">.</span>title()<span class="sc">}</span><span class="ss"> | </span><span class="sc">{</span>est<span class="sc">.</span>title()<span class="sc">}</span><span class="ss">]"</span> <span class="cf">if</span> c <span class="op">==</span> <span class="dv">0</span> <span class="cf">else</span> <span class="st">""</span>)</span>
+<span id="cb5-123"><a href="#cb5-123" aria-hidden="true" tabindex="-1"></a>                ax.set_title(<span class="ss">f"NGA50 (Normalised) - </span><span class="sc">{</span>model<span class="sc">}</span><span class="ss"> model"</span>)</span>
+<span id="cb5-124"><a href="#cb5-124" aria-hidden="true" tabindex="-1"></a>                ax.set_xlabel(<span class="st">""</span>)</span>
+<span id="cb5-125"><a href="#cb5-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-126"><a href="#cb5-126" aria-hidden="true" tabindex="-1"></a>                ax.set_xticks(<span class="bu">range</span>(<span class="bu">len</span>(order_abs)))</span>
+<span id="cb5-127"><a href="#cb5-127" aria-hidden="true" tabindex="-1"></a>                ax.set_xticklabels(order_abs, rotation<span class="op">=</span><span class="dv">45</span>, ha<span class="op">=</span><span class="st">"right"</span>, rotation_mode<span class="op">=</span><span class="st">"anchor"</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb5-128"><a href="#cb5-128" aria-hidden="true" tabindex="-1"></a>                ax.xaxis.grid(<span class="va">True</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, color<span class="op">=</span><span class="st">'lightgrey'</span>, zorder<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb5-129"><a href="#cb5-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-130"><a href="#cb5-130" aria-hidden="true" tabindex="-1"></a>                <span class="co"># Legend handling</span></span>
+<span id="cb5-131"><a href="#cb5-131" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> c <span class="op">==</span> <span class="dv">1</span> <span class="kw">and</span> ax.get_legend() <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb5-132"><a href="#cb5-132" aria-hidden="true" tabindex="-1"></a>                    ax.legend(title<span class="op">=</span><span class="st">"Depth"</span>, bbox_to_anchor<span class="op">=</span>(<span class="fl">1.05</span>, <span class="dv">1</span>), loc<span class="op">=</span><span class="st">'upper left'</span>)</span>
+<span id="cb5-133"><a href="#cb5-133" aria-hidden="true" tabindex="-1"></a>                <span class="cf">elif</span> ax.get_legend() <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb5-134"><a href="#cb5-134" aria-hidden="true" tabindex="-1"></a>                    ax.get_legend().remove()</span>
+<span id="cb5-135"><a href="#cb5-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-136"><a href="#cb5-136" aria-hidden="true" tabindex="-1"></a>            fig.tight_layout()</span>
+<span id="cb5-137"><a href="#cb5-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-138"><a href="#cb5-138" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Output dynamically based on scale, estimator, and plot type</span></span>
+<span id="cb5-139"><a href="#cb5-139" aria-hidden="true" tabindex="-1"></a>            new_output_path <span class="op">=</span> out_dir <span class="op">/</span> <span class="ss">f"assembly_nga50_normalised_</span><span class="sc">{</span>scale<span class="sc">}</span><span class="ss">_</span><span class="sc">{</span>p_type<span class="sc">}</span><span class="ss">_</span><span class="sc">{</span>est<span class="sc">}</span><span class="ss">.png"</span></span>
+<span id="cb5-140"><a href="#cb5-140" aria-hidden="true" tabindex="-1"></a>            fig.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../results/figures/assess/assembly-combo/metrics/combo_assembly_nga50_normalised_linear_pointplot_mean.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="Structural Accuracy (linear scale)"><img src="../results/figures/assess/assembly-combo/metrics/combo_assembly_nga50_normalised_linear_pointplot_mean.png" class="img-fluid figure-img" alt="Structural Accuracy (linear scale)"></a></p>
+<figcaption>Structural Accuracy (linear scale)</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../results/figures/assess/assembly-combo/metrics/combo_assembly_nga50_normalised_logit_pointplot_mean.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8" title="Structural Accuracy (logit scale)"><img src="../results/figures/assess/assembly-combo/metrics/combo_assembly_nga50_normalised_logit_pointplot_mean.png" class="img-fluid figure-img" alt="Structural Accuracy (logit scale)"></a></p>
+<figcaption>Structural Accuracy (logit scale)</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="resource-usage" class="level3">
+<h3 class="anchored" data-anchor-id="resource-usage">Resource usage</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../results/figures/benchmark_resources/benchmark_resources/benchmark_resources.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9" title="Computational resource usage"><img src="../results/figures/benchmark_resources/benchmark_resources/benchmark_resources.png" class="img-fluid figure-img" alt="Computational resource usage"></a></p>
+<figcaption>Computational resource usage</figcaption>
+</figure>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/adimascf\.github\.io\/biox7021\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>BIOX7021 Logbook - 2026</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
