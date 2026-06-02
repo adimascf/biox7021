@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Week 15: Combination betweeen trimming tools and quality tools – BIOX7021 LOGBOOK - 2026</title>
+<title>Week 15: Which combination of tools give the best result? – BIOX7021 LOGBOOK - 2026</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -403,6 +403,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#estimator-mean" id="toc-estimator-mean" class="nav-link" data-scroll-target="#estimator-mean">Estimator = mean</a></li>
   <li><a href="#estimator-median" id="toc-estimator-median" class="nav-link" data-scroll-target="#estimator-median">Estimator = median</a></li>
   </ul></li>
+  <li><a href="#recall" id="toc-recall" class="nav-link" data-scroll-target="#recall">Recall</a></li>
+  <li><a href="#precision" id="toc-precision" class="nav-link" data-scroll-target="#precision">Precision</a></li>
   </ul></li>
   <li><a href="#genome-assembly" id="toc-genome-assembly" class="nav-link" data-scroll-target="#genome-assembly">Genome Assembly</a>
   <ul>
@@ -424,7 +426,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Week 15: Combination betweeen trimming tools and quality tools</h1>
+<h1 class="title">Week 15: Which combination of tools give the best result?</h1>
 </div>
 
 
@@ -465,8 +467,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="quality-based-preprocessing-tools" class="level3">
 <h3 class="anchored" data-anchor-id="quality-based-preprocessing-tools">Quality based preprocessing tools</h3>
-<p>With the help of gemini, i chose: - <code>filtlong_default</code> -&gt; Clearly the best-performing tool overall. It has the highest F1 score and among the lowest assembly errors tools.</p>
+<p>With the help of gemini, i chose:</p>
 <ul>
+<li><p><code>filtlong_default</code> -&gt; Clearly the best performing tool overall. It has the highest F1 score and among the lowest assembly errors tools.</p></li>
 <li><p><code>chopper_extract100</code> -&gt; It resulted in fewer assembly errors overall while maintaining competitive F1 scores. chopper_extract1000 is also a reasonable choice, but <code>chopper_extract100</code> generally produced fewer false positives.</p></li>
 <li><p><code>seqkit_1000</code> -&gt; Achieved pretty good F1 scores and was among the best performing tools in terms of minimising assembly errors, while also maintaining NGA50 well.</p></li>
 <li><p><code>unprocessed</code> -&gt; Negative control</p></li>
@@ -487,7 +490,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="variant-calling">Variant Calling</h3>
 <section id="f1-score-sorted-by-overall-perfromance" class="level4">
 <h4 class="anchored" data-anchor-id="f1-score-sorted-by-overall-perfromance">F1 score (sorted by overall perfromance)</h4>
-<div id="18ec93c0" class="cell" data-execution_count="1">
+<div id="705d8caa" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
@@ -623,16 +626,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <figcaption>F1 score (median)</figcaption>
 </figure>
 </div>
-<p>Most of the Filtlong processing datasets are grouped on the left. Using Filtlong, with or without trimming tool combinations, improves the variant calling results!</p>
 <p>I sorted the x axis based on <strong>OVERALL</strong> performance across all depths, variant types, and basecalling models, using either the mean or median (depending on the estimator). This keeps the x axis order consistent across all four subplots and makes the results easier to compare (I also easier to make 😬)</p>
+<p>Most of the <code>filtlong</code> processing datasets are grouped on the left. Using <code>filtlong</code>, with or without trimming tool combinations, improves the variant calling results!</p>
 </section>
+</section>
+<section id="recall" class="level4">
+<h4 class="anchored" data-anchor-id="recall">Recall</h4>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../results/figures/assess/call-combo/metrics/combo_variant_recall_mean_pointplot.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Recall (mean)"><img src="../results/figures/assess/call-combo/metrics/combo_variant_recall_mean_pointplot.png" class="img-fluid figure-img" alt="Recall (mean)"></a></p>
+<figcaption>Recall (mean)</figcaption>
+</figure>
+</div>
+</section>
+<section id="precision" class="level4">
+<h4 class="anchored" data-anchor-id="precision">Precision</h4>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../results/figures/assess/call-combo/metrics/combo_variant_precision_mean_pointplot.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Precision (mean)"><img src="../results/figures/assess/call-combo/metrics/combo_variant_precision_mean_pointplot.png" class="img-fluid figure-img" alt="Precision (mean)"></a></p>
+<figcaption>Precision (mean)</figcaption>
+</figure>
+</div>
 </section>
 </section>
 <section id="genome-assembly" class="level3">
 <h3 class="anchored" data-anchor-id="genome-assembly">Genome Assembly</h3>
 <section id="sequence-accruacy-mismatches-and-indels" class="level4">
 <h4 class="anchored" data-anchor-id="sequence-accruacy-mismatches-and-indels">Sequence accruacy (mismatches and INDELs)</h4>
-<div id="cc63861a" class="cell" data-execution_count="2">
+<div id="2114b9e2" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
@@ -715,23 +736,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a>fig.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<p>I sorted the tool combinations based on their overall performance (mean value). To ensure a consistent x-axis order across all plots, I combined the mismatch and indel counts, calculated the mean, and used that to rank the tool combinations.</p>
+<p>I sorted the tool combinations based on their <strong>OVERALL</strong> performance (mean value). To ensure a consistent x-axis order across all plots, I combined the mismatch and indel counts, calculated the mean, and used that to rank the tool combinations.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="../results/figures/assess/assembly-combo/metrics/combo_assembly_errors_per_100kbp_stripplot.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Sequence accuracy (stripplot)"><img src="../results/figures/assess/assembly-combo/metrics/combo_assembly_errors_per_100kbp_stripplot.png" class="img-fluid figure-img" alt="Sequence accuracy (stripplot)"></a></p>
+<p><a href="../results/figures/assess/assembly-combo/metrics/combo_assembly_errors_per_100kbp_stripplot.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="Sequence accuracy (stripplot)"><img src="../results/figures/assess/assembly-combo/metrics/combo_assembly_errors_per_100kbp_stripplot.png" class="img-fluid figure-img" alt="Sequence accuracy (stripplot)"></a></p>
 <figcaption>Sequence accuracy (stripplot)</figcaption>
 </figure>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="../results/figures/assess/assembly-combo/metrics/combo_assembly_errors_per_100kbp_barplot.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Sequence accuracy (barplot)"><img src="../results/figures/assess/assembly-combo/metrics/combo_assembly_errors_per_100kbp_barplot.png" class="img-fluid figure-img" alt="Sequence accuracy (barplot)"></a></p>
+<p><a href="../results/figures/assess/assembly-combo/metrics/combo_assembly_errors_per_100kbp_barplot.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="Sequence accuracy (barplot)"><img src="../results/figures/assess/assembly-combo/metrics/combo_assembly_errors_per_100kbp_barplot.png" class="img-fluid figure-img" alt="Sequence accuracy (barplot)"></a></p>
 <figcaption>Sequence accuracy (barplot)</figcaption>
 </figure>
 </div>
 </section>
 <section id="contamination" class="level4">
 <h4 class="anchored" data-anchor-id="contamination">Contamination</h4>
-<div id="d5b41978" class="cell" data-execution_count="3">
+<div id="fb08c40d" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -816,14 +837,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="../results/figures/assess/assembly-combo/metrics/combo_contaminant_count.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="Contamination count"><img src="../results/figures/assess/assembly-combo/metrics/combo_contaminant_count.png" class="img-fluid figure-img" alt="Contamination count"></a></p>
+<p><a href="../results/figures/assess/assembly-combo/metrics/combo_contaminant_count.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8" title="Contamination count"><img src="../results/figures/assess/assembly-combo/metrics/combo_contaminant_count.png" class="img-fluid figure-img" alt="Contamination count"></a></p>
 <figcaption>Contamination count</figcaption>
 </figure>
 </div>
-<p>If tie, the code sort the tools lexicographically</p>
+<p>If there is a tie, the tools are sorted <strong>lexicographically</strong></p>
 <section id="contamination-details" class="level5">
 <h5 class="anchored" data-anchor-id="contamination-details">Contamination details</h5>
-<div id="be7a3ef1" class="cell" data-execution_count="4">
+<div id="d72214f2" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -837,7 +858,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_d4ef2e90_a4b6_4c7b_9791_eeb390f03f58">
+<table id="itables_dfa3fb4e_010c_4aec_b345_d23a9b4c007f">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -907,7 +928,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_d4ef2e90_a4b6_4c7b_9791_eeb390f03f58:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_dfa3fb4e_010c_4aec_b345_d23a9b4c007f:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
@@ -933,7 +954,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="structural-accruacy-nga50" class="level4">
 <h4 class="anchored" data-anchor-id="structural-accruacy-nga50">Structural accruacy (NGA50)</h4>
-<div id="2d473e89" class="cell" data-execution_count="5">
+<div id="62738dab" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
@@ -1080,14 +1101,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="../results/figures/assess/assembly-combo/metrics/combo_assembly_nga50_normalised_linear_pointplot_mean.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="Structural Accuracy (linear scale)"><img src="../results/figures/assess/assembly-combo/metrics/combo_assembly_nga50_normalised_linear_pointplot_mean.png" class="img-fluid figure-img" alt="Structural Accuracy (linear scale)"></a></p>
+<p><a href="../results/figures/assess/assembly-combo/metrics/combo_assembly_nga50_normalised_linear_pointplot_mean.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9" title="Structural Accuracy (linear scale)"><img src="../results/figures/assess/assembly-combo/metrics/combo_assembly_nga50_normalised_linear_pointplot_mean.png" class="img-fluid figure-img" alt="Structural Accuracy (linear scale)"></a></p>
 <figcaption>Structural Accuracy (linear scale)</figcaption>
 </figure>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="../results/figures/assess/assembly-combo/metrics/combo_assembly_nga50_normalised_logit_pointplot_mean.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8" title="Structural Accuracy (logit scale)"><img src="../results/figures/assess/assembly-combo/metrics/combo_assembly_nga50_normalised_logit_pointplot_mean.png" class="img-fluid figure-img" alt="Structural Accuracy (logit scale)"></a></p>
-<figcaption>Structural Accuracy (logit scale)</figcaption>
+<p><a href="../results/figures/assess/assembly-combo/metrics/combo_assembly_nga50_normalised_logit_pointplot_mean.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10" title="Structural Accuracy (logit scale - mean)"><img src="../results/figures/assess/assembly-combo/metrics/combo_assembly_nga50_normalised_logit_pointplot_mean.png" class="img-fluid figure-img" alt="Structural Accuracy (logit scale - mean)"></a></p>
+<figcaption>Structural Accuracy (logit scale - mean)</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../results/figures/assess/assembly-combo/metrics/combo_assembly_nga50_normalised_logit_pointplot_median.png" class="lightbox" data-gallery="quarto-lightbox-gallery-11" title="Structural Accuracy (logit scale - median)"><img src="../results/figures/assess/assembly-combo/metrics/combo_assembly_nga50_normalised_logit_pointplot_median.png" class="img-fluid figure-img" alt="Structural Accuracy (logit scale - median)"></a></p>
+<figcaption>Structural Accuracy (logit scale - median)</figcaption>
 </figure>
 </div>
 </section>
@@ -1096,10 +1123,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="resource-usage">Resource usage</h3>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="../results/figures/benchmark_resources/benchmark_resources/benchmark_resources.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9" title="Computational resource usage"><img src="../results/figures/benchmark_resources/benchmark_resources/benchmark_resources.png" class="img-fluid figure-img" alt="Computational resource usage"></a></p>
+<p><a href="../results/figures/benchmark_resources/benchmark_resources/benchmark_resources.png" class="lightbox" data-gallery="quarto-lightbox-gallery-12" title="Computational resource usage"><img src="../results/figures/benchmark_resources/benchmark_resources/benchmark_resources.png" class="img-fluid figure-img" alt="Computational resource usage"></a></p>
 <figcaption>Computational resource usage</figcaption>
 </figure>
 </div>
+<blockquote class="blockquote">
+<blockquote class="blockquote">
+<p>Note: Resource usage plots are based on a single iteration (one repetition)</p>
+</blockquote>
+</blockquote>
 
 
 </section>
