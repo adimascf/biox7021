@@ -118,36 +118,12 @@ rule quality_fastplong_all: # process adapter removal and quality filtering/trim
 # 				--json {output.json} --html {output.html} --verbose 2> {log} 
 # 		"""    
 
-# tool = "seqkit_100"
-# rule quality_seqkit_1:
-# 	input:
-# 		reads=lambda wildcards: get_original_fastqs(wildcards, "trim")
-# 	log:
-# 		LOGS / f"QC/quality/{tool}/{{model}}/{{sample}}.log"
-# 	threads: 8
-# 	resources:
-# 		mem="16GiB",
-# 		runtime=f"{5 * REPEAT}m"
-# 	conda:
-# 		ENVS / "seqkit.yaml"
-# 	params:
-# 		quality_threshold=get_quality_threshold, # hac is 10, sup is 15
-# 		length_threshold=100
-# 	output:
-# 		reads=temp(RESULTS / f"QC/quality/{tool}/{{model}}/{{sample}}.{tool}.fastq"),
-# 	benchmark:   
-# 		repeat(BENCHMARK / f"QC/quality/{tool}/{{model}}/{{sample}}.{tool}.tsv", REPEAT)
-# 	shell:    
-# 		"""
-# 		seqkit seq --min-len {params.length_threshold} --min-qual {params.quality_threshold} -o {output.reads} {input.reads} 2> {log}
-# 		"""    
-
-tool = "seqkit" # "seqkit_1000"
-rule quality_seqkit_1000:
+tool = "seqkit" # "seqkit_100"
+rule quality_seqkit_100:
 	input:
 		reads=RESULTS / "QC/trimming/{trimmer}/{model}/{sample}.{trimmer}.fastq"
 	log:
-		LOGS / f"QC/quality/{tool}-{{trimmer}}/{{model}}/{{sample}}.log"
+		LOGS / f"QC/quality/{tool}/{{model}}/{{sample}}.log"
 	threads: 8
 	resources:
 		mem="16GiB",
@@ -156,15 +132,39 @@ rule quality_seqkit_1000:
 		ENVS / "seqkit.yaml"
 	params:
 		quality_threshold=get_quality_threshold, # hac is 10, sup is 15
-		length_threshold=1000
+		length_threshold=100
 	output:
-		reads=temp(RESULTS / f"QC/quality/{tool}-{{trimmer}}/{{model}}/{{sample}}.{tool}-{{trimmer}}.fastq"),
-	benchmark:
-		repeat(BENCHMARK / f"QC/quality/{tool}-{{trimmer}}/{{model}}/{{sample}}.{tool}-{{trimmer}}.tsv", REPEAT)
-	shell:
+		reads=temp(RESULTS / f"QC/quality/{tool}/{{model}}/{{sample}}.{tool}.fastq"),
+	benchmark:   
+		repeat(BENCHMARK / f"QC/quality/{tool}/{{model}}/{{sample}}.{tool}.tsv", REPEAT)
+	shell:    
 		"""
 		seqkit seq --min-len {params.length_threshold} --min-qual {params.quality_threshold} -o {output.reads} {input.reads} 2> {log}
 		"""    
+
+# tool = "seqkit_1000" # "seqkit_1000"
+# rule quality_seqkit_1000:
+# 	input:
+# 		reads=RESULTS / "QC/trimming/{trimmer}/{model}/{sample}.{trimmer}.fastq"
+# 	log:
+# 		LOGS / f"QC/quality/{tool}-{{trimmer}}/{{model}}/{{sample}}.log"
+# 	threads: 8
+# 	resources:
+# 		mem="16GiB",
+# 		runtime=f"{5 * REPEAT}m"
+# 	conda:
+# 		ENVS / "seqkit.yaml"
+# 	params:
+# 		quality_threshold=get_quality_threshold, # hac is 10, sup is 15
+# 		length_threshold=1000
+# 	output:
+# 		reads=temp(RESULTS / f"QC/quality/{tool}-{{trimmer}}/{{model}}/{{sample}}.{tool}-{{trimmer}}.fastq"),
+# 	benchmark:
+# 		repeat(BENCHMARK / f"QC/quality/{tool}-{{trimmer}}/{{model}}/{{sample}}.{tool}-{{trimmer}}.tsv", REPEAT)
+# 	shell:
+# 		"""
+# 		seqkit seq --min-len {params.length_threshold} --min-qual {params.quality_threshold} -o {output.reads} {input.reads} 2> {log}
+# 		"""    
 
 # tool = "filtlong_meanq"    
 # rule quality_filtlong_1:    
@@ -291,37 +291,12 @@ rule quality_filtlong_default:
 # 		chopper {params.approach} --cutoff {params.quality_threshold} --minlength {params.length_threshold} -i {input.reads} > {output.reads} 2> {log}
 # 		"""
 
-# tool = "chopper_extract100"
-# rule quality_chopper_3:
-# 	input:
-# 		reads=lambda wildcards: get_original_fastqs(wildcards, "trim")
-# 	log:
-# 		LOGS / f"QC/quality/{tool}/{{model}}/{{sample}}.log"
-# 	threads: 8
-# 	resources:
-# 		mem="16GiB",
-# 		runtime=f"{25 * REPEAT}m"
-# 	conda:
-# 		ENVS / "chopper.yaml"
-# 	params:
-# 		approach="--trim-approach best-read-segment",
-# 		quality_threshold=get_quality_threshold,
-# 		length_threshold=100
-# 	output:
-# 		reads=temp(RESULTS / f"QC/quality/{tool}/{{model}}/{{sample}}.{tool}.fastq")
-# 	benchmark:
-# 		repeat(BENCHMARK / f"QC/quality/{tool}/{{model}}/{{sample}}.{tool}.tsv", REPEAT)
-# 	shell:
-# 		"""
-# 		chopper {params.approach} --cutoff {params.quality_threshold} --minlength {params.length_threshold} -i {input.reads} > {output.reads} 2> {log}
-# 		"""
-
-tool = "chopper" #"chopper_extract1000"
-rule quality_chopper_extract1000:
+tool = "chopper" # "chopper_extract100"
+rule quality_chopper_extract100:
 	input:
 		reads=RESULTS / "QC/trimming/{trimmer}/{model}/{sample}.{trimmer}.fastq"
 	log:
-		LOGS / f"QC/quality/{tool}-{{trimmer}}/{{model}}/{{sample}}.log"
+		LOGS / f"QC/quality/{tool}/{{model}}/{{sample}}.log"
 	threads: 8
 	resources:
 		mem="16GiB",
@@ -331,15 +306,40 @@ rule quality_chopper_extract1000:
 	params:
 		approach="--trim-approach best-read-segment",
 		quality_threshold=get_quality_threshold,
-		length_threshold=1000
+		length_threshold=100
 	output:
-		reads=temp(RESULTS / f"QC/quality/{tool}-{{trimmer}}/{{model}}/{{sample}}.{tool}-{{trimmer}}.fastq")
+		reads=temp(RESULTS / f"QC/quality/{tool}/{{model}}/{{sample}}.{tool}.fastq")
 	benchmark:
-		repeat(BENCHMARK / f"QC/quality/{tool}-{{trimmer}}/{{model}}/{{sample}}.{tool}-{{trimmer}}.tsv", REPEAT)
+		repeat(BENCHMARK / f"QC/quality/{tool}/{{model}}/{{sample}}.{tool}.tsv", REPEAT)
 	shell:
 		"""
 		chopper {params.approach} --cutoff {params.quality_threshold} --minlength {params.length_threshold} -i {input.reads} > {output.reads} 2> {log}
 		"""
+
+# tool = "chopper" #"chopper_extract1000"
+# rule quality_chopper_extract1000:
+# 	input:
+# 		reads=RESULTS / "QC/trimming/{trimmer}/{model}/{sample}.{trimmer}.fastq"
+# 	log:
+# 		LOGS / f"QC/quality/{tool}-{{trimmer}}/{{model}}/{{sample}}.log"
+# 	threads: 8
+# 	resources:
+# 		mem="16GiB",
+# 		runtime=f"{25 * REPEAT}m"
+# 	conda:
+# 		ENVS / "chopper.yaml"
+# 	params:
+# 		approach="--trim-approach best-read-segment",
+# 		quality_threshold=get_quality_threshold,
+# 		length_threshold=1000
+# 	output:
+# 		reads=temp(RESULTS / f"QC/quality/{tool}-{{trimmer}}/{{model}}/{{sample}}.{tool}-{{trimmer}}.fastq")
+# 	benchmark:
+# 		repeat(BENCHMARK / f"QC/quality/{tool}-{{trimmer}}/{{model}}/{{sample}}.{tool}-{{trimmer}}.tsv", REPEAT)
+# 	shell:
+# 		"""
+# 		chopper {params.approach} --cutoff {params.quality_threshold} --minlength {params.length_threshold} -i {input.reads} > {output.reads} 2> {log}
+# 		"""
 
 tool = "unprocessed"
 rule quality_notrim:
