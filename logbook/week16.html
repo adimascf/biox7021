@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Week 05: QC Tool Parameter Compilation – BIOX7021 LOGBOOK - 2026</title>
+<title>Ranking the tools – BIOX7021 LOGBOOK - 2026</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -61,7 +61,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -110,6 +110,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 </head>
@@ -380,25 +383,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
-  <li><a href="#weekly-meeting-and-action-items-25-03-2026" id="toc-weekly-meeting-and-action-items-25-03-2026" class="nav-link" data-scroll-target="#weekly-meeting-and-action-items-25-03-2026">Weekly meeting and action items (25-03-2026)</a></li>
-  <li><a href="#qc-tools-features" id="toc-qc-tools-features" class="nav-link" data-scroll-target="#qc-tools-features">QC Tools Features</a>
-  <ul>
-  <li><a href="#adapter-trimming-tools" id="toc-adapter-trimming-tools" class="nav-link" data-scroll-target="#adapter-trimming-tools">Adapter trimming tools</a></li>
-  <li><a href="#quality-filteringtrimming-tools" id="toc-quality-filteringtrimming-tools" class="nav-link" data-scroll-target="#quality-filteringtrimming-tools">Quality filtering/trimming tools</a></li>
-  <li><a href="#example-commands" id="toc-example-commands" class="nav-link" data-scroll-target="#example-commands">Example commands</a>
-  <ul>
-  <li><a href="#chopper---trim-approach-split-by-low-quality" id="toc-chopper---trim-approach-split-by-low-quality" class="nav-link" data-scroll-target="#chopper---trim-approach-split-by-low-quality">chopper (<code>--trim-approach</code> <code>split-by-low-quality)</code></a></li>
-  <li><a href="#fastplong" id="toc-fastplong" class="nav-link" data-scroll-target="#fastplong">fastplong</a></li>
-  </ul></li>
-  </ul></li>
-  </ul>
-</nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -406,7 +392,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Week 05: QC Tool Parameter Compilation</h1>
+<h1 class="title">Ranking the tools</h1>
 </div>
 
 
@@ -423,200 +409,357 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="overview" class="level2">
-<h2 class="anchored" data-anchor-id="overview">Overview</h2>
-<hr>
-</section>
-<section id="weekly-meeting-and-action-items-25-03-2026" class="level2">
-<h2 class="anchored" data-anchor-id="weekly-meeting-and-action-items-25-03-2026">Weekly meeting and action items (25-03-2026)</h2>
-<ul>
-<li><p>Succesfully run snakemake slurm plugin and adding the benchmark as well as the resource directive in the rules</p></li>
-<li><p>Include chopper in the read quality trimming/filtering evaluation</p></li>
-<li><p>Discussed Native vs.&nbsp;Rapid read anatomy structure.</p></li>
-<li><p>Compiled the paramters for each QC tool</p></li>
-</ul>
-</section>
-<section id="qc-tools-features" class="level2">
-<h2 class="anchored" data-anchor-id="qc-tools-features">QC Tools Features</h2>
-<section id="adapter-trimming-tools" class="level3">
-<h3 class="anchored" data-anchor-id="adapter-trimming-tools">Adapter trimming tools</h3>
-<table class="caption-top table">
+<div id="fc129b7c" class="cell" data-execution_count="1">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>quast_metrics <span class="op">=</span> pd.read_csv(<span class="st">"../results/tables/assess/assembly-combo/assembly/metrics/combo_quast_compiled_metrics.csv"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>contam_metrics <span class="op">=</span> pd.read_csv(<span class="st">"../results/tables/assess/assembly-combo/assembly/metrics/combo_contaminant_summary_count.csv"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>assembly_metrics <span class="op">=</span> pd.merge(</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    quast_metrics, </span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    contam_metrics, </span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    on<span class="op">=</span>[<span class="st">'combo'</span>, <span class="st">'depth'</span>, <span class="st">'sample'</span>, <span class="st">'model'</span>], </span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    how<span class="op">=</span><span class="st">'inner'</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>assembly_metrics</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
 <thead>
 <tr class="header">
-<th>Feature</th>
-<th><code>dorado trim</code></th>
-<th><code>porechop_abi</code></th>
-<th><code>barbell kit</code></th>
-<th><code>fastplong</code></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">combo</th>
+<th data-quarto-table-cell-role="th">depth</th>
+<th data-quarto-table-cell-role="th">sample</th>
+<th data-quarto-table-cell-role="th">model</th>
+<th data-quarto-table-cell-role="th">Mismatches per 100kbp</th>
+<th data-quarto-table-cell-role="th">Indels per 100kbp</th>
+<th data-quarto-table-cell-role="th">NGA50</th>
+<th data-quarto-table-cell-role="th">NGA50_norm</th>
+<th data-quarto-table-cell-role="th">misassemblies</th>
+<th data-quarto-table-cell-role="th">contamination_count</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Adapter input</td>
-<td>It requires one kit name (<code>--sequencing-kit</code>)</td>
-<td>It can detect adapter from the read set, de novo (<code>--ab_initio)</code>. One adapter will be selected.</td>
-<td>It requires one kit name (<code>--kit</code>)</td>
-<td>Detect automatically, but the author recommends to specify the sequence (<code>start_adapter</code>, <code>end_adapter</code> and <code>adapter_fasta)</code></td>
+<th data-quarto-table-cell-role="th">0</th>
+<td>chopper-barbell</td>
+<td>100x</td>
+<td>AJ292__202310</td>
+<td>hac</td>
+<td>0.00</td>
+<td>0.50</td>
+<td>5445107</td>
+<td>0.999995</td>
+<td>0</td>
+<td>0</td>
 </tr>
 <tr class="even">
-<td>Adapter trimming extension</td>
-<td>Not specified</td>
-<td><code>--extra_end_trim,</code> (default on, = 2bp)</td>
-<td>Not specified</td>
-<td><code>--trimming_extension</code>(default on, =10bp)</td>
+<th data-quarto-table-cell-role="th">1</th>
+<td>chopper-barbell</td>
+<td>20x</td>
+<td>AJ292__202310</td>
+<td>hac</td>
+<td>0.20</td>
+<td>0.92</td>
+<td>5445100</td>
+<td>0.999994</td>
+<td>0</td>
+<td>0</td>
 </tr>
 <tr class="odd">
-<td>Middle adapter detection</td>
-<td>Not specified</td>
-<td>Yes, it can split into two reads (default, to disable searching = <code>--no_split</code>) or discard them ( <code>--discard_middle</code>).</td>
-<td>It seems <code>–-use-extended</code> option can do this ( detect fusions, breaks)</td>
-<td>No, it searches adapter at start and and of the reads</td>
+<th data-quarto-table-cell-role="th">2</th>
+<td>chopper-barbell</td>
+<td>50x</td>
+<td>AJ292__202310</td>
+<td>hac</td>
+<td>0.00</td>
+<td>0.29</td>
+<td>5445119</td>
+<td>0.999998</td>
+<td>0</td>
+<td>0</td>
 </tr>
 <tr class="even">
-<td>How does the tool find adapter</td>
-<td>Corresponding adapter sequence of the specified kit</td>
-<td>Sample the reads (<code>--check_reads</code>, default 10Kb)*, then will use kmer + graph based method to find consensus (<code>--abi</code>), or match them to static db (original impl)</td>
-<td>Corresponding adapter sequence of the specified kit</td>
-<td>Not clear. A static database seems to be expected (similar to original porechop), but the nanopore adapter is not included here in their <a href="https://github.com/OpenGene/fastplong/blob/main/src/knownadapters.h">knownadapters.h</a> file. Maybe we need to specify adapter sequence afterall.</td>
+<th data-quarto-table-cell-role="th">3</th>
+<td>chopper-barbell</td>
+<td>100x</td>
+<td>AJ292__202310</td>
+<td>sup</td>
+<td>0.00</td>
+<td>0.02</td>
+<td>5445131</td>
+<td>1.000000</td>
+<td>0</td>
+<td>0</td>
 </tr>
 <tr class="odd">
-<td>Tool related parameters</td>
-<td>-</td>
-<td><p><code>--end_size</code> (number of bases at each end of the read which will be searched for adapter sequences, default 150bp)</p>
-<p><code>--end_threshold</code> threshold identity (default 75%) to be removed</p></td>
-<td><p><code>--maximize</code> adds “risky” pattern during demultiplexing, meaning more reads are retained or assigned.</p>
-<p>When scanning for barcode flanks, we can set <code>--flank-max-errors</code>. Other paramters related threshold <code>--min-score</code>,<code>--min-score-diff</code>, <code>--alpha</code></p></td>
-<td></td>
+<th data-quarto-table-cell-role="th">4</th>
+<td>chopper-barbell</td>
+<td>20x</td>
+<td>AJ292__202310</td>
+<td>sup</td>
+<td>0.07</td>
+<td>0.26</td>
+<td>5439253</td>
+<td>0.998920</td>
+<td>2</td>
+<td>0</td>
 </tr>
 <tr class="even">
-<td>Multithreading support (for benchmarking maybe?)</td>
-<td><code>--threads</code> (deafult using all available threads)</td>
-<td><code>--threads</code> (default is 16)</td>
-<td><code>--threads</code> (default is 10)</td>
-<td><code>--thread</code> (default is 3)</td>
+<th data-quarto-table-cell-role="th">...</th>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">1321</th>
+<td>unprocessed-untrimmed</td>
+<td>20x</td>
+<td>RDH275__202311</td>
+<td>hac</td>
+<td>0.28</td>
+<td>0.84</td>
+<td>1776938</td>
+<td>0.990762</td>
+<td>0</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1322</th>
+<td>unprocessed-untrimmed</td>
+<td>50x</td>
+<td>RDH275__202311</td>
+<td>hac</td>
+<td>0.00</td>
+<td>0.22</td>
+<td>1793506</td>
+<td>0.999999</td>
+<td>0</td>
+<td>2</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">1323</th>
+<td>unprocessed-untrimmed</td>
+<td>100x</td>
+<td>RDH275__202311</td>
+<td>sup</td>
+<td>0.00</td>
+<td>0.22</td>
+<td>1793503</td>
+<td>0.999998</td>
+<td>0</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1324</th>
+<td>unprocessed-untrimmed</td>
+<td>20x</td>
+<td>RDH275__202311</td>
+<td>sup</td>
+<td>0.06</td>
+<td>0.39</td>
+<td>1793502</td>
+<td>0.999997</td>
+<td>0</td>
+<td>2</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">1325</th>
+<td>unprocessed-untrimmed</td>
+<td>50x</td>
+<td>RDH275__202311</td>
+<td>sup</td>
+<td>0.06</td>
+<td>0.22</td>
+<td>1793505</td>
+<td>0.999999</td>
+<td>0</td>
+<td>1</td>
 </tr>
 </tbody>
 </table>
-<p>*: It doesn’t use proportion, meaning that different read depth will have different sampling representation to “guess” (ab initio) what the adapter sequence are. Is it better to perform downsampling before adapter trimming/QC steps instead of after to minimise bias across the samples?</p>
-</section>
-<section id="quality-filteringtrimming-tools" class="level3">
-<h3 class="anchored" data-anchor-id="quality-filteringtrimming-tools">Quality filtering/trimming tools</h3>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Feature</th>
-<th><code>fastplong</code></th>
-<th><code>filtlong</code></th>
-<th><code>chopper</code>*</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Filter based on read length</td>
-<td>Yes, minimum length (<code>--length_required</code>, default=20bp) and maximum length (<code>--length_limit</code>, default=no limitation)</td>
-<td>Yes (<code>--min_length</code>, <code>--max_length</code>) with no default values (not required)</td>
-<td><code>--min-length</code>, default=1bp and <code>--maxlength</code> with default INF</td>
-</tr>
-<tr class="even">
-<td>Filter based on average quality</td>
-<td>Yes (<code>--mean_qual</code>, default=no requirement)</td>
-<td>Yes (<code>--min_mean_q</code>, <code>—min_window_q</code>) with no default values (not required)</td>
-<td>minimum average quality score (<code>--quality</code>, default=0) and maximum (<code>--maxqual</code>, default 1000)</td>
-</tr>
-<tr class="odd">
-<td>Masking</td>
-<td><code>--mask</code> to enable this feature, then we can adjust the paramters <code>--mask_window_size</code>, <code>--mask_mean_quality</code>.</td>
-<td>Not specified</td>
-<td>Not specified</td>
-</tr>
-<tr class="even">
-<td>Trim from front and/or tail by quality</td>
-<td><p><code>--cut_front</code> to enable scan per window (<code>--cut_window_size</code>) from 5’ end, and drop it if the per window quality below (<code>--cut_front_mean_quality</code>).</p>
-<p>It can also scan from the tail 3’</p></td>
-<td>Not specified</td>
-<td><p><code>--trim-approach trim-by-quality</code> will trim reads base per base until &gt;= <code>--cutoff</code> from the ends of the reads</p>
-<p><code>--trim-approach best-read-segment</code> uses more fancy approach, calculating the differences between <code>–-cut-off</code> and base quality to get sub-read that has highest cumulative score (read more <a href="https://github.com/wdecoster/chopper/pull/52">here</a>). In the example, the author combined this option with <code>--min-length</code></p></td>
-</tr>
-<tr class="odd">
-<td>Fixed trimming</td>
-<td><code>--trim_front N</code> and <code>--trim_tail N</code> to enable</td>
-<td>Not specified</td>
-<td><code>--trim-approach fixed-crop</code>, then specify N bases to trim from the start (<code>--headcrop</code>)and and from the end (<code>--tailcrop</code>)</td>
-</tr>
-<tr class="even">
-<td>Non random downsampling</td>
-<td><p><code>--reads_to_process</code> technically, I think, can do this job</p>
-<p>because simply stops the tool after N reads</p></td>
-<td>Keeps the “best” reads up to target base count (<code>--target-base</code>) or proportion (<code>--keep_percent</code>)</td>
-<td>Not specified</td>
-</tr>
-<tr class="odd">
-<td>Low complexity/N base filtering or trimming</td>
-<td><p><code>--low_complexity_filter</code> to enable it, checking <code>base[i]!=base[i+1]</code> with <code>--complexity_threshold</code>, default 30%)</p>
-<p>and limits N bases using <code>--n_base_limit</code></p>
-<p>Also, <code>--trim_poly_x</code> to enable polyX trimming in 3’ ends</p></td>
-<td>Not specified</td>
-<td>Not specified</td>
-</tr>
-<tr class="even">
-<td>Read splitting by quality</td>
-<td><code>--break</code> to discarding the low quality bases in the middle and break the read into two pieces, and we can adjust <code>--break_window_size</code> and <code>--break_mean_quality</code></td>
-<td>No, but it can break the read as well, see External reference support</td>
-<td><p>It can split reads by low-quality segments (dynamically by scanning the quality) using <code>--trim-approach</code> <code>split-by-low-quality</code></p>
-<p>Technically, it can split one read into multiple high quality shorter reads (proved it in the example command below). In the example, the author combined this option with <code>--min-length</code></p></td>
-</tr>
-<tr class="odd">
-<td>External reference support</td>
-<td>Not specified</td>
-<td>Yes. Can use short reads or an assembly to determine quality instead of phred score. It does trimming (<code>--trim</code>) and splitting (<code>--split</code>) by reference kmer matches.</td>
-<td>Yes, we can specify “contaminant” sequences using <code>--contam</code>, to be filtered out</td>
-</tr>
-<tr class="even">
-<td>Filter by GC content</td>
-<td>Not specified</td>
-<td>Not specified</td>
-<td>Yes, <code>--mingc</code> and <code>--maxgc</code></td>
-</tr>
-<tr class="odd">
-<td>How the tool performs the process</td>
-<td>Process each parameter in isolation</td>
-<td>Reads are scored using a weighted formula based on three separate metrics: read length, mean quality, and sliding window quality to determine threshold for <code>--keep_percent</code> and <code>--target_bases</code></td>
-<td>Process each parameter in isolation</td>
-</tr>
-<tr class="even">
-<td>Multithreading support (for benchmarking maybe?)</td>
-<td>See <strong>adapter trimming tools</strong></td>
-<td>Not specified</td>
-<td><code>--threads</code> (default is 4)</td>
-</tr>
-</tbody>
-</table>
-<p>*: <code>chopper</code> does not perform any adapter preprocessing, as the author said <a href="https://github.com/wdecoster/chopper/issues/16">here</a></p>
-</section>
-<section id="example-commands" class="level3">
-<h3 class="anchored" data-anchor-id="example-commands">Example commands</h3>
-<section id="chopper---trim-approach-split-by-low-quality" class="level4">
-<h4 class="anchored" data-anchor-id="chopper---trim-approach-split-by-low-quality">chopper (<code>--trim-approach</code> <code>split-by-low-quality)</code></h4>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">chopper-linux</span> <span class="at">--trim-approach</span> split-by-low-quality <span class="at">--cutoff</span> 15 <span class="at">-l</span> 50 <span class="at">-i</span> biox7021/data/fastqs/KPC2__202310.fastq <span class="op">&gt;</span> split_reads.fastq</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Kept</span> 1862406 reads out of 49458 reads</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The caluclate simple read stats using seqkit:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">seqkit</span> stats biox7021/data/fastqs/KPC2__202310.fastq</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">file</span>                                     format  type  num_seqs      sum_len  min_len  avg_len  max_len</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">biox7021/data/fastqs/KPC2__202310.fastq</span>  FASTQ   DNA     49,458  431,184,574       11  8,718.2  195,090</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="ex">seqkit</span> stats split_reads.fastq </span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">file</span>               format  type   num_seqs      sum_len  min_len  avg_len  max_len</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="ex">split_reads.fastq</span>  FASTQ   DNA   1,862,406  338,902,877       50      182    6,901</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>It reduced <code>avg_len</code> and <code>max_len</code> significantly</p>
-</section>
-<section id="fastplong" class="level4">
-<h4 class="anchored" data-anchor-id="fastplong">fastplong</h4>
-<p>This command will only perform adapter trimming without quality and length filtering</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">fastplong</span> <span class="at">-i</span> {input.reads} <span class="at">-o</span> {output.reads} <span class="at">--disable_quality_filtering</span> <span class="at">--disable_length_filtering</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+<p>1326 rows × 10 columns</p>
+</div>
+</div>
+</div>
+<div id="6fd57fe4" class="cell" data-execution_count="2">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> rank_tools_filtlong_style(</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    df,</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    weights<span class="op">=</span>{<span class="st">"continuity"</span>: <span class="fl">1.0</span>, <span class="st">"accuracy"</span>: <span class="fl">1.0</span>, <span class="st">"cleanliness"</span>: <span class="fl">1.0</span>},</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    agg_method<span class="op">=</span><span class="st">"median"</span>,  <span class="co"># Options: 'median' or 'mean'</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    target_model<span class="op">=</span><span class="va">None</span>,  <span class="co"># Options: 'hac', 'sup', or None to process all</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    target_depth<span class="op">=</span><span class="va">None</span>,  <span class="co"># Options: '20x', '50x', '100x', or None to process all</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>):</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Aggregates sample-level QC metrics and applies the Filtlong formula</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co">    to rank trimmer/tool combinations dynamically.</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 1. Aggregate metrics across samples per combination cohort</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    group_cols <span class="op">=</span> [<span class="st">"combo"</span>, <span class="st">"depth"</span>, <span class="st">"model"</span>]</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    metric_cols <span class="op">=</span> [</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>        <span class="st">"NGA50_norm"</span>,</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Mismatches per 100kbp"</span>,</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Indels per 100kbp"</span>,</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>        <span class="st">"contamination_count"</span>,</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> agg_method <span class="op">==</span> <span class="st">"median"</span>:</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>        df_agg <span class="op">=</span> (</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>            df.groupby(group_cols, as_index<span class="op">=</span><span class="va">False</span>)[metric_cols].median().copy()</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> agg_method <span class="op">==</span> <span class="st">"mean"</span>:</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>        df_agg <span class="op">=</span> (</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>            df.groupby(group_cols, as_index<span class="op">=</span><span class="va">False</span>)[metric_cols].mean().copy()</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"agg_method must be either 'mean' or 'median'"</span>)</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 2. Apply filtering options based on dataset characteristics</span></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> target_model <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>        df_agg <span class="op">=</span> df_agg[df_agg[<span class="st">"model"</span>] <span class="op">==</span> target_model]</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> target_depth <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>        df_agg <span class="op">=</span> df_agg[df_agg[<span class="st">"depth"</span>] <span class="op">==</span> target_depth]</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 3. Determine the grouping for normalization boundaries.</span></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>    <span class="co"># If the user filters down to a single scenario, it scores within that subset.</span></span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Otherwise, it isolates cohorts automatically.</span></span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>    stratify_by <span class="op">=</span> []</span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> target_model <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>        stratify_by.append(<span class="st">"model"</span>)</span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> target_depth <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>        stratify_by.append(<span class="st">"depth"</span>)</span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>    wl <span class="op">=</span> weights.get(<span class="st">"continuity"</span>, <span class="fl">1.0</span>)</span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>    wm <span class="op">=</span> weights.get(<span class="st">"accuracy"</span>, <span class="fl">1.0</span>)</span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>    ww <span class="op">=</span> weights.get(<span class="st">"cleanliness"</span>, <span class="fl">1.0</span>)</span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>    processed_cohorts <span class="op">=</span> []</span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>    cohort_groups <span class="op">=</span> (</span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>        df_agg.groupby(stratify_by) <span class="cf">if</span> stratify_by <span class="cf">else</span> [((), df_agg.copy())]</span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> keys, cohort <span class="kw">in</span> cohort_groups:</span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a>        c <span class="op">=</span> cohort.copy()</span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>        <span class="co"># --- Directional Min-Max Scaling (0 to 100) ---</span></span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>        <span class="co"># s_l: NGA50_norm (Higher is better)</span></span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>        mx_nga, mn_nga <span class="op">=</span> c[<span class="st">"NGA50_norm"</span>].<span class="bu">max</span>(), c[<span class="st">"NGA50_norm"</span>].<span class="bu">min</span>()</span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a>        c[<span class="st">"s_l"</span>] <span class="op">=</span> (</span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a>            ((c[<span class="st">"NGA50_norm"</span>] <span class="op">-</span> mn_nga) <span class="op">/</span> (mx_nga <span class="op">-</span> mn_nga) <span class="op">*</span> <span class="dv">100</span>)</span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> mx_nga <span class="op">!=</span> mn_nga</span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span> <span class="fl">100.0</span></span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a>        <span class="co"># s_m: Accuracy (Lower is better for errors)</span></span>
+<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Scale errors individually first, then combine them as base accuracy</span></span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> err_col <span class="kw">in</span> [<span class="st">"Mismatches per 100kbp"</span>, <span class="st">"Indels per 100kbp"</span>]:</span>
+<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a>            mx, mn <span class="op">=</span> c[err_col].<span class="bu">max</span>(), c[err_col].<span class="bu">min</span>()</span>
+<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a>            suffix <span class="op">=</span> <span class="st">"mismatches"</span> <span class="cf">if</span> <span class="st">"Mismatches"</span> <span class="kw">in</span> err_col <span class="cf">else</span> <span class="st">"indels"</span></span>
+<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a>            c[<span class="ss">f"s_</span><span class="sc">{</span>suffix<span class="sc">}</span><span class="ss">"</span>] <span class="op">=</span> (</span>
+<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a>                ((mx <span class="op">-</span> c[err_col]) <span class="op">/</span> (mx <span class="op">-</span> mn) <span class="op">*</span> <span class="dv">100</span>) <span class="cf">if</span> mx <span class="op">!=</span> mn <span class="cf">else</span> <span class="fl">100.0</span></span>
+<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a>            )</span>
+<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a>        c[<span class="st">"s_m"</span>] <span class="op">=</span> (c[<span class="st">"s_mismatches"</span>] <span class="op">+</span> c[<span class="st">"s_indels"</span>]) <span class="op">/</span> <span class="fl">2.0</span></span>
+<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a>        <span class="co"># s_w: Cleanliness (Lower is better for adapter contamination)</span></span>
+<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a>        mx_con, mn_con <span class="op">=</span> (</span>
+<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a>            c[<span class="st">"contamination_count"</span>].<span class="bu">max</span>(),</span>
+<span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a>            c[<span class="st">"contamination_count"</span>].<span class="bu">min</span>(),</span>
+<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a>        c[<span class="st">"s_w"</span>] <span class="op">=</span> (</span>
+<span id="cb2-89"><a href="#cb2-89" aria-hidden="true" tabindex="-1"></a>            ((mx_con <span class="op">-</span> c[<span class="st">"contamination_count"</span>]) <span class="op">/</span> (mx_con <span class="op">-</span> mn_con) <span class="op">*</span> <span class="dv">100</span>)</span>
+<span id="cb2-90"><a href="#cb2-90" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> mx_con <span class="op">!=</span> mn_con</span>
+<span id="cb2-91"><a href="#cb2-91" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span> <span class="fl">100.0</span></span>
+<span id="cb2-92"><a href="#cb2-92" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb2-93"><a href="#cb2-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-94"><a href="#cb2-94" aria-hidden="true" tabindex="-1"></a>        <span class="co"># --- Filtlong Score Execution ---</span></span>
+<span id="cb2-95"><a href="#cb2-95" aria-hidden="true" tabindex="-1"></a>        eps <span class="op">=</span> <span class="fl">1e-5</span></span>
+<span id="cb2-96"><a href="#cb2-96" aria-hidden="true" tabindex="-1"></a>        s_m_safe <span class="op">=</span> np.where(c[<span class="st">"s_m"</span>] <span class="op">==</span> <span class="dv">0</span>, eps, c[<span class="st">"s_m"</span>])</span>
+<span id="cb2-97"><a href="#cb2-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-98"><a href="#cb2-98" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Core baseline: Weighted Geometric Mean of continuity &amp; accuracy</span></span>
+<span id="cb2-99"><a href="#cb2-99" aria-hidden="true" tabindex="-1"></a>        geometric_base <span class="op">=</span> (c[<span class="st">"s_l"</span>] <span class="op">**</span> wl <span class="op">*</span> c[<span class="st">"s_m"</span>] <span class="op">**</span> wm) <span class="op">**</span> (<span class="fl">1.0</span> <span class="op">/</span> (wl <span class="op">+</span> wm))</span>
+<span id="cb2-100"><a href="#cb2-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-101"><a href="#cb2-101" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Scaling factor: Penalty or reward based on residual adapters</span></span>
+<span id="cb2-102"><a href="#cb2-102" aria-hidden="true" tabindex="-1"></a>        scaling_factor <span class="op">=</span> (ww <span class="op">*</span> (c[<span class="st">"s_w"</span>] <span class="op">-</span> c[<span class="st">"s_m"</span>])) <span class="op">/</span> (</span>
+<span id="cb2-103"><a href="#cb2-103" aria-hidden="true" tabindex="-1"></a>            s_m_safe <span class="op">*</span> (wl <span class="op">+</span> wm <span class="op">+</span> ww)</span>
+<span id="cb2-104"><a href="#cb2-104" aria-hidden="true" tabindex="-1"></a>        ) <span class="op">+</span> <span class="fl">1.0</span></span>
+<span id="cb2-105"><a href="#cb2-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-106"><a href="#cb2-106" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Compute ultimate final score</span></span>
+<span id="cb2-107"><a href="#cb2-107" aria-hidden="true" tabindex="-1"></a>        c[<span class="st">"final_score"</span>] <span class="op">=</span> geometric_base <span class="op">*</span> scaling_factor</span>
+<span id="cb2-108"><a href="#cb2-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-109"><a href="#cb2-109" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Assign contextual ranks</span></span>
+<span id="cb2-110"><a href="#cb2-110" aria-hidden="true" tabindex="-1"></a>        c[<span class="st">"rank"</span>] <span class="op">=</span> c[<span class="st">"final_score"</span>].rank(ascending<span class="op">=</span><span class="va">False</span>, method<span class="op">=</span><span class="st">"min"</span>)</span>
+<span id="cb2-111"><a href="#cb2-111" aria-hidden="true" tabindex="-1"></a>        processed_cohorts.append(c)</span>
+<span id="cb2-112"><a href="#cb2-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-113"><a href="#cb2-113" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Recombine cohorts and sort cleanly</span></span>
+<span id="cb2-114"><a href="#cb2-114" aria-hidden="true" tabindex="-1"></a>    result_df <span class="op">=</span> pd.concat(processed_cohorts)</span>
+<span id="cb2-115"><a href="#cb2-115" aria-hidden="true" tabindex="-1"></a>    sort_order <span class="op">=</span> stratify_by <span class="op">+</span> [<span class="st">"final_score"</span>]</span>
+<span id="cb2-116"><a href="#cb2-116" aria-hidden="true" tabindex="-1"></a>    ascending_order <span class="op">=</span> [<span class="va">True</span>] <span class="op">*</span> <span class="bu">len</span>(stratify_by) <span class="op">+</span> [<span class="va">False</span>]</span>
+<span id="cb2-117"><a href="#cb2-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-118"><a href="#cb2-118" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> result_df.sort_values(by<span class="op">=</span>sort_order, ascending<span class="op">=</span>ascending_order)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="8e02bf8e" class="cell" data-execution_count="3">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Forces min-max boundaries to evaluate strictly inside the 20x SUP environment</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>low_coverage_ranking <span class="op">=</span> rank_tools_filtlong_style(</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    assembly_metrics,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    weights<span class="op">=</span>{<span class="st">"continuity"</span>: <span class="fl">1.5</span>, <span class="st">"accuracy"</span>: <span class="fl">1.0</span>, <span class="st">"cleanliness"</span>: <span class="fl">1.0</span>},</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    agg_method<span class="op">=</span><span class="st">"mean"</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    target_model<span class="op">=</span><span class="st">"sup"</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    target_depth<span class="op">=</span><span class="st">"100x"</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(low_coverage_ranking[<span class="op">-</span><span class="dv">3</span>:])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>               combo depth model  NGA50_norm  Mismatches per 100kbp  \
+55    seqkit-barbell  100x   sup    0.931991               0.158462   
+31  filtlong-barbell  100x   sup    0.969417               0.293846   
+1    chopper-barbell  100x   sup    0.918352               0.246154   
+
+    Indels per 100kbp  contamination_count        s_l  s_mismatches  \
+55           0.173846                  0.0   26.71062      73.94958   
+31           0.223846                  0.0  100.00000       0.00000   
+1            0.203846                  0.0    0.00000      26.05042   
+
+     s_indels        s_m    s_w  final_score  rank  
+55  44.827586  59.388583  100.0    43.953865  15.0  
+31   0.000000   0.000000  100.0     0.000000  16.0  
+1   17.931034  21.990727  100.0     0.000000  16.0  </code></pre>
+</div>
+</div>
+<div id="e51899e8" class="cell" data-execution_count="4">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>assembly_metrics.to_csv(<span class="st">"assembly_metrics.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
 
 
-</section>
-</section>
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
