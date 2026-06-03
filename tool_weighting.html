@@ -372,7 +372,7 @@ ul.task-list li input[type="checkbox"] {
 
 
 <p>Adjust the weights below to see how the scoring shifts the ranks of the downstream assembly models.</p>
-<p>```wwpkultnorqfaoaiub #| standalone: true #| viewerHeight: 700</p>
+<p>```slhtvdueqorgixzhna #| standalone: true #| viewerHeight: 700</p>
 <p>from shiny import App, render, ui import pandas as pd import numpy as np</p>
 <p>app_ui = ui.page_fluid( ui.layout_sidebar( ui.sidebar( ui.input_slider(“w_cont”, “Continuity Weight (wl)”, 0.0, 3.0, 1.5, step=0.1), ui.input_slider(“w_acc”, “Accuracy Weight (wm)”, 0.0, 3.0, 1.0, step=0.1), ui.input_slider(“w_clean”, “Cleanliness Weight (ww)”, 0.0, 3.0, 1.0, step=0.1), ui.input_select(“model_select”, “Target Model”, [“hac”, “sup”, “all”], “sup”), ui.input_select(“depth_select”, “Target Depth”, [“20x”, “50x”, “100x”, “all”], “100x”), ui.hr(), # Adds a visual dividing line ui.input_numeric(“top_n”, “Show Top N Ranks”, 3, min=1) # The new input ), ui.output_data_frame(“ranking_table”) ) )</p>
 <p>def server(input, output, session):</p>
@@ -499,8 +499,12 @@ def ranking_table():
 
         return result_df.sort_values(by=sort_order, ascending=ascending_order)
 
+    from pyodide.http import open_url
+
     url = "https://raw.githubusercontent.com/adimascf/biox7021/refs/heads/trimming-quality/logbook/assembly_metrics.csv"
-    df = pd.read_csv(url)
+
+    # Wrap the URL using open_url before passing it to pandas
+    df = pd.read_csv(open_url(url))
 
     weights = {
         "continuity": input.w_cont(),
