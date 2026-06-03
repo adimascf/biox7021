@@ -95,10 +95,8 @@ rule assess_variant_fnfp:
 		ENVS / "generate_figure_python.yaml"
 	output:
 		csv=TABLES / "assess/call/metrics/combo_variant_fnfp.csv",
-		figures=[
-				FIGURES / f"assess/call/metrics/combo_variant_{metric}.png"
-				for metric in ["fn", "fp"]
-				]
+		fn_plot=FIGURES / f"assess/call/metrics/combo_variant_fn.png",
+		fp_plot=FIGURES / f"assess/call/metrics/combo_variant_fp.png"
 	script:
 		"../scripts/extract_plot_fnfp.py"
 
@@ -254,3 +252,28 @@ rule plot_assembly_nga50:
 				]
 	script:
 		"../scripts/plot_assembly_nga50.py"
+
+rule benchmark_resources:
+	input:
+		trimming_benchmark=expand(
+				BENCHMARK / "QC/trimming/{trimmer}/{model}/{sample}.{trimmer}.tsv",
+				trimmer=[t for t in EVAL_TRIMMERS if t != "untrimmed"],
+				model=MODELS,
+				sample=SAMPLES),
+		quality_benchmark=expand(
+				BENCHMARK / "QC/quality/{combo}/{model}/{sample}.{combo}.tsv",
+				combo=[c for c in COMBINATIONS if not c.startswith("unprocessed")],
+				model=MODELS,
+				sample=SAMPLES)
+	log:
+		LOGS / "assess/benchmark_resources/benchmark_resources.log"
+	resources:
+		mem="16GiB",
+		runtime="20m"
+	conda:
+		ENVS / "generate_figure_python.yaml"
+	output:
+		figure=FIGURES / "assess/benchmark_resources/benchmark_resources.png",
+		csv=TABLES / "assess/benchmark_resources/benchmark_resources.csv"
+	script:
+		"../scripts/plot_benchmark_resources.py"
