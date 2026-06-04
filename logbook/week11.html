@@ -542,7 +542,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="testing-on-the-barbell-assembly" class="level3">
 <h3 class="anchored" data-anchor-id="testing-on-the-barbell-assembly">Testing on the barbell assembly</h3>
 <p>I first tested this approach on the Barbell assembly (from rapid kit):</p>
-<div id="e103ece5" class="cell" data-execution_count="1">
+<div id="1388f8ea" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># !python detect_contaminant_minimap2.py --barcode-dir barcodes/ --assembly test_assemblies/bc49_medaka_consensus.114.fasta -o bc49_medaka_consensus.cont.tsv 2&gt; /dev/null</span></span>
@@ -561,7 +561,7 @@ BC49    rapid   contig_73       +        1         91      1.00       180       
 <section id="testing-on-kpc2__202310-at-20-depth" class="level3">
 <h3 class="anchored" data-anchor-id="testing-on-kpc2__202310-at-20-depth">Testing on KPC2__202310 at 20× depth</h3>
 <p>I then tested the script on the KPC2__202310 20× (a mixed sample) assembly generated from Dorado processed reads</p>
-<div id="cb7bd90c" class="cell" data-execution_count="2">
+<div id="5089dde7" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># !python detect_contaminant_minimap2.py -d barcodes/ -a test_assemblies/KPC2__202310.dorado.20x.assembly.fasta -o KPC2__202310.dorado.20x.cont.tsv 2&gt; /dev/null</span></span>
@@ -595,7 +595,7 @@ BC49    rapid   contig_73       +        1         91      1.00       180       
 </ul></li>
 </ul>
 <p>I then ran the detection script again on the manually contaminated assembly:</p>
-<div id="af7d8c28" class="cell" data-execution_count="3">
+<div id="689495b2" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># !python detect_contaminant_minimap2.py -a test_assemblies/KPC2__202310.dorado.20x.assembly.cont.fasta -d barcodes/ -o KPC2__202310.dorado.20x.cont.insert.tsv 2&gt; /dev/null</span></span>
@@ -623,7 +623,7 @@ Native_bottom_3   native_right   contig_4        +        43200     43260     1.
 <h3 class="anchored" data-anchor-id="testing-on-atcc_25922__202309-at-20x-depth">Testing on ATCC_25922__202309 at 20x depth</h3>
 <section id="dorado-processed-reads" class="level4">
 <h4 class="anchored" data-anchor-id="dorado-processed-reads">dorado processed reads</h4>
-<div id="69c0e35b" class="cell" data-execution_count="4">
+<div id="85de857a" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># !python detect_contaminant_minimap2.py -d barcodes/ -a test_assemblies/ATCC_25922__202309.dorado.20x.assembly.fasta -o ATCC_25922__202309.dorado.20x.cont.tsv 2&gt; /dev/null</span></span>
@@ -651,7 +651,7 @@ Native_top_75      native_left    contig_8        -        16848     16890     0
 <p>In this particular sample, <code>dorado trim</code> to successfully identify and remove the 36 bp adapter, leaving only around 0–25% of the adapter sequence behind. However, <code>dorado trim</code> appears to completely miss the barcode and flanking sequences. The hist are either at the start (first 100bp) or at the ends (last 100bp) of contigs</p>
 <p>Here I am also a bit worried if <code>dorado trim</code> doesn’t trim the barcode, it does only trim the adapter..</p>
 <p>Since almost all of the hits have perfect identity, I next checked whether the barcode sequence itself is present in the assembly using <code>seqkit locate</code>.</p>
-<div id="973dd8d6" class="cell" data-execution_count="5">
+<div id="cca79f2e" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>seqkit locate <span class="op">-</span>p <span class="st">"AAGGTTAAGACCATTGTGATGAACCCTGTTGTCAGCACCT"</span> test_assemblies<span class="op">/</span>ATCC_25922__202309.dorado<span class="fl">.20</span><span class="er">x</span>.assembly.fasta</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -671,7 +671,7 @@ contig_7    AAGGTTAAGACCATTGTGATGAACCCTGTTGTCAGCACCT    AAGGTTAAGACCATTGTGATGAAC
 </section>
 <section id="porecho_abi-discard-processed-reads" class="level4">
 <h4 class="anchored" data-anchor-id="porecho_abi-discard-processed-reads">porecho_abi discard processed reads</h4>
-<div id="61c4da0d" class="cell" data-execution_count="6">
+<div id="4f6ba62c" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># !python detect_contaminant_minimap2.py -d barcodes/ -a test_assemblies/ATCC_25922__202309.porechop_abi_discard.20x.assembly.fasta -o ATCC_25922__202309.porechop_abi_discard.20x.cont.tsv 2&gt; /dev/null</span></span>
@@ -704,7 +704,7 @@ BC11            rapid         contig_9        -        27655     27735    1.00  
 <h3 class="anchored" data-anchor-id="testing-on-the-other-assemblies">Testing on the other assemblies</h3>
 <section id="contamination-count" class="level4">
 <h4 class="anchored" data-anchor-id="contamination-count">Contamination count</h4>
-<div id="e0a00d74" class="cell" data-execution_count="7">
+<div id="a9c947cd" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import pandas as pd</span></span>
@@ -760,7 +760,7 @@ BC11            rapid         contig_9        -        27655     27735    1.00  
 <h4 class="anchored" data-anchor-id="contamination-details">Contamination details</h4>
 <section id="contamination-region-total" class="level5">
 <h5 class="anchored" data-anchor-id="contamination-region-total">Contamination region (total)</h5>
-<div id="e7183008" class="cell" data-execution_count="8">
+<div id="5451341a" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -906,7 +906,7 @@ BC11            rapid         contig_9        -        27655     27735    1.00  
 </section>
 <section id="contamination-region-per-trimmer" class="level5">
 <h5 class="anchored" data-anchor-id="contamination-region-per-trimmer">Contamination region (per trimmer)</h5>
-<div id="4eb5a23a" class="cell" data-execution_count="9">
+<div id="bbb2684a" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -1239,7 +1239,7 @@ BC11            rapid         contig_9        -        27655     27735    1.00  
 </section>
 <section id="mixed-vs-native-only-samples" class="level5">
 <h5 class="anchored" data-anchor-id="mixed-vs-native-only-samples">Mixed vs native only samples</h5>
-<div id="05a90db1" class="cell" data-execution_count="10">
+<div id="b3d3ad34" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
