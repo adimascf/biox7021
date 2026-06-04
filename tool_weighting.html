@@ -385,6 +385,7 @@ window.Quarto = {
    
   <ul>
   <li><a href="#metric-scoring-and-weighting" id="toc-metric-scoring-and-weighting" class="nav-link active" data-scroll-target="#metric-scoring-and-weighting">Metric Scoring and Weighting</a></li>
+  <li><a href="#interactive-tool-selection" id="toc-interactive-tool-selection" class="nav-link" data-scroll-target="#interactive-tool-selection">Interactive Tool Selection</a></li>
   </ul>
 </nav>
     </div>
@@ -420,12 +421,18 @@ window.Quarto = {
 <li><p><strong>For assembly errors (indels and mismatches) and adapter/barcode contamination (lower is better):</strong> <span class="math display">\[\text{Score} = \frac{\max - x}{\max - \min} \times 100\]</span></p></li>
 </ul>
 <p>Adapted from the Filtlong read scoring scheme, the three normalised scores (NGA50, Errors, and Contaminants) are aggregated using a Weighted Geometric Mean formula to calculate the final performance rank: <span class="math display">\[\text{Final Score} = \left( S_{nga50}^{w_n} \times S_{err}^{w_e} \times S_{cont}^{w_c} \right)^{\frac{1}{w_n + w_e + w_c}}\]</span></p>
-<p>Where: * <span class="math inline">\(S\)</span> represents the normalised score for NGA50, Errors, and Contaminants. * <span class="math inline">\(w\)</span> represents the user adjusted weight for each respective metric.</p>
+<p>Where: * <span class="math inline">\(S\)</span> represents the normalised score for NGA50, Errors, and Contaminants.</p>
+<ul>
+<li><span class="math inline">\(w\)</span> represents the user adjusted weight for each respective metric.</li>
+</ul>
+</section>
+<section id="interactive-tool-selection" class="level3">
+<h3 class="anchored" data-anchor-id="interactive-tool-selection">Interactive Tool Selection</h3>
 <pre class="shinylive-python" data-engine="python"><code>#| '!! shinylive warning !!': |
 #|   shinylive does not work in self-contained HTML documents.
 #|   Please set `embed-resources: false` in your metadata.
 #| standalone: true
-#| viewerHeight: 700
+#| viewerHeight: 800
 
 from shiny import App, render, ui
 import pandas as pd
@@ -458,7 +465,7 @@ def server(input, output, session):
         def rank_tools_geometric_mean(
             df,
             weights={"nga50": 1.0, "error": 1.0, "contaminants": 1.0},
-            agg_method="median",  # Options: 'median' or 'mean'
+            agg_method="mean",  # Options: 'median' or 'mean'
             target_model=None,  # Options: 'hac', 'sup', or None to process all
             target_depth=None,  # Options: '20x', '50x', '100x', or None to process all
         ):
@@ -606,7 +613,8 @@ def server(input, output, session):
         cols_to_round = ['s_nga50', 's_mismatches', 's_indels', 's_err', 's_cont', 'final_score']
         top_df[cols_to_round] = top_df[cols_to_round].round(2)
 
-        return top_df[['rank', 'combo', 'model', 'depth', 'NGA50_norm', 'Mismatches per 100kbp', 'Indels per 100kbp', 'contamination_count'] + cols_to_round]
+        top_df = top_df.rename(columns={'combo': "QC Tools pair"})
+        return top_df[['rank', 'QC Tools pair', 'model', 'depth', 'NGA50_norm', 'Mismatches per 100kbp', 'Indels per 100kbp', 'contamination_count'] + cols_to_round]
 
 app = App(app_ui, server)</code></pre>
 
