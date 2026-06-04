@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Interactive Assembly Evaluation – BIOX7021 LOGBOOK - 2026</title>
+<title>QC Tool Selection for Genome Assembly – BIOX7021 LOGBOOK - 2026</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -81,6 +81,35 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -269,7 +298,7 @@ ul.task-list li input[type="checkbox"] {
   </li>  
   <li class="nav-item">
     <a class="nav-link active" href="./tool_weighting.html" aria-current="page"> 
-<span class="menu-text">Tool Weighting</span></a>
+<span class="menu-text">QC Tool Selection</span></a>
   </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-weekly-logs" role="link" data-bs-toggle="dropdown" aria-expanded="false">
@@ -347,24 +376,30 @@ ul.task-list li input[type="checkbox"] {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#metric-scoring-and-weighting" id="toc-metric-scoring-and-weighting" class="nav-link active" data-scroll-target="#metric-scoring-and-weighting">Metric Scoring and Weighting</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content column-page-left" id="quarto-document-content">
 
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Interactive Assembly Evaluation</h1>
+<h1 class="title">QC Tool Selection for Genome Assembly</h1>
 </div>
 
 
 
-<div class="quarto-title-meta">
+<div class="quarto-title-meta column-page-left">
 
     
   
@@ -376,7 +411,16 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Adjust the weights below to see how the scoring shifts the ranks of the downstream assembly models.</p>
+<p>Adjust the importance weights of the metrics below to identify the best combination of adapter trimming and quality preprocessing tools for genome assembly.</p>
+<section id="metric-scoring-and-weighting" class="level3">
+<h3 class="anchored" data-anchor-id="metric-scoring-and-weighting">Metric Scoring and Weighting</h3>
+<p>To standardise the metrics, each metric was normalised using simple <a href="https://en.wikipedia.org/wiki/Feature_scaling">min-max scaling</a> to get a score between 0 and 100:</p>
+<ul>
+<li><p><strong>For NGA50 (higher is better):</strong> <span class="math display">\[\text{Score} = \frac{x - \min}{\max - \min} \times 100\]</span></p></li>
+<li><p><strong>For assembly errors (indels and mismatches) and adapter/barcode contamination (lower is better):</strong> <span class="math display">\[\text{Score} = \frac{\max - x}{\max - \min} \times 100\]</span></p></li>
+</ul>
+<p>Adapted from the Filtlong read scoring scheme, the three normalised scores (NGA50, Errors, and Contaminants) are aggregated using a Weighted Geometric Mean formula to calculate the final performance rank: <span class="math display">\[\text{Final Score} = \left( S_{nga50}^{w_n} \times S_{err}^{w_e} \times S_{cont}^{w_c} \right)^{\frac{1}{w_n + w_e + w_c}}\]</span></p>
+<p>Where: * <span class="math inline">\(S\)</span> represents the normalised score for NGA50, Errors, and Contaminants. * <span class="math inline">\(w\)</span> represents the user adjusted weight for each respective metric.</p>
 <pre class="shinylive-python" data-engine="python"><code>#| '!! shinylive warning !!': |
 #|   shinylive does not work in self-contained HTML documents.
 #|   Please set `embed-resources: false` in your metadata.
@@ -390,13 +434,13 @@ import numpy as np
 app_ui = ui.page_fluid(
     ui.layout_sidebar(
         ui.sidebar(
-            ui.input_slider("w_cont", "Continuity Weight (wl)", 0.0, 3.0, 1.5, step=0.1),
-            ui.input_slider("w_acc", "Accuracy Weight (wm)", 0.0, 3.0, 1.0, step=0.1),
-            ui.input_slider("w_clean", "Cleanliness Weight (ww)", 0.0, 3.0, 1.0, step=0.1),
-            ui.input_select("model_select", "Target Model", ["hac", "sup", "all"]),
-            ui.input_select("depth_select", "Target Depth", ["20x", "50x", "100x", "all"]),
+            ui.input_slider("w_nga50", "Structural Accuracy (NGA50) (wn)", 0.0, 1.0, 1.0, step=0.05),
+            ui.input_slider("w_err", "Sequence Accuracy (Mismatches and Indels) (we)", 0.0, 1.0, 1.0, step=0.05),
+            ui.input_slider("w_cont", "Contamination Weight (wc)", 0.0, 1.0, 1.0, step=0.05),
+            ui.input_select("model_select", "Basecalling Model", ["hac", "sup", "all"]),
+            ui.input_select("depth_select", "Sequencing Depth", ["20x", "50x", "100x", "all"]),
             ui.hr(), # Adds a visual dividing line
-            ui.input_numeric("top_n", "Show Top N Ranks", 3, min=1) # The new input
+            ui.input_numeric("top_n", "Show Top N Ranks", 3, min=1)
         ),
         ui.output_data_frame("ranking_table")
     )
@@ -407,14 +451,13 @@ def server(input, output, session):
     @output
     @render.data_frame
     def ranking_table():
-        # Insert your rank_tools_filtlong_style function here
 
         import numpy as np
         import pandas as pd
 
-        def rank_tools_filtlong_style(
+        def rank_tools_geometric_mean(
             df,
-            weights={"continuity": 1.0, "accuracy": 1.0, "cleanliness": 1.0},
+            weights={"nga50": 1.0, "error": 1.0, "contaminants": 1.0},
             agg_method="median",  # Options: 'median' or 'mean'
             target_model=None,  # Options: 'hac', 'sup', or None to process all
             target_depth=None,  # Options: '20x', '50x', '100x', or None to process all
@@ -449,7 +492,7 @@ def server(input, output, session):
             if target_depth is not None:
                 df_agg = df_agg[df_agg["depth"] == target_depth]
 
-            # 3. Determine the grouping for normalization boundaries.
+            # 3. Determine the grouping for normalisation boundaries.
             # If the user filters down to a single scenario, it scores within that subset.
             # Otherwise, it isolates cohorts automatically.
             stratify_by = []
@@ -458,9 +501,9 @@ def server(input, output, session):
             if target_depth is None:
                 stratify_by.append("depth")
 
-            wl = weights.get("continuity", 1.0)
-            wm = weights.get("accuracy", 1.0)
-            ww = weights.get("cleanliness", 1.0)
+            wn = weights.get("nga50", 1.0)
+            we = weights.get("error", 1.0)
+            wc = weights.get("contaminants", 1.0)
 
             processed_cohorts = []
             cohort_groups = (
@@ -470,51 +513,55 @@ def server(input, output, session):
             for keys, cohort in cohort_groups:
                 c = cohort.copy()
 
-                # --- Directional Min-Max Scaling (0 to 100) ---
+                # Directional Min-Max Scaling (0 to 100) ---
 
-                # s_l: NGA50_norm (Higher is better)
+                # s_nga50: NGA50_norm (Higher is better)
                 mx_nga, mn_nga = c["NGA50_norm"].max(), c["NGA50_norm"].min()
-                c["s_l"] = (
+                c["s_nga50"] = (
                     ((c["NGA50_norm"] - mn_nga) / (mx_nga - mn_nga) * 100)
                     if mx_nga != mn_nga
                     else 100.0
                 )
 
-                # s_m: Accuracy (Lower is better for errors)
-                # Scale errors individually first, then combine them as base accuracy
+                # s_err: error (Lower is better for errors)
+                # Scale errors individually first, then combine them as base error
                 for err_col in ["Mismatches per 100kbp", "Indels per 100kbp"]:
                     mx, mn = c[err_col].max(), c[err_col].min()
                     suffix = "mismatches" if "Mismatches" in err_col else "indels"
                     c[f"s_{suffix}"] = (
                         ((mx - c[err_col]) / (mx - mn) * 100) if mx != mn else 100.0
                     )
-                c["s_m"] = (c["s_mismatches"] + c["s_indels"]) / 2.0
+                c["s_err"] = (c["s_mismatches"] + c["s_indels"]) / 2.0
 
-                # s_w: Cleanliness (Lower is better for adapter contamination)
+                # s_cont: contaminants (Lower is better for adapter contamination)
                 mx_con, mn_con = (
                     c["contamination_count"].max(),
                     c["contamination_count"].min(),
                 )
-                c["s_w"] = (
+                c["s_cont"] = (
                     ((mx_con - c["contamination_count"]) / (mx_con - mn_con) * 100)
                     if mx_con != mn_con
                     else 100.0
                 )
 
-                # --- Filtlong Score Execution ---
+                # --- True 3-Way Geometric Mean Execution ---
+                # Prevent log(0) errors by setting a minimum floor of a tiny number
                 eps = 1e-5
-                s_m_safe = np.where(c["s_m"] == 0, eps, c["s_m"])
+                s_nga50_safe = np.where(c["s_nga50"] == 0, eps, c["s_nga50"])
+                s_err_safe = np.where(c["s_err"] == 0, eps, c["s_err"])
+                s_cont_safe = np.where(c["s_cont"] == 0, eps, c["s_cont"])
 
-                # Core baseline: Weighted Geometric Mean of continuity &amp; accuracy
-                geometric_base = (c["s_l"] ** wl * c["s_m"] ** wm) ** (1.0 / (wl + wm))
+                # Calculate the sum of weights
+                total_weight = wn + we + wc
 
-                # Scaling factor: Penalty or reward based on residual adapters
-                scaling_factor = (ww * (c["s_w"] - c["s_m"])) / (
-                    s_m_safe * (wl + wm + ww)
-                ) + 1.0
+                # Prevent ZeroDivisionError if the user sets all sliders to 0
+                if total_weight == 0:
+                    total_weight = 1e-5
 
-                # Compute ultimate final score
-                c["final_score"] = geometric_base * scaling_factor
+                # Calculate a pure weighted geometric mean across all three metrics
+                c["final_score"] = (
+                    s_nga50_safe ** wn * s_err_safe ** we * s_cont_safe ** wc
+                ) ** (1.0 / total_weight)
 
                 # Assign contextual ranks
                 c["rank"] = c["final_score"].rank(ascending=False, method="min")
@@ -535,9 +582,9 @@ def server(input, output, session):
         df = pd.read_csv(open_url(url))
 
         weights = {
-            "continuity": input.w_cont(),
-            "accuracy": input.w_acc(),
-            "cleanliness": input.w_clean()
+            "nga50": input.w_nga50(),
+            "error": input.w_err(),
+            "contaminants": input.w_cont()
         }
 
         # Convert the UI "all" selection to None so your function processes it correctly
@@ -545,7 +592,7 @@ def server(input, output, session):
         selected_depth = None if input.depth_select() == "all" else input.depth_select()
 
         # Get the full sorted dataframe
-        sorted_df = rank_tools_filtlong_style(
+        sorted_df = rank_tools_geometric_mean(
             df,
             weights=weights,
             target_model=selected_model,
@@ -556,14 +603,15 @@ def server(input, output, session):
         top_df = sorted_df.head(input.top_n()).copy()
 
         # Round the specific calculated columns to 2 decimal places for visual clarity
-        cols_to_round = ['s_l', 's_mismatches', 's_indels', 's_m', 's_w', 'final_score']
+        cols_to_round = ['s_nga50', 's_mismatches', 's_indels', 's_err', 's_cont', 'final_score']
         top_df[cols_to_round] = top_df[cols_to_round].round(2)
 
-        return top_df
+        return top_df[['rank', 'combo', 'model', 'depth', 'NGA50_norm', 'Mismatches per 100kbp', 'Indels per 100kbp', 'contamination_count'] + cols_to_round]
 
 app = App(app_ui, server)</code></pre>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
