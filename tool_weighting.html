@@ -443,51 +443,53 @@ app_ui = ui.page_fluid(
     ui.layout_sidebar(
         ui.sidebar(
             ui.input_slider("w_nga50", "Structural Accuracy (NGA50)", 0.0, 1.0, 1.0, step=0.05),
-            ui.input_slider("w_err", "Sequence Accuracy (Mismatches and Indels)", 0.0, 1.0, 1.0, step=0.05),
-            ui.input_slider("w_cont", "Contamination Weight", 0.0, 1.0, 1.0, step=0.05),
-            ui.output_ui("dynamic_weight_bar"),
-            ui.hr(),
+            ui.output_ui("eff_nga50"),
 
+            ui.input_slider("w_err", "Sequence Accuracy (Mismatches and Indels)", 0.0, 1.0, 1.0, step=0.05),
+            ui.output_ui("eff_err"),
+
+            ui.input_slider("w_cont", "Contamination Weight", 0.0, 1.0, 1.0, step=0.05),
+            ui.output_ui("eff_cont"),
+
+            ui.hr(),
             ui.input_select("model_select", "Basecalling Model", ["hac", "sup", "all"]),
             ui.input_select("depth_select", "Sequencing Depth", ["20x", "50x", "100x", "all"]),
-            ui.hr(), # Adds a visual dividing line
+            ui.hr(),
             ui.input_numeric("top_n", "Show Top N Ranks", 3, min=1)
-        ),
-        ui.output_data_frame("ranking_table")
+        ),        ui.output_data_frame("ranking_table")
     )
 )
 
 def server(input, output, session):
 
-    @output
-    @render.ui
-    def dynamic_weight_bar():
+    @reactive.Calc
+    def weight_percentages():
         w1 = input.w_nga50()
         w2 = input.w_err()
         w3 = input.w_cont()
-
         total = w1 + w2 + w3
 
-        # Prevent division by zero if all sliders are at 0
         if total == 0:
-            p1, p2, p3 = 0, 0, 0
-        else:
-            p1 = (w1 / total) * 100
-            p2 = (w2 / total) * 100
-            p3 = (w3 / total) * 100
+            return 0, 0, 0
+        return (w1 / total) * 100, (w2 / total) * 100, (w3 / total) * 100
 
-        # CSS flexbox to create a responsive, colored percentage bar
-        bar_html = f"""
-        &lt;div style="margin-top: 5px; margin-bottom: 10px;"&gt;
-            &lt;label style="font-size: 0.9em; font-weight: bold; margin-bottom: 5px; display: block;"&gt;Effective Weight Distribution:&lt;/label&gt;
-            &lt;div style="width: 100%; height: 25px; background-color: #e9ecef; border-radius: 4px; display: flex; overflow: hidden;"&gt;
-                &lt;div style="width: {p1}%; background-color: #007bc2; color: white; text-align: center; font-size: 11px; line-height: 25px; transition: width 0.2s;"&gt;NGA50 ({p1:.0f}%)&lt;/div&gt;
-                &lt;div style="width: {p2}%; background-color: #28a745; color: white; text-align: center; font-size: 11px; line-height: 25px; transition: width 0.2s;"&gt;Err ({p2:.0f}%)&lt;/div&gt;
-                &lt;div style="width: {p3}%; background-color: #6c757d; color: white; text-align: center; font-size: 11px; line-height: 25px; transition: width 0.2s;"&gt;Cont ({p3:.0f}%)&lt;/div&gt;
-            &lt;/div&gt;
-        &lt;/div&gt;
-        """
-        return ui.HTML(bar_html)
+    @output
+    @render.ui
+    def eff_nga50():
+        p1, p2, p3 = weight_percentages()
+        return ui.HTML(f"&lt;div style='margin-top: -15px; margin-bottom: 15px; font-size: 0.85em; color: #555;'&gt;↳ Percentage: &lt;strong style='color: #007bc2;'&gt;{p1:.1f}%&lt;/strong&gt;&lt;/div&gt;")
+
+    @output
+    @render.ui
+    def eff_err():
+        p1, p2, p3 = weight_percentages()
+        return ui.HTML(f"&lt;div style='margin-top: -15px; margin-bottom: 15px; font-size: 0.85em; color: #555;'&gt;↳ Percentage: &lt;strong style='color: #007bc2;'&gt;{p2:.1f}%&lt;/strong&gt;&lt;/div&gt;")
+
+    @output
+    @render.ui
+    def eff_cont():
+        p1, p2, p3 = weight_percentages()
+        return ui.HTML(f"&lt;div style='margin-top: -15px; margin-bottom: 15px; font-size: 0.85em; color: #555;'&gt;↳ Percentage: &lt;strong style='color: #007bc2;'&gt;{p3:.1f}%&lt;/strong&gt;&lt;/div&gt;")
 
     @output
     @render.data_frame
