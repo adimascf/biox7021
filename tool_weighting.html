@@ -445,6 +445,9 @@ app_ui = ui.page_fluid(
             ui.input_slider("w_nga50", "Structural Accuracy (NGA50)", 0.0, 1.0, 1.0, step=0.05),
             ui.input_slider("w_err", "Sequence Accuracy (Mismatches and Indels)", 0.0, 1.0, 1.0, step=0.05),
             ui.input_slider("w_cont", "Contamination Weight", 0.0, 1.0, 1.0, step=0.05),
+            ui.output_ui("dynamic_weight_bar"),
+            ui.hr(),
+
             ui.input_select("model_select", "Basecalling Model", ["hac", "sup", "all"]),
             ui.input_select("depth_select", "Sequencing Depth", ["20x", "50x", "100x", "all"]),
             ui.hr(), # Adds a visual dividing line
@@ -455,6 +458,36 @@ app_ui = ui.page_fluid(
 )
 
 def server(input, output, session):
+
+    @output
+    @render.ui
+    def dynamic_weight_bar():
+        w1 = input.w_nga50()
+        w2 = input.w_err()
+        w3 = input.w_cont()
+
+        total = w1 + w2 + w3
+
+        # Prevent division by zero if all sliders are at 0
+        if total == 0:
+            p1, p2, p3 = 0, 0, 0
+        else:
+            p1 = (w1 / total) * 100
+            p2 = (w2 / total) * 100
+            p3 = (w3 / total) * 100
+
+        # CSS flexbox to create a responsive, colored percentage bar
+        bar_html = f"""
+        &lt;div style="margin-top: 5px; margin-bottom: 10px;"&gt;
+            &lt;label style="font-size: 0.9em; font-weight: bold; margin-bottom: 5px; display: block;"&gt;Effective Weight Distribution:&lt;/label&gt;
+            &lt;div style="width: 100%; height: 25px; background-color: #e9ecef; border-radius: 4px; display: flex; overflow: hidden;"&gt;
+                &lt;div style="width: {p1}%; background-color: #007bc2; color: white; text-align: center; font-size: 11px; line-height: 25px; transition: width 0.2s;"&gt;NGA50 ({p1:.0f}%)&lt;/div&gt;
+                &lt;div style="width: {p2}%; background-color: #28a745; color: white; text-align: center; font-size: 11px; line-height: 25px; transition: width 0.2s;"&gt;Err ({p2:.0f}%)&lt;/div&gt;
+                &lt;div style="width: {p3}%; background-color: #6c757d; color: white; text-align: center; font-size: 11px; line-height: 25px; transition: width 0.2s;"&gt;Cont ({p3:.0f}%)&lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        """
+        return ui.HTML(bar_html)
 
     @output
     @render.data_frame
@@ -611,11 +644,11 @@ def server(input, output, session):
         top_df = sorted_df.head(input.top_n()).copy()
 
         # Round the specific calculated columns to 2 decimal places for visual clarity
-        cols_to_round = ['s_nga50', 's_mismatches', 's_indels', 's_err', 's_cont', 'final_score']
-        top_df[cols_to_round] = top_df[cols_to_round].round(2)
+        cols_to_round = ['NGA50_norm', 'Mismatches per 100kbp', 'Indels per 100kbp', 's_nga50', 's_mismatches', 's_indels', 's_err', 's_cont', 'final_score']
+        top_df[cols_to_round] = top_df[cols_to_round].round(5)
 
         top_df = top_df.rename(columns={'combo': "QC Tools pair"})
-        return top_df[['rank', 'QC Tools pair', 'model', 'depth', 'NGA50_norm', 'Mismatches per 100kbp', 'Indels per 100kbp', 'contamination_count'] + cols_to_round]
+        return top_df[['rank', 'QC Tools pair', 'model', 'depth', 'contamination_count'] + cols_to_round]
 
 app = App(app_ui, server)</code></pre>
 
