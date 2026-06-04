@@ -415,15 +415,16 @@ window.Quarto = {
 <p>Adjust the importance weights of the metrics below to identify the best combination of adapter trimming and quality preprocessing tools for genome assembly.</p>
 <section id="metric-scoring-and-weighting" class="level3">
 <h3 class="anchored" data-anchor-id="metric-scoring-and-weighting">Metric Scoring and Weighting</h3>
-<p>To standardise the metrics, each metric was normalised using simple <a href="https://en.wikipedia.org/wiki/Feature_scaling">min-max scaling</a> to get a score between 0 and 100:</p>
+<p>To standardise the metrics, each metric is normalised using simple <a href="https://en.wikipedia.org/wiki/Feature_scaling">min-max scaling</a> to get a score between 0 and 100:</p>
 <ul>
 <li><p><strong>For NGA50 (higher is better):</strong> <span class="math display">\[\text{Score} = \frac{x - \min}{\max - \min} \times 100\]</span></p></li>
 <li><p><strong>For assembly errors (indels and mismatches) and adapter/barcode contamination (lower is better):</strong> <span class="math display">\[\text{Score} = \frac{\max - x}{\max - \min} \times 100\]</span></p></li>
 </ul>
-<p>Adapted from the Filtlong read scoring scheme, the three normalised scores (NGA50, Errors, and Contaminants) are aggregated using a Weighted Geometric Mean formula to calculate the final performance rank: <span class="math display">\[\text{Final Score} = \left( S_{nga50}^{w_n} \times S_{err}^{w_e} \times S_{cont}^{w_c} \right)^{\frac{1}{w_n + w_e + w_c}}\]</span></p>
-<p>Where: * <span class="math inline">\(S\)</span> represents the normalised score for NGA50, Errors, and Contaminants.</p>
+<p>Adapted from the <code>filtlong</code> read scoring scheme, the three normalised scores (NGA50, Errors, and Contaminants) are aggregated using a Weighted Geometric Mean formula to calculate the final performance rank: <span class="math display">\[\text{Final Score} = \left( S_{nga50}^{w_n} \times S_{err}^{w_e} \times S_{cont}^{w_c} \right)^{\frac{1}{w_n + w_e + w_c}}\]</span></p>
+<p>Where:</p>
 <ul>
-<li><span class="math inline">\(w\)</span> represents the user adjusted weight for each respective metric.</li>
+<li><p><span class="math inline">\(S\)</span> represents the normalised score for NGA50, Errors, and Contaminants.</p></li>
+<li><p><span class="math inline">\(w\)</span> represents the user adjusted weight for each respective metric.</p></li>
 </ul>
 </section>
 <section id="interactive-tool-selection" class="level3">
@@ -441,9 +442,9 @@ import numpy as np
 app_ui = ui.page_fluid(
     ui.layout_sidebar(
         ui.sidebar(
-            ui.input_slider("w_nga50", "Structural Accuracy (NGA50) (wn)", 0.0, 1.0, 1.0, step=0.05),
-            ui.input_slider("w_err", "Sequence Accuracy (Mismatches and Indels) (we)", 0.0, 1.0, 1.0, step=0.05),
-            ui.input_slider("w_cont", "Contamination Weight (wc)", 0.0, 1.0, 1.0, step=0.05),
+            ui.input_slider("w_nga50", "Structural Accuracy (NGA50)", 0.0, 1.0, 1.0, step=0.05),
+            ui.input_slider("w_err", "Sequence Accuracy (Mismatches and Indels)", 0.0, 1.0, 1.0, step=0.05),
+            ui.input_slider("w_cont", "Contamination Weight", 0.0, 1.0, 1.0, step=0.05),
             ui.input_select("model_select", "Basecalling Model", ["hac", "sup", "all"]),
             ui.input_select("depth_select", "Sequencing Depth", ["20x", "50x", "100x", "all"]),
             ui.hr(), # Adds a visual dividing line
