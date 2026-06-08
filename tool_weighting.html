@@ -365,6 +365,10 @@ window.Quarto = {
     <a class="dropdown-item" href="./logbook/week15.html">
  <span class="dropdown-text">Week 15</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./logbook/week16.html">
+ <span class="dropdown-text">Week 16</span></a>
+  </li>  
     </ul>
   </li>
 </ul>
@@ -442,10 +446,10 @@ import numpy as np
 app_ui = ui.page_fluid(
     ui.layout_sidebar(
         ui.sidebar(
-            ui.input_slider("w_nga50", "Structural Accuracy (NGA50)", 0.0, 1.0, 1.0, step=0.05),
+            ui.input_slider("w_nga50", "Structural Accuracy (NGA50) Weight", 0.0, 1.0, 1.0, step=0.05),
             ui.output_ui("eff_nga50"),
 
-            ui.input_slider("w_err", "Sequence Accuracy (Mismatches and Indels)", 0.0, 1.0, 1.0, step=0.05),
+            ui.input_slider("w_err", "Sequence Accuracy (Mismatches and Indels) Weight", 0.0, 1.0, 1.0, step=0.05),
             ui.output_ui("eff_err"),
 
             ui.input_slider("w_cont", "Contamination Weight", 0.0, 1.0, 1.0, step=0.05),
