@@ -88,6 +88,7 @@ rule all:
 		TABLES / "assess/assembly/metrics/combo_quast_compiled_metrics.csv",
 		FIGURES / "assess/assembly/metrics/combo_assembly_errors_per_100kbp_barplot.png",
 		FIGURES / "assess/assembly/metrics/combo_assembly_errors_per_100kbp_stripplot.png",
+		FIGURES / "assess/assembly/metrics/combo_assembly_errors_per_100kbp_pointplot.png",
 
 		FIGURES / "assess/assembly/metrics/combo_assembly_nga50_normalised_linear_pointplot_mean.png",
 		FIGURES / "assess/assembly/metrics/combo_assembly_nga50_normalised_linear_pointplot_median.png",
@@ -96,7 +97,10 @@ rule all:
 		FIGURES / "assess/assembly/metrics/combo_assembly_nga50_normalised_logit_stripplot_mean.png",
 		FIGURES / "assess/assembly/metrics/combo_assembly_nga50_normalised_logit_stripplot_median.png",
 		FIGURES / "assess/assembly/metrics/combo_assembly_nga50_normalised_logit_pointplot_mean.png",
-		FIGURES / "assess/assembly/metrics/combo_assembly_nga50_normalised_logit_pointplot_median.png"
+		FIGURES / "assess/assembly/metrics/combo_assembly_nga50_normalised_logit_pointplot_median.png",
+
+		FIGURES / "assess/benchmark_resources/benchmark_resources.png",
+		TABLES / "assess/benchmark_resources/benchmark_resources.csv"
 
 include: RULES / "common.smk"
 include: RULES / "trim.smk"

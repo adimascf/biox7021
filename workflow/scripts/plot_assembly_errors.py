@@ -35,7 +35,7 @@ df = pd.read_csv(snakemake.input.csv)
 sns.set_theme(style="whitegrid")
 models = ["sup", "hac"]
 hue_order = ["100x", "50x", "20x"]
-plot_types = ["barplot", "stripplot"]
+plot_types = ["barplot", "stripplot", "pointplot"]
 
 # Calculate overall performance by summing both error types, then finding the global mean
 df["Total_Errors"] = df["Mismatches per 100kbp"] + df["Indels per 100kbp"]
@@ -62,13 +62,21 @@ for p_type in plot_types:
                         ax=ax, dodge=True, edgecolor="black", linewidth=0.5,
                         estimator='mean' # bar height represents the mean
                     )
-                elif p_type == "stripplot":
-                    sns.boxplot(
+                elif p_type == "pointplot":
+                    sns.pointplot(
                         data=df_sub, x="combo", y=metric, hue="depth", 
                         order=order_abs, hue_order=hue_order, 
                         palette=cud(len(hue_order), start=2),
-                        ax=ax, fliersize=0, gap=0.1
-                    )
+                        ax=ax, dodge=0.3, errorbar=('ci', 95), capsize=0.1, 
+                        err_kws={'linewidth': 1.5}, estimator='mean' # point height represents the mean
+                    ) 
+                elif p_type == "stripplot":
+                    # sns.boxplot(
+                    #     data=df_sub, x="combo", y=metric, hue="depth", 
+                    #     order=order_abs, hue_order=hue_order, 
+                    #     palette=cud(len(hue_order), start=2),
+                    #     ax=ax, fliersize=0, gap=0.1
+                    # )
                     sns.stripplot(
                         data=df_sub, x="combo", y=metric, hue="depth", 
                         order=order_abs, hue_order=hue_order, 

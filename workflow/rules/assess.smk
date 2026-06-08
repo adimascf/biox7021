@@ -228,7 +228,7 @@ rule plot_assembly_error:
 	output:
 		figures=[
 				FIGURES / f"assess/assembly/metrics/combo_assembly_errors_per_100kbp_{p_type}.png"
-				for p_type in ["barplot", "stripplot"]
+				for p_type in ["barplot", "stripplot", "pointplot"]
 				]
 	script:
 		"../scripts/plot_assembly_errors.py"
