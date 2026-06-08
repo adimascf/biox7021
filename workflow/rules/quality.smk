@@ -123,7 +123,7 @@ rule quality_seqkit_100:
 	input:
 		reads=RESULTS / "QC/trimming/{trimmer}/{model}/{sample}.{trimmer}.fastq"
 	log:
-		LOGS / f"QC/quality/{tool}/{{model}}/{{sample}}.log"
+		LOGS / f"QC/quality/{tool}-{{trimmer}}/{{model}}/{{sample}}.log"
 	threads: 8
 	resources:
 		mem="16GiB",
@@ -134,9 +134,9 @@ rule quality_seqkit_100:
 		quality_threshold=get_quality_threshold, # hac is 10, sup is 15
 		length_threshold=100
 	output:
-		reads=temp(RESULTS / f"QC/quality/{tool}/{{model}}/{{sample}}.{tool}.fastq"),
+		reads=temp(RESULTS / f"QC/quality/{tool}-{{trimmer}}/{{model}}/{{sample}}.{tool}-{{trimmer}}.fastq")
 	benchmark:   
-		repeat(BENCHMARK / f"QC/quality/{tool}/{{model}}/{{sample}}.{tool}.tsv", REPEAT)
+		repeat(BENCHMARK / f"QC/quality/{tool}-{{trimmer}}/{{model}}/{{sample}}.{tool}-{{trimmer}}.tsv", REPEAT)
 	shell:    
 		"""
 		seqkit seq --min-len {params.length_threshold} --min-qual {params.quality_threshold} -o {output.reads} {input.reads} 2> {log}
@@ -296,7 +296,7 @@ rule quality_chopper_extract100:
 	input:
 		reads=RESULTS / "QC/trimming/{trimmer}/{model}/{sample}.{trimmer}.fastq"
 	log:
-		LOGS / f"QC/quality/{tool}/{{model}}/{{sample}}.log"
+		LOGS / f"QC/quality/{tool}-{{trimmer}}/{{model}}/{{sample}}.log"
 	threads: 8
 	resources:
 		mem="16GiB",
@@ -308,9 +308,9 @@ rule quality_chopper_extract100:
 		quality_threshold=get_quality_threshold,
 		length_threshold=100
 	output:
-		reads=temp(RESULTS / f"QC/quality/{tool}/{{model}}/{{sample}}.{tool}.fastq")
+		reads=temp(RESULTS / f"QC/quality/{tool}-{{trimmer}}/{{model}}/{{sample}}.{tool}-{{trimmer}}.fastq")
 	benchmark:
-		repeat(BENCHMARK / f"QC/quality/{tool}/{{model}}/{{sample}}.{tool}.tsv", REPEAT)
+		repeat(BENCHMARK / f"QC/quality/{tool}-{{trimmer}}/{{model}}/{{sample}}.{tool}-{{trimmer}}.tsv", REPEAT)
 	shell:
 		"""
 		chopper {params.approach} --cutoff {params.quality_threshold} --minlength {params.length_threshold} -i {input.reads} > {output.reads} 2> {log}
