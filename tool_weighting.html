@@ -427,14 +427,14 @@ window.Quarto = {
 <li><p><strong>For NGA50 (higher is better):</strong> <span class="math display">\[\text{Score} = \frac{x - \min}{\max - \min} \times 100\]</span></p></li>
 <li><p><strong>For assembly errors (indels and mismatches) and adapter/barcode contamination (lower is better):</strong> <span class="math display">\[\text{Score} = \frac{\max - x}{\max - \min} \times 100\]</span></p></li>
 </ul>
-<p>The three normalised scores (NGA50, Errors, and Contaminants) are aggregated using a Weighted Geometric Mean formula to calculate the final performance rank: <span class="math display">\[\text{Final Score} = \left( S_{nga50}^{w_n} \times S_{err}^{w_e} \times S_{cont}^{w_c} \right)^{\frac{1}{w_n + w_e + w_c}}\]</span></p>
+<p>The normalised scores are aggregated using a Weighted Geometric Mean formula to calculate the final performance rank: <span class="math display">\[\text{Final Score} = \left( S_{nga50}^{w_n} \times S_{err}^{w_e} \times S_{cont}^{w_c} \times S_{miss}^{w_m} \right)^{\frac{1}{w_n + w_e + w_c + w_m}}\]</span></p>
 <p>Where:</p>
-<p><strong>Where:</strong> * <span class="math inline">\(S_{nga50}\)</span>: Normalised score for Structural Accuracy (NGA50).</p>
 <ul>
-<li><p><span class="math inline">\(S_{err}\)</span>: Normalised score for Sequence Accuracy (Mismatches and Indels combined).</p></li>
-<li><p><span class="math inline">\(S_{cont}\)</span>: Normalised score for Residual Adapter Contamination.</p></li>
-<li><p><span class="math inline">\(S_{miss}\)</span>: Normalised score for Missed Contigs.</p></li>
-<li><p><span class="math inline">\(w_n, w_e, w_c, w_m\)</span>: User-adjusted importance weights for each respective metric.</p></li>
+<li><p><span class="math inline">\(S_{nga50}\)</span>: Normalised score for structural accuracy (NGA50).</p></li>
+<li><p><span class="math inline">\(S_{err}\)</span>: Normalised score for sequence accuracy (mismatches and indels combined).</p></li>
+<li><p><span class="math inline">\(S_{cont}\)</span>: Normalised score for residual adapter/barcode contamination.</p></li>
+<li><p><span class="math inline">\(S_{miss}\)</span>: Normalised score for missed contigs.</p></li>
+<li><p><span class="math inline">\(w_n, w_e, w_c, w_m\)</span>: User-adjusted importance weights for structural accuracy, sequence accuracy, contamination, and missed contigs, respectively.</p></li>
 </ul>
 </section>
 <section id="interactive-tool-selection" class="level3">
@@ -453,16 +453,16 @@ import numpy as np
 app_ui = ui.page_fluid(
     ui.layout_sidebar(
         ui.sidebar(
-            ui.input_slider("w_nga50", "Structural Accuracy (NGA50) Weight", 0.0, 1.0, 1.0, step=0.05),
+            ui.input_slider("w_nga50", "Structural Accuracy (NGA50)", 0.0, 1.0, 1.0, step=0.05),
             ui.output_ui("eff_nga50"),
 
-            ui.input_slider("w_err", "Sequence Accuracy (Mismatches/Indels) Weight", 0.0, 1.0, 1.0, step=0.05),
+            ui.input_slider("w_err", "Sequence Accuracy (Mismatches/Indels)", 0.0, 1.0, 1.0, step=0.05),
             ui.output_ui("eff_err"),
 
-            ui.input_slider("w_cont", "Contamination Weight", 0.0, 1.0, 1.0, step=0.05),
+            ui.input_slider("w_cont", "Contamination", 0.0, 1.0, 1.0, step=0.05),
             ui.output_ui("eff_cont"),
 
-            ui.input_slider("w_miss", "Missed Contigs Weight", 0.0, 1.0, 1.0, step=0.05),
+            ui.input_slider("w_miss", "Missed Contigs", 0.0, 1.0, 1.0, step=0.05),
             ui.output_ui("eff_miss"),
 
             ui.input_select("model_select", "Basecalling Model", ["all", "hac", "sup"]),
