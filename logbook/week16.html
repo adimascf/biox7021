@@ -373,6 +373,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="../logbook/week16.html">
  <span class="dropdown-text">Week 16</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../logbook/week17.html">
+ <span class="dropdown-text">Week 17</span></a>
+  </li>  
     </ul>
   </li>
 </ul>
@@ -393,6 +397,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#weekly-meeting-and-action-items-10-06-2026" id="toc-weekly-meeting-and-action-items-10-06-2026" class="nav-link" data-scroll-target="#weekly-meeting-and-action-items-10-06-2026">Weekly meeting and action items (10-06-2026)</a></li>
   <li><a href="#interactive-qc-tools-weighting" id="toc-interactive-qc-tools-weighting" class="nav-link" data-scroll-target="#interactive-qc-tools-weighting">Interactive QC tools weighting</a></li>
   <li><a href="#sequence-accuracy-pointplot" id="toc-sequence-accuracy-pointplot" class="nav-link" data-scroll-target="#sequence-accuracy-pointplot">Sequence accuracy pointplot</a></li>
   <li><a href="#f1-score-100-read-length-threshold" id="toc-f1-score-100-read-length-threshold" class="nav-link" data-scroll-target="#f1-score-100-read-length-threshold">F1 score (100 read length threshold)</a></li>
@@ -428,23 +433,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Since no QC tool combination consistently performed best across all assembly metrics, we developed an interactive dashboard that alows us to adjust the importance (weight) of each assembly metric based on their priorities.</p>
 <p>Additionally, I generated point plots for assembly sequence accuracy metrics (indels and mismatches) and applied a 100 bp minimum read length cutoff across <code>seqkit</code>, <code>chopper</code>, and <code>fastplong</code> preprocessing steps.</p>
 </section>
+<section id="weekly-meeting-and-action-items-10-06-2026" class="level2">
+<h2 class="anchored" data-anchor-id="weekly-meeting-and-action-items-10-06-2026">Weekly meeting and action items (10-06-2026)</h2>
+<ul>
+<li>Add one more metrics for assembly to infer how QC preprocessing might make us miss small plasmid: unligned contig</li>
+<li>Add this metrics in the weighting formula</li>
+<li>Sum mis contig across the sample, and plot them</li>
+<li>Add also coverage to infer whether this contig completely missed or partially missed</li>
+<li>We might just delete 50x in the assessment, as it doesn’t reall differe to 100x.. or it doesn’t add any additional information.</li>
+</ul>
+</section>
 <section id="interactive-qc-tools-weighting" class="level2">
 <h2 class="anchored" data-anchor-id="interactive-qc-tools-weighting">Interactive QC tools weighting</h2>
 <p>The assembly evaluation metrics from QUAST and assembly contamination analysis were combined and used as input for the interactive dashboard.</p>
 <p>The dashboard is available here: <a href="https://adimascf.github.io/biox7021/tool_weighting.html">Tool Weighting Dashboard</a>, This approach was inspired by the weighting strategy used in <code>filtlong</code>.</p>
-<div id="101e44f0" class="cell" data-execution_count="1">
+<div id="8e08cb46" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>quast_metrics <span class="op">=</span> pd.read_csv(<span class="st">"../results/tables/assess/assembly-combo-100length/metrics/combo_quast_compiled_metrics.csv"</span>)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>contam_metrics <span class="op">=</span> pd.read_csv(<span class="st">"../results/tables/assess/assembly-combo-100length/metrics/combo_contaminant_summary_count.csv"</span>)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>assembly_metrics <span class="op">=</span> pd.merge(</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    quast_metrics,</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    contam_metrics,</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    on<span class="op">=</span>[<span class="st">'combo'</span>, <span class="st">'depth'</span>, <span class="st">'sample'</span>, <span class="st">'model'</span>],</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    how<span class="op">=</span><span class="st">'inner'</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>miscontig_metrics <span class="op">=</span> pd.read_csv(<span class="st">"../results/tables/assess/assembly-combo-100length/metrics/combo_assembly_missed_contigs.csv"</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>assembly_metrics <span class="op">=</span> quast_metrics.merge(</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    contam_metrics, on<span class="op">=</span>[<span class="st">'combo'</span>, <span class="st">'depth'</span>, <span class="st">'sample'</span>, <span class="st">'model'</span>], how<span class="op">=</span><span class="st">'inner'</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>).merge(</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    miscontig_metrics, on<span class="op">=</span>[<span class="st">'combo'</span>, <span class="st">'depth'</span>, <span class="st">'sample'</span>, <span class="st">'model'</span>], how<span class="op">=</span><span class="st">'inner'</span></span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>assembly_metrics.to_csv(<span class="st">"assembly_metrics.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
