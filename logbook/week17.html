@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Week 17: Add missed contigs metric – BIOX7021 LOGBOOK - 2026</title>
+<title>Week 17: Add Missed Contigs into Assembly QC Metrics – BIOX7021 LOGBOOK - 2026</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -401,9 +401,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
   <li><a href="#weekly-meeting-and-action-items-17-06-2026" id="toc-weekly-meeting-and-action-items-17-06-2026" class="nav-link" data-scroll-target="#weekly-meeting-and-action-items-17-06-2026">Weekly meeting and action items (17-06-2026)</a></li>
-  <li><a href="#missed-contigs" id="toc-missed-contigs" class="nav-link" data-scroll-target="#missed-contigs">Missed contigs</a>
+  <li><a href="#missed-contigs-assessment" id="toc-missed-contigs-assessment" class="nav-link" data-scroll-target="#missed-contigs-assessment">Missed contigs Assessment</a>
   <ul>
-  <li><a href="#partial-and-full-missed" id="toc-partial-and-full-missed" class="nav-link" data-scroll-target="#partial-and-full-missed">Partial and full missed</a></li>
+  <li><a href="#full-vs.-partial-plasmid-loss" id="toc-full-vs.-partial-plasmid-loss" class="nav-link" data-scroll-target="#full-vs.-partial-plasmid-loss">Full vs.&nbsp;partial plasmid Loss</a></li>
   <li><a href="#total-missed-contigs-partial-full" id="toc-total-missed-contigs-partial-full" class="nav-link" data-scroll-target="#total-missed-contigs-partial-full">Total missed contigs (partial + full)</a></li>
   <li><a href="#missed-contigs-details" id="toc-missed-contigs-details" class="nav-link" data-scroll-target="#missed-contigs-details">Missed contigs details</a></li>
   </ul></li>
@@ -416,7 +416,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Week 17: Add missed contigs metric</h1>
+<h1 class="title">Week 17: Add Missed Contigs into Assembly QC Metrics</h1>
 </div>
 
 
@@ -435,7 +435,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="overview" class="level2">
 <h2 class="anchored" data-anchor-id="overview">Overview</h2>
-<p>I include missed contigs metric as the part of the assessment for genome assembly quality, this metrics is also included in the weighting formula in the QC tool selection dashaboard.</p>
+<p>I have included a “missed contigs” metric as part of the genome assembly quality assessment. This metric is now also integrated into the weighting formula in the QC tool selection dashboard.</p>
 </section>
 <section id="weekly-meeting-and-action-items-17-06-2026" class="level2">
 <h2 class="anchored" data-anchor-id="weekly-meeting-and-action-items-17-06-2026">Weekly meeting and action items (17-06-2026)</h2>
@@ -443,10 +443,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Scoring</li>
 </ul>
 </section>
-<section id="missed-contigs" class="level2">
-<h2 class="anchored" data-anchor-id="missed-contigs">Missed contigs</h2>
-<section id="partial-and-full-missed" class="level3">
-<h3 class="anchored" data-anchor-id="partial-and-full-missed">Partial and full missed</h3>
+<section id="missed-contigs-assessment" class="level2">
+<h2 class="anchored" data-anchor-id="missed-contigs-assessment">Missed contigs Assessment</h2>
+<section id="full-vs.-partial-plasmid-loss" class="level3">
+<h3 class="anchored" data-anchor-id="full-vs.-partial-plasmid-loss">Full vs.&nbsp;partial plasmid Loss</h3>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><a href="../results/figures/assess/assembly-combo-100length/metrics/combo_assembly_missed_contigs.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Full and partially missed contig"><img src="../results/figures/assess/assembly-combo-100length/metrics/combo_assembly_missed_contigs.png" class="img-fluid figure-img" alt="Full and partially missed contig"></a></p>
@@ -462,15 +462,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <figcaption>Total missed contig</figcaption>
 </figure>
 </div>
+<p>My observation:</p>
 <ul>
-<li>assembly form filtlong preprocessing missed small contigs the most</li>
-<li>almost all preprocessing step (both adapter trimming and quality based filtering) couse small contigs being lost</li>
-<li>trimming process also cause small plasmid being lost</li>
+<li><p><strong>Raw reads work best for small plasmids</strong>: Only the raw, completely untrimmed and unprocessed reads successfully assembled every contig across all models and depths.</p></li>
+<li><p><strong>Any preprocessing causes loss</strong>: Every single preprocessing step we tested whether quality filtering or adapter trimming caused small contigs to be partially or fully lost during assembly across the datasets.</p></li>
+<li><p><strong>Adapter trimming alone drops plasmids</strong>: Quality filtering isn’t the only one to blame. Just using adapter trimmers (like <code>dorado</code>, <code>porechop_abi</code>, or <code>barbell</code>) on raw reads is enough to completely lose very small sequences, like the 1.9 kb plasmid_4.</p></li>
+<li><p><strong><code>filtlong</code> is the most aggressive</strong>: preprocessing using <code>filtlong</code> drop the most contigs. It consistently removes plasmids under 3.2 kb entirely, specifically missing plasmid_3 (3.1 kb) and plasmid_4 (1.9 kb) in ATCC_25922, and plasmid_2 (3.0 kb) in BPH2947.</p></li>
 </ul>
 </section>
 <section id="missed-contigs-details" class="level3">
 <h3 class="anchored" data-anchor-id="missed-contigs-details">Missed contigs details</h3>
-<div id="9e361fff" class="cell" data-execution_count="1">
+<div id="2145132b" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -486,7 +488,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_22cadb53_0cab_4de6_9cc0_e670f31543fe">
+<table id="itables_ef9bc163_529d_4487_83f7_6880f45eeed0">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -556,7 +558,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_22cadb53_0cab_4de6_9cc0_e670f31543fe:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_ef9bc163_529d_4487_83f7_6880f45eeed0:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
