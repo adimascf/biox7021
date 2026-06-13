@@ -253,6 +253,43 @@ rule plot_assembly_nga50:
 	script:
 		"../scripts/plot_assembly_nga50.py"
 
+rule identify_missed_contigs:
+	input:
+		assembly=rules.assembly_flye.output.assembly,
+		reference=get_reference_genome
+	log:
+		LOGS / "assembly/missed_contigs/{tool}-{trimmer}/{depth}x/{model}/{sample}.{tool}-{trimmer}.missed_contigs.log"
+	resources:
+		mem="32GiB",
+		runtime="20m"
+	conda:
+		ENVS / "align.yaml"
+	output:
+		tsv=RESULTS / "assess/assembly/missed_contigs/{tool}-{trimmer}/{depth}x/{model}/{sample}.{tool}-{trimmer}.{depth}x.missed_contigs.csv"
+	shell:
+		"""
+		minimap2 -a -x "asm5" {input.reference} {input.assembly} | samtools sort | samtools coverage - > {output.tsv} 2> {log}
+		"""
+
+rule plot_missed_contig:
+	input:
+		tsv=expand(
+			RESULTS / "assess/assembly/missed_contigs/{combo}/{depth}x/{model}/{sample}.{combo}.{depth}x.missed_contigs.csv",
+			combo=COMBINATIONS,
+			depth=["100", "50", "20"],
+			model=["sup", "hac"],
+			sample=SAMPLES)
+	log:
+		LOGS / "assess/assembly/plot_missed_contig.log"
+	conda:
+		ENVS / "generate_figure_python.yaml"
+	output:
+		figures=FIGURES / "assess/assembly/metrics/combo_assembly_missed_contigs.png",
+		figures_total=FIGURES / "assess/assembly/metrics/combo_assembly_total_missed_contigs.png",
+		table=TABLES / "assess/assembly/metrics/combo_assembly_missed_contigs.csv",
+	script:
+		"../scripts/plot_missed_contig.py"
+
 rule benchmark_resources:
 	input:
 		trimming_benchmark=expand(
