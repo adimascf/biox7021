@@ -489,7 +489,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="variant-calling">Variant calling</h3>
 <section id="f1-score-using-pointplot-mean" class="level4">
 <h4 class="anchored" data-anchor-id="f1-score-using-pointplot-mean">F1 score using pointplot (mean)</h4>
-<div id="cc134c29" class="cell" data-execution_count="1">
+<div id="ecf286d5" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import sys</span></span>
@@ -583,7 +583,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>First thing that I noticed when i saw the plot above was how come sup have lower F1 score average across trimming tools than hac? So I checked manually the average using the table below:</p>
 <p>The value in the table below don’t match with the points on the plot. Pick two examples: barbell_default (100x) has SNP F1 score average 0.99928 (99.932%) in the hac, but on the the point is located above 99.99% line. Also, barbell_max (100x) on hac again, it has 0.99913 (99.913%) in hac, but the point on the plot still above (99.99%). See table below:</p>
-<div id="1c59f5d6" class="cell" data-execution_count="2">
+<div id="41165623" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -607,7 +607,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_d4fb3ef2_0f73_4122_a52f_de32e80320ee">
+<table id="itables_788f6fb9_4ed4_44d8_b869_730715e6bbed">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -677,7 +677,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_d4fb3ef2_0f73_4122_a52f_de32e80320ee:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_788f6fb9_4ed4_44d8_b869_730715e6bbed:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
@@ -707,7 +707,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="f1-score-using-pointplot-median" class="level4">
 <h4 class="anchored" data-anchor-id="f1-score-using-pointplot-median">F1 score using pointplot (median)</h4>
-<div id="40af6fc6" class="cell" data-execution_count="3">
+<div id="51fd28f3" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import sys</span></span>
@@ -809,7 +809,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="f1-score-using-barplot-mean" class="level4">
 <h4 class="anchored" data-anchor-id="f1-score-using-barplot-mean">F1 score using barplot (mean)</h4>
 <p>The average calculation on the bar plot was also behaving weirdly, where it placed the HAC point higher than it should have been. I had to set <code>sharey=False</code> to fix it.</p>
-<div id="f13623ad" class="cell" data-execution_count="4">
+<div id="1c61d44f" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import sys</span></span>
@@ -916,7 +916,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="genome-assembly-metrics">Genome assembly metrics</h3>
 <section id="normalised-nga50-stripplot---linear-scale" class="level4">
 <h4 class="anchored" data-anchor-id="normalised-nga50-stripplot---linear-scale">Normalised NGA50 (stripplot) - linear scale</h4>
-<div id="c131d458" class="cell" data-execution_count="5">
+<div id="2c1d223b" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import sys</span></span>
@@ -988,7 +988,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="normalised-nga50-table" class="level4">
 <h4 class="anchored" data-anchor-id="normalised-nga50-table">Normalised NGA50 table</h4>
-<div id="62a3eff0" class="cell" data-execution_count="6">
+<div id="11f07426" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itables <span class="im">import</span> show</span>
@@ -1018,7 +1018,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_d912b8b3_c7c5_4202_a9f5_e1f0a436f088">
+<table id="itables_5d716c13_21e6_4478_82ad_76d44e353cdc">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -1088,7 +1088,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_d912b8b3_c7c5_4202_a9f5_e1f0a436f088:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_5d716c13_21e6_4478_82ad_76d44e353cdc:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
@@ -1113,7 +1113,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="normalised-nga50-stripplot---log-scale" class="level4">
 <h4 class="anchored" data-anchor-id="normalised-nga50-stripplot---log-scale">Normalised NGA50 (stripplot) - log scale</h4>
-<div id="b707c51e" class="cell" data-execution_count="7">
+<div id="4b5df0a4" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import sys</span></span>
@@ -1196,7 +1196,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="normalised-nga50-pointplot---median" class="level4">
 <h4 class="anchored" data-anchor-id="normalised-nga50-pointplot---median">normalised NGA50 (pointplot) - median</h4>
-<div id="05017123" class="cell" data-execution_count="8">
+<div id="021e0d61" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import sys</span></span>
@@ -1277,7 +1277,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="nga50-normalised-pointplot---mean" class="level4">
 <h4 class="anchored" data-anchor-id="nga50-normalised-pointplot---mean">NGA50 normalised (pointplot) - mean</h4>
-<div id="5d64bed7" class="cell" data-execution_count="9">
+<div id="17fcb0c0" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import sys</span></span>
@@ -1357,7 +1357,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="nga50-normalised-pointplot---mean-log-scale" class="level4">
 <h4 class="anchored" data-anchor-id="nga50-normalised-pointplot---mean-log-scale">NGA50 normalised (pointplot) - mean log scale</h4>
-<div id="96999e3a" class="cell" data-execution_count="10">
+<div id="5f1274a8" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import sys</span></span>
@@ -1448,7 +1448,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="mismatches-and-indels" class="level4">
 <h4 class="anchored" data-anchor-id="mismatches-and-indels">Mismatches and Indels</h4>
-<div id="90de888f" class="cell" data-execution_count="11">
+<div id="0775b672" class="cell" data-execution_count="11">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># df = pd.read_csv("../results/tables/assess/assembly-alltrim/metrics/quast_compiled_metrics.csv")</span></span>
@@ -1493,7 +1493,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <figcaption>Mismatches and Indels (boxplot)</figcaption>
 </figure>
 </div>
-<div id="ef36cb58" class="cell" data-execution_count="12">
+<div id="3ffd509c" class="cell" data-execution_count="12">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># df = pd.read_csv("../results/tables/assess/assembly-alltrim/metrics/quast_compiled_metrics.csv")</span></span>
@@ -1644,7 +1644,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="variant-calling-1">Variant calling</h3>
 <section id="f1-score-using-pointplot-mean-1" class="level4">
 <h4 class="anchored" data-anchor-id="f1-score-using-pointplot-mean-1">F1 score using pointplot (mean)</h4>
-<div id="1092c091" class="cell" data-execution_count="13">
+<div id="58c24d04" class="cell" data-execution_count="13">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import sys</span></span>
@@ -1748,7 +1748,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </figure>
 </div>
 <p>filtlong_default and filtlong_len clearly performed better than the other tools in both the 100× and 50× datasets for both SUP and HAC for SNP F1 score. Furthermore, the former still showed improvement in the low-depth samples, whereas the latter did not. Other tools did not seem to provide noticeable improvement compared to the untrimmed dataset.</p>
-<div id="8f946fa5" class="cell" data-execution_count="14">
+<div id="6113d512" class="cell" data-execution_count="14">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -1762,7 +1762,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_fef005d6_e7e3_4d0b_8b16_57a6fd8f2c92">
+<table id="itables_7d59eae3_1981_4792_9f6e_37783dde4568">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -1832,7 +1832,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_fef005d6_e7e3_4d0b_8b16_57a6fd8f2c92:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_7d59eae3_1981_4792_9f6e_37783dde4568:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
@@ -1857,7 +1857,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="f1-score-using-pointplot-median-1" class="level4">
 <h4 class="anchored" data-anchor-id="f1-score-using-pointplot-median-1">F1 score using pointplot (median)</h4>
-<div id="895c28c1" class="cell" data-execution_count="15">
+<div id="d85d265b" class="cell" data-execution_count="15">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import sys</span></span>
@@ -1963,7 +1963,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="fn-and-fp-sums" class="level4">
 <h4 class="anchored" data-anchor-id="fn-and-fp-sums">FN and FP sums</h4>
-<div id="2c63ba7b" class="cell" data-execution_count="16">
+<div id="49a12b2e" class="cell" data-execution_count="16">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import pandas as pd</span></span>
@@ -2056,7 +2056,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="genome-assembly-metrics-1">Genome assembly metrics</h3>
 <section id="normalised-nga50-striplot---linear-scale" class="level4">
 <h4 class="anchored" data-anchor-id="normalised-nga50-striplot---linear-scale">Normalised NGA50 striplot - linear scale</h4>
-<div id="4a4dae6c" class="cell" data-execution_count="17">
+<div id="b08fc7f4" class="cell" data-execution_count="17">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import sys</span></span>
@@ -2129,7 +2129,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="normalised-nga50-striplot---log-scale" class="level4">
 <h4 class="anchored" data-anchor-id="normalised-nga50-striplot---log-scale">Normalised NGA50 striplot - log scale</h4>
-<div id="7a6e268e" class="cell" data-execution_count="18">
+<div id="8c0642b7" class="cell" data-execution_count="18">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import sys</span></span>
@@ -2212,7 +2212,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="normalised-nga50-pointplot-median---linear-scale" class="level4">
 <h4 class="anchored" data-anchor-id="normalised-nga50-pointplot-median---linear-scale">Normalised NGA50 pointplot (median) - linear scale</h4>
-<div id="5ed5dfd4" class="cell" data-execution_count="19">
+<div id="58ccbace" class="cell" data-execution_count="19">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import sys</span></span>
@@ -2293,7 +2293,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="normalised-nga50-pointplot-mean---linear-scale" class="level4">
 <h4 class="anchored" data-anchor-id="normalised-nga50-pointplot-mean---linear-scale">Normalised NGA50 pointplot (mean) - linear scale</h4>
-<div id="c972599a" class="cell" data-execution_count="20">
+<div id="8eb0e7e4" class="cell" data-execution_count="20">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import sys</span></span>
@@ -2374,7 +2374,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="normalised-nga50-pointplot---mean-log-scale" class="level4">
 <h4 class="anchored" data-anchor-id="normalised-nga50-pointplot---mean-log-scale">Normalised NGA50 Pointplot - mean log scale</h4>
-<div id="94a1f5ac" class="cell" data-execution_count="21">
+<div id="096f4a76" class="cell" data-execution_count="21">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import sys</span></span>
@@ -2463,7 +2463,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="sequence-and-structural-accuracy-stripplot" class="level4">
 <h4 class="anchored" data-anchor-id="sequence-and-structural-accuracy-stripplot">Sequence and structural accuracy (stripplot)</h4>
-<div id="fe02eee4" class="cell" data-execution_count="22">
+<div id="d60ec930" class="cell" data-execution_count="22">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># df = pd.read_csv("../results/tables/assess/assembly-quality/metrics/quality_quast_compiled_metrics.csv")</span></span>
@@ -2511,7 +2511,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="sequence-and-strucutral-accuracy-barplot-median" class="level4">
 <h4 class="anchored" data-anchor-id="sequence-and-strucutral-accuracy-barplot-median">Sequence and strucutral accuracy barplot (median)</h4>
-<div id="8894f51c" class="cell" data-execution_count="23">
+<div id="a607a24d" class="cell" data-execution_count="23">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># df = pd.read_csv("../results/tables/assess/assembly-quality/metrics/quality_quast_compiled_metrics.csv")</span></span>
