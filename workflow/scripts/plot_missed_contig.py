@@ -2,6 +2,8 @@ import sys
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.ticker import MaxNLocator
+from matplotlib.lines import Line2D
 import seaborn as sns
 from pathlib import Path
 from typing import List
@@ -44,8 +46,9 @@ for f in input_files:
         df = pd.read_csv(f, sep='\t')
         
         if not df.empty and 'coverage' in df.columns:
-            # get the sequence name column '#rname'
+            # get the sequence name and length columns
             rname_col = '#rname' if '#rname' in df.columns else df.columns[0]
+            len_col = 'endpos' if 'endpos' in df.columns else None
 
             full_mask = df['coverage'] == 0
             partial_mask = (df['coverage'] > 0) & (df['coverage'] < 50)
@@ -53,16 +56,36 @@ for f in input_files:
             full_missed = full_mask.sum()
             partial_missed = partial_mask.sum()
 
-            # Extract names of the contigs that meet the missed criteria
-            missed_names = df[full_mask | partial_mask][rname_col].tolist()
-            missed_names_str = "; ".join(missed_names) if missed_names else ""
+            # Extract names, lengths, and coverage for ALL contigs
+            missed_info = []
+            all_info = []
+
+            for _, row in df.iterrows():
+                name = row[rname_col]
+                cov = row['coverage']
+                length_str = f"{int(row[len_col])}bp" if len_col and pd.notna(row[len_col]) else "unknown length"
+
+                # format string: e.g., "plasmid_3 (3173bp, 0% cov)"
+                info_str = f"{name} ({length_str}, {cov}% cov)"
+                
+                # Append to the total record list
+                all_info.append(info_str)
+                
+                # If it meets the threshold, also append it to the missed list
+                if cov < 50:
+                    missed_info.append(info_str)
+
+            missed_names_str = "; ".join(missed_info)
+            all_names_str = "; ".join(all_info)
         else:
             full_missed, partial_missed = 0, 0
             missed_names_str = ""
+            all_names_str = ""
             
     except pd.errors.EmptyDataError:
         full_missed, partial_missed = 0, 0
         missed_names_str = ""
+        all_names_str = ""
 
     records.append({
         "sample": sample,
@@ -72,7 +95,8 @@ for f in input_files:
         "full_missed": full_missed,
         "partial_missed": partial_missed,
         "total_missed": full_missed + partial_missed,
-        "missed_contig_names": missed_names_str  
+        "missed_contig_details": missed_names_str,
+        "all_contigs_coverage": all_names_str  # Added the new column here
     })
 
 # Convert to pandas DataFrame and save the compiled table
@@ -98,7 +122,13 @@ miss_labels = {"full_missed": "Full Miss (0% Cov)", "partial_missed": "Partial M
 combo_perf = missed_df.groupby("combo")["total_missed"].mean()
 order_abs = combo_perf.sort_values(ascending=True).index.tolist()
 
-fig, axes = plt.subplots(nrows=2, ncols=len(models), figsize=(14, 10), dpi=300, sharex=True, sharey=True)
+# Define the target samples and their unique markers
+target_markers = {
+    "ATCC_25922__202309": "^",  
+    "BPH2947__202310": "s"      
+}
+
+fig, axes = plt.subplots(nrows=2, ncols=len(models), figsize=(16, 10), dpi=300, sharex=True, sharey=True)
 
 for r, m_type in enumerate(miss_types):
     for c, model in enumerate(models):
@@ -107,14 +137,31 @@ for r, m_type in enumerate(miss_types):
 
         if not df_sub.empty:
             draw_legend = (r == 0 and c == len(models) - 1) 
+            
+            # 1. Base Layer: Plot all OTHER samples (lowered alpha to 0.3)
             sns.stripplot(
-                data=df_sub, x="combo", y="count", hue="depth", 
+                data=df_sub[~df_sub["sample"].isin(target_markers.keys())], 
+                x="combo", y="count", hue="depth", 
                 order=order_abs, hue_order=hue_order,
                 palette=cud(len(hue_order), start=2), 
-                ax=ax, alpha=0.6, dodge=True, linewidth=0.5, edgecolor="black", legend=draw_legend
+                ax=ax, alpha=0.3, dodge=True, linewidth=0.5, edgecolor="black", 
+                legend=draw_legend, marker="o"
             )
 
-        ax.yaxis.set_major_formatter(plt.ScalarFormatter())
+            # 2. Overlay Layer: Plot target samples (lowered alpha to 0.6)
+            for sample_name, marker_shape in target_markers.items():
+                target_df = df_sub[df_sub["sample"] == sample_name]
+                if not target_df.empty:
+                    sns.stripplot(
+                        data=target_df,
+                        x="combo", y="count", hue="depth",
+                        order=order_abs, hue_order=hue_order,
+                        palette=cud(len(hue_order), start=2),
+                        ax=ax, alpha=0.6, dodge=True, linewidth=0.8, edgecolor="black", 
+                        legend=False, marker=marker_shape, s=7 
+                    )
+
+        ax.yaxis.set_major_locator(MaxNLocator(integer=True))
         
         if c == 0:
             ax.set_ylabel(miss_labels[m_type])
@@ -133,14 +180,20 @@ for r, m_type in enumerate(miss_types):
         else:
             ax.tick_params(labelbottom=False)
 
+        # Build Custom Legend for Shapes & Colors with exact sample names
         if r == 0 and c == len(models) - 1 and ax.get_legend() is not None:
-            ax.legend(title="Depth", bbox_to_anchor=(1.05, 1), loc='upper left')
+            handles, labels = ax.get_legend_handles_labels()
+            
+            base_handle = Line2D([0], [0], marker='o', color='w', markerfacecolor='gray', markeredgecolor='black', markersize=8, label='Other Samples')
+            sample1_handle = Line2D([0], [0], marker='^', color='w', markerfacecolor='gray', markeredgecolor='black', markersize=8, label='ATCC_25922__202309')
+            sample2_handle = Line2D([0], [0], marker='s', color='w', markerfacecolor='gray', markeredgecolor='black', markersize=8, label='BPH2947__202310')
+            
+            ax.legend(handles=handles + [base_handle, sample1_handle, sample2_handle], title="Depth & Samples", bbox_to_anchor=(1.05, 1), loc='upper left')
 
 fig.tight_layout()
 fig.savefig(snakemake.output.figures, bbox_inches='tight')
 plt.close(fig)
 print(f"Saved original 2x2 plot to {snakemake.output.figures}")
-
 
 # Plot 2: 1x2 Grid (Pooled across the samples and missed contig types)
 # Calculate the sum of total missed contigs across all samples for each tool combo/depth
@@ -157,13 +210,6 @@ for c, model in enumerate(models):
     df_sub = pooled_df.query("model == @model").copy()
 
     if not df_sub.empty:
-        # sns.barplot(
-        #     data=df_sub, x="combo", y="total_missed", hue="depth", 
-        #     order=order_abs, hue_order=hue_order,
-        #     palette=cud(len(hue_order), start=2), 
-        #     ax=ax, edgecolor="black", linewidth=0.8
-        # )
-
         sns.stripplot(
             data=df_sub, x="combo", y="total_missed", hue="depth", 
             order=order_abs, hue_order=hue_order,
@@ -171,7 +217,7 @@ for c, model in enumerate(models):
             ax=ax, alpha=0.6, dodge=True, linewidth=0.5, edgecolor="black"
         )
 
-    ax.yaxis.set_major_formatter(plt.ScalarFormatter())
+    ax.yaxis.set_major_locator(MaxNLocator(integer=True))
     
     if c == 0:
         ax.set_ylabel("Total Missed Contigs")
