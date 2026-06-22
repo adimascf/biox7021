@@ -253,12 +253,34 @@ rule plot_assembly_nga50:
 	script:
 		"../scripts/plot_assembly_nga50.py"
 
+# rule identify_missed_contigs:
+# 	input:
+# 		assembly=rules.assembly_flye.output.assembly,
+# 		reference=get_reference_genome
+# 	log:
+# 		LOGS / "assembly/missed_contigs/{tool}-{trimmer}/{depth}x/{model}/{sample}.{tool}-{trimmer}.missed_contigs.log"
+# 	resources:
+# 		mem="32GiB",
+# 		runtime="20m"
+# 	conda:
+# 		ENVS / "align.yaml"
+# 	output:
+# 		tsv=RESULTS / "assess/assembly/missed_contigs/{tool}-{trimmer}/{depth}x/{model}/{sample}.{tool}-{trimmer}.{depth}x.missed_contigs.csv"
+# 	shell:
+# 		"""
+# 		minimap2 -a -x "asm5" {input.reference} {input.assembly} | samtools sort | samtools coverage - > {output.tsv} 2> {log}
+# 		"""
+
 rule identify_missed_contigs:
 	input:
 		assembly=rules.assembly_flye.output.assembly,
 		reference=get_reference_genome
 	log:
 		LOGS / "assembly/missed_contigs/{tool}-{trimmer}/{depth}x/{model}/{sample}.{tool}-{trimmer}.missed_contigs.log"
+	params:
+		target_dimer=3838,
+		target_trimer=5757,
+		margin=250
 	resources:
 		mem="32GiB",
 		runtime="20m"
@@ -268,7 +290,24 @@ rule identify_missed_contigs:
 		tsv=RESULTS / "assess/assembly/missed_contigs/{tool}-{trimmer}/{depth}x/{model}/{sample}.{tool}-{trimmer}.{depth}x.missed_contigs.csv"
 	shell:
 		"""
-		minimap2 -a -x "asm5" {input.reference} {input.assembly} | samtools sort | samtools coverage - > {output.tsv} 2> {log}
+		# Calculate minimum and maximum lengths based on params
+		min_dim=$(({params.target_dimer} - {params.margin}))
+		max_dim=$(({params.target_dimer} + {params.margin}))
+
+		min_tri=$(({params.target_trimer} - {params.margin}))
+		max_tri=$(({params.target_trimer} + {params.margin}))
+
+		# 1. Find dimers/trimers and extract only their names (-n)
+		# 2. Grep invert (-v) to EXCLUDE those names from the original assembly
+		# 3. Map the remaining sequences
+		{{
+			seqkit seq -m $min_dim -M $max_dim {input.assembly} 2>> {log} | seqkit seq -n
+			seqkit seq -m $min_tri -M $max_tri {input.assembly} 2>> {log} | seqkit seq -n
+		}} | \
+		seqkit grep -v -f - {input.assembly} 2>> {log} | \
+		minimap2 -a -x "asm5" {input.reference} - 2>> {log} | \
+		samtools sort 2>> {log} | \
+		samtools coverage - > {output.tsv} 2>> {log}
 		"""
 
 rule plot_missed_contig:
