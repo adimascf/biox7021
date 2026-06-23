@@ -441,12 +441,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="overview" class="level2">
 <h2 class="anchored" data-anchor-id="overview">Overview</h2>
 <ul>
-<li>Flye stuggle to recover small plasmids i think because of two reason:
+<li>Flye naturally struggles to recover small plasmids, which I think may be explained by:
 <ul>
-<li>dinamic value <code>minOverlap</code> (using N90) paramter in disjointig step and collapsing step oftenly higher than the small plasmid size</li>
-<li>high copy number of small plasmids will create high coverage in short sequence and Flye identified those as noise</li>
+<li><p>Algorithmically, the dynamic <code>minOverlap</code> value (estimated using N90) used during the disjointig and repeat graph collapsing steps ussually be larger than the size of small plasmids, preventing them from being properly assembled</p></li>
+<li><p>Several sources have reported that high copy number small plasmids can generate unusually high coverage over short regions, causing Flye to potentially classify these regions as sequencing noise and discard them.</p></li>
 </ul></li>
-<li>Concatemer contigs observed in the assembly results are originally from the raw reads.</li>
+<li>Small plasmids can also produce concatemer contigs in the assembly output. These concatemer structures appear to originate from the raw reads rather than being assembly artefacts introduced by Flye.</li>
 </ul>
 </section>
 <section id="small-plasmids-recovery-issue" class="level2">
@@ -457,7 +457,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>Breadth of coverage verification: When the high depth datasets missed the small plasmids but the low depth recovered them, the low depth sample still had excellent base coverage (&gt;92%).</p></li>
 <li><p>This “high depth misses, low depth recovers” issue is entirely exclusive to the ATCC_25922__202309 <em>E. coli</em> sample, to be precise is contig <strong>plasmid_4</strong> (1919bp). Pairwise alignment confirmed that <strong>plasmid_4</strong> does not share high sequence similarity (~35%) with <strong>plasmid_3</strong> (3173bp).</p></li>
 </ul>
-<div id="7d20367d" class="cell" data-execution_count="1">
+<div id="50ef01fa" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -551,7 +551,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a>                    )</span>
 <span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a>        ax.yaxis.set_major_locator(MaxNLocator(integer<span class="op">=</span><span class="va">True</span>))</span>
-<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> c <span class="op">==</span> <span class="dv">0</span>:</span>
 <span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a>            ax.set_ylabel(miss_labels[m_type])</span>
 <span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
@@ -559,7 +559,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> r <span class="op">==</span> <span class="dv">0</span>:</span>
 <span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a>            ax.set_title(<span class="ss">f"</span><span class="sc">{</span>model<span class="sc">.</span>upper()<span class="sc">}</span><span class="ss"> Model"</span>)</span>
-<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a>        ax.set_xlabel(<span class="st">""</span>)</span>
 <span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a>        ax.xaxis.grid(<span class="va">True</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, color<span class="op">=</span><span class="st">'lightgrey'</span>, zorder<span class="op">=</span><span class="dv">0</span>)</span>
 <span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a></span>
@@ -599,15 +599,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="flye-struggle-with-small-plasmids" class="level2">
 <h2 class="anchored" data-anchor-id="flye-struggle-with-small-plasmids">Flye Struggle with small plasmids</h2>
-<p>My premise : Flye is inherently struggle with small plasmid recovery.</p>
+<p>My premise : Flye is fundamentally struggle with small plasmids recovery.</p>
 <section id="findings-from-literature-and-github-issues" class="level3">
 <h3 class="anchored" data-anchor-id="findings-from-literature-and-github-issues">Findings from literature and GitHub issues</h3>
 <p>There are mutiple evidence or finding that oftenly Flye stuggle to recover small plasmid, especially in the high depth sample:</p>
 <ul>
-<li><p>There is ongoing issue about small plasmid recovery on Flye https://github.com/mikolmogorov/Flye/issues/706</p></li>
-<li><p>High depth impact small plasmid recovery (https://www.microbiologyresearch.org/content/journal/mgen/10.1099/mgen.0.001024#F3). As copy numbers increase and depth becomes too high, Flye may treat these elements as “noise” maybe from barcode/adapter? hmmm but i think no adapter/barcode have sequence length more than 1kb?</p></li>
+<li><p>There is ongoing issue about small plasmid recovery on Flye <a href="https://github.com/mikolmogorov/Flye/issues/706">https://github.com/mikolmogorov/Flye/issues/706</a></p></li>
+<li><p>High depth impact small plasmid recovery <a href="https://www.microbiologyresearch.org/content/journal/mgen/10.1099/mgen.0.001024#F3">https://www.microbiologyresearch.org/content/journal/mgen/10.1099/mgen.0.001024#F3</a>. As copy numbers increase and depth becomes too high, Flye may treat these elements as “noise” maybe from barcode/adapter? hmmm but i think no adapter/barcode have sequence length more than 1kb?</p></li>
 </ul>
-<div id="3b0a66c9" class="cell" data-execution_count="2">
+<div id="dc593aa6" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
@@ -724,10 +724,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-112"><a href="#cb2-112" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Plot saved successfully to </span><span class="sc">{</span>output_file<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<p><a href="../results/figures/assess/assembly-combo-100length/metrics/plasmid_coverage_vs_length_6kb.png">Contig length vs coverage</a></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../results/figures/assess/assembly-combo-100length/metrics/plasmid_coverage_vs_length_6kb.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Contig length vs coverage"><img src="../results/figures/assess/assembly-combo-100length/metrics/plasmid_coverage_vs_length_6kb.png" class="img-fluid figure-img" alt="Contig length vs coverage"></a></p>
+<figcaption>Contig length vs coverage</figcaption>
+</figure>
+</div>
 <ul>
 <li><p>When looking at the plots, there appears to be a maximum coverage threshold (around 10,000x? for a 1919 bp contig). ecause higher overall sequencing depth contributes to extreme small plasmid depth in the graph, if the depth exceeds this limit, Flye may filter out these contigs?</p></li>
-<li><p>Ryan also mention this issue on his QC blog https://rrwick.github.io/2026/02/05/read_qc_testing.html</p></li>
+<li><p>Ryan also mention this issue on his QC blog <a href="https://rrwick.github.io/2026/02/05/read_qc_testing.html">https://rrwick.github.io/2026/02/05/read_qc_testing.html</a></p></li>
 </ul>
 </section>
 <section id="investigating-how-exactly-flye-builds-the-assembly" class="level3">
@@ -740,7 +745,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>Also, Flye only collapses repeating sequences into a single node if the repeat length is strictly longer than this <code>minOverlap</code> threshold. Most of the high depth datasets that missed the small contigs have a fastq N90 that slightly higher than the <code>plasmid_4</code> length (1919 bp).</p></li>
 <li><p>Also, Flye strictly uses <code>minOverlap</code> when performing disjointig assembly. It will only concatenate reads if the overlap between them is longer than the dynamic <code>minOverlap</code> threshold.</p></li>
 </ul>
-<div id="f704cded" class="cell" data-execution_count="3">
+<p><a href="https://www.nature.com/articles/s41587-019-0072-8/figures/1">https://www.nature.com/articles/s41587-019-0072-8/figures/1</a></p>
+<div id="1ea177d6" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
@@ -890,7 +896,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="../results/figures/assess/assembly-combo-100length/metrics/small_plasmids_ATCC_25922__202309_shapes.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Contig length and N90"><img src="../results/figures/assess/assembly-combo-100length/metrics/small_plasmids_ATCC_25922__202309_shapes.png" class="img-fluid figure-img" alt="Contig length and N90"></a></p>
+<p><a href="../results/figures/assess/assembly-combo-100length/metrics/small_plasmids_ATCC_25922__202309_shapes.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Contig length and N90"><img src="../results/figures/assess/assembly-combo-100length/metrics/small_plasmids_ATCC_25922__202309_shapes.png" class="img-fluid figure-img" alt="Contig length and N90"></a></p>
 <figcaption>Contig length and N90</figcaption>
 </figure>
 </div>
@@ -911,7 +917,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="why-the-failure-is-not-universal-across-tool-combinations">Why the failure is not universal across tool combinations</h3>
 <p>If it is true that Flye fundamently struggles with small plasmid recovery due to its <code>minOverlap</code> and high coverage. Why failure is not universal across our specific tool combinations?</p>
 <p>If we look at the contig length plot below, the plasmid_4 contigs in the assembly frequently create artificial dimers (2x, 3838 bp) or trimers (3x, 5757 bp) depending on the preprocessing pipeline used</p>
-<div id="907483ae" class="cell" data-execution_count="4">
+<div id="74faa559" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
@@ -1041,7 +1047,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="../results/figures/assess/assembly-combo-100length/metrics/small_plasmids_ATCC_25922__202309.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Missed cotigs vs contig length"><img src="../results/figures/assess/assembly-combo-100length/metrics/small_plasmids_ATCC_25922__202309.png" class="img-fluid figure-img" alt="Missed cotigs vs contig length"></a></p>
+<p><a href="../results/figures/assess/assembly-combo-100length/metrics/small_plasmids_ATCC_25922__202309.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Missed cotigs vs contig length"><img src="../results/figures/assess/assembly-combo-100length/metrics/small_plasmids_ATCC_25922__202309.png" class="img-fluid figure-img" alt="Missed cotigs vs contig length"></a></p>
 <figcaption>Missed cotigs vs contig length</figcaption>
 </figure>
 </div>
@@ -1052,7 +1058,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>So i think the raw reads represent the biological concatemer, but the repeat unit (1919 bp) is simply too small to be collapsed by Flye (because less than N90)</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="../missed_contigs_investigation/igv_dimer_trimer.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="plasmid_4 dimer (unprocessed-untrimmed)"><img src="../missed_contigs_investigation/igv_dimer_trimer.png" class="img-fluid figure-img" alt="plasmid_4 dimer (unprocessed-untrimmed)"></a></p>
+<p><a href="../missed_contigs_investigation/igv_dimer_trimer.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="plasmid_4 dimer (unprocessed-untrimmed)"><img src="../missed_contigs_investigation/igv_dimer_trimer.png" class="img-fluid figure-img" alt="plasmid_4 dimer (unprocessed-untrimmed)"></a></p>
 <figcaption>plasmid_4 dimer (unprocessed-untrimmed)</figcaption>
 </figure>
 </div>
@@ -1063,11 +1069,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="quality-preprocessing-only-assessment">Quality preprocessing only assessment</h2>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="../results/figures/assess/assembly-quality-newest/assembly/metrics/quality_assembly_missed_contigs.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Missed contigs"><img src="../results/figures/assess/assembly-quality-newest/assembly/metrics/quality_assembly_missed_contigs.png" class="img-fluid figure-img" alt="Missed contigs"></a></p>
+<p><a href="../results/figures/assess/assembly-quality-newest/assembly/metrics/quality_assembly_missed_contigs.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="Missed contigs"><img src="../results/figures/assess/assembly-quality-newest/assembly/metrics/quality_assembly_missed_contigs.png" class="img-fluid figure-img" alt="Missed contigs"></a></p>
 <figcaption>Missed contigs</figcaption>
 </figure>
 </div>
-<div id="c21c10de" class="cell" data-execution_count="5">
+<div id="c241b859" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -1083,7 +1089,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_36b8d040_9e18_4dbe_849d_9af2a4f9c688">
+<table id="itables_9b51ef7b_b93d_495f_bdb7_639cff0e13a8">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -1153,7 +1159,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_36b8d040_9e18_4dbe_849d_9af2a4f9c688:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_9b51ef7b_b93d_495f_bdb7_639cff0e13a8:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
@@ -1173,7 +1179,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </script>
 </div>
 </div>
-<div id="d30c7c3e" class="cell" data-execution_count="6">
+<div id="d61e5446" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>hac_only.reset_index(drop<span class="op">=</span><span class="va">True</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
@@ -1181,7 +1187,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_a65b012b_8337_46a6_a934_94e76db36657">
+<table id="itables_c0dd8d31_db40_47fd_81b2_e5c154bb078c">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -1251,7 +1257,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_a65b012b_8337_46a6_a934_94e76db36657:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_c0dd8d31_db40_47fd_81b2_e5c154bb078c:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
