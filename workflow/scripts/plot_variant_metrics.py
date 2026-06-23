@@ -168,7 +168,7 @@ for y in metrics:
             
             # Adjust the output file to include the plot type suffix
             metric_file = "f1" if y == "F1_SCORE" else "precision" if y == "PREC" else "recall"
-            new_output_path = out_dir / f"combo_variant_{metric_file}_{est}_{p_type}plot.png"
+            new_output_path = out_dir / f"quality_variant_{metric_file}_{est}_{p_type}plot.png"
 
             fig.savefig(new_output_path, bbox_inches='tight')
             plt.close(fig)

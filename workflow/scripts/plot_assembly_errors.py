@@ -102,7 +102,7 @@ for p_type in plot_types:
     fig.tight_layout()
     
     # Save dynamically based on the current plot type in the loop
-    new_output_path = out_dir / f"combo_assembly_errors_per_100kbp_{p_type}.png"
+    new_output_path = out_dir / f"quality_assembly_errors_per_100kbp_{p_type}.png"
     fig.savefig(new_output_path, bbox_inches='tight')
     plt.close(fig)
     print(f"Saved {p_type} to {new_output_path}")

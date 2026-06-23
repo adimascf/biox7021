@@ -123,7 +123,7 @@ for est in estimators:
             fig.tight_layout()
 
             # mutate the output files
-            new_output_path = out_dir / f"combo_assembly_nga50_normalised_{scale}_{p_type}_{est}.png"
+            new_output_path = out_dir / f"quality_assembly_nga50_normalised_{scale}_{p_type}_{est}.png"
             fig.savefig(new_output_path, bbox_inches='tight')
             plt.close(fig)
             print(f"Saved {new_output_path.name}")

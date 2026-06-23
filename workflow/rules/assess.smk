@@ -15,25 +15,25 @@ rule make_full_bed:
 
 rule assess_calls_vcfdist:
 	input:
-		query_vcf=RESULTS / "calling/{tool}-{trimmer}/{depth}x/{model}/{sample}.{tool}-{trimmer}.clair3.vcf.gz",
+		query_vcf=RESULTS / "calling/{tool}/{depth}x/{model}/{sample}.{tool}.clair3.vcf.gz",
 		truth_vcf=get_truth_vcf,  
 		mutreference=get_mutreference_genome,
 		faidx=rules.faidx_mutref.output.faidx,
 		bed=rules.make_full_bed.output.bed
 	log:
-		LOGS / "assess_mutref_calls/{tool}-{trimmer}/{depth}x/{model}/{sample}.{tool}-{trimmer}.log"
+		LOGS / "assess_mutref_calls/{tool}/{depth}x/{model}/{sample}.{tool}.log"
 	resources:
 		mem="32GiB",
 		runtime="30m"
 	params:
 		opts="--largest-variant 50 --credit-threshold 1.0",
-		prefix=lambda wildcards: RESULTS / f"assess/call/{wildcards.tool}-{wildcards.trimmer}/{wildcards.depth}x/{wildcards.model}/{wildcards.sample}"
+		prefix=lambda wildcards: RESULTS / f"assess/call/{wildcards.tool}/{wildcards.depth}x/{wildcards.model}/{wildcards.sample}"
 	output:  
-		pr_summary=RESULTS / "assess/call/{tool}-{trimmer}/{depth}x/{model}/{sample}.precision-recall-summary.tsv",
-		pr=RESULTS / "assess/call/{tool}-{trimmer}/{depth}x/{model}/{sample}.precision-recall.tsv",
-		summary=RESULTS / "assess/call/{tool}-{trimmer}/{depth}x/{model}/{sample}.summary.vcf",
-		query=RESULTS / "assess/call/{tool}-{trimmer}/{depth}x/{model}/{sample}.query.tsv",
-		truth=RESULTS / "assess/call/{tool}-{trimmer}/{depth}x/{model}/{sample}.truth.tsv"
+		pr_summary=RESULTS / "assess/call/{tool}/{depth}x/{model}/{sample}.precision-recall-summary.tsv",
+		pr=RESULTS / "assess/call/{tool}/{depth}x/{model}/{sample}.precision-recall.tsv",
+		summary=RESULTS / "assess/call/{tool}/{depth}x/{model}/{sample}.summary.vcf",
+		query=RESULTS / "assess/call/{tool}/{depth}x/{model}/{sample}.query.tsv",
+		truth=RESULTS / "assess/call/{tool}/{depth}x/{model}/{sample}.truth.tsv"
 	container:     
 		"docker://timd1/vcfdist:v2.6.4"
 	shell: 
@@ -59,12 +59,12 @@ rule assess_variant_plot:
 		ENVS / "generate_figure_python.yaml"
 	output:
 		figures=[
-				FIGURES / f"assess/call/metrics/combo_variant_{metric}_{est}_{p_type}.png"
+				FIGURES / f"assess/call/metrics/quality_variant_{metric}_{est}_{p_type}.png"
 				for metric in ["f1", "recall", "precision"]
 				for est in ["mean", "median"]
 				for p_type in ["pointplot", "stripplot"]
 				],
-		csv=TABLES / "assess/call/metrics/combo_variant_summary.csv"
+		csv=TABLES / "assess/call/metrics/quality_variant_summary.csv"
 	script:
 		"../scripts/plot_variant_metrics.py"
 
@@ -79,7 +79,7 @@ rule assess_variant_average:
 	conda:
 		ENVS / "generate_figure_python.yaml"
 	output:
-		csv=TABLES / "assess/call/metrics/combo_variant_summary_averages.csv"
+		csv=TABLES / "assess/call/metrics/quality_variant_summary_averages.csv"
 	script:
 		"../scripts/average_variant_metrics.py"
 
@@ -94,9 +94,9 @@ rule assess_variant_fnfp:
 	conda:
 		ENVS / "generate_figure_python.yaml"
 	output:
-		csv=TABLES / "assess/call/metrics/combo_variant_fnfp.csv",
-		fn_plot=FIGURES / f"assess/call/metrics/combo_variant_fn.png",
-		fp_plot=FIGURES / f"assess/call/metrics/combo_variant_fp.png"
+		csv=TABLES / "assess/call/metrics/quality_variant_fnfp.csv",
+		fn_plot=FIGURES / f"assess/call/metrics/quality_variant_fn.png",
+		fp_plot=FIGURES / f"assess/call/metrics/quality_variant_fp.png"
 	script:
 		"../scripts/extract_plot_fnfp.py"
 
@@ -105,7 +105,7 @@ rule assess_assembly_quast:
 		assembly=rules.assembly_flye.output.assembly,
 		reference=get_reference_genome
 	log:
-		LOGS / "assess/assembly/{tool}-{trimmer}/quast/{depth}x/{model}/{sample}.{tool}-{trimmer}.log"
+		LOGS / "assess/assembly/{tool}/quast/{depth}x/{model}/{sample}.{tool}.log"
 	threads: 4
 	resources:
 		mem="32GiB",
@@ -115,11 +115,11 @@ rule assess_assembly_quast:
 	conda:
 		ENVS / "quast.yaml"
 	output:
-		report_tsv= RESULTS / "assess/assembly/quast/{tool}-{trimmer}/{depth}x/{model}/{sample}.{tool}-{trimmer}.report.tsv",  
-		report_html= RESULTS / "assess/assembly/quast/{tool}-{trimmer}/{depth}x/{model}/{sample}.{tool}-{trimmer}.report.html",
-		icarus_html= RESULTS / "assess/assembly/quast/{tool}-{trimmer}/{depth}x/{model}/{sample}.{tool}-{trimmer}.icarus.html",  
-		icarus_helper1= RESULTS / "assess/assembly/quast/{tool}-{trimmer}/{depth}x/{model}/{sample}/icarus_viewers/contig_size_viewer.html", 
-		icarus_helper2= RESULTS / "assess/assembly/quast/{tool}-{trimmer}/{depth}x/{model}/{sample}/icarus_viewers/alignment_viewer.html"
+		report_tsv= RESULTS / "assess/assembly/quast/{tool}/{depth}x/{model}/{sample}.{tool}.report.tsv",  
+		report_html= RESULTS / "assess/assembly/quast/{tool}/{depth}x/{model}/{sample}.{tool}.report.html",
+		icarus_html= RESULTS / "assess/assembly/quast/{tool}/{depth}x/{model}/{sample}.{tool}.icarus.html",  
+		icarus_helper1= RESULTS / "assess/assembly/quast/{tool}/{depth}x/{model}/{sample}/icarus_viewers/contig_size_viewer.html", 
+		icarus_helper2= RESULTS / "assess/assembly/quast/{tool}/{depth}x/{model}/{sample}/icarus_viewers/alignment_viewer.html"
 	shell:
 		"""
 		tmp_dir=$(mktemp -d)
@@ -143,7 +143,7 @@ rule assess_assembly_contam:
 		info=rules.assembly_flye.output.info,
 		contaminants=DATA / "contaminants"
 	log:
-		LOGS / "assess/assembly/contaminant/{tool}-{trimmer}/{depth}x/{model}/{sample}.{tool}-{trimmer}.contaminants.log"
+		LOGS / "assess/assembly/contaminant/{tool}/{depth}x/{model}/{sample}.{tool}.contaminants.log"
 	threads: 4
 	resources:
 		mem="64GiB",
@@ -155,7 +155,7 @@ rule assess_assembly_contam:
 	conda:
 		ENVS / "align.yaml"
 	output:
-		contaminants=RESULTS / "assess/assembly/contaminant/{tool}-{trimmer}/{depth}x/{model}/{sample}.{tool}-{trimmer}.contaminants.tsv"
+		contaminants=RESULTS / "assess/assembly/contaminant/{tool}/{depth}x/{model}/{sample}.{tool}.contaminants.tsv"
 	script:
 		"../scripts/detect_adapter_contamination.py"
 
@@ -171,8 +171,8 @@ rule aggregate_assembly_contam:
 	conda:
 		ENVS / "generate_figure_python.yaml"
 	output:
-		summary=TABLES / "assess/assembly/metrics/combo_contaminant_summary_count.csv",
-		details=TABLES / "assess/assembly/metrics/combo_contaminant_details.csv"
+		summary=TABLES / "assess/assembly/metrics/quality_contaminant_summary_count.csv",
+		details=TABLES / "assess/assembly/metrics/quality_contaminant_details.csv"
 	script:
 		"../scripts/aggregate_contaminants.py"
 
@@ -188,15 +188,15 @@ rule plot_assembly_contam:
 	conda:
 		ENVS / "generate_figure_python.yaml"
 	output:
-		figure=FIGURES / "assess/assembly/metrics/combo_contaminant_count.png"
+		figure=FIGURES / "assess/assembly/metrics/quality_contaminant_count.png"
 	script:
 		"../scripts/plot_assembly_contam_count.py"
 
 rule compile_quast_metrics:
 	input:
 		reports=expand(
-				RESULTS / "assess/assembly/quast/{combo}/{depth}x/{model}/{sample}.{combo}.report.tsv",
-				combo=COMBINATIONS,
+				RESULTS / "assess/assembly/quast/{tool}/{depth}x/{model}/{sample}.{tool}.report.tsv",
+				tool=EVAL_TOOLS,
 				depth=DEPTHS,
 				sample=SAMPLES,
 				model=MODELS),
@@ -211,7 +211,7 @@ rule compile_quast_metrics:
 	conda:
 		ENVS / "generate_figure_python.yaml"
 	output:
-		csv=TABLES / "assess/assembly/metrics/combo_quast_compiled_metrics.csv"
+		csv=TABLES / "assess/assembly/metrics/quality_quast_compiled_metrics.csv"
 	script:
 		"../scripts/compile_quast_metrics.py"
 
@@ -227,7 +227,7 @@ rule plot_assembly_error:
 		ENVS / "generate_figure_python.yaml"
 	output:
 		figures=[
-				FIGURES / f"assess/assembly/metrics/combo_assembly_errors_per_100kbp_{p_type}.png"
+				FIGURES / f"assess/assembly/metrics/quality_assembly_errors_per_100kbp_{p_type}.png"
 				for p_type in ["barplot", "stripplot", "pointplot"]
 				]
 	script:
@@ -245,7 +245,7 @@ rule plot_assembly_nga50:
 		ENVS / "generate_figure_python.yaml"
 	output:
 		figures=[
-				FIGURES / f"assess/assembly/metrics/combo_assembly_nga50_normalised_{scale}_{p_type}_{est}.png"
+				FIGURES / f"assess/assembly/metrics/quality_assembly_nga50_normalised_{scale}_{p_type}_{est}.png"
 				for scale in ["linear", "logit"]
 				for p_type in ["pointplot", "stripplot"]
 				for est in ["mean", "median"]
@@ -253,12 +253,34 @@ rule plot_assembly_nga50:
 	script:
 		"../scripts/plot_assembly_nga50.py"
 
+rule identify_missed_contigs:
+	input:
+		assembly=rules.assembly_flye.output.assembly,
+		reference=get_reference_genome
+	log:
+		LOGS / "assembly/missed_contigs/{tool}/{depth}x/{model}/{sample}.{tool}.missed_contigs.log"
+	resources:
+		mem="32GiB",
+		runtime="20m"
+	conda:
+		ENVS / "align.yaml"
+	output:
+		tsv=RESULTS / "assess/assembly/missed_contigs/{tool}/{depth}x/{model}/{sample}.{tool}.{depth}x.missed_contigs.csv"
+	shell:
+		"""
+		minimap2 -a -x "asm5" {input.reference} {input.assembly} | samtools sort | samtools coverage - > {output.tsv} 2> {log}
+		"""
+
 # rule identify_missed_contigs:
 # 	input:
 # 		assembly=rules.assembly_flye.output.assembly,
 # 		reference=get_reference_genome
 # 	log:
 # 		LOGS / "assembly/missed_contigs/{tool}-{trimmer}/{depth}x/{model}/{sample}.{tool}-{trimmer}.missed_contigs.log"
+# 	params:
+# 		target_dimer=3838,
+# 		target_trimer=5757,
+# 		margin=250
 # 	resources:
 # 		mem="32GiB",
 # 		runtime="20m"
@@ -268,53 +290,31 @@ rule plot_assembly_nga50:
 # 		tsv=RESULTS / "assess/assembly/missed_contigs/{tool}-{trimmer}/{depth}x/{model}/{sample}.{tool}-{trimmer}.{depth}x.missed_contigs.csv"
 # 	shell:
 # 		"""
-# 		minimap2 -a -x "asm5" {input.reference} {input.assembly} | samtools sort | samtools coverage - > {output.tsv} 2> {log}
+# 		# Calculate minimum and maximum lengths based on params
+# 		min_dim=$(({params.target_dimer} - {params.margin}))
+# 		max_dim=$(({params.target_dimer} + {params.margin}))
+#
+# 		min_tri=$(({params.target_trimer} - {params.margin}))
+# 		max_tri=$(({params.target_trimer} + {params.margin}))
+#
+# 		# 1. Find dimers/trimers and extract only their names (-n)
+# 		# 2. Grep invert (-v) to EXCLUDE those names from the original assembly
+# 		# 3. Map the remaining sequences
+# 		{{
+# 			seqkit seq -m $min_dim -M $max_dim {input.assembly} 2>> {log} | seqkit seq -n
+# 			seqkit seq -m $min_tri -M $max_tri {input.assembly} 2>> {log} | seqkit seq -n
+# 		}} | \
+# 		seqkit grep -v -f - {input.assembly} 2>> {log} | \
+# 		minimap2 -a -x "asm5" {input.reference} - 2>> {log} | \
+# 		samtools sort 2>> {log} | \
+# 		samtools coverage - > {output.tsv} 2>> {log}
 # 		"""
-
-rule identify_missed_contigs:
-	input:
-		assembly=rules.assembly_flye.output.assembly,
-		reference=get_reference_genome
-	log:
-		LOGS / "assembly/missed_contigs/{tool}-{trimmer}/{depth}x/{model}/{sample}.{tool}-{trimmer}.missed_contigs.log"
-	params:
-		target_dimer=3838,
-		target_trimer=5757,
-		margin=250
-	resources:
-		mem="32GiB",
-		runtime="20m"
-	conda:
-		ENVS / "align.yaml"
-	output:
-		tsv=RESULTS / "assess/assembly/missed_contigs/{tool}-{trimmer}/{depth}x/{model}/{sample}.{tool}-{trimmer}.{depth}x.missed_contigs.csv"
-	shell:
-		"""
-		# Calculate minimum and maximum lengths based on params
-		min_dim=$(({params.target_dimer} - {params.margin}))
-		max_dim=$(({params.target_dimer} + {params.margin}))
-
-		min_tri=$(({params.target_trimer} - {params.margin}))
-		max_tri=$(({params.target_trimer} + {params.margin}))
-
-		# 1. Find dimers/trimers and extract only their names (-n)
-		# 2. Grep invert (-v) to EXCLUDE those names from the original assembly
-		# 3. Map the remaining sequences
-		{{
-			seqkit seq -m $min_dim -M $max_dim {input.assembly} 2>> {log} | seqkit seq -n
-			seqkit seq -m $min_tri -M $max_tri {input.assembly} 2>> {log} | seqkit seq -n
-		}} | \
-		seqkit grep -v -f - {input.assembly} 2>> {log} | \
-		minimap2 -a -x "asm5" {input.reference} - 2>> {log} | \
-		samtools sort 2>> {log} | \
-		samtools coverage - > {output.tsv} 2>> {log}
-		"""
 
 rule plot_missed_contig:
 	input:
 		tsv=expand(
-			RESULTS / "assess/assembly/missed_contigs/{combo}/{depth}x/{model}/{sample}.{combo}.{depth}x.missed_contigs.csv",
-			combo=COMBINATIONS,
+			RESULTS / "assess/assembly/missed_contigs/{tool}/{depth}x/{model}/{sample}.{tool}.{depth}x.missed_contigs.csv",
+			tool=EVAL_TOOLS,
 			depth=["100", "50", "20"],
 			model=["sup", "hac"],
 			sample=SAMPLES)
@@ -323,33 +323,33 @@ rule plot_missed_contig:
 	conda:
 		ENVS / "generate_figure_python.yaml"
 	output:
-		figures=FIGURES / "assess/assembly/metrics/combo_assembly_missed_contigs.png",
-		figures_total=FIGURES / "assess/assembly/metrics/combo_assembly_total_missed_contigs.png",
-		table=TABLES / "assess/assembly/metrics/combo_assembly_missed_contigs.csv",
+		figures=FIGURES / "assess/assembly/metrics/quality_assembly_missed_contigs.png",
+		figures_total=FIGURES / "assess/assembly/metrics/quality_assembly_total_missed_contigs.png",
+		table=TABLES / "assess/assembly/metrics/quality_assembly_missed_contigs.csv",
 	script:
 		"../scripts/plot_missed_contig.py"
 
-rule benchmark_resources:
-	input:
-		trimming_benchmark=expand(
-				BENCHMARK / "QC/trimming/{trimmer}/{model}/{sample}.{trimmer}.tsv",
-				trimmer=[t for t in EVAL_TRIMMERS if t != "untrimmed"],
-				model=MODELS,
-				sample=SAMPLES),
-		quality_benchmark=expand(
-				BENCHMARK / "QC/quality/{combo}/{model}/{sample}.{combo}.tsv",
-				combo=[c for c in COMBINATIONS if not c.startswith("unprocessed")],
-				model=MODELS,
-				sample=SAMPLES)
-	log:
-		LOGS / "assess/benchmark_resources/benchmark_resources.log"
-	resources:
-		mem="16GiB",
-		runtime="20m"
-	conda:
-		ENVS / "generate_figure_python.yaml"
-	output:
-		figure=FIGURES / "assess/benchmark_resources/benchmark_resources.png",
-		csv=TABLES / "assess/benchmark_resources/benchmark_resources.csv"
-	script:
-		"../scripts/plot_benchmark_resources.py"
+# rule benchmark_resources:
+# 	input:
+# 		trimming_benchmark=expand(
+# 				BENCHMARK / "QC/trimming/{trimmer}/{model}/{sample}.{trimmer}.tsv",
+# 				trimmer=[t for t in EVAL_TRIMMERS if t != "untrimmed"],
+# 				model=MODELS,
+# 				sample=SAMPLES),
+# 		quality_benchmark=expand(
+# 				BENCHMARK / "QC/quality/{combo}/{model}/{sample}.{combo}.tsv",
+# 				combo=[c for c in EVAL_TOOLS if not c.startswith("unprocessed")],
+# 				model=MODELS,
+# 				sample=SAMPLES)
+# 	log:
+# 		LOGS / "assess/benchmark_resources/benchmark_resources.log"
+# 	resources:
+# 		mem="16GiB",
+# 		runtime="20m"
+# 	conda:
+# 		ENVS / "generate_figure_python.yaml"
+# 	output:
+# 		figure=FIGURES / "assess/benchmark_resources/benchmark_resources.png",
+# 		csv=TABLES / "assess/benchmark_resources/benchmark_resources.csv"
+# 	script:
+# 		"../scripts/plot_benchmark_resources.py"

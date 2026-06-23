@@ -23,91 +23,171 @@ DEPTHS = config["depth"]
 MODELS = config["model"]
 REPEAT = config["repeat"]
 
-EVAL_TRIMMERS = config["trimming"] + ["untrimmed"]
-EVAL_TOOLS = config["quality"] + ["unprocessed"]
+# EVAL_TRIMMERS = config["trimming"] + ["untrimmed"]
+TOOLS = config["quality"] + ["unprocessed"]
 
 KITS = pep.sample_table["sequencing_kits"]
 
 
-COMBINATIONS = []
-for tool in EVAL_TOOLS:
-	if tool == "fastplong":
-		tool = tool + "-" + "all"
-		COMBINATIONS.append(tool)
-	else:
-		for trimmer in EVAL_TRIMMERS:
-			combo = tool + "-" + trimmer
-			COMBINATIONS.append(combo)
+# COMBINATIONS = []
+# for tool in EVAL_TOOLS:
+# 	if tool == "fastplong":
+# 		tool = tool + "-" + "all"
+# 		COMBINATIONS.append(tool)
+# 	else:
+# 		for trimmer in EVAL_TRIMMERS:
+# 			combo = tool + "-" + trimmer
+# 			COMBINATIONS.append(combo)
+#
+# pr_files = expand(
+#     RESULTS / "assess/call/{combo}/{depth}x/{model}/{sample}.precision-recall.tsv",
+#     combo=COMBINATIONS, depth=DEPTHS, sample=SAMPLES, model=MODELS
+# )
+#
+# contam_report_files = expand(
+#     RESULTS / "assess/assembly/contaminant/{combo}/{depth}x/{model}/{sample}.{combo}.contaminants.tsv",
+#     combo=COMBINATIONS, depth=DEPTHS, sample=SAMPLES, model=MODELS
+# )
+#
+# target_files = expand(
+#     [
+#         RESULTS / "assess/call/{combo}/{depth}x/{model}/{sample}.precision-recall-summary.tsv",
+#         RESULTS / "assess/assembly/quast/{combo}/{depth}x/{model}/{sample}.{combo}.report.tsv",
+#         RESULTS / "assess/assembly/contaminant/{combo}/{depth}x/{model}/{sample}.{combo}.contaminants.tsv"
+#     ],
+#     combo=COMBINATIONS, depth=DEPTHS, sample=SAMPLES, model=MODELS
+# )
+
+PORECHOP_ABI_SETTINGS = ["nocheck", "discard", "split"]
+BARBELL_KIT_SETTINGS = ["default", "max"]
+FASTPLONG_SEQKIT_SETTINGS = ["100", "1000"]
+FILTLONG_SETTINGS = ["meanq", "len", "default"]
+CHOPPER_SETTINGS = ["trim100", "trim1000", "extract100", "extract1000"]
+
+EVAL_TOOLS = []
+for t in TOOLS:
+	if t == "fastplong":
+		EVAL_TOOLS.extend([f"{t}_{s}" for s in FASTPLONG_SEQKIT_SETTINGS])
+	elif t == "seqkit":
+		EVAL_TOOLS.extend([f"{t}_{s}" for s in FASTPLONG_SEQKIT_SETTINGS])
+	elif t == "filtlong":
+		EVAL_TOOLS.extend([f"{t}_{s}" for s in FILTLONG_SETTINGS])
+	elif t == "chopper":
+		EVAL_TOOLS.extend([f"{t}_{s}" for s in CHOPPER_SETTINGS])
+	else: # untrimmed
+		EVAL_TOOLS.append(t)
+
 
 pr_files = expand(
-    RESULTS / "assess/call/{combo}/{depth}x/{model}/{sample}.precision-recall.tsv",
-    combo=COMBINATIONS, depth=DEPTHS, sample=SAMPLES, model=MODELS
+    RESULTS / "assess/call/{tool}/{depth}x/{model}/{sample}.precision-recall.tsv",
+    tool=EVAL_TOOLS, depth=DEPTHS, sample=SAMPLES, model=MODELS
 )
 
 contam_report_files = expand(
-    RESULTS / "assess/assembly/contaminant/{combo}/{depth}x/{model}/{sample}.{combo}.contaminants.tsv",
-    combo=COMBINATIONS, depth=DEPTHS, sample=SAMPLES, model=MODELS
+    RESULTS / "assess/assembly/contaminant/{tool}/{depth}x/{model}/{sample}.{tool}.contaminants.tsv",
+    tool=EVAL_TOOLS, depth=DEPTHS, sample=SAMPLES, model=MODELS
 )
 
 target_files = expand(
     [
-        RESULTS / "assess/call/{combo}/{depth}x/{model}/{sample}.precision-recall-summary.tsv",
-        RESULTS / "assess/assembly/quast/{combo}/{depth}x/{model}/{sample}.{combo}.report.tsv",
-        RESULTS / "assess/assembly/contaminant/{combo}/{depth}x/{model}/{sample}.{combo}.contaminants.tsv"
+        RESULTS / "assess/call/{tool}/{depth}x/{model}/{sample}.precision-recall-summary.tsv",
+        RESULTS / "assess/assembly/quast/{tool}/{depth}x/{model}/{sample}.{tool}.report.tsv",
+        RESULTS / "assess/assembly/contaminant/{tool}/{depth}x/{model}/{sample}.{tool}.contaminants.tsv"
     ],
-    combo=COMBINATIONS, depth=DEPTHS, sample=SAMPLES, model=MODELS
+    tool=EVAL_TOOLS, depth=DEPTHS, sample=SAMPLES, model=MODELS
 )
 
 rule all:
 	input:
 		target_files,
 		
-		FIGURES / "assess/call/metrics/combo_variant_f1_mean_pointplot.png",
-		FIGURES / "assess/call/metrics/combo_variant_precision_mean_pointplot.png",
-		FIGURES / "assess/call/metrics/combo_variant_recall_mean_pointplot.png",
-		FIGURES / "assess/call/metrics/combo_variant_f1_median_pointplot.png",
-		FIGURES / "assess/call/metrics/combo_variant_precision_median_pointplot.png",
-		FIGURES / "assess/call/metrics/combo_variant_recall_median_pointplot.png",
+		# FIGURES / "assess/call/metrics/combo_variant_f1_mean_pointplot.png",
+		# FIGURES / "assess/call/metrics/combo_variant_precision_mean_pointplot.png",
+		# FIGURES / "assess/call/metrics/combo_variant_recall_mean_pointplot.png",
+		# FIGURES / "assess/call/metrics/combo_variant_f1_median_pointplot.png",
+		# FIGURES / "assess/call/metrics/combo_variant_precision_median_pointplot.png",
+		# FIGURES / "assess/call/metrics/combo_variant_recall_median_pointplot.png",
+		#
+		# FIGURES / "assess/call/metrics/combo_variant_f1_mean_stripplot.png",
+		# FIGURES / "assess/call/metrics/combo_variant_precision_mean_stripplot.png",
+		# FIGURES / "assess/call/metrics/combo_variant_recall_mean_stripplot.png",
+		# FIGURES / "assess/call/metrics/combo_variant_f1_median_stripplot.png",
+		# FIGURES / "assess/call/metrics/combo_variant_precision_median_stripplot.png",
+		# FIGURES / "assess/call/metrics/combo_variant_recall_median_stripplot.png",
+		#
+		# TABLES / "assess/call/metrics/combo_variant_summary.csv",
+		# TABLES / "assess/call/metrics/combo_variant_summary_averages.csv",
+		# TABLES / "assess/call/metrics/combo_variant_fnfp.csv",
+		# FIGURES / "assess/call/metrics/combo_variant_fp.png",
+		# FIGURES / "assess/call/metrics/combo_variant_fn.png",
+		#
+		# TABLES / "assess/assembly/metrics/combo_contaminant_summary_count.csv",
+		# TABLES / "assess/assembly/metrics/combo_contaminant_details.csv",
+		# FIGURES / "assess/assembly/metrics/combo_contaminant_count.png",
+		# TABLES / "assess/assembly/metrics/combo_quast_compiled_metrics.csv",
+		# FIGURES / "assess/assembly/metrics/combo_assembly_errors_per_100kbp_barplot.png",
+		# FIGURES / "assess/assembly/metrics/combo_assembly_errors_per_100kbp_stripplot.png",
+		# FIGURES / "assess/assembly/metrics/combo_assembly_errors_per_100kbp_pointplot.png",
+		#
+		# FIGURES / "assess/assembly/metrics/combo_assembly_nga50_normalised_linear_pointplot_mean.png",
+		# FIGURES / "assess/assembly/metrics/combo_assembly_nga50_normalised_linear_pointplot_median.png",
+		# FIGURES / "assess/assembly/metrics/combo_assembly_nga50_normalised_linear_stripplot_mean.png",
+		# FIGURES / "assess/assembly/metrics/combo_assembly_nga50_normalised_linear_stripplot_median.png",
+		# FIGURES / "assess/assembly/metrics/combo_assembly_nga50_normalised_logit_stripplot_mean.png",
+		# FIGURES / "assess/assembly/metrics/combo_assembly_nga50_normalised_logit_stripplot_median.png",
+		# FIGURES / "assess/assembly/metrics/combo_assembly_nga50_normalised_logit_pointplot_mean.png",
+		# FIGURES / "assess/assembly/metrics/combo_assembly_nga50_normalised_logit_pointplot_median.png",
+		#
+		# FIGURES / "assess/assembly/metrics/combo_assembly_missed_contigs.png",
+		# FIGURES / "assess/assembly/metrics/combo_assembly_total_missed_contigs.png",
+		# TABLES / "assess/assembly/metrics/combo_assembly_missed_contigs.csv",
 
-		FIGURES / "assess/call/metrics/combo_variant_f1_mean_stripplot.png",
-		FIGURES / "assess/call/metrics/combo_variant_precision_mean_stripplot.png",
-		FIGURES / "assess/call/metrics/combo_variant_recall_mean_stripplot.png",
-		FIGURES / "assess/call/metrics/combo_variant_f1_median_stripplot.png",
-		FIGURES / "assess/call/metrics/combo_variant_precision_median_stripplot.png",
-		FIGURES / "assess/call/metrics/combo_variant_recall_median_stripplot.png",
+		FIGURES / "assess/call/metrics/quality_variant_f1_mean_pointplot.png",
+		FIGURES / "assess/call/metrics/quality_variant_precision_mean_pointplot.png",
+		FIGURES / "assess/call/metrics/quality_variant_recall_mean_pointplot.png",
+		FIGURES / "assess/call/metrics/quality_variant_f1_median_pointplot.png",
+		FIGURES / "assess/call/metrics/quality_variant_precision_median_pointplot.png",
+		FIGURES / "assess/call/metrics/quality_variant_recall_median_pointplot.png",
+
+		FIGURES / "assess/call/metrics/quality_variant_f1_mean_stripplot.png",
+		FIGURES / "assess/call/metrics/quality_variant_precision_mean_stripplot.png",
+		FIGURES / "assess/call/metrics/quality_variant_recall_mean_stripplot.png",
+		FIGURES / "assess/call/metrics/quality_variant_f1_median_stripplot.png",
+		FIGURES / "assess/call/metrics/quality_variant_precision_median_stripplot.png",
+		FIGURES / "assess/call/metrics/quality_variant_recall_median_stripplot.png",
 		
-		TABLES / "assess/call/metrics/combo_variant_summary.csv",
-		TABLES / "assess/call/metrics/combo_variant_summary_averages.csv",
-		TABLES / "assess/call/metrics/combo_variant_fnfp.csv",
-		FIGURES / "assess/call/metrics/combo_variant_fp.png",
-		FIGURES / "assess/call/metrics/combo_variant_fn.png",
+		TABLES / "assess/call/metrics/quality_variant_summary.csv",
+		TABLES / "assess/call/metrics/quality_variant_summary_averages.csv",
+		TABLES / "assess/call/metrics/quality_variant_fnfp.csv",
+		FIGURES / "assess/call/metrics/quality_variant_fp.png",
+		FIGURES / "assess/call/metrics/quality_variant_fn.png",
 
-		TABLES / "assess/assembly/metrics/combo_contaminant_summary_count.csv",
-		TABLES / "assess/assembly/metrics/combo_contaminant_details.csv",
-		FIGURES / "assess/assembly/metrics/combo_contaminant_count.png",
-		TABLES / "assess/assembly/metrics/combo_quast_compiled_metrics.csv",
-		FIGURES / "assess/assembly/metrics/combo_assembly_errors_per_100kbp_barplot.png",
-		FIGURES / "assess/assembly/metrics/combo_assembly_errors_per_100kbp_stripplot.png",
-		FIGURES / "assess/assembly/metrics/combo_assembly_errors_per_100kbp_pointplot.png",
+		TABLES / "assess/assembly/metrics/quality_contaminant_summary_count.csv",
+		TABLES / "assess/assembly/metrics/quality_contaminant_details.csv",
+		FIGURES / "assess/assembly/metrics/quality_contaminant_count.png",
+		TABLES / "assess/assembly/metrics/quality_quast_compiled_metrics.csv",
+		FIGURES / "assess/assembly/metrics/quality_assembly_errors_per_100kbp_barplot.png",
+		FIGURES / "assess/assembly/metrics/quality_assembly_errors_per_100kbp_stripplot.png",
+		FIGURES / "assess/assembly/metrics/quality_assembly_errors_per_100kbp_pointplot.png",
 
-		FIGURES / "assess/assembly/metrics/combo_assembly_nga50_normalised_linear_pointplot_mean.png",
-		FIGURES / "assess/assembly/metrics/combo_assembly_nga50_normalised_linear_pointplot_median.png",
-		FIGURES / "assess/assembly/metrics/combo_assembly_nga50_normalised_linear_stripplot_mean.png",
-		FIGURES / "assess/assembly/metrics/combo_assembly_nga50_normalised_linear_stripplot_median.png",
-		FIGURES / "assess/assembly/metrics/combo_assembly_nga50_normalised_logit_stripplot_mean.png",
-		FIGURES / "assess/assembly/metrics/combo_assembly_nga50_normalised_logit_stripplot_median.png",
-		FIGURES / "assess/assembly/metrics/combo_assembly_nga50_normalised_logit_pointplot_mean.png",
-		FIGURES / "assess/assembly/metrics/combo_assembly_nga50_normalised_logit_pointplot_median.png",
+		FIGURES / "assess/assembly/metrics/quality_assembly_nga50_normalised_linear_pointplot_mean.png",
+		FIGURES / "assess/assembly/metrics/quality_assembly_nga50_normalised_linear_pointplot_median.png",
+		FIGURES / "assess/assembly/metrics/quality_assembly_nga50_normalised_linear_stripplot_mean.png",
+		FIGURES / "assess/assembly/metrics/quality_assembly_nga50_normalised_linear_stripplot_median.png",
+		FIGURES / "assess/assembly/metrics/quality_assembly_nga50_normalised_logit_stripplot_mean.png",
+		FIGURES / "assess/assembly/metrics/quality_assembly_nga50_normalised_logit_stripplot_median.png",
+		FIGURES / "assess/assembly/metrics/quality_assembly_nga50_normalised_logit_pointplot_mean.png",
+		FIGURES / "assess/assembly/metrics/quality_assembly_nga50_normalised_logit_pointplot_median.png",
 
-		FIGURES / "assess/assembly/metrics/combo_assembly_missed_contigs.png",
-		FIGURES / "assess/assembly/metrics/combo_assembly_total_missed_contigs.png",
-		TABLES / "assess/assembly/metrics/combo_assembly_missed_contigs.csv",
+		FIGURES / "assess/assembly/metrics/quality_assembly_missed_contigs.png",
+		FIGURES / "assess/assembly/metrics/quality_assembly_total_missed_contigs.png",
+		TABLES / "assess/assembly/metrics/quality_assembly_missed_contigs.csv",
 
-		FIGURES / "assess/benchmark_resources/benchmark_resources.png",
-		TABLES / "assess/benchmark_resources/benchmark_resources.csv"
+		# FIGURES / "assess/benchmark_resources/benchmark_resources.png",
+		# TABLES / "assess/benchmark_resources/benchmark_resources.csv"
 
 include: RULES / "common.smk"
-include: RULES / "trim.smk"
+# include: RULES / "trim.smk"
 #include: RULES / "check.smk"
 include: RULES / "quality.smk"
 include: RULES / "downsample.smk"
