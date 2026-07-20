@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>week19 – BIOX7021 LOGBOOK - 2026</title>
+<title>Week 01 – BIOX7021 LOGBOOK - 2026</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -389,8 +389,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-semester-2">    
         <li>
-    <a class="dropdown-item" href="../../logbook/semester2/week19.html">
- <span class="dropdown-text">Week 19</span></a>
+    <a class="dropdown-item" href="../../logbook/semester2/week01.html">
+ <span class="dropdown-text">Week 01</span></a>
   </li>  
     </ul>
   </li>
@@ -411,15 +411,37 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#investigating-the-role-of-concatemer-reads-in-small-plasmid-assembly" id="toc-investigating-the-role-of-concatemer-reads-in-small-plasmid-assembly" class="nav-link active" data-scroll-target="#investigating-the-role-of-concatemer-reads-in-small-plasmid-assembly">Investigating the Role of Concatemer Reads in Small Plasmid Assembly</a></li>
+  <li><a href="#investigating-the-role-of-concatemer-reads-in-small-plasmid-assembly" id="toc-investigating-the-role-of-concatemer-reads-in-small-plasmid-assembly" class="nav-link active" data-scroll-target="#investigating-the-role-of-concatemer-reads-in-small-plasmid-assembly">Investigating the Role of Concatemer Reads in Small Plasmid Assembly</a>
+  <ul>
+  <li><a href="#identifying-concatemer-read-ids" id="toc-identifying-concatemer-read-ids" class="nav-link" data-scroll-target="#identifying-concatemer-read-ids">Identifying Concatemer Read IDs</a></li>
+  <li><a href="#comparing-concatemer-integrity-before-and-after-adapter-trimming" id="toc-comparing-concatemer-integrity-before-and-after-adapter-trimming" class="nav-link" data-scroll-target="#comparing-concatemer-integrity-before-and-after-adapter-trimming">Comparing Concatemer Integrity Before and After Adapter Trimming</a></li>
+  <li><a href="#experimental-depletion-of-concatemers" id="toc-experimental-depletion-of-concatemers" class="nav-link" data-scroll-target="#experimental-depletion-of-concatemers">Experimental Depletion of Concatemers</a></li>
+  </ul></li>
+  <li><a href="#community-survey" id="toc-community-survey" class="nav-link" data-scroll-target="#community-survey">Community survey</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Week 01</h1>
+</div>
 
 
 
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
 
 
 <p>In the assembly assessment of missed contigs, except raw data unprocessed and untrimmed, all the QC combiations missed at least once across the different downsampling depths and basecalling models on two small contigs ATCC_25922__202309 (1919bp) and BPH2947__202310 (3011bp). All filtlong combination missed small plasmids from both samples across different depth and different basecalling models because it filtered out reads that longer than those small plasmid length in its quality preporcssing machnism to get subset of better reeads dataset. Other QC combination retained those reads from small plasmid but their assembly result could still missed the small plasmids (mostly missed the ATCC_25922__202309 (1919bp)) across different downsampling depth and basecalling models.</p>
@@ -435,7 +457,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Analysis of Flye’s underlying algorithm, dataset metrics, and subsequent read-filtering tests indicates this failure is driven by a combination of overlap thresholds, extreme coverage spikes, and a heavy reliance on concatemer reads that are susceptible to unintended trimming damage. Flye uses a dynamic minOverlap parameter based on the read length N90 to stitch reads together and collapse repetitive sequences in the repeat graph. This inherently causes it to struggle with small plasmids that fall below this dynamic length limit. Additionally, at 50x and 100x overall sample depth, the localized coverage of these high-copy small plasmids spikes to extreme levels—around 10,000x—which Flye likely treats as sequencing noise and discards.</p>
 <p>Crucially, the successful assembly of these small plasmids relies heavily on the presence of concatemer reads. Concatemer forms are frequently observed in the assembly results across different tool combinations, depths, and models. For example, the SUP unprocessed-untrimmed 100x dataset produced a dimer (3838 bp), and the SUP seqkit-untrimmed 100x dataset formed a trimer (5757 bp). Mapping the raw reads to these concatemer plasmid sequences indicates that they are native to the raw read dataset rather than artifacts introduced during assembly. Because these concatemer reads are significantly longer than a single plasmid unit, they satisfy Flye’s high minOverlap requirements, allowing the assembler to successfully create disjointigs.</p>
 <p>This concatemer dependency was proven by experimentally removing concatemer reads from the datasets (tested on unprocessed-untrimmed 100x, chopper-untrimmed 100x, and unprocessed-barbell 20x SUP). Without these concatemers, Flye completely failed to assemble the 1919 bp plasmid. Consequently, this explains the negative impact of the trimming steps: adapter trimming tools likely mutate or over-trim the ends of these critical concatemer reads, destroying the overlap sequence required for the assembler to resolve the disjointig. While manually decreasing the minOverlap parameter (e.g., to 1000 or 1500) forces Flye to stitch shorter reads and successfully rescues more small plasmids across different QC combinations, contig length distributions reveal that this comes at the significant cost of introducing a high volume of spurious small contig noise.</p>
-<div id="c34426f1" class="cell" data-execution_count="1">
+<div id="4fe64b7b" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> glob</span>
@@ -620,9 +642,41 @@ seqkit grep -f ATCC_25922__202309.unprocessed-untrimmed.dimer_reads.id -v \
 
 # Rerun Flye assembly on the depleted datasets to confirm assembly failure
 ssubmit -m 16g -t 6h flye "flye --debug --nano-hq ATCC_25922__202309.chopper-untrimmed.nodimer.fastq --out-dir flye_chopper-untrimmed_nodimer --threads 8" -- -c 8</code></pre>
-
-
 </section>
+</section>
+<section id="community-survey" class="level2">
+<h2 class="anchored" data-anchor-id="community-survey">Community survey</h2>
+<p>Because every respondent in the survey gave 100 points across the four parameters.I think we can use arithmetic mean:</p>
+<div id="3f2d4fee" class="cell" data-execution_count="2">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"../../microbial-qc-survey.csv"</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>weight_cols <span class="op">=</span> [<span class="st">'w_accuracy'</span>, <span class="st">'w_contiguity'</span>, <span class="st">'w_decontam'</span>, <span class="st">'w_replicon'</span>]</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the arithmetic mean for each column</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>mean_weights <span class="op">=</span> df[weight_cols].mean()</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Build a new summary DataFrame to visualize the results</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>summary_df <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Survey Parameter'</span>: weight_cols,</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Mean'</span>: mean_weights.values,</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Mean (rounded)'</span>: (mean_weights.values <span class="op">/</span> <span class="dv">100</span>).<span class="bu">round</span>(<span class="dv">2</span>)</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(summary_df.to_string(index<span class="op">=</span><span class="va">False</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Survey Parameter  Mean  Mean (rounded)
+      w_accuracy 27.95            0.28
+    w_contiguity 20.10            0.20
+      w_decontam 16.90            0.17
+      w_replicon 35.05            0.35</code></pre>
+</div>
+</div>
+
+
 </section>
 
 </main> <!-- /main -->
@@ -712,7 +766,7 @@ ssubmit -m 16g -t 6h flye "flye --debug --nano-hq ATCC_25922__202309.chopper-unt
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/adimascf\.github\.io\/biox7021\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

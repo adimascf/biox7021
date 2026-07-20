@@ -385,8 +385,8 @@ window.Quarto = {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-semester-2">    
         <li>
-    <a class="dropdown-item" href="./logbook/semester2/week19.html">
- <span class="dropdown-text">Week 19</span></a>
+    <a class="dropdown-item" href="./logbook/semester2/week01.html">
+ <span class="dropdown-text">Week 01</span></a>
   </li>  
     </ul>
   </li>
@@ -468,16 +468,16 @@ import numpy as np
 app_ui = ui.page_fluid(
     ui.layout_sidebar(
         ui.sidebar(
-            ui.input_slider("w_nga50", "Structural Accuracy (NGA50)", 0.0, 1.0, 1.0, step=0.05),
+            ui.input_slider("w_nga50", "Structural Accuracy (NGA50)", 0.0, 1.0, 0.20, step=0.05),
             ui.output_ui("eff_nga50"),
 
-            ui.input_slider("w_err", "Sequence Accuracy (Mismatches/Indels)", 0.0, 1.0, 1.0, step=0.05),
+            ui.input_slider("w_err", "Sequence Accuracy (Mismatches/Indels)", 0.0, 1.0, 0.28, step=0.05),
             ui.output_ui("eff_err"),
 
-            ui.input_slider("w_cont", "Contamination", 0.0, 1.0, 1.0, step=0.05),
+            ui.input_slider("w_cont", "Contamination", 0.0, 1.0, 0.17, step=0.05),
             ui.output_ui("eff_cont"),
 
-            ui.input_slider("w_miss", "Missed Contigs", 0.0, 1.0, 1.0, step=0.05),
+            ui.input_slider("w_miss", "Missed Contigs", 0.0, 1.0, 0.35, step=0.05),
             ui.output_ui("eff_miss"),
 
             ui.input_select("model_select", "Basecalling Model", ["all", "hac", "sup"]),
