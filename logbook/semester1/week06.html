@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>QC Tool Selection for Genome Assembly – BIOX7021 LOGBOOK - 2026</title>
+<title>Week 06: Trimming only assessment – BIOX7021 LOGBOOK - 2026</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -23,35 +23,69 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-adfb2833bc15652ec5881dc6381ea988.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-60eb8141d3f50090c0f52d36a83ed331.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-adfb2833bc15652ec5881dc6381ea988.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-4e9ad7d76a7588ccb413114a9399086d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-c1fa6ec9ca7e8a29d4233392a81542ce.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-4e9ad7d76a7588ccb413114a9399086d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
-<meta name="shinylive:serviceworker_dir" content=".">
-<script src="site_libs/quarto-contrib/shinylive-0.10.12/shinylive/load-shinylive-sw.js" type="module"></script>
-<script src="site_libs/quarto-contrib/shinylive-0.10.12/shinylive/run-python-blocks.js" type="module"></script>
-<link href="site_libs/quarto-contrib/shinylive-0.10.12/shinylive/shinylive.css" rel="stylesheet">
-<link href="site_libs/quarto-contrib/shinylive-quarto-css/shinylive-quarto.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-adfb2833bc15652ec5881dc6381ea988.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-60eb8141d3f50090c0f52d36a83ed331.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-adfb2833bc15652ec5881dc6381ea988.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-4e9ad7d76a7588ccb413114a9399086d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-c1fa6ec9ca7e8a29d4233392a81542ce.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-4e9ad7d76a7588ccb413114a9399086d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/quarto-contrib/carousel-0.1.0/quarto-carousel.css" rel="stylesheet">
+<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -80,36 +114,10 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 </head>
 
@@ -282,7 +290,7 @@ window.Quarto = {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">BIOX7021 LOGBOOK - 2026</span>
     </a>
   </div>
@@ -293,11 +301,11 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./home.html"> 
+    <a class="nav-link" href="../../home.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./tool_weighting.html" aria-current="page"> 
+    <a class="nav-link" href="../../tool_weighting.html"> 
 <span class="menu-text">QC Tool Selection</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -306,75 +314,75 @@ window.Quarto = {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-semester-1">    
         <li>
-    <a class="dropdown-item" href="./logbook/semester1/week01.html">
+    <a class="dropdown-item" href="../../logbook/semester1/week01.html">
  <span class="dropdown-text">Week 1</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./logbook/semester1/week02.html">
+    <a class="dropdown-item" href="../../logbook/semester1/week02.html">
  <span class="dropdown-text">Week 2</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./logbook/semester1/week03.html">
+    <a class="dropdown-item" href="../../logbook/semester1/week03.html">
  <span class="dropdown-text">Week 3</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./logbook/semester1/week04.html">
+    <a class="dropdown-item" href="../../logbook/semester1/week04.html">
  <span class="dropdown-text">Week 4</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./logbook/semester1/week05.html">
+    <a class="dropdown-item" href="../../logbook/semester1/week05.html">
  <span class="dropdown-text">Week 5</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./logbook/semester1/week06.html">
+    <a class="dropdown-item" href="../../logbook/semester1/week06.html">
  <span class="dropdown-text">Week 6</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./logbook/semester1/week07.html">
+    <a class="dropdown-item" href="../../logbook/semester1/week07.html">
  <span class="dropdown-text">Week 7</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./logbook/semester1/week08.html">
+    <a class="dropdown-item" href="../../logbook/semester1/week08.html">
  <span class="dropdown-text">Week 8</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./logbook/semester1/week09.html">
+    <a class="dropdown-item" href="../../logbook/semester1/week09.html">
  <span class="dropdown-text">Week 9</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./logbook/semester1/week10.html">
+    <a class="dropdown-item" href="../../logbook/semester1/week10.html">
  <span class="dropdown-text">Week 10</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./logbook/semester1/week11.html">
+    <a class="dropdown-item" href="../../logbook/semester1/week11.html">
  <span class="dropdown-text">Week 11</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./logbook/semester1/week12.html">
+    <a class="dropdown-item" href="../../logbook/semester1/week12.html">
  <span class="dropdown-text">Week 12</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./logbook/semester1/week13.html">
+    <a class="dropdown-item" href="../../logbook/semester1/week13.html">
  <span class="dropdown-text">Week 13</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./logbook/semester1/week14.html">
+    <a class="dropdown-item" href="../../logbook/semester1/week14.html">
  <span class="dropdown-text">Week 14</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./logbook/semester1/week15.html">
+    <a class="dropdown-item" href="../../logbook/semester1/week15.html">
  <span class="dropdown-text">Week 15</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./logbook/semester1/week16.html">
+    <a class="dropdown-item" href="../../logbook/semester1/week16.html">
  <span class="dropdown-text">Week 16</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./logbook/semester1/week17.html">
+    <a class="dropdown-item" href="../../logbook/semester1/week17.html">
  <span class="dropdown-text">Week 17</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./logbook/semester1/week18.html">
+    <a class="dropdown-item" href="../../logbook/semester1/week18.html">
  <span class="dropdown-text">Week 18</span></a>
   </li>  
     </ul>
@@ -385,7 +393,7 @@ window.Quarto = {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-semester-2">    
         <li>
-    <a class="dropdown-item" href="./logbook/semester2/week19.html">
+    <a class="dropdown-item" href="../../logbook/semester2/week19.html">
  <span class="dropdown-text">Week 19</span></a>
   </li>  
     </ul>
@@ -399,7 +407,7 @@ window.Quarto = {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
@@ -407,23 +415,28 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#metric-scoring-and-weighting" id="toc-metric-scoring-and-weighting" class="nav-link active" data-scroll-target="#metric-scoring-and-weighting">Metric Scoring and Weighting</a></li>
-  <li><a href="#interactive-tool-selection" id="toc-interactive-tool-selection" class="nav-link" data-scroll-target="#interactive-tool-selection">Interactive Tool Selection</a></li>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#weekly-meeting-and-action-items-01-04-2026" id="toc-weekly-meeting-and-action-items-01-04-2026" class="nav-link" data-scroll-target="#weekly-meeting-and-action-items-01-04-2026">Weekly meeting and action items (01-04-2026)</a></li>
+  <li><a href="#trimming-only-assessement" id="toc-trimming-only-assessement" class="nav-link" data-scroll-target="#trimming-only-assessement">Trimming only assessement</a>
+  <ul>
+  <li><a href="#snakemake-rulegraph" id="toc-snakemake-rulegraph" class="nav-link" data-scroll-target="#snakemake-rulegraph">Snakemake rulegraph</a></li>
+  <li><a href="#f1-precision-and-recall-plots" id="toc-f1-precision-and-recall-plots" class="nav-link" data-scroll-target="#f1-precision-and-recall-plots">F1, Precision, and Recall plots</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content column-page-left" id="quarto-document-content">
+<main class="content" id="quarto-document-content">
 
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">QC Tool Selection for Genome Assembly</h1>
+<h1 class="title">Week 06: Trimming only assessment</h1>
 </div>
 
 
 
-<div class="quarto-title-meta column-page-left">
+<div class="quarto-title-meta">
 
     
   
@@ -435,214 +448,232 @@ window.Quarto = {
 </header>
 
 
-<section id="metric-scoring-and-weighting" class="level3">
-<h3 class="anchored" data-anchor-id="metric-scoring-and-weighting">Metric Scoring and Weighting</h3>
-<p>To standardise the metrics, each metric is normalised using simple <a href="https://en.wikipedia.org/wiki/Feature_scaling">min-max scaling</a> to get a score between 0 and 100:</p>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+</section>
+<section id="weekly-meeting-and-action-items-01-04-2026" class="level2">
+<h2 class="anchored" data-anchor-id="weekly-meeting-and-action-items-01-04-2026">Weekly meeting and action items (01-04-2026)</h2>
 <ul>
-<li><p><strong>For NGA50 (higher is better):</strong> <span class="math display">\[\text{Score} = \frac{x - \min}{\max - \min} \times 100\]</span></p></li>
-<li><p><strong>For assembly errors (indels and mismatches) and adapter/barcode contamination (lower is better):</strong> <span class="math display">\[\text{Score} = \frac{\max - x}{\max - \min} \times 100\]</span></p></li>
-</ul>
-<p>The normalised scores are aggregated using a Weighted Geometric Mean formula to calculate the final performance rank: <span class="math display">\[\text{Final Score} = \left( S_{nga50}^{w_n} \times S_{err}^{w_e} \times S_{cont}^{w_c} \times S_{miss}^{w_m} \right)^{\frac{1}{w_n + w_e + w_c + w_m}}\]</span></p>
-<p>Where:</p>
-<ul>
-<li><p><span class="math inline">\(S_{nga50}\)</span>: Normalised score for structural accuracy (NGA50).</p></li>
-<li><p><span class="math inline">\(S_{err}\)</span>: Normalised score for sequence accuracy (mismatches and indels combined).</p></li>
-<li><p><span class="math inline">\(S_{cont}\)</span>: Normalised score for residual adapter/barcode contamination.</p></li>
-<li><p><span class="math inline">\(S_{miss}\)</span>: Normalised score for missed contigs.</p></li>
-<li><p><span class="math inline">\(w_n, w_e, w_c, w_m\)</span>: User-adjusted importance weights for structural accuracy, sequence accuracy, contamination, and missed contigs, respectively.</p></li>
+<li>Isolate the adapter trimming only step, and assess them on the varriant calling</li>
+<li>Explore several possible parameters for each of the adapter trimming tool</li>
+<li>Dimas will assess read quality at the last 100 bp or so from both ends</li>
+<li>Explore different depth maybe (50x and 20x)</li>
+<li>Test the trimming tools on the assembly using Flye</li>
 </ul>
 </section>
-<section id="interactive-tool-selection" class="level3">
-<h3 class="anchored" data-anchor-id="interactive-tool-selection">Interactive Tool Selection</h3>
-<p>Adjust the importance weights of the metrics below to identify the best combination of adapter trimming and quality preprocessing tools for genome assembly.</p>
-<pre class="shinylive-python" data-engine="python"><code>#| '!! shinylive warning !!': |
-#|   shinylive does not work in self-contained HTML documents.
-#|   Please set `embed-resources: false` in your metadata.
-#| standalone: true
-#| viewerHeight: 880
-
-from shiny import App, render, ui, reactive
-import pandas as pd
-import numpy as np
-
-app_ui = ui.page_fluid(
-    ui.layout_sidebar(
-        ui.sidebar(
-            ui.input_slider("w_nga50", "Structural Accuracy (NGA50)", 0.0, 1.0, 1.0, step=0.05),
-            ui.output_ui("eff_nga50"),
-
-            ui.input_slider("w_err", "Sequence Accuracy (Mismatches/Indels)", 0.0, 1.0, 1.0, step=0.05),
-            ui.output_ui("eff_err"),
-
-            ui.input_slider("w_cont", "Contamination", 0.0, 1.0, 1.0, step=0.05),
-            ui.output_ui("eff_cont"),
-
-            ui.input_slider("w_miss", "Missed Contigs", 0.0, 1.0, 1.0, step=0.05),
-            ui.output_ui("eff_miss"),
-
-            ui.input_select("model_select", "Basecalling Model", ["all", "hac", "sup"]),
-            ui.input_select("depth_select", "Sequencing Depth", ["all", "20x", "50x", "100x"]),
-
-            ui.input_numeric("top_n", "Show Top N Ranks", 3, min=1)
-        ),
-        ui.output_data_frame("ranking_table")
-    )
-)
-
-def server(input, output, session):
-
-    @reactive.Calc
-    def weight_percentages():
-        w1 = input.w_nga50()
-        w2 = input.w_err()
-        w3 = input.w_cont()
-        w4 = input.w_miss()
-        total = w1 + w2 + w3 + w4
-
-        if total == 0:
-            return 0, 0, 0, 0
-        return (w1 / total) * 100, (w2 / total) * 100, (w3 / total) * 100, (w4 / total) * 100
-
-    @output
-    @render.ui
-    def eff_nga50():
-        p1, p2, p3, p4 = weight_percentages()
-        return ui.HTML(f"&lt;div style='margin-top: -15px; margin-bottom: 15px; font-size: 0.85em; color: #555;'&gt;↳ Percentage: &lt;strong style='color: #007bc2;'&gt;{p1:.1f}%&lt;/strong&gt;&lt;/div&gt;")
-
-    @output
-    @render.ui
-    def eff_err():
-        p1, p2, p3, p4 = weight_percentages()
-        return ui.HTML(f"&lt;div style='margin-top: -15px; margin-bottom: 15px; font-size: 0.85em; color: #555;'&gt;↳ Percentage: &lt;strong style='color: #007bc2;'&gt;{p2:.1f}%&lt;/strong&gt;&lt;/div&gt;")
-
-    @output
-    @render.ui
-    def eff_cont():
-        p1, p2, p3, p4 = weight_percentages()
-        return ui.HTML(f"&lt;div style='margin-top: -15px; margin-bottom: 15px; font-size: 0.85em; color: #555;'&gt;↳ Percentage: &lt;strong style='color: #007bc2;'&gt;{p3:.1f}%&lt;/strong&gt;&lt;/div&gt;")
-
-    @output
-    @render.ui
-    def eff_miss():
-        p1, p2, p3, p4 = weight_percentages()
-        return ui.HTML(f"&lt;div style='margin-top: -15px; margin-bottom: 15px; font-size: 0.85em; color: #555;'&gt;↳ Percentage: &lt;strong style='color: #007bc2;'&gt;{p4:.1f}%&lt;/strong&gt;&lt;/div&gt;")
-
-    @output
-    @render.data_frame
-    def ranking_table():
-
-        import numpy as np
-        import pandas as pd
-
-        def rank_tools_geometric_mean(
-            df,
-            weights={"nga50": 1.0, "error": 1.0, "contaminants": 1.0, "missed": 1.0},
-            target_model="all",
-            target_depth="all",
-        ):
-            # Apply strict filtering if a specific model/depth is chosen
-            if target_model != "all":
-                df = df[df["model"] == target_model]
-            if target_depth != "all":
-                df = df[df["depth"] == target_depth]
-
-            # Determine aggregation grouping based on selections
-            # If "all" is selected, the column is excluded from groupby, forcing an average across it
-            group_cols = ["combo"]
-            if target_depth != "all":
-                group_cols.append("depth")
-            if target_model != "all":
-                group_cols.append("model")
-
-            metric_cols = [
-                "NGA50_norm",
-                "Mismatches per 100kbp",
-                "Indels per 100kbp",
-                "contamination_count",
-                "total_missed"
-            ]
-
-            # Aggregate the metrics
-            c = df.groupby(group_cols, as_index=False)[metric_cols].mean().copy()
-
-            # Fill in the "all" strings so the table looks complete
-            if target_depth == "all":
-                c["depth"] = "all"
-            if target_model == "all":
-                c["model"] = "all"
-
-            # Min-Max Scaling (0 to 100)
-
-            # s_nga50: Higher is better
-            mx_nga, mn_nga = c["NGA50_norm"].max(), c["NGA50_norm"].min()
-            c["s_nga50"] = (((c["NGA50_norm"] - mn_nga) / (mx_nga - mn_nga) * 100) if mx_nga != mn_nga else 100.0)
-
-            # s_err: Lower is better
-            for err_col in ["Mismatches per 100kbp", "Indels per 100kbp"]:
-                mx, mn = c[err_col].max(), c[err_col].min()
-                suffix = "mismatches" if "Mismatches" in err_col else "indels"
-                c[f"s_{suffix}"] = (((mx - c[err_col]) / (mx - mn) * 100) if mx != mn else 100.0)
-            c["s_err"] = (c["s_mismatches"] + c["s_indels"]) / 2.0
-
-            # s_cont: Lower is better
-            mx_con, mn_con = c["contamination_count"].max(), c["contamination_count"].min()
-            c["s_cont"] = (((mx_con - c["contamination_count"]) / (mx_con - mn_con) * 100) if mx_con != mn_con else 100.0)
-
-            # s_miss: Lower is better (fewer missed contigs is good)
-            mx_mis, mn_mis = c["total_missed"].max(), c["total_missed"].min()
-            c["s_miss"] = (((mx_mis - c["total_missed"]) / (mx_mis - mn_mis) * 100) if mx_mis != mn_mis else 100.0)
-
-            # 4. Geometric Mean Execution
-            eps = 1e-5
-            s_nga50_safe = np.where(c["s_nga50"] == 0, eps, c["s_nga50"])
-            s_err_safe = np.where(c["s_err"] == 0, eps, c["s_err"])
-            s_cont_safe = np.where(c["s_cont"] == 0, eps, c["s_cont"])
-            s_miss_safe = np.where(c["s_miss"] == 0, eps, c["s_miss"])
-
-            wn = weights.get("nga50", 1.0)
-            we = weights.get("error", 1.0)
-            wc = weights.get("contaminants", 1.0)
-            wm = weights.get("missed", 1.0)
-
-            total_weight = wn + we + wc + wm
-            if total_weight == 0:
-                total_weight = 1e-5
-
-            c["final_score"] = (s_nga50_safe**wn * s_err_safe**we * s_cont_safe**wc * s_miss_safe**wm) ** (1.0 / total_weight)
-            c["rank"] = c["final_score"].rank(ascending=False, method="min")
-
-            return c.sort_values(by="final_score", ascending=False)
-
-        from pyodide.http import open_url
-
-        url = "https://raw.githubusercontent.com/adimascf/biox7021/refs/heads/trimming-quality/logbook/assembly_metrics.csv"
-        df = pd.read_csv(open_url(url))
-
-        weights = {
-            "nga50": input.w_nga50(),
-            "error": input.w_err(),
-            "contaminants": input.w_cont(),
-            "missed": input.w_miss()
-        }
-
-        sorted_df = rank_tools_geometric_mean(
-            df,
-            weights=weights,
-            target_model=input.model_select(),
-            target_depth=input.depth_select()
-        )
-
-        top_df = sorted_df.head(input.top_n()).copy()
-
-        cols_to_round = ['NGA50_norm', 'Mismatches per 100kbp', 'Indels per 100kbp', 'contamination_count', 'total_missed', 's_nga50', 's_mismatches', 's_indels', 's_err', 's_cont', 's_miss', 'final_score']
-        top_df[cols_to_round] = top_df[cols_to_round].round(5)
-
-        top_df = top_df.rename(columns={'combo': "QC Tools pair"})
-        return top_df[['rank', 'QC Tools pair', 'model', 'depth'] + cols_to_round]
-
-app = App(app_ui, server)</code></pre>
+<section id="trimming-only-assessement" class="level2">
+<h2 class="anchored" data-anchor-id="trimming-only-assessement">Trimming only assessement</h2>
+<section id="snakemake-rulegraph" class="level3">
+<h3 class="anchored" data-anchor-id="snakemake-rulegraph">Snakemake rulegraph</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../images/trimming_rulegraph_horisontal.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Trimming only rulegraph"><img src="../images/trimming_rulegraph_horisontal.png" class="img-fluid figure-img" style="width:85.0%" alt="Trimming only rulegraph"></a></p>
+<figcaption>Trimming only rulegraph</figcaption>
+</figure>
+</div>
+<p>The code for ariant calling assessment and the visualisation mostly copied from <a href="https://github.com/mbhall88/NanoVarBench/blob/main/workflow/scripts/best_f1.py">Michael’s Nanovar repo</a> with slight modification so that it works in this benchmark</p>
+</section>
+<section id="f1-precision-and-recall-plots" class="level3">
+<h3 class="anchored" data-anchor-id="f1-precision-and-recall-plots">F1, Precision, and Recall plots</h3>
+<div style="max-width: 800px; margin: auto;">
+<div id="quarto-carousel-1" class="carousel slide" data-bs-ride="carousel">
+<div class="carousel-indicators">
+  <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="0" class=" active" aria-current="true" aria-label="Slide 1"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="1" class="" aria-label="Slide 2"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="2" class="" aria-label="Slide 3"></button>
+  
+</div>
+<div class="carousel-inner">
+<div class="carousel-item active" data-bs-interval="3000">
+<img src="../images/trimming_f1.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item" data-bs-interval="3000">
+<img src="../images/trimming_precision.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item" data-bs-interval="3000">
+<img src="../images/trimming_recall.png" class="d-block mx-auto">
+</div>
+</div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#quarto-carousel-1" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+      </button>
+    
+      <button class="carousel-control-next" type="button" data-bs-target="#quarto-carousel-1" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+      </button>
+    
+</div>
+<section id="performance-stats-in-average" class="level3">
+<h3 class="anchored" data-anchor-id="performance-stats-in-average">Performance stats in average</h3>
+<p>From the best_f1 rule csv output, I just calculate the average per tool and per SNP type:</p>
+<div id="b60c53f0" class="cell" data-execution_count="1">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"../images/trimming_summary_averages.csv"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<div>
 
 
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">trimmer</th>
+<th data-quarto-table-cell-role="th">VAR_TYPE</th>
+<th data-quarto-table-cell-role="th">PREC</th>
+<th data-quarto-table-cell-role="th">RECALL</th>
+<th data-quarto-table-cell-role="th">F1_SCORE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>barbell_default</td>
+<td>INDEL</td>
+<td>0.9997</td>
+<td>0.9875</td>
+<td>0.9936</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>barbell_default</td>
+<td>SNP</td>
+<td>1.0000</td>
+<td>0.9977</td>
+<td>0.9989</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>barbell_max</td>
+<td>INDEL</td>
+<td>0.9999</td>
+<td>0.9857</td>
+<td>0.9927</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>barbell_max</td>
+<td>SNP</td>
+<td>1.0000</td>
+<td>0.9978</td>
+<td>0.9989</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>dorado</td>
+<td>INDEL</td>
+<td>0.9985</td>
+<td>0.9869</td>
+<td>0.9926</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">5</th>
+<td>dorado</td>
+<td>SNP</td>
+<td>1.0000</td>
+<td>0.9979</td>
+<td>0.9989</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">6</th>
+<td>fastplong</td>
+<td>INDEL</td>
+<td>0.9992</td>
+<td>0.9878</td>
+<td>0.9935</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">7</th>
+<td>fastplong</td>
+<td>SNP</td>
+<td>1.0000</td>
+<td>0.9980</td>
+<td>0.9990</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">8</th>
+<td>porechop_abi_discard</td>
+<td>INDEL</td>
+<td>0.9997</td>
+<td>0.9860</td>
+<td>0.9927</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">9</th>
+<td>porechop_abi_discard</td>
+<td>SNP</td>
+<td>1.0000</td>
+<td>0.9977</td>
+<td>0.9988</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">10</th>
+<td>porechop_abi_nocheck</td>
+<td>INDEL</td>
+<td>0.9990</td>
+<td>0.9866</td>
+<td>0.9927</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">11</th>
+<td>porechop_abi_nocheck</td>
+<td>SNP</td>
+<td>1.0000</td>
+<td>0.9978</td>
+<td>0.9989</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">12</th>
+<td>porechop_abi_split</td>
+<td>INDEL</td>
+<td>0.9995</td>
+<td>0.9898</td>
+<td>0.9946</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">13</th>
+<td>porechop_abi_split</td>
+<td>SNP</td>
+<td>1.0000</td>
+<td>0.9979</td>
+<td>0.9989</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">14</th>
+<td>untrimmed</td>
+<td>INDEL</td>
+<td>0.9998</td>
+<td>0.9856</td>
+<td>0.9926</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">15</th>
+<td>untrimmed</td>
+<td>SNP</td>
+<td>1.0000</td>
+<td>0.9979</td>
+<td>0.9989</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+</div>
+
+
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -1078,9 +1109,41 @@ app = App(app_ui, server)</code></pre>
     </div>
   </div>
 </footer>
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
 
 
 
 
-<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+<script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>
