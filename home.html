@@ -354,8 +354,16 @@ ul.task-list li input[type="checkbox"] {
     <a class="dropdown-item" href="./logbook/semester2/week01.html">
  <span class="dropdown-text">Week 01</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./logbook/semester2/week02.html">
+ <span class="dropdown-text">Week 02</span></a>
+  </li>  
     </ul>
   </li>
+  <li class="nav-item">
+    <a class="nav-link" href="./summary.html"> 
+<span class="menu-text">Summary</span></a>
+  </li>  
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -406,14 +414,13 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="project-overview" class="level1 unnumbered">
 <h1 class="unnumbered">Project Overview</h1>
-<p>This document records the computational work for the project: <em>Evaluating Adapter Trimming and Demultiplexing Tools for Oxford Nanopore Sequencing</em>.</p>
+<p>This document records the computational work for the project: <em>Evaluating Quality Control (QC) Tools for Oxford Nanopore Sequencing (ONT) Sequencing Data Analysis</em>.</p>
 <section id="core-objectives" class="level2">
 <h2 class="anchored" data-anchor-id="core-objectives">Core Objectives</h2>
 <ol type="1">
 <li><strong>Systematic Benchmarking:</strong> Evaluate fastplong, Porechop, Dorado, and Barbell on real bacterial ONT datasets.</li>
 <li><strong>Downstream Impact Assessment:</strong> Measure the effect of the pre processing step on:
 <ul>
-<li>Taxonomic classification (Kraken2 / Centrifuge)</li>
 <li>Variant calling (DeepVariant / Clair3)</li>
 <li>Assembly quality (Flye / Raven)</li>
 </ul></li>
@@ -422,9 +429,8 @@ ul.task-list li input[type="checkbox"] {
 <section id="metrics-for-evaluation" class="level2">
 <h2 class="anchored" data-anchor-id="metrics-for-evaluation">Metrics for Evaluation</h2>
 <ul>
-<li><strong>Variant Calling:</strong> F1 score</li>
-<li><strong>Assembly:</strong> Misassemblies, completion, contiguity (N50)</li>
-<li><strong>Classification:</strong> Precision, recall, sensitivity, specificity</li>
+<li><strong>Variant Calling:</strong> F1 score, precision, recall,</li>
+<li><strong>Assembly:</strong> Structural accuracy, sequence accuracy, contamination, contigs recovery</li>
 </ul>
 
 
