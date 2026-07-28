@@ -473,7 +473,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>Breadth of coverage verification: When the high depth datasets missed the small plasmids but the low depth recovered them, the low depth sample still had excellent base coverage (&gt;92%).</p></li>
 <li><p>This “high depth misses, low depth recovers” issue is entirely exclusive to the ATCC_25922__202309 <em>E. coli</em> sample, to be precise is contig <strong>plasmid_4</strong> (1919bp). Pairwise alignment confirmed that <strong>plasmid_4</strong> does not share high sequence similarity (~35%) with <strong>plasmid_3</strong> (3173bp).</p></li>
 </ul>
-<div id="2fdef0b3" class="cell" data-execution_count="1">
+<div id="404a73af" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -623,7 +623,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>There is ongoing issue about small plasmid recovery on Flye <a href="https://github.com/mikolmogorov/Flye/issues/706">https://github.com/mikolmogorov/Flye/issues/706</a></p></li>
 <li><p>High depth impact small plasmid recovery <a href="https://www.microbiologyresearch.org/content/journal/mgen/10.1099/mgen.0.001024#F3">https://www.microbiologyresearch.org/content/journal/mgen/10.1099/mgen.0.001024#F3</a>. As copy numbers increase and depth becomes too high, Flye may treat these elements as “noise” maybe from barcode/adapter? hmmm but i think no adapter/barcode have sequence length more than 1kb?</p></li>
 </ul>
-<div id="d50ef56d" class="cell" data-execution_count="2">
+<div id="b0e4a2b1" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
@@ -762,7 +762,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>Also, Flye strictly uses <code>minOverlap</code> when performing disjointig assembly. It will only concatenate reads if the overlap between them is longer than the dynamic <code>minOverlap</code> threshold.</p></li>
 </ul>
 <p><a href="https://www.nature.com/articles/s41587-019-0072-8/figures/1">https://www.nature.com/articles/s41587-019-0072-8/figures/1</a></p>
-<div id="4f8f7319" class="cell" data-execution_count="3">
+<div id="ce9b349b" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
@@ -933,7 +933,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="why-the-failure-is-not-universal-across-tool-combinations">Why the failure is not universal across tool combinations</h3>
 <p>If it is true that Flye fundamently struggles with small plasmid recovery due to its <code>minOverlap</code> and high coverage. Why failure is not universal across our specific tool combinations?</p>
 <p>If we look at the contig length plot below, the plasmid_4 contigs in the assembly frequently create artificial dimers (2x, 3838 bp) or trimers (3x, 5757 bp) depending on the preprocessing pipeline used</p>
-<div id="4d9105f7" class="cell" data-execution_count="4">
+<div id="b8fc514a" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
@@ -1089,7 +1089,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <figcaption>Missed contigs</figcaption>
 </figure>
 </div>
-<div id="c830f1ec" class="cell" data-execution_count="5">
+<div id="19a3915f" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -1105,7 +1105,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_9ce440cb_6a29_41bf_8192_a40cd85c4fd3">
+<table id="itables_ec79d4ce_d1f3_4b7e_81c8_b442a7aa8c59">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -1175,7 +1175,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_9ce440cb_6a29_41bf_8192_a40cd85c4fd3:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_ec79d4ce_d1f3_4b7e_81c8_b442a7aa8c59:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
@@ -1195,7 +1195,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </script>
 </div>
 </div>
-<div id="062655ca" class="cell" data-execution_count="6">
+<div id="641e1128" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>hac_only.reset_index(drop<span class="op">=</span><span class="va">True</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
@@ -1203,7 +1203,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_539c076d_89ad_4f1a_b47f_5a10311df204">
+<table id="itables_5d9389f0_dcc0_499b_af74_d6dd8c9910ab">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -1273,7 +1273,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_539c076d_89ad_4f1a_b47f_5a10311df204:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_5d9389f0_dcc0_499b_af74_d6dd8c9910ab:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
