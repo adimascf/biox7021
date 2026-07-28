@@ -539,7 +539,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="identifying-concatemer-read-ids" class="level4">
 <h4 class="anchored" data-anchor-id="identifying-concatemer-read-ids">Identifying Concatemer Read IDs</h4>
 <p>To determine if concatemer reads are driving the successful assembly of small plasmids, the first step was to identify the read IDs of potential dimers/trimers. Raw reads were mapped to the assembled plasmid sequence, and awk was used to filter for reads with alignment lengths greater than 2001 bp (exceeding the 1919 bp monomer length).</p>
-<div id="d3914afc" class="cell" data-execution_count="1">
+<div id="3f6de7c3" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Map raw untrimmed reads to the assembled plasmid_4 sequence and extract read IDs for concatemers (&gt;2001 bp alignment)</span></span>
@@ -551,7 +551,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="comparing-concatemer-integrity-before-and-after-adapter-trimming" class="level4">
 <h4 class="anchored" data-anchor-id="comparing-concatemer-integrity-before-and-after-adapter-trimming">Comparing Concatemer Integrity Before and After Adapter Trimming</h4>
-<div id="3d84606c" class="cell" data-execution_count="2">
+<div id="06f9ba51" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract concatemer reads from the untrimmed dataset</span></span>
@@ -572,7 +572,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="experimental-depletion-of-concatemers" class="level4">
 <h4 class="anchored" data-anchor-id="experimental-depletion-of-concatemers">Experimental Depletion of Concatemers</h4>
-<div id="849eb99b" class="cell" data-execution_count="3">
+<div id="9b92fc7b" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove concatemer reads from the seqkit-untrimmed and chopper-untrimmed datasets</span></span>
@@ -593,7 +593,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="community-survey" class="level2">
 <h2 class="anchored" data-anchor-id="community-survey">Community survey</h2>
 <p>Because every respondent in the survey gave 100 points across the four parameters.I think we can use arithmetic mean:</p>
-<div id="1bb6e903" class="cell" data-execution_count="4">
+<div id="5d315fe5" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
