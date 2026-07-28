@@ -148,27 +148,33 @@ Dimas
 </section>
 <section class="slide level2">
 
-<h3 class="smaller" id="project-objectives-and-datasets">Project Objectives and Datasets</h3>
+<style>
+  .reveal .slide:not(.title-slide) p,
+  .reveal .slide:not(.title-slide) li {
+    font-size: 0.85em !important;
+  }
+</style>
+<h4 class="smaller" id="project-objectives-and-datasets">Project Objectives and Datasets</h4>
 <p><strong>Goal:</strong> Evaluate the impact of different Oxford Nanopore Technology (ONT) Quality Control tools on downstream analysis.</p>
 <p><br>
 </p>
-<p><strong>Our findings so far:</strong></p>
+<p><strong>Evaluation Criteria:</strong></p>
 <ul>
 <li><p><strong>Variant Calling:</strong> Assessed using F1 scores.</p></li>
-<li><p><strong>Genome Assembly:</strong> Assessed for sequence and structural accuracy, contamination, contig recovery, and the specific issue of small plasmid recovery.</p></li>
+<li><p><strong>Genome Assembly:</strong> Assessed for sequence and structural accuracy, contamination, and contig recovery</p></li>
 </ul>
 <p><br>
 </p>
 <p><strong>Dataset:</strong></p>
 <ul>
 <li><p>13 Bacterial samples from <a href="https://elifesciences.org/articles/98300#table1">Hall et al.&nbsp;2024</a>.</p></li>
-<li><p>FASTQ files were filtered so that each sample contains data from only a single sequencing kit.</p></li>
+<li><p>FASTQ files were filtered to ensure each sample contains data from only a single sequencing kit.</p></li>
 <li><p><a href="file:///Users/adimascf/UQ/SEM3/final-project/biox7021-logbook/_site/logbook/semester1/week12.html#datasets">View dataset details</a></p></li>
 </ul>
 </section>
 <section class="slide level2">
 
-<h3 class="smaller" id="assessment-flowchart">Assessment flowchart</h3>
+<h4 class="smaller" id="assessment-flowchart">Assessment flowchart</h4>
 <div class="quarto-figure quarto-figure-center">
 <figure>
 <p><a href="logbook/semester2/figures/Flowchart-simplified.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Assessment Flowchart"><img data-src="logbook/semester2/figures/Flowchart-simplified.png" style="width:85.0%" alt="Assessment Flowchart"></a></p>
@@ -178,7 +184,7 @@ Dimas
 </section>
 <section class="slide level2">
 
-<h3 class="smaller" id="impact-on-variant-calling">Impact on Variant Calling</h3>
+<h4 class="smaller" id="impact-on-variant-calling">Impact on Variant Calling</h4>
 <div class="quarto-figure quarto-figure-center">
 <figure>
 <p><a href="results/figures/assess/call-combo-100length/metrics/combo_variant_f1_mean_pointplot.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="F1 Score: SNPs and INDELs"><img data-src="results/figures/assess/call-combo-100length/metrics/combo_variant_f1_mean_pointplot.png" style="width:85.0%" alt="F1 Score: SNPs and INDELs"></a></p>
@@ -187,13 +193,13 @@ Dimas
 </div>
 <p><strong>Finding:</strong></p>
 <ul>
-<li><em>Filtlong combinations improved the F1 score for variant calling, including pipelines with no adapter trimming.</em></li>
+<li><em><code>filtlong</code> combinations improved the F1 score for variant calling, including pipelines with no adapter trimming.</em></li>
 </ul>
 <p><em><small>Other figures can be found in the <a href="https://adimascf.github.io/biox7021/logbook/semester1/week15.html#variant-calling">Week 15 logbook</a>.</small></em></p>
 </section>
 <section class="slide level2">
 
-<h3 class="smaller" id="genome-assembly-sequence-accuracy">Genome Assembly: Sequence accuracy</h3>
+<h4 class="smaller" id="genome-assembly-sequence-accuracy">Genome Assembly: Sequence accuracy</h4>
 <div class="quarto-figure quarto-figure-center">
 <figure>
 <p><a href="results/figures/assess/assembly-default-newest/assembly/metrics/combo_assembly_errors_per_100kbp_pointplot.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Sequence Accuracy: Mismatches and INDELs"><img data-src="results/figures/assess/assembly-default-newest/assembly/metrics/combo_assembly_errors_per_100kbp_pointplot.png" style="width:85.0%" alt="Sequence Accuracy: Mismatches and INDELs"></a></p>
@@ -202,13 +208,13 @@ Dimas
 </div>
 <p><strong>Finding:</strong></p>
 <ul>
-<li><p><em>Excluding Barbell processed data, filtlong combinations minimise the assembly errors.</em></p></li>
+<li><p><em>Excluding <code>barbell</code> processed data, <code>filtlong</code> combinations minimise the assembly errors.</em></p></li>
 <li><p><em>This holds true even without the adapter trimming process.</em></p></li>
 </ul>
 </section>
 <section class="slide level2">
 
-<h3 class="smaller" id="genome-assembly-structural-accuracy">Genome Assembly: Structural Accuracy</h3>
+<h4 class="smaller" id="genome-assembly-structural-accuracy">Genome Assembly: Structural Accuracy</h4>
 <div class="quarto-figure quarto-figure-center">
 <figure>
 <p><a href="results/figures/assess/assembly-default-newest/assembly/metrics/combo_assembly_nga50_normalised_logit_pointplot_mean.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Structural Accuracy: NGA50"><img data-src="results/figures/assess/assembly-default-newest/assembly/metrics/combo_assembly_nga50_normalised_logit_pointplot_mean.png" style="width:85.0%" alt="Structural Accuracy: NGA50"></a></p>
@@ -217,12 +223,12 @@ Dimas
 </div>
 <p><strong>Finding:</strong></p>
 <ul>
-<li><em>Reads trimmed with Dorado and processed using Chopper performed best on this metric.</em></li>
+<li><em>Reads trimmed with Dorado and processed using <code>chopper</code> performed best on this metric.</em></li>
 </ul>
 </section>
 <section class="slide level2">
 
-<h3 class="smaller" id="genome-assembly-barcodeadapter-contamination">Genome Assembly: Barcode/Adapter Contamination</h3>
+<h4 class="smaller" id="genome-assembly-barcodeadapter-contamination">Genome Assembly: Barcode/Adapter Contamination</h4>
 <div class="quarto-figure quarto-figure-center">
 <figure>
 <p><a href="results/figures/assess/assembly-default-newest/assembly/metrics/combo_contaminant_count.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Contamination Count"><img data-src="results/figures/assess/assembly-default-newest/assembly/metrics/combo_contaminant_count.png" style="width:85.0%" alt="Contamination Count"></a></p>
@@ -236,7 +242,7 @@ Dimas
 </section>
 <section class="slide level2">
 
-<h3 class="smaller" id="genome-assembly-contig-recovery">Genome Assembly: Contig Recovery</h3>
+<h4 class="smaller" id="genome-assembly-contig-recovery">Genome Assembly: Contig Recovery</h4>
 <div class="quarto-figure quarto-figure-center">
 <figure>
 <p><a href="results/figures/assess/assembly-default-newest/assembly/metrics/combo_assembly_missed_contigs.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="Missed Contigs"><img data-src="results/figures/assess/assembly-default-newest/assembly/metrics/combo_assembly_missed_contigs.png" style="width:85.0%" alt="Missed Contigs"></a></p>
@@ -251,7 +257,7 @@ Dimas
 </section>
 <section class="slide level2">
 
-<h3 class="smaller" id="small-plasmid-recovery-investigation">Small Plasmid Recovery Investigation</h3>
+<h4 class="smaller" id="small-plasmid-recovery-investigation">Small Plasmid Recovery Investigation</h4>
 <div class="quarto-figure quarto-figure-center">
 <figure>
 <p><a href="results/figures/assess/assembly-minoverlap-1000/assembly/metrics/combo_assembly_missed_contigs_t16.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="Missed Contigs (minOverlap = 1000)"><img data-src="results/figures/assess/assembly-minoverlap-1000/assembly/metrics/combo_assembly_missed_contigs_t16.png" style="width:85.0%" alt="Missed Contigs (minOverlap = 1000)"></a></p>
@@ -261,15 +267,15 @@ Dimas
 <p><strong>Findings:</strong></p>
 <ul>
 <li><em>The <code>minOverlap</code> value plays a significant role in disjointig generation and repeat graph collapsing.</em></li>
-<li><em>Decreasing this value showed no negative impact on overall assembly across the parameters we assessed. <a href="file:///Users/adimascf/UQ/SEM3/final-project/biox7021-logbook/_site/logbook/semester2/week02.html#investigation-of-the-the-high-coverage-paradox">read more</a></em></li>
-<li><em>Multithreading, unnecessary trimming on fully spanning reads, and high coverage depth all impact disjointig generation.</em></li>
+<li><em>Lowering this value showed no negative impact on overall assembly across the parameters we assessed. <a href="https://adimascf.github.io/biox7021/logbook/semester2/week02.html#impact-minoverlap-to-other-parametersmetrics">read more</a></em></li>
+<li><em>Multithreading, unnecessary trimming on fully spanning reads, and high coverage depth all also impact disjointig generation.</em> <a href="https://adimascf.github.io/biox7021/logbook/semester2/week02.html#investigation-of-the-the-high-coverage-paradox">read more</a></li>
 </ul>
 </section>
 <section class="slide level2">
 
-<h3 class="smaller" id="summary">Summary</h3>
+<h4 class="smaller" id="summary">Summary</h4>
 <ul>
-<li><strong>Variant Calling:</strong> Filtlong is the clear winner.</li>
+<li><strong>Variant Calling:</strong> <code>filtlong</code> is the clear winner.</li>
 <li><strong>Genome Assembly:</strong> No single tool or combination emerged as the clear winner. Certain tools perform well on specific metrics but poorly on others.</li>
 <li><em>Therefore, we built a QC weighting tool to help navigate these assembly trade-offs <a href="https://adimascf.github.io/biox7021/tool_weighting.html">view tool here</a>.</em></li>
 </ul>
@@ -279,7 +285,7 @@ Dimas
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <div class="footer footer-default">
-
+<p><a href="./home.html">Back to Home</a></p>
 </div>
 </div></div>
 
