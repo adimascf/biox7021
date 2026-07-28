@@ -260,7 +260,7 @@ Dimas
 <h4 class="smaller" id="small-plasmid-recovery-investigation">Small Plasmid Recovery Investigation</h4>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><a href="results/figures/assess/assembly-minoverlap-1000/assembly/metrics/combo_assembly_missed_contigs_t16.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="Missed Contigs (minOverlap = 1000)"><img data-src="results/figures/assess/assembly-minoverlap-1000/assembly/metrics/combo_assembly_missed_contigs_t16.png" style="width:85.0%" alt="Missed Contigs (minOverlap = 1000)"></a></p>
+<p><a href="results/figures/assess/assembly-minoverlap-1000/assembly/metrics/combo_assembly_missed_contigs_minOverlap1000.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="Missed Contigs (minOverlap = 1000)"><img data-src="results/figures/assess/assembly-minoverlap-1000/assembly/metrics/combo_assembly_missed_contigs_minOverlap1000.png" style="width:85.0%" alt="Missed Contigs (minOverlap = 1000)"></a></p>
 <figcaption>Missed Contigs (<code>minOverlap</code> = 1000)</figcaption>
 </figure>
 </div>
@@ -581,6 +581,11 @@ Dimas
               if (link.dataset.originalHref !== undefined) {
                 link.href = link.dataset.originalHref;
               }
+                // target, if specified
+                link.setAttribute("target", "_blank");
+                if (link.getAttribute("rel") === null) {
+                  link.setAttribute("rel", "noopener");
+                }
             }
           }
         function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
