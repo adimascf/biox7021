@@ -82,9 +82,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/bootstrap/bootstrap-4e9ad7d76a7588ccb413114a9399086d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
 <link href="../../site_libs/bootstrap/bootstrap-dark-c1fa6ec9ca7e8a29d4233392a81542ce.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="../../site_libs/bootstrap/bootstrap-4e9ad7d76a7588ccb413114a9399086d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
-<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
-<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
-<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -481,8 +478,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="from-pod5-metadata">From pod5 metadata</h3>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 27%">
-<col style="width: 72%">
+<col style="width: 29%">
+<col style="width: 70%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -573,7 +570,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="testing-on-the-barbell-assembly" class="level3">
 <h3 class="anchored" data-anchor-id="testing-on-the-barbell-assembly">Testing on the barbell assembly</h3>
 <p>I first tested this approach on the Barbell assembly (from rapid kit):</p>
-<div id="804e3380" class="cell" data-execution_count="1">
+<div id="3e10d9fc" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># !python detect_contaminant_minimap2.py --barcode-dir ../barcodes/ --assembly ../test_assemblies/bc49_medaka_consensus.114.fasta -o bc49_medaka_consensus.cont.tsv 2&gt; /dev/null</span></span>
@@ -592,7 +589,7 @@ BC49    rapid   contig_73       +        1         91      1.00       180       
 <section id="testing-on-kpc2__202310-at-20-depth" class="level3">
 <h3 class="anchored" data-anchor-id="testing-on-kpc2__202310-at-20-depth">Testing on KPC2__202310 at 20× depth</h3>
 <p>I then tested the script on the KPC2__202310 20× (a mixed sample) assembly generated from Dorado processed reads</p>
-<div id="41b9b27e" class="cell" data-execution_count="2">
+<div id="ed4bafb2" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># !python detect_contaminant_minimap2.py -d ../barcodes/ -a ../test_assemblies/KPC2__202310.dorado.20x.assembly.fasta -o KPC2__202310.dorado.20x.cont.tsv 2&gt; /dev/null</span></span>
@@ -626,7 +623,7 @@ BC49    rapid   contig_73       +        1         91      1.00       180       
 </ul></li>
 </ul>
 <p>I then ran the detection script again on the manually contaminated assembly:</p>
-<div id="e525041c" class="cell" data-execution_count="3">
+<div id="e4b2c7b4" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># !python detect_contaminant_minimap2.py -a ../test_assemblies/KPC2__202310.dorado.20x.assembly.cont.fasta -d ../barcodes/ -o KPC2__202310.dorado.20x.cont.insert.tsv 2&gt; /dev/null</span></span>
@@ -654,7 +651,7 @@ Native_bottom_3   native_right   contig_4        +        43200     43260     1.
 <h3 class="anchored" data-anchor-id="testing-on-atcc_25922__202309-at-20x-depth">Testing on ATCC_25922__202309 at 20x depth</h3>
 <section id="dorado-processed-reads" class="level4">
 <h4 class="anchored" data-anchor-id="dorado-processed-reads">dorado processed reads</h4>
-<div id="9e6ddeb0" class="cell" data-execution_count="4">
+<div id="1ea0ab35" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># !python detect_contaminant_minimap2.py -d ../barcodes/ -a ../test_assemblies/ATCC_25922__202309.dorado.20x.assembly.fasta -o ATCC_25922__202309.dorado.20x.cont.tsv 2&gt; /dev/null</span></span>
@@ -682,7 +679,7 @@ Native_top_75      native_left    contig_8        -        16848     16890     0
 <p>In this particular sample, <code>dorado trim</code> to successfully identify and remove the 36 bp adapter, leaving only around 0–25% of the adapter sequence behind. However, <code>dorado trim</code> appears to completely miss the barcode and flanking sequences. The hist are either at the start (first 100bp) or at the ends (last 100bp) of contigs</p>
 <p>Here I am also a bit worried if <code>dorado trim</code> doesn’t trim the barcode, it does only trim the adapter..</p>
 <p>Since almost all of the hits have perfect identity, I next checked whether the barcode sequence itself is present in the assembly using <code>seqkit locate</code>.</p>
-<div id="71f7b796" class="cell" data-execution_count="5">
+<div id="7f459954" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>seqkit locate <span class="op">-</span>p <span class="st">"AAGGTTAAGACCATTGTGATGAACCCTGTTGTCAGCACCT"</span> ..<span class="op">/</span>test_assemblies<span class="op">/</span>ATCC_25922__202309.dorado<span class="fl">.20</span><span class="er">x</span>.assembly.fasta</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -702,7 +699,7 @@ contig_7    AAGGTTAAGACCATTGTGATGAACCCTGTTGTCAGCACCT    AAGGTTAAGACCATTGTGATGAAC
 </section>
 <section id="porecho_abi-discard-processed-reads" class="level4">
 <h4 class="anchored" data-anchor-id="porecho_abi-discard-processed-reads">porecho_abi discard processed reads</h4>
-<div id="ad87136f" class="cell" data-execution_count="6">
+<div id="d819cf4d" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># !python detect_contaminant_minimap2.py -d ../barcodes/ -a ../test_assemblies/ATCC_25922__202309.porechop_abi_discard.20x.assembly.fasta -o ATCC_25922__202309.porechop_abi_discard.20x.cont.tsv 2&gt; /dev/null</span></span>
@@ -735,7 +732,7 @@ BC11            rapid         contig_9        -        27655     27735    1.00  
 <h3 class="anchored" data-anchor-id="testing-on-the-other-assemblies">Testing on the other assemblies</h3>
 <section id="contamination-count" class="level4">
 <h4 class="anchored" data-anchor-id="contamination-count">Contamination count</h4>
-<div id="07c395a7" class="cell" data-execution_count="7">
+<div id="588787bf" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import pandas as pd</span></span>
@@ -780,18 +777,13 @@ BC11            rapid         contig_9        -        27655     27735    1.00  
 <span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.savefig("../../results/figures/assess/assembly/metrics/assembly_contamination_minimap2.png")</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="../../results/figures/assess/assembly/metrics/assembly_contamination_minimap2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Contamination count (minimap2)"><img src="../../results/figures/assess/assembly/metrics/assembly_contamination_minimap2.png" class="img-fluid figure-img" alt="Contamination count (minimap2)"></a></p>
-<figcaption>Contamination count (minimap2)</figcaption>
-</figure>
-</div>
+<p><img src="../../results/figures/assess/assembly/metrics/assembly_contamination_minimap2_trimkit.png" class="img-fluid" alt="Contamination count (minimap2)"> figures/assess/assembly/metrics/assembly_contamination_minimap2.png)</p>
 </section>
 <section id="contamination-details" class="level4">
 <h4 class="anchored" data-anchor-id="contamination-details">Contamination details</h4>
 <section id="contamination-region-total" class="level5">
 <h5 class="anchored" data-anchor-id="contamination-region-total">Contamination region (total)</h5>
-<div id="cf98ac4a" class="cell" data-execution_count="8">
+<div id="d13ed3b5" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -937,7 +929,7 @@ BC11            rapid         contig_9        -        27655     27735    1.00  
 </section>
 <section id="contamination-region-per-trimmer" class="level5">
 <h5 class="anchored" data-anchor-id="contamination-region-per-trimmer">Contamination region (per trimmer)</h5>
-<div id="1c61d2e9" class="cell" data-execution_count="9">
+<div id="08f7501f" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -1270,7 +1262,7 @@ BC11            rapid         contig_9        -        27655     27735    1.00  
 </section>
 <section id="mixed-vs-native-only-samples" class="level5">
 <h5 class="anchored" data-anchor-id="mixed-vs-native-only-samples">Mixed vs native only samples</h5>
-<div id="afa3f7c1" class="cell" data-execution_count="10">
+<div id="524ae16d" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -2004,38 +1996,6 @@ BC11            rapid         contig_9        -        27655     27735    1.00  
     </div>
   </div>
 </footer>
-<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
-(function() {
-  let previousOnload = window.onload;
-  window.onload = () => {
-    if (previousOnload) {
-      previousOnload();
-    }
-    lightboxQuarto.on('slide_before_load', (data) => {
-      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
-      const href = trigger.getAttribute('href');
-      if (href !== null) {
-        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
-        if (imgEl !== null) {
-          const srcAttr = imgEl.getAttribute("src");
-          if (srcAttr && srcAttr.startsWith("data:")) {
-            slideConfig.href = srcAttr;
-          }
-        }
-      } 
-    });
-  
-    lightboxQuarto.on('slide_after_load', (data) => {
-      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(slideNode);
-      }
-    });
-  
-  };
-  
-})();
-          </script>
 
 
 

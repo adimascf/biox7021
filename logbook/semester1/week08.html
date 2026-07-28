@@ -490,7 +490,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>If we just look at the absolute number. Some trimmers might be able to save sensitivity at low depth for certain samples (?).</p>
 <p>By eyes, for example, in KPC2__202310 20x, <code>fastplong</code> only misses 73 SNP FN, while untrimmed 183. ATCC_10708 20x, <code>porechop_abi_discard</code> does best (88 FN). ATCC_25922 has better metrics if it goes through the trimming step.</p>
 <p>But other than that, do not see this pattern in general for all samples.</p>
-<div id="fdd90d30" class="cell" data-execution_count="1">
+<div id="035e6c18" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
@@ -543,7 +543,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_64b5bdf1_ecbe_4809_a58c_de8d55650414">
+<table id="itables_5610ccd3_2841_42a2_b9f8_ef063b3038f3">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -613,7 +613,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_64b5bdf1_ecbe_4809_a58c_de8d55650414:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_5610ccd3_2841_42a2_b9f8_ef063b3038f3:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
@@ -650,7 +650,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>But I think it is still highly unpredictable, because it also can make the FN number worst.</li>
 <li>Indels more complicated, because a alot of points below red lines for porechop_abi for all configs.</li>
 </ul>
-<div id="ac60df0f" class="cell" data-execution_count="2">
+<div id="6814055a" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -738,7 +738,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="sequence-and-structural-accuracy" class="level3">
 <h3 class="anchored" data-anchor-id="sequence-and-structural-accuracy">Sequence and Structural Accuracy</h3>
 <p>Insipred by <a href="https://doi.org/10.1371/journal.pcbi.1005595">Unicycler</a> paper, I extracted the number of mismatch (SNVs) and INDELs and NGA length report from QUAST here, and then make the plot below:</p>
-<div id="3b7463e8" class="cell" data-execution_count="3">
+<div id="cd96d190" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -862,7 +862,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>In general, all the samples have small mismathces and indels rate per 100Kbp. 100x and 50x still perfom equally good, downsample to 20x decrease the perfomance, and performing trimming also did not help very much.</p>
-<div id="abef173a" class="cell" data-execution_count="4">
+<div id="8befbb71" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>sns.set_theme(style<span class="op">=</span><span class="st">"whitegrid"</span>)</span>
@@ -903,7 +903,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Do we see improvement, per sample?</p>
 <section id="mismatches-and-indels" class="level4">
 <h4 class="anchored" data-anchor-id="mismatches-and-indels">Mismatches and INDELs</h4>
-<div id="779283cc" class="cell" data-execution_count="5">
+<div id="4cabf999" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df_plot <span class="op">=</span> df_assembly_metrics.copy()</span>
@@ -986,7 +986,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>barbell_default</code> worsen BPH2947__202310 at 100x depth! from 3049603 to 1709888. Overall, this trimmer damage the dataset.</li>
 <li><code>barbell_max</code> worsen MMC234__202311 at 100x depth!. Here, I just relised the visualisation hides the actual damage of the trimming process for NGA50 metrics 🥲</li>
 </ul>
-<div id="4d3af4ed" class="cell" data-execution_count="6">
+<div id="bf216200" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df_plot <span class="op">=</span> df_assembly_metrics.copy()</span>
@@ -1047,7 +1047,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The plot below clearly shows triming step might also damaging the NGA50 even in the high depth dataset!</p>
 <p>In fact, similar with mismatches and indels, the point deviate below red line at the 100x and 50x..</p>
 <p>Can I say: So for NGA50, it might improve at low depth, but it might does harmful at the high depth?</p>
-<div id="d6045cb8" class="cell" data-execution_count="7">
+<div id="bdbdb20a" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -1110,7 +1110,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="raw-data" class="level3">
 <h3 class="anchored" data-anchor-id="raw-data">Raw data</h3>
-<div id="fa82a7eb" class="cell" data-execution_count="8">
+<div id="cf6a9926" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>depth_order <span class="op">=</span> {<span class="st">"100x"</span>: <span class="dv">1</span>, <span class="st">"50x"</span>: <span class="dv">2</span>, <span class="st">"20x"</span>: <span class="dv">3</span>}</span>
@@ -1134,7 +1134,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_618b99ef_baaa_46ce_85c8_01af497a3d4c">
+<table id="itables_126421f4_a816_4019_bc5b_0fcd1b66a551">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -1204,7 +1204,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_618b99ef_baaa_46ce_85c8_01af497a3d4c:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_126421f4_a816_4019_bc5b_0fcd1b66a551:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
@@ -1226,7 +1226,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </script>
 </div>
 </div>
-<div id="7493859f" class="cell" data-execution_count="9">
+<div id="e5aa57c0" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df_assembly_metrics[<span class="st">'depth'</span>] <span class="op">=</span> pd.Categorical(</span>
@@ -1241,7 +1241,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_41f19864_52d3_4861_9973_878f7986ee45">
+<table id="itables_94ed53d0_9e19_4503_878d_6c2379728143">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -1311,7 +1311,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_41f19864_52d3_4861_9973_878f7986ee45:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_94ed53d0_9e19_4503_878d_6c2379728143:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
@@ -1345,7 +1345,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Also in the method to 5.7, it first scan the barcode sequenc in the assembly using Sassy.</p>
 <p>But not really sure how and what is the step after that. but they have branch for their paper in the barbell repo</p>
 <p>Example search <code>native_bar.fasta</code> into untrimmed 100x depth KPC2__202310 with &lt;= 5 edits</p>
-<div id="89c27c01" class="cell" data-execution_count="10">
+<div id="f13c25ab" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># !sassy search -k 5 -f "../../native_bars.fasta" "../../results/assembly-prev/untrimmed/100x/KPC2__202310/KPC2__202310.untrimmed.100x.assembly.fasta"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
