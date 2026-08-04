@@ -1,0 +1,13 @@
+/_site/
+/.quarto/
+.DS_Store
+**/*.quarto_ipynb
+.Rhistory
+data/
+results/
+.snakemake/
+logs/
+tmp/
+logbook/images/
+home.qmd
+_quarto.yml
