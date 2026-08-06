@@ -102,8 +102,8 @@ rule assess_variant_fnfp:
 
 rule assess_assembly_quast:
 	input:
-		assembly=rules.assembly_flye.output.assembly,
-		reference=get_reference_genome
+		assembly=rules.reorient_assembly_sample.output.assembly,
+		reference=rules.reorient_assembly_reference.output.assembly
 	log:
 		LOGS / "assess/assembly/{tool}-{trimmer}/quast/{depth}x/{model}/{sample}.{tool}-{trimmer}.log"
 	threads: 4
@@ -255,8 +255,8 @@ rule plot_assembly_nga50:
 
 rule identify_missed_contigs:
 	input:
-		assembly=rules.assembly_flye.output.assembly,
-		reference=get_reference_genome
+		assembly=rules.reorient_assembly_sample.output.assembly,
+		reference=rules.reorient_assembly_reference.output.assembly
 	log:
 		LOGS / "assembly/missed_contigs/{tool}-{trimmer}/{depth}x/{model}/{sample}.{tool}-{trimmer}.missed_contigs.log"
 	resources:

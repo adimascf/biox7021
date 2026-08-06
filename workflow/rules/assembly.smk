@@ -30,3 +30,37 @@ rule assembly_flye:
 		rm -rf $tmp_results
 		"""
 	
+rule reorient_assembly_sample:
+	input:
+		assembly=rules.assembly_flye.output.assembly
+	log:
+		LOGS / "assembly/{tool}-{trimmer}/{depth}x/{model}/{sample}.{tool}-{trimmer}.dnaapler.log"
+	threads: 8
+	resources:
+		mem="32GiB",
+		runtime=f"{10* REPEAT}h"
+	conda:
+		ENVS / "dnaapler.yaml"
+	params:
+		seed="--seed_value 8",
+		prefix="{sample}.{tool}-{trimmer}.{depth}x.assembly",
+		outdir=RESULTS / "assembly/{tool}-{trimmer}/{depth}x/{model}/"
+	output:
+		assembly=RESULTS / "assembly/{tool}-{trimmer}/{depth}x/{model}/{sample}.{tool}-{trimmer}.{depth}x.assembly_reoriented.fasta"
+	shell:
+		"""
+		dnaapler all {params.seed} -i {input.assembly} -o {params.outdir} -p {params.prefix} -t {threads}
+		"""
+
+use rule reorient_assembly_sample as reorient_assembly_reference with:
+	input:
+		assembly=get_reference_genome
+	log:
+		LOGS / "reference/{sample}_dnaapler.log"
+	params:
+		prefix="{sample}",
+		outdir=RESULTS / "reference/"
+	output:
+		assembly=RESULTS / "reference/{sample}_reoriented.fasta"
+
+
