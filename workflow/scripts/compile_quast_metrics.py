@@ -6,9 +6,11 @@ import numpy as np
 # Redirect all prints and errors to the log file
 sys.stderr = sys.stdout = open(snakemake.log[0], "w")
 
-print("Pre-calculating genome sizes and expected contigs from FASTA indices...")
+print("Calculating genome sizes, expected contigs, N50, and auN from FASTA indices...")
 genome_sizes = {}
 expected_contigs = {}
+ref_n50s = {}
+ref_auns = {}
 
 # Ensure it's treated as a list even if there's only one sample
 fai_files = snakemake.input.fai if isinstance(snakemake.input.fai, list) else [snakemake.input.fai]
@@ -20,11 +22,31 @@ for fai_file in fai_files:
     
     try:
         with open(fai_path, "r") as f:
-            lines = f.readlines() # Read all lines into a list
+            lines = f.readlines()
+            
             # The second column (index 1) in a .fai file is the sequence length
-            genome_sizes[sample_name] = sum(int(line.split("\t")[1]) for line in lines)
-            # The number of lines equals the expected number of replicons (chromosome + plasmids)
-            expected_contigs[sample_name] = len(lines) 
+            lengths = [int(line.split("\t")[1]) for line in lines]
+            total_len = sum(lengths)
+            
+            genome_sizes[sample_name] = total_len
+            expected_contigs[sample_name] = len(lengths)
+            
+            if total_len > 0:
+                # Calculate reference auN: sum of squared lengths / total length
+                ref_auns[sample_name] = sum(l * l for l in lengths) / total_len
+                
+                # Calculate reference N50
+                lengths.sort(reverse=True)
+                cumsum = 0
+                for l in lengths:
+                    cumsum += l
+                    if cumsum >= total_len / 2.0:
+                        ref_n50s[sample_name] = l
+                        break
+            else:
+                ref_auns[sample_name] = np.nan
+                ref_n50s[sample_name] = np.nan
+
     except FileNotFoundError:
         print(f"Warning: .fai file not found: {fai_file}")
 
@@ -44,16 +66,23 @@ for file_path in snakemake.input.reports:
         df_quast = pd.read_csv(p, sep='\t', index_col=0)
         col_name = df_quast.columns[0]
 
-        mismatches = float(df_quast.loc['# mismatches per 100 kbp', col_name])
-        indels = float(df_quast.loc['# indels per 100 kbp', col_name])
-        nga50 = int(df_quast.loc['NGA50', col_name])
-        misassemblies = int(df_quast.loc['# misassemblies', col_name])
+        mismatches = float(df_quast.loc['# mismatches per 100 kbp', col_name]) if '# mismatches per 100 kbp' in df_quast.index else np.nan
+        indels = float(df_quast.loc['# indels per 100 kbp', col_name]) if '# indels per 100 kbp' in df_quast.index else np.nan
+        nga50 = float(df_quast.loc['NGA50', col_name]) if 'NGA50' in df_quast.index else np.nan
+        misassemblies = int(df_quast.loc['# misassemblies', col_name]) if '# misassemblies' in df_quast.index else np.nan
+        contigs_obs = int(df_quast.loc['# contigs', col_name]) if '# contigs' in df_quast.index else np.nan
         
-        contigs_obs = int(df_quast.loc['# contigs', col_name]) 
+        aunga = float(df_quast.loc['auNGA', col_name]) if 'auNGA' in df_quast.index else np.nan
+        dup_ratio = float(df_quast.loc['Duplication ratio', col_name]) if 'Duplication ratio' in df_quast.index else np.nan
 
-        genome_size = genome_sizes.get(sample, np.nan)
-        nga50_norm = nga50 / genome_size if pd.notna(genome_size) else np.nan
+        # Denominators from FASTA index
+        ref_n50 = ref_n50s.get(sample, np.nan)
+        ref_aun = ref_auns.get(sample, np.nan)
         
+        # Calculate the ratio of the selected contiguity metrics
+        nga50_norm = nga50 / ref_n50 if pd.notna(ref_n50) and ref_n50 > 0 else np.nan
+        aunga_norm = aunga / ref_aun if pd.notna(ref_aun) and ref_aun > 0 else np.nan
+
         c_exp = expected_contigs.get(sample, np.nan)
         excess_contigs = contigs_obs - c_exp if pd.notna(c_exp) else np.nan
 
@@ -63,6 +92,9 @@ for file_path in snakemake.input.reports:
             'Indels per 100kbp': indels,
             'NGA50': nga50,
             'NGA50_norm': nga50_norm,
+            'auNGA': aunga,
+            'auNGA_norm': aunga_norm, 
+            'Duplication_ratio': dup_ratio,
             'misassemblies': misassemblies,
             'excess_contigs': excess_contigs
         })

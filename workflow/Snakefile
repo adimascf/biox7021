@@ -99,9 +99,14 @@ rule all:
 		FIGURES / "assess/assembly/metrics/combo_assembly_nga50_normalised_logit_pointplot_mean.png",
 		FIGURES / "assess/assembly/metrics/combo_assembly_nga50_normalised_logit_pointplot_median.png",
 
-		FIGURES / "assess/assembly/metrics/combo_assembly_missed_contigs.png",
-		FIGURES / "assess/assembly/metrics/combo_assembly_total_missed_contigs.png",
-		TABLES / "assess/assembly/metrics/combo_assembly_missed_contigs.csv",
+		FIGURES / "assess/assembly/metrics/combo_assembly_aunga_normalised_linear_pointplot_mean.png",
+		FIGURES / "assess/assembly/metrics/combo_assembly_aunga_normalised_linear_pointplot_median.png",
+		FIGURES / "assess/assembly/metrics/combo_assembly_aunga_normalised_linear_stripplot_mean.png",
+		FIGURES / "assess/assembly/metrics/combo_assembly_aunga_normalised_linear_stripplot_median.png",
+		FIGURES / "assess/assembly/metrics/combo_assembly_aunga_normalised_logit_stripplot_mean.png",
+		FIGURES / "assess/assembly/metrics/combo_assembly_aunga_normalised_logit_stripplot_median.png",
+		FIGURES / "assess/assembly/metrics/combo_assembly_aunga_normalised_logit_pointplot_mean.png",
+		FIGURES / "assess/assembly/metrics/combo_assembly_aunga_normalised_logit_pointplot_median.png",
 
 		TABLES / "assess/call/metrics/combo_f1_score_significance.csv",
 		TABLES / "assess/call/metrics/combo_prec_significance.csv",

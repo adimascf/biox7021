@@ -253,6 +253,26 @@ rule plot_assembly_nga50:
 	script:
 		"../scripts/plot_assembly_nga50.py"
 
+rule plot_assembly_aunga:
+	input:
+		csv=rules.compile_quast_metrics.output.csv
+	log:
+		LOGS / "assess/assembly/plot_quast_metrics_aunga.log"
+	resources:
+		mem="16GiB",
+		runtime="20m"
+	conda:
+		ENVS / "generate_figure_python.yaml"
+	output:
+		figures=[
+				FIGURES / f"assess/assembly/metrics/combo_assembly_aunga_normalised_{scale}_{p_type}_{est}.png"
+				for scale in ["linear", "logit"]
+				for p_type in ["pointplot", "stripplot"]
+				for est in ["mean", "median"]
+				]
+	script:
+		"../scripts/plot_assembly_aunga.py"
+
 rule identify_missed_contigs:
 	input:
 		assembly=rules.reorient_assembly_sample.output.assembly,
