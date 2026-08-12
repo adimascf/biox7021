@@ -37,19 +37,28 @@ rule reorient_assembly_sample:
 		LOGS / "assembly/{tool}-{trimmer}/{depth}x/{model}/{sample}.{tool}-{trimmer}.dnaapler.log"
 	threads: 8
 	resources:
-		mem="32GiB",
-		runtime=f"{10* REPEAT}h"
+		mem="64GiB",
+		runtime=f"{15* REPEAT}h"
 	conda:
 		ENVS / "dnaapler.yaml"
 	params:
 		seed="--seed_value 8",
 		prefix="{sample}.{tool}-{trimmer}.{depth}x.assembly",
-		outdir=RESULTS / "assembly/{tool}-{trimmer}/{depth}x/{model}/"
 	output:
-		assembly=RESULTS / "assembly/{tool}-{trimmer}/{depth}x/{model}/{sample}.{tool}-{trimmer}.{depth}x.assembly_reoriented.fasta"
+		assembly=RESULTS / "assembly/{tool}-{trimmer}/{depth}x/{model}/dnaapler/{sample}.{tool}-{trimmer}.{depth}x.assembly_reoriented.fasta"
 	shell:
 		"""
-		dnaapler all {params.seed} -i {input.assembly} -o {params.outdir} -p {params.prefix} -t {threads}
+		# create a unique temporary directory
+		tmp_results=$(mktemp -d)
+		
+		# Run dnaapler inside the unique temp directory
+		dnaapler all {params.seed} -f -i {input.assembly} -o $tmp_results -p {params.prefix} -t {threads} 2> {log}
+		
+		# Move the final fasta to your actual Snakemake output target
+		mv "${{tmp_results}}/{params.prefix}_reoriented.fasta" {output.assembly} 2>> {log}
+		
+		# Clean up the temp directory
+		rm -rf $tmp_results
 		"""
 
 use rule reorient_assembly_sample as reorient_assembly_reference with:
@@ -59,8 +68,6 @@ use rule reorient_assembly_sample as reorient_assembly_reference with:
 		LOGS / "reference/{sample}_dnaapler.log"
 	params:
 		prefix="{sample}",
-		outdir=RESULTS / "reference/"
 	output:
-		assembly=RESULTS / "reference/{sample}_reoriented.fasta"
-
+		assembly=RESULTS / "reference/dnaapler/{sample}_reoriented.fasta"
 
