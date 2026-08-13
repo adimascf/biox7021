@@ -34,7 +34,13 @@ df = pd.read_csv(snakemake.input.csv)
 # Plotting preparation
 sns.set_theme(style="whitegrid")
 models = ["sup", "hac"]
-hue_order = ["100x", "50x", "20x"]
+
+# Fetch the depths dynamically from the Snakemake config
+config_depths = snakemake.config['depth']
+
+# sort the depths numerically, and add 'x'
+hue_order = [f"{d}x" for d in sorted([int(d) for d in config_depths], reverse=True)]
+
 plot_types = ["barplot", "stripplot", "pointplot"]
 
 # Calculate overall performance by summing both error types, then finding the global mean

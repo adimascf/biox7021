@@ -60,7 +60,11 @@ plot_types = ["point", "strip"] # I want to generate stripplot and pointplot
 dataix = pr_df.groupby(["combo", "depth", "VAR_TYPE", "sample", "model"])["F1_SCORE"].idxmax()
 data = pr_df.iloc[dataix].copy()
 
-hue_order = ["100x", "50x", "20x"]
+# Fetch the depths dynamically from the Snakemake config
+config_depths = snakemake.config['depth']
+
+# sort the depths numerically, and add 'x'
+hue_order = [f"{d}x" for d in sorted([int(d) for d in config_depths], reverse=True)]
 
 # Filter out 'ALL' and 'SV'
 data = data.query("VAR_TYPE not in ('ALL', 'SV')")

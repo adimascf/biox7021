@@ -48,7 +48,12 @@ metrics_to_plot = {
 
 rows = ["SNP", "INDEL"]
 models = ["sup", "hac"]
-hue_order = ["100x", "50x", "20x"]
+
+# Fetch the depths dynamically from the Snakemake config
+config_depths = snakemake.config['depth']
+
+# sort the depths numerically, and add 'x'
+hue_order = [f"{d}x" for d in sorted([int(d) for d in config_depths], reverse=True)]
 
 for metric_col, output_file in metrics_to_plot.items():
     

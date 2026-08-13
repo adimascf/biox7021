@@ -114,7 +114,13 @@ melted_df = missed_df.melt(
 
 sns.set_theme(style="whitegrid")
 models = ["sup", "hac"]
-hue_order = ["100x", "50x", "20x"]
+
+# Fetch the depths dynamically from the Snakemake config
+config_depths = snakemake.config['depth']
+
+# sort the depths numerically, and add 'x'
+hue_order = [f"{d}x" for d in sorted([int(d) for d in config_depths], reverse=True)]
+
 miss_types = ["full_missed", "partial_missed"]
 miss_labels = {"full_missed": "Full Miss (0% Cov)", "partial_missed": "Partial Miss (<50% Cov)"}
 

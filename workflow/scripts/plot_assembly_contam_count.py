@@ -37,7 +37,12 @@ aggregated_counts = contamination_count.groupby(
 
 sns.set_theme(style="whitegrid")
 models = ["sup", "hac"]
-hue_order = ["100x", "50x", "20x"]
+
+# Fetch the depths dynamically from the Snakemake config
+config_depths = snakemake.config['depth']
+
+# sort the depths numerically, and add 'x'
+hue_order = [f"{d}x" for d in sorted([int(d) for d in config_depths], reverse=True)]
 
 combo_perf = aggregated_counts.groupby("combo")["contamination_count"].sum()
 order_abs = combo_perf.sort_values(ascending=True).index.tolist()

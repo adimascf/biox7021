@@ -67,7 +67,13 @@ df_delta = df_merged[df_merged['combo'] != 'unprocessed-untrimmed'].copy()
 ## PLOTTING (ABSOLUTE SNP AND MISMATCHES AND NGA50)
 sns.set_theme(style="whitegrid")
 models = ["sup", "hac"]
-hue_order = ["100x", "50x", "20x"]
+
+# Fetch the depths dynamically from the Snakemake config
+config_depths = snakemake.config['depth']
+
+# sort the depths numerically, and add 'x'
+hue_order = [f"{d}x" for d in sorted([int(d) for d in config_depths], reverse=True)]
+
 order_abs = sorted(df["combo"].unique())
 order_delta = sorted(df_delta['combo'].unique())
 
