@@ -119,7 +119,7 @@ for y in metrics:
                                 palette=cud(len(hue_order), start=2),
                                 ax=ax,
                                 dodge=0.3,
-                                errorbar=('ci', 95),
+                                errorbar=('pi', 100),
                                 capsize=0.1,
                                 err_kws={"linewidth": 1.5},
                                 estimator=est_func
