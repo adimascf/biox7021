@@ -449,15 +449,15 @@ window.Quarto = {
 
 <section id="metric-scoring-and-weighting" class="level3">
 <h3 class="anchored" data-anchor-id="metric-scoring-and-weighting">Metric Scoring and Weighting</h3>
-<p>To standardise the metrics, each metric is normalised using simple <a href="https://en.wikipedia.org/wiki/Feature_scaling">min-max scaling</a> to get a score between 0 and 100:</p>
+<p>To standardise the metrics, each is transformed into a score between 0 and 100:</p>
 <ul>
-<li><p><strong>For NGA50 (higher is better):</strong> <span class="math display">\[\text{Score} = \frac{x - \min}{\max - \min} \times 100\]</span></p></li>
-<li><p><strong>For assembly errors (indels and mismatches) and adapter/barcode contamination (lower is better):</strong> <span class="math display">\[\text{Score} = \frac{\max - x}{\max - \min} \times 100\]</span></p></li>
+<li><p><strong>For structural accuracy (auNGA ratio):</strong> The ideal auNGA ratio is exactly 1.0. Therefore, deviations below and above 1 are penalised symmetrically: <span class="math display">\[\text{Score} = \max(0, 1 - |x - 1|) \times 100\]</span></p></li>
+<li><p><strong>For assembly errors (indels and mismatches) and adapter/barcode contamination (lower is better):</strong> These metrics use simple <a href="https://en.wikipedia.org/wiki/Feature_scaling">min-max scaling</a>: <span class="math display">\[\text{Score} = \frac{\max - x}{\max - \min} \times 100\]</span></p></li>
 </ul>
-<p>The normalised scores are aggregated using a Weighted Geometric Mean formula to calculate the final performance rank: <span class="math display">\[\text{Final Score} = \left( S_{nga50}^{w_n} \times S_{err}^{w_e} \times S_{cont}^{w_c} \times S_{miss}^{w_m} \right)^{\frac{1}{w_n + w_e + w_c + w_m}}\]</span></p>
+<p>The normalised scores are aggregated using a Weighted Geometric Mean formula to calculate the final performance rank: <span class="math display">\[\text{Final Score} = \left( S_{aungar}^{w_n} \times S_{err}^{w_e} \times S_{cont}^{w_c} \times S_{miss}^{w_m} \right)^{\frac{1}{w_n + w_e + w_c + w_m}}\]</span></p>
 <p>Where:</p>
 <ul>
-<li><p><span class="math inline">\(S_{nga50}\)</span>: Normalised score for structural accuracy (NGA50).</p></li>
+<li><p><span class="math inline">\(S_{aungar}\)</span>: Normalised score for structural accuracy (auNGA ratio).</p></li>
 <li><p><span class="math inline">\(S_{err}\)</span>: Normalised score for sequence accuracy (mismatches and indels combined).</p></li>
 <li><p><span class="math inline">\(S_{cont}\)</span>: Normalised score for residual adapter/barcode contamination.</p></li>
 <li><p><span class="math inline">\(S_{miss}\)</span>: Normalised score for missed contigs.</p></li>
@@ -475,14 +475,13 @@ window.Quarto = {
 #| viewerHeight: 880
 
 from shiny import App, render, ui, reactive
-import pandas as pd
-import numpy as np
+
 
 app_ui = ui.page_fluid(
     ui.layout_sidebar(
         ui.sidebar(
-            ui.input_slider("w_nga50", "Structural Accuracy (NGA50)", 0.0, 1.0, 0.20, step=0.05),
-            ui.output_ui("eff_nga50"),
+            ui.input_slider("w_aungar", "Structural Accuracy (aungar)", 0.0, 1.0, 0.20, step=0.05),
+            ui.output_ui("eff_aungar"),
 
             ui.input_slider("w_err", "Sequence Accuracy (Mismatches/Indels)", 0.0, 1.0, 0.28, step=0.05),
             ui.output_ui("eff_err"),
@@ -506,7 +505,7 @@ def server(input, output, session):
 
     @reactive.Calc
     def weight_percentages():
-        w1 = input.w_nga50()
+        w1 = input.w_aungar()
         w2 = input.w_err()
         w3 = input.w_cont()
         w4 = input.w_miss()
@@ -518,7 +517,7 @@ def server(input, output, session):
 
     @output
     @render.ui
-    def eff_nga50():
+    def eff_aungar():
         p1, p2, p3, p4 = weight_percentages()
         return ui.HTML(f"&lt;div style='margin-top: -15px; margin-bottom: 15px; font-size: 0.85em; color: #555;'&gt;↳ Percentage: &lt;strong style='color: #007bc2;'&gt;{p1:.1f}%&lt;/strong&gt;&lt;/div&gt;")
 
@@ -549,7 +548,7 @@ def server(input, output, session):
 
         def rank_tools_geometric_mean(
             df,
-            weights={"nga50": 1.0, "error": 1.0, "contaminants": 1.0, "missed": 1.0},
+            weights={"aungar": 1.0, "error": 1.0, "contaminants": 1.0, "missed": 1.0},
             target_model="all",
             target_depth="all",
         ):
@@ -568,7 +567,7 @@ def server(input, output, session):
                 group_cols.append("model")
 
             metric_cols = [
-                "NGA50_norm",
+                "aungar_norm",
                 "Mismatches per 100kbp",
                 "Indels per 100kbp",
                 "contamination_count",
@@ -584,12 +583,10 @@ def server(input, output, session):
             if target_model == "all":
                 c["model"] = "all"
 
+
+            c["s_aungar"] = np.maximum(0, 1 - np.abs(c["aungar_norm"] - 1.0)) * 100
+
             # Min-Max Scaling (0 to 100)
-
-            # s_nga50: Higher is better
-            mx_nga, mn_nga = c["NGA50_norm"].max(), c["NGA50_norm"].min()
-            c["s_nga50"] = (((c["NGA50_norm"] - mn_nga) / (mx_nga - mn_nga) * 100) if mx_nga != mn_nga else 100.0)
-
             # s_err: Lower is better
             for err_col in ["Mismatches per 100kbp", "Indels per 100kbp"]:
                 mx, mn = c[err_col].max(), c[err_col].min()
@@ -607,12 +604,12 @@ def server(input, output, session):
 
             # 4. Geometric Mean Execution
             eps = 1e-5
-            s_nga50_safe = np.where(c["s_nga50"] == 0, eps, c["s_nga50"])
+            s_aungar_safe = np.where(c["s_aungar"] == 0, eps, c["s_aungar"])
             s_err_safe = np.where(c["s_err"] == 0, eps, c["s_err"])
             s_cont_safe = np.where(c["s_cont"] == 0, eps, c["s_cont"])
             s_miss_safe = np.where(c["s_miss"] == 0, eps, c["s_miss"])
 
-            wn = weights.get("nga50", 1.0)
+            wn = weights.get("aungar", 1.0)
             we = weights.get("error", 1.0)
             wc = weights.get("contaminants", 1.0)
             wm = weights.get("missed", 1.0)
@@ -621,7 +618,7 @@ def server(input, output, session):
             if total_weight == 0:
                 total_weight = 1e-5
 
-            c["final_score"] = (s_nga50_safe**wn * s_err_safe**we * s_cont_safe**wc * s_miss_safe**wm) ** (1.0 / total_weight)
+            c["final_score"] = (s_aungar_safe**wn * s_err_safe**we * s_cont_safe**wc * s_miss_safe**wm) ** (1.0 / total_weight)
             c["rank"] = c["final_score"].rank(ascending=False, method="min")
 
             return c.sort_values(by="final_score", ascending=False)
@@ -632,7 +629,7 @@ def server(input, output, session):
         df = pd.read_csv(open_url(url))
 
         weights = {
-            "nga50": input.w_nga50(),
+            "aungar": input.w_aungar(),
             "error": input.w_err(),
             "contaminants": input.w_cont(),
             "missed": input.w_miss()
@@ -647,7 +644,7 @@ def server(input, output, session):
 
         top_df = sorted_df.head(input.top_n()).copy()
 
-        cols_to_round = ['NGA50_norm', 'Mismatches per 100kbp', 'Indels per 100kbp', 'contamination_count', 'total_missed', 's_nga50', 's_mismatches', 's_indels', 's_err', 's_cont', 's_miss', 'final_score']
+        cols_to_round = ['auNGA_norm', 'Mismatches per 100kbp', 'Indels per 100kbp', 'contamination_count', 'total_missed', 's_aungar', 's_mismatches', 's_indels', 's_err', 's_cont', 's_miss', 'final_score']
         top_df[cols_to_round] = top_df[cols_to_round].round(5)
 
         top_df = top_df.rename(columns={'combo': "QC Tools pair"})
