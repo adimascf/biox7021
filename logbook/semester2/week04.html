@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Week 03: Investigation of the Barbell results and statistical test – BIOX7021 LOGBOOK - 2026</title>
+<title>Week 04: auNGA ratio and high error rates in barbell assemblies – BIOX7021 LOGBOOK - 2026</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -82,6 +82,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/bootstrap/bootstrap-2e07afffe0e1d027e310c816153ddb72.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
 <link href="../../site_libs/bootstrap/bootstrap-dark-52489e3bfee96bc9e30fc12a283dda77.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="../../site_libs/bootstrap/bootstrap-2e07afffe0e1d027e310c816153ddb72.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -111,6 +114,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -397,6 +429,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="../../logbook/semester2/week03.html">
  <span class="dropdown-text">Week 03</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../logbook/semester2/week04.html">
+ <span class="dropdown-text">Week 04</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item">
@@ -420,14 +456,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#drafting" id="toc-drafting" class="nav-link active" data-scroll-target="#drafting">Drafting</a>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a>
   <ul>
-  <li><a href="#variant-calling" id="toc-variant-calling" class="nav-link" data-scroll-target="#variant-calling">Variant calling</a></li>
-  <li><a href="#genome-assembly" id="toc-genome-assembly" class="nav-link" data-scroll-target="#genome-assembly">Genome assembly</a></li>
-  <li><a href="#assembly-errors" id="toc-assembly-errors" class="nav-link" data-scroll-target="#assembly-errors">Assembly errors</a></li>
-  <li><a href="#adapterbarcode" id="toc-adapterbarcode" class="nav-link" data-scroll-target="#adapterbarcode">Adapter/barcode</a></li>
-  <li><a href="#missed-contigs" id="toc-missed-contigs" class="nav-link" data-scroll-target="#missed-contigs">Missed contigs</a></li>
-  <li><a href="#assembly-contiguity" id="toc-assembly-contiguity" class="nav-link" data-scroll-target="#assembly-contiguity">Assembly contiguity</a></li>
+  <li><a href="#aunga-and-aunga-ratio" id="toc-aunga-and-aunga-ratio" class="nav-link" data-scroll-target="#aunga-and-aunga-ratio">auNGA and auNGA ratio</a>
+  <ul>
+  <li><a href="#plotting-the-aunga-ratio" id="toc-plotting-the-aunga-ratio" class="nav-link" data-scroll-target="#plotting-the-aunga-ratio">Plotting the auNGA ratio</a></li>
+  <li><a href="#nga50-ratio" id="toc-nga50-ratio" class="nav-link" data-scroll-target="#nga50-ratio">NGA50 ratio</a></li>
+  </ul></li>
+  <li><a href="#high-sequences-errors-from-barbell-assemblies" id="toc-high-sequences-errors-from-barbell-assemblies" class="nav-link" data-scroll-target="#high-sequences-errors-from-barbell-assemblies">High sequences errors from Barbell assemblies</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -438,7 +474,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Week 03: Investigation of the Barbell results and statistical test</h1>
+<h1 class="title">Week 04: auNGA ratio and high error rates in barbell assemblies</h1>
 </div>
 
 
@@ -455,41 +491,73 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="drafting" class="level2">
-<h2 class="anchored" data-anchor-id="drafting">Drafting</h2>
-<section id="variant-calling" class="level3">
-<h3 class="anchored" data-anchor-id="variant-calling">Variant calling</h3>
-<p>Discuss mainly on the F1 score SNP. Compare the result between the tool combination, not between downsampling depth nor basecalling models. Point that Filtlong combination can help improve F1 score on both high depth and low depth samples both SUP and HAC, give it the numerical score for that specific that hgihest F1 SNP score. Also, state that raw datasets not worse than other processing tools (except Filtlong) on both SUP and HAC. For Indels state that no tool combination improved the F1 score for both downsampling depth and basecalling models.</p>
-<p>Then we talk about the recall. Mention that Filtlong combination helped the variant caller recovered more truth SNP on both low and high depth dataset and SUP and HAC dataset. Maybe mention about the absolut false negative can be prevented by the highest score for precall?. Mention about precision, this metric have no impact by across tool combo and no different by raw dataset.</p>
-<p>Alo, it is interesting to mention about those filtlong combinations helped the caller to better process difficult samples that the other combo and raw dataset stugller, mention about what sample in the low depth and mention waht samples on high depth, because it might be different.</p>
-<p>at least we have four figures here (F1 score, recall, FN and FP count, and precision). The question is: are we allowed to say “improve” “no different” without statistical test say so?</p>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<ul>
+<li>Calculation, normalisation, and plotting of our new metric auNGA ratio to better evaluate assembly contiguity across (bacterial) genome structures</li>
+<li>Investigated high error rates in Barbell assemblies: The sequence errors are highly clustered in specific genomic regions</li>
+</ul>
+<section id="aunga-and-aunga-ratio" class="level3">
+<h3 class="anchored" data-anchor-id="aunga-and-aunga-ratio">auNGA and auNGA ratio</h3>
+<p>auN or auNGA is the area under the Nx or NGAx curve. It summarises the assembly contiguity with a single number. It is a better choice than Nx or NGAx as it is more stable, less affected by big jumps in contig lengths, and considers the entire Nx or NGAx curve. It was proposed and justified by Heng Li in <a href="https://lh3.github.io/2020/04/08/a-new-metric-on-assembly-contiguity">his blog</a>.</p>
+<p>It is calculated by dividing the sum of squared contig lengths by the sum of contig lengths (or assembly span):</p>
+<p><span class="math display">\[\text{auNGA} = \sum_i A_i \cdot \frac{A_i}{G} = \frac{\sum_i A_i^{2}}{G}\]</span></p>
+<p>The auNGA ratio is then calculated by dividing the auNGA value by the auN from the reference:</p>
+<p><span class="math display">\[\text{auNGA\ ratio} = \frac{\mathrm{auNGA}}{\mathrm{auN}_{\mathrm{ref}}} = \frac{\sum_i A_i^{2}}{\sum_j R_j^{2}}\]</span></p>
+<section id="plotting-the-aunga-ratio" class="level4">
+<h4 class="anchored" data-anchor-id="plotting-the-aunga-ratio">Plotting the auNGA ratio</h4>
+<p>The ideal auNGA ratio is 1. Mathematically, the value can exceed 1, which indicates high duplication. To plot it on a logit scale and bound the value between 0 and 1, we normalise the auNGA ratio by calculating its distance from 1:</p>
+<p><span class="math display">\[\text{Score} = \max(0, 1 - |x - 1|) \times 100\]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../../results/figures/assess/assembly-100x-20x/metrics/combo_assembly_aunga_normalised_logit_pointplot_mean.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="auNGA ratio"><img src="../../results/figures/assess/assembly-100x-20x/metrics/combo_assembly_aunga_normalised_logit_pointplot_mean.png" class="img-fluid figure-img" alt="auNGA ratio"></a></p>
+<figcaption>auNGA ratio</figcaption>
+</figure>
+</div>
+<p>Because we use the min and max values for the error bars, we can see that some values are indeed higher than 1. Below, we zoom in on the y-axis using a linear scale:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../../results/figures/assess/assembly-100x-20x/metrics/combo_assembly_aunga_normalised_linear_pointplot_mean.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="auNGA ratio linear scale"><img src="../../results/figures/assess/assembly-100x-20x/metrics/combo_assembly_aunga_normalised_linear_pointplot_mean.png" class="img-fluid figure-img" alt="auNGA ratio linear scale"></a></p>
+<figcaption>auNGA ratio linear scale</figcaption>
+</figure>
+</div>
 </section>
-<section id="genome-assembly" class="level3">
-<h3 class="anchored" data-anchor-id="genome-assembly">Genome assembly</h3>
+<section id="nga50-ratio" class="level4">
+<h4 class="anchored" data-anchor-id="nga50-ratio">NGA50 ratio</h4>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../../results/figures/assess/assembly-100x-20x/metrics/combo_assembly_nga50_normalised_logit_pointplot_mean.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="NGA50 ratio"><img src="../../results/figures/assess/assembly-100x-20x/metrics/combo_assembly_nga50_normalised_logit_pointplot_mean.png" class="img-fluid figure-img" alt="NGA50 ratio"></a></p>
+<figcaption>NGA50 ratio</figcaption>
+</figure>
+</div>
 </section>
-<section id="assembly-errors" class="level3">
-<h3 class="anchored" data-anchor-id="assembly-errors">Assembly errors</h3>
-<p>For mismatches, no different across tool combo and also raw dataset in the high depth samples both SUP and HAC. But for low depth samples, which processing QC tool we used did matter here, filtlong-dorado had the lowest mismathes rate, this need to compare it against the raw dataset in SUP and filtlong-untrimmed had the lowest in HAC and need to compare it against raw. Also need to point out that, using barbell as the adapter/barcode trimmer (using as demultiplxing mode) harm the assemblies, as these barbell combiation produced the four top highest errors, with the filtlong-barbell produced the most mismatches assemblies, comapre it against the raw, like maginitude in SUP. And in HAC, the unprocessed-barbell- similar with filtlong-barbell produced the most mismathes, comapre the magnitot of this damage in the raw.</p>
-<p>For indels, it has similar story with mismathes. I need to mentioned about the exact rate, how much the maginitude against the raw as well.</p>
-<p>Maybe also point to note that, this is interesting. High assembly errors in babrbell process assemblies got morre in the native samples. Or maybe it is more suitable for dicsussion?</p>
-<p>Prepare two figures. This mismateec and indels plot. And also the figure with sequencing kit annotated.</p>
 </section>
-<section id="adapterbarcode" class="level3">
-<h3 class="anchored" data-anchor-id="adapterbarcode">Adapter/barcode</h3>
-<p>Skipping the barbcode/adapter trimming ended up having assemblies that conatins adapter/barcode contamination in it, as the thre most conatmination count are from assemnbliues without this step (chooper untrimmed, seqkit untrimmed, and unprovessed untrimmed), these hapoens regardless the depth and also the basecalling modles.</p>
-<p>Onlu prepare maybe just one figure</p>
-</section>
-<section id="missed-contigs" class="level3">
-<h3 class="anchored" data-anchor-id="missed-contigs">Missed contigs</h3>
-<p>Interestingly raw datasest assemblies could recover all the contigs in both SUP and HAC and low and high depth sampels. Also, need to point out that fiultlong rpocessed assemboiues has the highest missed contig coints in both SUP and HAC and downsampling depths.</p>
-<p>ALso mentioned about our three small contigs and also the length and from whcihs samples, and how the filtlong process the dataset to get the top n most quality subset of reads basically removeed all these plasmids reads</p>
-<p>Only prepare one figure</p>
-</section>
-<section id="assembly-contiguity" class="level3">
-<h3 class="anchored" data-anchor-id="assembly-contiguity">Assembly contiguity</h3>
-<p>Mention first about whether we use SUP or HAC, it did not matter much, still have good auNGA. Except maybe for barbell combo in SUP and filtlong combo in SUP where it produced lower auNGA ration than raw dataset.</p>
-<p>prepare only one figure</p>
-<div id="a178e01e" class="cell" data-execution_count="1">
+<section id="high-sequences-errors-from-barbell-assemblies" class="level3">
+<h3 class="anchored" data-anchor-id="high-sequences-errors-from-barbell-assemblies">High sequences errors from Barbell assemblies</h3>
+<p>Taking a closer look at the specific sample BPH2947__202310 filtlong-barbell processed (SUP 20x), we can see that both sequence errors (mismatches and indels) are indeed clustered in certain positions along the genome.</p>
+<p>I did not use paftools.js from minimap2 <code>misc</code>. Instead, QUAST also provides a raw SNP report that contains information about the error bases, reference bases, and the genomic coordinates. I binned these to 100kb and produced the error density plot below:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../../high-mismathces-barbell/BPH2947__202310.filtlong-barbell_error_density_10kbp.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Error density plot"><img src="../../high-mismathces-barbell/BPH2947__202310.filtlong-barbell_error_density_10kbp.png" class="img-fluid figure-img" alt="Error density plot"></a></p>
+<figcaption>Error density plot</figcaption>
+</figure>
+</div>
+<p>Actually, the error profile is different in other barbell processed assembly</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../../high-mismathces-barbell/BPH2947__202310.seqkit-barbell_error_density_10kbp.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Error desnsity plot"><img src="../../high-mismathces-barbell/BPH2947__202310.seqkit-barbell_error_density_10kbp.png" class="img-fluid figure-img" alt="Error desnsity plot"></a></p>
+<figcaption>Error desnsity plot</figcaption>
+</figure>
+</div>
+<p>I mapped the filtlong-barbell reads, which had the high 7.8 mismatches/100kbp rate, back to the reference genome. When I zoomed into the ~0.45 Mb region, I found it had little to no read coverage. In contrast, the dataset with the lower mismatch rate covers this region well. Does this definitively prove that Barbell is causing the issue? Or is it due to the downsampling step, given that the 100x depth did not struggle with it, but actua; it is a problem at 50x as well. Alternatively, does this indicate that the assembler doesn’t actually need very high depth as long as the region is covered well?</p>
+<p>The adapter trimmer, in this case Barbell, was over-trimming or performing over-aggressive trimming in this sequence region, causing a severe drop in coverage.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../../high-mismathces-barbell/BPH2947__202310-IGV-zoomed-in-reads.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="~0.44 Mb region"><img src="../../high-mismathces-barbell/BPH2947__202310-IGV-zoomed-in-reads.png" class="img-fluid figure-img" alt="~0.44 Mb region"></a></p>
+<figcaption>~0.44 Mb region</figcaption>
+</figure>
+</div>
+<div id="363bfcf5" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
@@ -692,26 +760,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-198"><a href="#cb1-198" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Plots saved to </span><span class="sc">{</span>out_dir<span class="sc">}</span><span class="ss">/"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="7896a1c3" class="cell" data-execution_count="2">
+<div id="40d42138" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"../../results/tables/assess/assembly-100x-20x/metrics/combo_quast_compiled_metrics.csv"</span>)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>summary <span class="op">=</span> df.groupby([<span class="st">"combo"</span>, <span class="st">"model"</span>, <span class="st">"depth"</span>])[[<span class="st">"Mismatches per 100kbp"</span>, <span class="st">"Indels per 100kbp"</span>, <span class="st">"NGA50"</span>, <span class="st">"NGA50_norm"</span>, <span class="st">"auNGA"</span>, <span class="st">"auNGA_norm"</span>, <span class="st">"Duplication_ratio"</span>, <span class="st">"misassemblies"</span>, <span class="st">"excess_contigs"</span>]].mean().reset_index()</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>summary <span class="op">=</span> summary.<span class="bu">round</span>(<span class="dv">5</span>)</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co"># sort 100x, 50x, and 20x</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>summary[<span class="st">"depth"</span>] <span class="op">=</span> pd.Categorical(summary[<span class="st">"depth"</span>], categories<span class="op">=</span>[<span class="st">"100x"</span>, <span class="st">"50x"</span>, <span class="st">"20x"</span>], ordered<span class="op">=</span> <span class="va">True</span>)</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co"># sort sup then hac</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>summary[<span class="st">"model"</span>] <span class="op">=</span> pd.Categorical(summary[<span class="st">"model"</span>], categories<span class="op">=</span>[<span class="st">"sup"</span>, <span class="st">"hac"</span>], ordered<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Aplly sort logic</span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>summary <span class="op">=</span> summary.sort_values(by<span class="op">=</span>[<span class="st">"combo"</span>, <span class="st">"model"</span>, <span class="st">"depth"</span>])</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>summary.to_csv(<span class="st">"../../results/tables/assess/assembly-100x-20x/metrics/combo_quast_compiled_metrics_average.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"../../results/tables/assess/assembly-100x-20x/metrics/combo_quast_compiled_metrics.csv"</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>summary <span class="op">=</span> df.groupby([<span class="st">"combo"</span>, <span class="st">"model"</span>, <span class="st">"depth"</span>])[[<span class="st">"Mismatches per 100kbp"</span>, <span class="st">"Indels per 100kbp"</span>, <span class="st">"NGA50"</span>, <span class="st">"NGA50_norm"</span>, <span class="st">"auNGA"</span>, <span class="st">"auNGA_norm"</span>, <span class="st">"Duplication_ratio"</span>, <span class="st">"misassemblies"</span>, <span class="st">"excess_contigs"</span>]].mean().reset_index()</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>summary <span class="op">=</span> summary.<span class="bu">round</span>(<span class="dv">5</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># sort 100x, 50x, and 20x</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>summary[<span class="st">"depth"</span>] <span class="op">=</span> pd.Categorical(summary[<span class="st">"depth"</span>], categories<span class="op">=</span>[<span class="st">"100x"</span>, <span class="st">"50x"</span>, <span class="st">"20x"</span>], ordered<span class="op">=</span> <span class="va">True</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co"># sort sup then hac</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>summary[<span class="st">"model"</span>] <span class="op">=</span> pd.Categorical(summary[<span class="st">"model"</span>], categories<span class="op">=</span>[<span class="st">"sup"</span>, <span class="st">"hac"</span>], ordered<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Aplly sort logic</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>summary <span class="op">=</span> summary.sort_values(by<span class="op">=</span>[<span class="st">"combo"</span>, <span class="st">"model"</span>, <span class="st">"depth"</span>])</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>summary.to_csv(<span class="st">"../../results/tables/assess/assembly-100x-20x/metrics/combo_quast_compiled_metrics_average.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 
@@ -1152,6 +1219,38 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </div>
   </div>
 </footer>
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
 
 
 
