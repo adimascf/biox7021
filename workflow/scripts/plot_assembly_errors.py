@@ -41,7 +41,7 @@ config_depths = snakemake.config['depth']
 # sort the depths numerically, and add 'x'
 hue_order = [f"{d}x" for d in sorted([int(d) for d in config_depths], reverse=True)]
 
-plot_types = ["barplot", "stripplot", "pointplot"]
+plot_types = ["barplot", "overlay", "pointplot"]
 
 # Calculate overall performance by summing both error types, then finding the global mean
 df["Total_Errors"] = df["Mismatches per 100kbp"] + df["Indels per 100kbp"]
@@ -74,20 +74,21 @@ for p_type in plot_types:
                         order=order_abs, hue_order=hue_order, 
                         palette=cud(len(hue_order), start=2),
                         ax=ax, dodge=0.3, errorbar=('pi', 100), capsize=0.1, 
-                        err_kws={'linewidth': 1.5}, estimator='mean' # point height represents the mean
+                        err_kws={'linewidth': 1}, linewidth=1, markersize=4, estimator='mean' # point height represents the mean
                     ) 
-                elif p_type == "stripplot":
-                    # sns.boxplot(
-                    #     data=df_sub, x="combo", y=metric, hue="depth", 
-                    #     order=order_abs, hue_order=hue_order, 
-                    #     palette=cud(len(hue_order), start=2),
-                    #     ax=ax, fliersize=0, gap=0.1
-                    # )
+                elif p_type == "overlay":
                     sns.stripplot(
                         data=df_sub, x="combo", y=metric, hue="depth", 
                         order=order_abs, hue_order=hue_order, 
                         palette=cud(len(hue_order), start=2),
-                        ax=ax, alpha=0.6, dodge=True, linewidth=0.5, edgecolor="black", legend=False
+                        ax=ax, alpha=0.4, dodge=True, linewidth=0.5, edgecolor="black", zorder=1, size=3
+                    )
+                    sns.pointplot(
+                        data=df_sub, x="combo", y=metric, hue="depth", 
+                        order=order_abs, hue_order=hue_order, 
+                        palette=cud(len(hue_order), start=2),
+                        ax=ax, dodge=0.3, errorbar=('ci', 95), capsize=0.1, 
+                        err_kws={'linewidth': 1}, linewidth=1, markersize=4, estimator='mean', legend=False, zorder=2
                     )
 
             # Formatting, making the plot prettier

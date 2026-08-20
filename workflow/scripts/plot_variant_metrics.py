@@ -55,7 +55,7 @@ metrics = ["F1_SCORE", "PREC", "RECALL"]
 vartypes = ["SNP", "INDEL"]
 models = ["sup", "hac"]
 estimators = ["mean", "median"]
-plot_types = ["point", "strip"] # I want to generate stripplot and pointplot
+plot_types = ["point", "overlay"] # I want to generate pointplot and overlay (point + strip)
 
 dataix = pr_df.groupby(["combo", "depth", "VAR_TYPE", "sample", "model"])["F1_SCORE"].idxmax()
 data = pr_df.iloc[dataix].copy()
@@ -107,7 +107,7 @@ for y in metrics:
                     cap = 0.99999
                     df.loc[:, y] = df[y].apply(lambda v: cap if v > cap else v)
                     yticks = [0.01, 0.1, 0.5, 0.8, 0.9, 0.99, 0.999, 0.9999, cap]
-                    yticklabels = [f"{yval:.2%}" for yval in yticks]
+                    yticklabels = [f"{yval:.2%}" if yval < cap else "100%" for yval in yticks]
 
                     # Only plot if data exists for this combination
                     if not df.empty:
@@ -121,19 +121,38 @@ for y in metrics:
                                 dodge=0.3,
                                 errorbar=('pi', 100),
                                 capsize=0.1,
-                                err_kws={"linewidth": 1.5},
+                                err_kws={"linewidth": 1},
+                                linewidth=1,
+                                markersize=4,
                                 estimator=est_func
                             )
-                        elif p_type == "strip":
+                        elif p_type == "overlay":
                             sns.stripplot(
                                 data=df, x="combo", y=y, hue="depth",
                                 order=order, hue_order=hue_order,
                                 palette=cud(len(hue_order), start=2),
                                 ax=ax,
                                 dodge=True,
-                                alpha=0.6,
+                                alpha=0.4,
                                 linewidth=0.5,
-                                edgecolor="black"
+                                edgecolor="black",
+                                zorder=1,
+                                size=3
+                            )
+                            sns.pointplot(
+                                data=df, x="combo", y=y, hue="depth",
+                                order=order, hue_order=hue_order,
+                                palette=cud(len(hue_order), start=2),
+                                ax=ax,
+                                dodge=0.3,
+                                errorbar=('ci', 95),
+                                capsize=0.1,
+                                err_kws={"linewidth": 1},
+                                linewidth=1,
+                                markersize=4,
+                                estimator=est_func,
+                                zorder=2,
+                                legend=False
                             )
 
                     # Format Y-axis (Shared across columns)

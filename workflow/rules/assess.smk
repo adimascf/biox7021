@@ -62,7 +62,7 @@ rule assess_variant_plot:
 				FIGURES / f"assess/call/metrics/combo_variant_{metric}_{est}_{p_type}.png"
 				for metric in ["f1", "recall", "precision"]
 				for est in ["mean", "median"]
-				for p_type in ["pointplot", "stripplot"]
+				for p_type in ["pointplot", "overlayplot"]
 				],
 		csv=TABLES / "assess/call/metrics/combo_variant_summary.csv"
 	script:
@@ -228,7 +228,7 @@ rule plot_assembly_error:
 	output:
 		figures=[
 				FIGURES / f"assess/assembly/metrics/combo_assembly_errors_per_100kbp_{p_type}.png"
-				for p_type in ["barplot", "stripplot", "pointplot"]
+				for p_type in ["barplot", "overlay", "pointplot"]
 				]
 	script:
 		"../scripts/plot_assembly_errors.py"
@@ -247,7 +247,7 @@ rule plot_assembly_nga50:
 		figures=[
 				FIGURES / f"assess/assembly/metrics/combo_assembly_nga50_normalised_{scale}_{p_type}_{est}.png"
 				for scale in ["linear", "logit"]
-				for p_type in ["pointplot", "stripplot"]
+				for p_type in ["pointplot", "overlay"]
 				for est in ["mean", "median"]
 				]
 	script:
@@ -267,7 +267,7 @@ rule plot_assembly_aunga:
 		figures=[
 				FIGURES / f"assess/assembly/metrics/combo_assembly_aunga_normalised_{scale}_{p_type}_{est}.png"
 				for scale in ["linear", "logit"]
-				for p_type in ["pointplot", "stripplot"]
+				for p_type in ["pointplot", "overlay"]
 				for est in ["mean", "median"]
 				]
 	script:
