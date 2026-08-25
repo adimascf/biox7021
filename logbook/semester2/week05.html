@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Week 00: Small plasmids recovery issue – BIOX7021 LOGBOOK - 2026</title>
+<title>Week 05: Window q-weight and plotting the main figures – BIOX7021 LOGBOOK - 2026</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -22,41 +22,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -432,24 +397,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
-  <li><a href="#weekly-meeting-and-action-items-22-07-2026" id="toc-weekly-meeting-and-action-items-22-07-2026" class="nav-link" data-scroll-target="#weekly-meeting-and-action-items-22-07-2026">Weekly meeting and action items (22-07-2026)</a></li>
-  <li><a href="#detour-flyes-non-deterministic-behaviour" id="toc-detour-flyes-non-deterministic-behaviour" class="nav-link" data-scroll-target="#detour-flyes-non-deterministic-behaviour">Detour: Flye’s non-deterministic behaviour</a></li>
-  <li><a href="#my-attempts-to-investigate-small-plasmids-discrepancy-between-downsampling-depths" id="toc-my-attempts-to-investigate-small-plasmids-discrepancy-between-downsampling-depths" class="nav-link" data-scroll-target="#my-attempts-to-investigate-small-plasmids-discrepancy-between-downsampling-depths">My attempts to investigate small plasmids discrepancy between downsampling depths</a>
+  <li><a href="#window-q-weight-in-filtlong" id="toc-window-q-weight-in-filtlong" class="nav-link" data-scroll-target="#window-q-weight-in-filtlong">window q weight in Filtlong</a></li>
+  <li><a href="#main-figures" id="toc-main-figures" class="nav-link" data-scroll-target="#main-figures">Main figures</a>
   <ul>
-  <li><a href="#lowering-the-minimum-overlap-value" id="toc-lowering-the-minimum-overlap-value" class="nav-link" data-scroll-target="#lowering-the-minimum-overlap-value">Lowering the minimum overlap value</a>
-  <ul>
-  <li><a href="#minimum-overlap-1000" id="toc-minimum-overlap-1000" class="nav-link" data-scroll-target="#minimum-overlap-1000">Minimum overlap 1000</a></li>
-  <li><a href="#minimum-overlap-1500" id="toc-minimum-overlap-1500" class="nav-link" data-scroll-target="#minimum-overlap-1500">Minimum overlap 1500</a></li>
+  <li><a href="#assembly" id="toc-assembly" class="nav-link" data-scroll-target="#assembly">Assembly</a></li>
+  <li><a href="#varinat-calling" id="toc-varinat-calling" class="nav-link" data-scroll-target="#varinat-calling">Varinat calling</a></li>
+  <li><a href="#resource-usage" id="toc-resource-usage" class="nav-link" data-scroll-target="#resource-usage">Resource usage</a></li>
   </ul></li>
-  <li><a href="#investigating-the-role-of-concatemer-reads-in-small-plasmid-assembly" id="toc-investigating-the-role-of-concatemer-reads-in-small-plasmid-assembly" class="nav-link" data-scroll-target="#investigating-the-role-of-concatemer-reads-in-small-plasmid-assembly">Investigating the Role of Concatemer Reads in Small Plasmid Assembly</a>
-  <ul>
-  <li><a href="#identifying-concatemer-read-ids" id="toc-identifying-concatemer-read-ids" class="nav-link" data-scroll-target="#identifying-concatemer-read-ids">Identifying Concatemer Read IDs</a></li>
-  <li><a href="#comparing-concatemer-integrity-before-and-after-adapter-trimming" id="toc-comparing-concatemer-integrity-before-and-after-adapter-trimming" class="nav-link" data-scroll-target="#comparing-concatemer-integrity-before-and-after-adapter-trimming">Comparing Concatemer Integrity Before and After Adapter Trimming</a></li>
-  <li><a href="#experimental-depletion-of-concatemers" id="toc-experimental-depletion-of-concatemers" class="nav-link" data-scroll-target="#experimental-depletion-of-concatemers">Experimental Depletion of Concatemers</a></li>
-  </ul></li>
-  </ul></li>
-  <li><a href="#community-survey" id="toc-community-survey" class="nav-link" data-scroll-target="#community-survey">Community survey</a></li>
-  <li><a href="#paragraph-to-explain-why-the-issue-occured" id="toc-paragraph-to-explain-why-the-issue-occured" class="nav-link" data-scroll-target="#paragraph-to-explain-why-the-issue-occured">Paragraph to explain why the issue occured</a></li>
   </ul>
 </nav>
     </div>
@@ -459,7 +413,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Week 00: Small plasmids recovery issue</h1>
+<h1 class="title">Week 05: Window q-weight and plotting the main figures</h1>
 </div>
 
 
@@ -478,173 +432,70 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="overview" class="level2">
 <h2 class="anchored" data-anchor-id="overview">Overview</h2>
-<ul>
-<li><strong>Investigated Flye’s Minimum Overlap:</strong> Tested the datasets using <code>minOverlap</code> 1500 and 1000</li>
-<li><strong>Used Debug Logging:</strong> Included the <code>--debug</code> flag in the Flye assembly step</li>
-<li><strong>Calculated Survey Weightings:</strong> Using the arithmetic mean</li>
-<li><strong>Documented Thesis Findings:</strong> Described the small plasmid recovery issue (specifically, how high depths often miss plasmids that lower depths recover) and explained the plausible causes.</li>
-</ul>
 </section>
-<section id="weekly-meeting-and-action-items-22-07-2026" class="level2">
-<h2 class="anchored" data-anchor-id="weekly-meeting-and-action-items-22-07-2026">Weekly meeting and action items (22-07-2026)</h2>
-<ul>
-<li></li>
-</ul>
-</section>
-<section id="detour-flyes-non-deterministic-behaviour" class="level2">
-<h2 class="anchored" data-anchor-id="detour-flyes-non-deterministic-behaviour">Detour: Flye’s non-deterministic behaviour</h2>
-<p>I think I made a mistake when I previously said that the small plasmid recovery issue was not caused by Flye’s non-deterministic behaviour. At the time, I had only manually tested Flye’s non-determinism on two datasets. However, after rerunning my Snakemake pipeline starting from the assembly step, I got different results (as shown in the missed contigs figure) between runs. Look at the <code>unprocessed-porechop_abi</code> and <code>chopper-dorado</code> SUP facet on two figures below.</p>
-<p>This non-deterministic behaviour occurs during Flye’s multithreading step in the disjointig generation stage, where the output can vary slightly depending on how threads are scheduled by the operating system (Flye issue <a href="https://github.com/mikolmogorov/Flye/issues/509">#509</a>).</p>
-<p>I set <code>seed == 1</code> in downsampling step, but concerned about whether the QC tools, variant caller, and assembler I used in my Snakemake pipeline are fully deterministic, or always give identical result between runs.</p>
+<section id="window-q-weight-in-filtlong" class="level2">
+<h2 class="anchored" data-anchor-id="window-q-weight-in-filtlong">window q weight in Filtlong</h2>
+<p>Read statistics across different Filtlong parameters for the same sample (<code>ATCC_25922__202309</code>). Optimising for window q weight produces results similar to <code>meanq</code>, but more extreme, retaining a large number of short reads. The default parameters still appear optimal, as they balance both read length and quality.</p>
+<pre class="{markdown}"><code>file                                     format  type  num_seqs      sum_len  min_len   avg_len    max_len      Q1      Q2        Q3  sum_gap     N50  N50_num  Q20(%)  Q30(%)  AvgQual  GC(%)  sum_n
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+filtlong_len-untrimmed.rasusa.fastq      FASTQ   DNA     13,676  521,000,274   24,279    38,096  1,024,121  26,412  30,707  39,402.5        0  35,800    3,857   75.63   69.76     10.4   47.7      0                   
+filtlong_meanq-untrimmed.rasusa.fastq    FASTQ   DNA     40,137  521,006,145       39  12,980.7    134,064   6,992  10,427    16,007        0  15,630    7,760   96.49   92.68    23.71  50.21      0                   
+filtlong-untrimmed.rasusa.fastq          FASTQ   DNA     18,618  521,012,926   15,814  27,984.4    134,064  21,684  24,290    30,896        0  26,697    5,733   93.45   87.34    21.15  48.87      0                   
+filtlong_windowq-untrimmed.rasusa.fastq  FASTQ   DNA    159,565  521,002,200       34   3,265.1     75,199     875   2,015     3,698        0   5,633   10,620   93.57   87.87    20.53  49.87      0                   
+</code></pre>
+<p>Using window q-weight helped the assembler recover small plasmids; however, default parameters performed best overall for assembly error rates and variant calling F1 score.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="../../results/figures/assess/missed_contig_previous.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Missed contig"><img src="../../results/figures/assess/missed_contig_previous.jpeg" class="img-fluid figure-img" alt="Missed contig"></a></p>
-<figcaption>Missed contig</figcaption>
+<p><a href="../../results/figures/assess/assembly-window-filtlong/metrics/combo_assembly_missed_contigs.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Missed plasmids"><img src="../../results/figures/assess/assembly-window-filtlong/metrics/combo_assembly_missed_contigs.png" class="img-fluid figure-img" alt="Missed plasmids"></a></p>
+<figcaption>Missed plasmids</figcaption>
 </figure>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="../../results/figures/assess/assembly-default-newest/assembly/metrics/combo_assembly_missed_contigs.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Missed contig rerun"><img src="../../results/figures/assess/assembly-default-newest/assembly/metrics/combo_assembly_missed_contigs.png" class="img-fluid figure-img" alt="Missed contig rerun"></a></p>
-<figcaption>Missed contig rerun</figcaption>
-</figure>
-</div>
-</section>
-<section id="my-attempts-to-investigate-small-plasmids-discrepancy-between-downsampling-depths" class="level2">
-<h2 class="anchored" data-anchor-id="my-attempts-to-investigate-small-plasmids-discrepancy-between-downsampling-depths">My attempts to investigate small plasmids discrepancy between downsampling depths</h2>
-<section id="lowering-the-minimum-overlap-value" class="level3">
-<h3 class="anchored" data-anchor-id="lowering-the-minimum-overlap-value">Lowering the minimum overlap value</h3>
-<section id="minimum-overlap-1000" class="level4">
-<h4 class="anchored" data-anchor-id="minimum-overlap-1000">Minimum overlap 1000</h4>
-<p>By decreasing value for minimum overlap (1000), we can recover more small plasmids across different combination of tools, downsampling depths, and basecalling models. But it is in the cost of recovering more suporious small contigs noise as well.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="../../results/figures/assess/assembly-minoverlap-1000/assembly/metrics/combo_assembly_missed_contigs_minOverlap1000.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Missed contigs with minOverlap == 1000"><img src="../../results/figures/assess/assembly-minoverlap-1000/assembly/metrics/combo_assembly_missed_contigs_minOverlap1000.png" class="img-fluid figure-img" alt="Missed contigs with minOverlap == 1000"></a></p>
-<figcaption>Missed contigs with minOverlap == 1000</figcaption>
+<p><a href="../../results/figures/assess/call-window-filtlong/metrics/combo_variant_f1_mean_overlayplot.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="F1 score"><img src="../../results/figures/assess/call-window-filtlong/metrics/combo_variant_f1_mean_overlayplot.png" class="img-fluid figure-img" alt="F1 score"></a></p>
+<figcaption>F1 score</figcaption>
 </figure>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="../../results/figures/assess/assembly-minoverlap-1000-rerun/assembly/metrics/combo_assembly_missed_contigs.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Missed contigs with minOverlap == 1000 rerun"><img src="../../results/figures/assess/assembly-minoverlap-1000-rerun/assembly/metrics/combo_assembly_missed_contigs.png" class="img-fluid figure-img" alt="Missed contigs with minOverlap == 1000 rerun"></a></p>
-<figcaption>Missed contigs with minOverlap == 1000 rerun</figcaption>
+<p><a href="../../results/figures/assess/assembly-window-filtlong/metrics/combo_assembly_errors_per_100kbp_overlay.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Assembly errors"><img src="../../results/figures/assess/assembly-window-filtlong/metrics/combo_assembly_errors_per_100kbp_overlay.png" class="img-fluid figure-img" alt="Assembly errors"></a></p>
+<figcaption>Assembly errors</figcaption>
 </figure>
 </div>
+</section>
+<section id="main-figures" class="level2">
+<h2 class="anchored" data-anchor-id="main-figures">Main figures</h2>
+<section id="assembly" class="level3">
+<h3 class="anchored" data-anchor-id="assembly">Assembly</h3>
+<p>I used an overlay plot for assembly errors (indels + mismatches) and auNGA ratio, and a stripplot for missed contigs and contamination count. The error bars represent the confidence intervals, and each plot is sorted individually.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="../../results/figures/assess/assembly-minoverlap-1000/assembly/metrics/small_plasmids_ATCC_25922__202309_minOverlap1000.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Contig lentgh with minOverlap == 1000"><img src="../../results/figures/assess/assembly-minoverlap-1000/assembly/metrics/small_plasmids_ATCC_25922__202309_minOverlap1000.png" class="img-fluid figure-img" alt="Contig lentgh with minOverlap == 1000"></a></p>
-<figcaption>Contig lentgh with minOverlap == 1000</figcaption>
+<p><a href="../../results/figures/main_figures/combo_main_figure_assembly.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Assembly assessment"><img src="../../results/figures/main_figures/combo_main_figure_assembly.png" class="img-fluid figure-img" alt="Assembly assessment"></a></p>
+<figcaption>Assembly assessment</figcaption>
 </figure>
 </div>
 </section>
-<section id="minimum-overlap-1500" class="level4">
-<h4 class="anchored" data-anchor-id="minimum-overlap-1500">Minimum overlap 1500</h4>
+<section id="varinat-calling" class="level3">
+<h3 class="anchored" data-anchor-id="varinat-calling">Varinat calling</h3>
+<p>The overlay plot displays the mean (points) and confidence intervals (error bars).</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="../../results/figures/assess/assembly-minoverlap-1500/assembly/metrics/combo_assembly_missed_contigs_minOverlap1500.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="Missed contigs with minOverlap == 1500"><img src="../../results/figures/assess/assembly-minoverlap-1500/assembly/metrics/combo_assembly_missed_contigs_minOverlap1500.png" class="img-fluid figure-img" alt="Missed contigs with minOverlap == 1500"></a></p>
-<figcaption>Missed contigs with minOverlap == 1500</figcaption>
+<p><a href="../../results/figures/main_figures/combo_main_figure_call.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Variant calling assessment"><img src="../../results/figures/main_figures/combo_main_figure_call.png" class="img-fluid figure-img" alt="Variant calling assessment"></a></p>
+<figcaption>Variant calling assessment</figcaption>
 </figure>
 </div>
 </section>
-</section>
-<section id="investigating-the-role-of-concatemer-reads-in-small-plasmid-assembly" class="level3">
-<h3 class="anchored" data-anchor-id="investigating-the-role-of-concatemer-reads-in-small-plasmid-assembly">Investigating the Role of Concatemer Reads in Small Plasmid Assembly</h3>
-<p>If we remove concatemer reads from the dataset, then flye is not able to assemble the plasmid_4 (1919bp). I tried this in two dataset <code>unprocessed-untrimmed</code> 100x SUP and <code>chopper-untrimmed</code>100x SUP and <code>unporcessed-barbell</code> 20x SUP. Flye could not assemblye the plasmid_4 in these dataset previously with <code>chopper-untrimmed</code> is partially assembled the plasmid_4 (31.6%).</p>
-<section id="identifying-concatemer-read-ids" class="level4">
-<h4 class="anchored" data-anchor-id="identifying-concatemer-read-ids">Identifying Concatemer Read IDs</h4>
-<p>To determine if concatemer reads are driving the successful assembly of small plasmids, the first step was to identify the read IDs of potential dimers/trimers. Raw reads were mapped to the assembled plasmid sequence, and awk was used to filter for reads with alignment lengths greater than 2001 bp (exceeding the 1919 bp monomer length).</p>
-<div id="35ccc56c" class="cell" data-execution_count="1">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Map raw untrimmed reads to the assembled plasmid_4 sequence and extract read IDs for concatemers (&gt;2001 bp alignment)</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>minimap2 <span class="op">--</span>secondary<span class="op">=</span>no unprocessed<span class="op">-</span>untrimmed_ATCC_25922__202309_plasmid_4.fa <span class="op">\</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="op">/</span>scratch<span class="op">/</span>project<span class="op">/</span>bug_seq_scratch<span class="op">/</span>qc_bench<span class="op">/</span>results<span class="op">/</span>QC<span class="op">/</span>downsampling<span class="op">/</span>unprocessed<span class="op">-</span>untrimmed<span class="op">/</span><span class="dv">100</span><span class="er">x</span><span class="op">/</span>sup<span class="op">/</span>ATCC_25922__202309.unprocessed<span class="op">-</span>untrimmed.rasusa.fastq <span class="op">|</span> <span class="op">\</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  awk <span class="st">'($9 - $8) &gt; 2001 { print $1}'</span> <span class="op">&gt;</span> ATCC_25922__202309.unprocessed<span class="op">-</span>untrimmed.dimer_reads.<span class="bu">id</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
+<section id="resource-usage" class="level3">
+<h3 class="anchored" data-anchor-id="resource-usage">Resource usage</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../../results/figures/benchmark_resources/benchmark_resources.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="Computational resource usage"><img src="../../results/figures/benchmark_resources/benchmark_resources.png" class="img-fluid figure-img" alt="Computational resource usage"></a></p>
+<figcaption>Computational resource usage</figcaption>
+</figure>
 </div>
-</section>
-<section id="comparing-concatemer-integrity-before-and-after-adapter-trimming" class="level4">
-<h4 class="anchored" data-anchor-id="comparing-concatemer-integrity-before-and-after-adapter-trimming">Comparing Concatemer Integrity Before and After Adapter Trimming</h4>
-<div id="2f79fa77" class="cell" data-execution_count="2">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract concatemer reads from the untrimmed dataset</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>seqkit grep <span class="op">-</span>f ATCC_25922__202309.unprocessed<span class="op">-</span>untrimmed.dimer_reads.<span class="bu">id</span> <span class="op">\</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  data<span class="op">/</span>fastqs<span class="op">/</span>trim<span class="op">/</span>sup<span class="op">/</span>ATCC_25922__202309.fastq <span class="op">&gt;</span> missed_plasmid_investigation<span class="op">/</span>untrimmed_concatemers.fastq</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the same concatemer reads from the Dorado-trimmed dataset</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>seqkit grep <span class="op">-</span>f ATCC_25922__202309.unprocessed<span class="op">-</span>untrimmed.dimer_reads.<span class="bu">id</span> <span class="op">\</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="op">/</span>scratch<span class="op">/</span>project<span class="op">/</span>bug_seq_scratch<span class="op">/</span>qc_bench<span class="op">/</span>results<span class="op">/</span>QC<span class="op">/</span>downsampling<span class="op">/</span>unprocessed<span class="op">-</span>dorado<span class="op">/</span><span class="dv">100</span><span class="er">x</span><span class="op">/</span>sup<span class="op">/</span>ATCC_25922__202309.unprocessed<span class="op">-</span>dorado.rasusa.fastq <span class="op">&gt;</span> missed_plasmid_investigation<span class="op">/</span>dorado_concatemers.fastq</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>seqkit fx2tab <span class="op">-</span>l <span class="op">-</span>n <span class="op">-</span>i missed_plasmid_investigation<span class="op">/</span>untrimmed_concatemers.fastq <span class="op">|</span> sort <span class="op">&gt;</span> missed_plasmid_investigation<span class="op">/</span>untrimmed_lengths.txt</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>seqkit fx2tab <span class="op">-</span>l <span class="op">-</span>n <span class="op">-</span>i missed_plasmid_investigation<span class="op">/</span>dorado_concatemers.fastq <span class="op">|</span> sort <span class="op">&gt;</span> missed_plasmid_investigation<span class="op">/</span>dorado_lengths.txt</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>join <span class="op">-</span><span class="dv">1</span> <span class="dv">1</span> <span class="op">-</span><span class="dv">2</span> <span class="dv">1</span> missed_plasmid_investigation<span class="op">/</span>untrimmed_lengths.txt missed_plasmid_investigation<span class="op">/</span>dorado_lengths.txt <span class="op">|</span> <span class="op">\</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  awk <span class="st">'{print $1, "</span><span class="ch">\t</span><span class="st">", $2, "</span><span class="ch">\t</span><span class="st">", $3, "</span><span class="ch">\t</span><span class="st">", $2-$3}'</span> <span class="op">&gt;</span> missed_plasmid_investigation<span class="op">/</span>concatemer_length_comparison.tsv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-</div>
-</section>
-<section id="experimental-depletion-of-concatemers" class="level4">
-<h4 class="anchored" data-anchor-id="experimental-depletion-of-concatemers">Experimental Depletion of Concatemers</h4>
-<div id="25582fcf" class="cell" data-execution_count="3">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove concatemer reads from the seqkit-untrimmed and chopper-untrimmed datasets</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>seqkit grep <span class="op">-</span>f ATCC_25922__202309.unprocessed<span class="op">-</span>untrimmed.dimer_reads.<span class="bu">id</span> <span class="op">-</span>v <span class="op">\</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="op">/</span>scratch<span class="op">/</span>project<span class="op">/</span>bug_seq_scratch<span class="op">/</span>qc_bench<span class="op">/</span>results<span class="op">/</span>QC<span class="op">/</span>downsampling<span class="op">/</span>seqkit<span class="op">-</span>untrimmed<span class="op">/</span><span class="dv">100</span><span class="er">x</span><span class="op">/</span>sup<span class="op">/</span>ATCC_25922__202309.seqkit<span class="op">-</span>untrimmed.rasusa.fastq <span class="op">\</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="op">-</span>o ATCC_25922__202309.seqkit<span class="op">-</span>untrimmed.nodimer.fastq</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>seqkit grep <span class="op">-</span>f ATCC_25922__202309.unprocessed<span class="op">-</span>untrimmed.dimer_reads.<span class="bu">id</span> <span class="op">-</span>v <span class="op">\</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="op">/</span>scratch<span class="op">/</span>project<span class="op">/</span>bug_seq_scratch<span class="op">/</span>qc_bench<span class="op">/</span>results<span class="op">/</span>QC<span class="op">/</span>downsampling<span class="op">/</span>chopper<span class="op">-</span>untrimmed<span class="op">/</span><span class="dv">100</span><span class="er">x</span><span class="op">/</span>sup<span class="op">/</span>ATCC_25922__202309.chopper<span class="op">-</span>untrimmed.rasusa.fastq <span class="op">\</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="op">-</span>o ATCC_25922__202309.chopper<span class="op">-</span>untrimmed.nodimer.fastq</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>ssubmit <span class="op">-</span>m <span class="dv">16</span><span class="er">g</span> <span class="op">-</span>t <span class="dv">6</span><span class="er">h</span> flye <span class="st">"flye --debug --nano-hq ATCC_25922__202309.chopper-untrimmed.nodimer.fastq --out-dir flye_chopper-untrimmed_nodimer --threads 8"</span> <span class="op">--</span> <span class="op">-</span>c <span class="dv">8</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-</div>
-</section>
-</section>
-</section>
-<section id="community-survey" class="level2">
-<h2 class="anchored" data-anchor-id="community-survey">Community survey</h2>
-<p>Because every respondent in the survey gave 100 points across the four parameters.I think we can use arithmetic mean:</p>
-<div id="e8527fcb" class="cell" data-execution_count="4">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"../../microbial-qc-survey.csv"</span>)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>weight_cols <span class="op">=</span> [<span class="st">'w_accuracy'</span>, <span class="st">'w_contiguity'</span>, <span class="st">'w_decontam'</span>, <span class="st">'w_replicon'</span>]</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the arithmetic mean for each column</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>mean_weights <span class="op">=</span> df[weight_cols].mean()</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Build a new summary DataFrame to visualize the results</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>summary_df <span class="op">=</span> pd.DataFrame({</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Survey Parameter'</span>: weight_cols,</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Mean'</span>: mean_weights.values,</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Mean (rounded)'</span>: (mean_weights.values <span class="op">/</span> <span class="dv">100</span>).<span class="bu">round</span>(<span class="dv">2</span>)</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(summary_df.to_string(index<span class="op">=</span><span class="va">False</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>Survey Parameter      Mean  Mean (rounded)
-      w_accuracy 27.454545            0.27
-    w_contiguity 21.909091            0.22
-      w_decontam 16.272727            0.16
-      w_replicon 34.363636            0.34</code></pre>
-</div>
-</div>
-</section>
-<section id="paragraph-to-explain-why-the-issue-occured" class="level2">
-<h2 class="anchored" data-anchor-id="paragraph-to-explain-why-the-issue-occured">Paragraph to explain why the issue occured</h2>
-<p>During the assembly assessment of missed contigs, all QC combinations, except for the unprocessed and untrimmed raw data, missed at least one of the two small plasmids (ATCC_25922__202309 at 1919 bp and BPH2947__202310 at 3011 bp) across the different downsampling depths and basecalling models. All Filtlong combinations completely missed these small plasmids across all depths and models because its quality preprocessing mechanism prioritises longer reads, it effectively filters out the short reads associated with these small plasmids. The other QC combinations retained the short plasmid reads, but their resulting assemblies still occasionally missed the small plasmids (mostly the 1919 bp ATCC_25922__202309) across different depths and models.</p>
-<p>In the context of small plasmids, adapter trimming appears to have a detrimental effect. Excluding the Filtlong combinations, seqkit-untrimmed and barbell-untrimmed only missed small plasmids once each: in the HAC 20x dataset (BPH2947__202310) and the HAC 50x dataset (ATCC_25922__202309), respectively. However, any combinations where adapter trimming was performed missed the small plasmids two or more times across the different depths and basecalling models.</p>
-<p>The BPH2947__202310 small plasmid was only missed in the HAC datasets. Furthermore, there is no pattern suggesting that low-depth samples miss small contigs more frequently. Instead, several tool combinations successfully recovered small plasmids at lower depths but failed to do so at higher depths. For instance, the seqkit-barbell combination under the SUP model recovered the 1919 bp plasmid at 20x depth but missed it at 50x and 100x, while seqkit-dorado recovered it at 20x and 50x but missed it at 100x. This “high depth misses, low depth recovers” phenomenon was exclusive to plasmid_4 (1919 bp) from the ATCC_25922__202309 sample. At the assembly level, reruns revealed that Flye exhibits non-deterministic behavior when recovering this 1919 bp plasmid. This randomness is caused by the multithreading process during the disjointig generation step, making the plasmid’s recovery highly sensitive to minor assembler heuristic fluctuations.</p>
-<p>Analysis of Flye’s underlying algorithm, dataset metrics, and subsequent read-filtering tests indicates this failure is driven by a combination of overlap thresholds, extreme coverage spikes, and a reliance on concatemer reads that are susceptible to unintended adapter trimming processing. Flye uses a dynamic <code>minOverlap</code> parameter based on the read length N90 to stitch reads together and collapse repetitive sequences in the repeat graph. This inherently causes it to struggle with small plasmids that fall below this dynamic length limit. Additionally, at 50x and 100x overall sample depth, the localised coverage of these high-copy small plasmids spikes to extreme levels—around 10,000x—which Flye likely treats as sequencing noise and discards <a href="https://www.microbiologyresearch.org/content/journal/mgen/10.1099/mgen.0.001024#F3">ref</a>.</p>
-<p>Crucially, the successful assembly of these small plasmids seems to rely on the presence of concatemer reads. Concatemer forms are frequently observed in the assembly results across different tool combinations, depths, and models. For example, the SUP unprocessed-untrimmed 100x dataset produced a dimer (3838 bp), and the SUP seqkit-untrimmed 100x dataset formed a trimer (5757 bp). Mapping the raw reads to these concatemer plasmid sequences indicates that they are native to the raw read dataset rather than artifacts introduced during assembly. Because these concatemer reads are significantly longer than a single plasmid unit, they satisfy Flye’s high <code>minOverlap</code> requirements, allowing the assembler to successfully create disjointigs.</p>
-<p>This concatemer dependency was proven by experimentally removing concatemer reads from the datasets (tested on unprocessed-untrimmed 100x, chopper-untrimmed 100x, and unprocessed-barbell 20x SUP). Without these concatemers, Flye completely failed to assemble the 1919 bp plasmid. Consequently, this explains the negative impact of the trimming steps: adapter trimming tools likely mutate or over-trim the ends of these critical concatemer reads, destroying the overlap sequence required for the assembler to resolve the disjointig. While manually decreasing the <code>minOverlap</code> parameter (e.g., to 1000 or 1500) forces Flye to stitch shorter reads and successfully rescues more small plasmids across different QC combinations, contig length distributions reveal that this comes at the significant cost of introducing a high volume of spurious small contig noise.</p>
-<p>Another plausible explanation is that read filtering and adapter trimming fundamentally alter the dataset’s characteristics—such as the median overlap divergence—which Flye relies on during the disjointig process. The three downsampling depths also influence these algorithmic thresholds, leading to highly variable small plasmid recovery rates across different trimming tools and depths. Ultimately, having a higher sequencing depth does not guarantee successful small plasmid recovery, just as having a lower depth does not necessarily mean it will be missed.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

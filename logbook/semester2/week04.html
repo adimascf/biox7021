@@ -433,6 +433,10 @@ window.Quarto = {
     <a class="dropdown-item" href="../../logbook/semester2/week04.html">
  <span class="dropdown-text">Week 04</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../logbook/semester2/week05.html">
+ <span class="dropdown-text">Week 05</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item">
@@ -456,7 +460,8 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#action-items" id="toc-action-items" class="nav-link" data-scroll-target="#action-items">Action items:</a>
   <ul>
   <li><a href="#aunga-and-aunga-ratio" id="toc-aunga-and-aunga-ratio" class="nav-link" data-scroll-target="#aunga-and-aunga-ratio">auNGA and auNGA ratio</a>
   <ul>
@@ -496,6 +501,13 @@ window.Quarto = {
 <ul>
 <li>Calculation, normalisation, and plotting of our new metric auNGA ratio to better evaluate assembly contiguity across (bacterial) genome structures</li>
 <li>Investigated high error rates in Barbell assemblies: The sequence errors are highly clustered in specific genomic regions</li>
+</ul>
+</section>
+<section id="action-items" class="level2">
+<h2 class="anchored" data-anchor-id="action-items">Action items:</h2>
+<ul>
+<li>Write a little paragraph explaining what is going on in the high error rates barbell assemblies.</li>
+<li>Designing plot display for the paper: - sorting per basecalling models, make the line and dots smaller. - layering the poinplot with stripplot - need to manually change the 100 to 0.9997, and label it with 100</li>
 </ul>
 <section id="aunga-and-aunga-ratio" class="level3">
 <h3 class="anchored" data-anchor-id="aunga-and-aunga-ratio">auNGA and auNGA ratio</h3>
@@ -568,7 +580,7 @@ raw_data.fastq   FASTQ   DNA   1,091,163  3,893,765,748        5   3,568.5  1,02
 pipe_A.fastq     FASTQ   DNA       3,220     92,018,979   17,434  28,577.3     98,084  22,092.5  24,667.5  32,050        0  27,552    1,145   94.13   88.31    21.93  49.02      0
 pipe_B.fastq     FASTQ   DNA       9,438     92,001,285    3,586     9,748    128,270     5,060     7,227  11,612        0  11,610    2,182   89.62   82.74    18.34  49.74      0
 fastplong.fastq  FASTQ   DNA      27,161    104,199,968      100   3,836.4     82,607       890     2,047   4,153        0   7,500    3,087   91.35   84.33    19.38  49.61      0</code></pre>
-<div id="2dd71b93" class="cell" data-execution_count="1">
+<div id="cdbf0766" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
@@ -771,7 +783,7 @@ fastplong.fastq  FASTQ   DNA      27,161    104,199,968      100   3,836.4     8
 <span id="cb2-198"><a href="#cb2-198" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Plots saved to </span><span class="sc">{</span>out_dir<span class="sc">}</span><span class="ss">/"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="d69d280f" class="cell" data-execution_count="2">
+<div id="be1ba4ad" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -792,6 +804,7 @@ fastplong.fastq  FASTQ   DNA      27,161    104,199,968      100   3,836.4     8
 <span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>summary.to_csv(<span class="st">"../../results/tables/assess/assembly-100x-20x/metrics/combo_quast_compiled_metrics_average.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
+<p>High sequence erros in barbell processed assemblies: Barbell processed assemblies, regardless the read trimming tools did relatively poor job to get high quality sequence in the 20x dataset, as it had high error both in mismathes and indels rates. Both type of errors are usually localised or clustered in certain region in the genome, and these errors are usually at the of the contigs from the resulted assembly, that point to note that barbell pipeline also produce low contiguty produced more fragmented assemblies. Mapping the reads to the reference genome shows that the region were partly or only covered by very few of reads. Other things is, these high error rates are coming from native processed samples.</p>
 
 
 </section>
