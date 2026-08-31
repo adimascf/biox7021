@@ -10,7 +10,7 @@ output_file=snakemake.output.csv
 df = pd.read_csv(input_file)
 
 summary = df.groupby(["combo", "model", "depth", "VAR_TYPE"])[["PREC", "RECALL", "F1_SCORE"]].mean().reset_index()
-summary = summary.round(5)
+summary = summary.round(7)
 
 # sort 100x, 50x, and 20x
 summary["depth"] = pd.Categorical(summary["depth"], categories=["100x", "50x", "20x"], ordered= True)

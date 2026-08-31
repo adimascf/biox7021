@@ -32,8 +32,8 @@ def cud(n: int = len(cud_palette), start: int = 0) -> List[str]:
 
 df = pd.read_csv(snakemake.input.csv)
 
-# Normalise auNGA_norm for accurate ranking/sorting and also for logit
-df["auNGA_score"] = np.maximum(0, 1 - np.abs(df["auNGA_norm"] - 1.0))
+# Normalise auNGA_ratio for accurate ranking/sorting and also for logit
+df["auNGA_score"] = np.maximum(0, 1 - np.abs(df["auNGA_ratio"] - 1.0))
 
 sns.set_theme(style="whitegrid")
 models = ["sup", "hac"]
@@ -76,10 +76,10 @@ for est in estimators:
                     if scale == "logit":
                         cap = 0.99999
                         # Cap at 0.99999 strictly to prevent logit from crashing
-                        df_sub['plot_metric'] = df_sub['auNGA_norm'].apply(lambda v: cap if v >= cap else (0.00001 if v <= 0 else v))
+                        df_sub['plot_metric'] = df_sub['auNGA_ratio'].apply(lambda v: cap if v >= cap else (0.00001 if v <= 0 else v))
                     else:
                         # For linear, use the exact raw values so we can see values > 1
-                        df_sub['plot_metric'] = df_sub['auNGA_norm']
+                        df_sub['plot_metric'] = df_sub['auNGA_ratio']
 
                     if p_type == "pointplot":
                         sns.pointplot(

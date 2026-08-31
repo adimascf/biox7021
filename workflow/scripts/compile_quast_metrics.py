@@ -81,7 +81,7 @@ for file_path in snakemake.input.reports:
         
         # Calculate the ratio of the selected contiguity metrics
         nga50_norm = nga50 / ref_n50 if pd.notna(ref_n50) and ref_n50 > 0 else np.nan
-        aunga_norm = aunga / ref_aun if pd.notna(ref_aun) and ref_aun > 0 else np.nan
+        aunga_ratio = aunga / ref_aun if pd.notna(ref_aun) and ref_aun > 0 else np.nan
 
         c_exp = expected_contigs.get(sample, np.nan)
         excess_contigs = contigs_obs - c_exp if pd.notna(c_exp) else np.nan
@@ -93,7 +93,7 @@ for file_path in snakemake.input.reports:
             'NGA50': nga50,
             'NGA50_norm': nga50_norm,
             'auNGA': aunga,
-            'auNGA_norm': aunga_norm, 
+            'auNGA_ratio': aunga_ratio, 
             'Duplication_ratio': dup_ratio,
             'misassemblies': misassemblies,
             'excess_contigs': excess_contigs

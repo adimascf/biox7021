@@ -62,8 +62,10 @@ rule all:
 	input:
 		target_files,
 		
-		FIGURES / "assess/assembly/metrics/combo_main_figure_assembly.png",
-		FIGURES / "assess/call/metrics/combo_main_figure_call.png",
+		FIGURES / "assess/assembly/metrics/combo_main_figure_assembly_sup.png",
+		FIGURES / "assess/assembly/metrics/combo_main_figure_assembly_hac.png",
+		FIGURES / "assess/call/metrics/combo_main_figure_call_sup.png",
+		FIGURES / "assess/call/metrics/combo_main_figure_call_hac.png",
 
 		FIGURES / "assess/call/metrics/combo_variant_f1_mean_pointplot.png",
 		FIGURES / "assess/call/metrics/combo_variant_precision_mean_pointplot.png",

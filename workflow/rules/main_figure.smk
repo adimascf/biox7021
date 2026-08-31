@@ -4,14 +4,14 @@ rule plot_main_figure_assembly:
 		missed_csv=TABLES / "assess/assembly/metrics/combo_assembly_missed_contigs.csv",
 		contam_csv=TABLES / "assess/assembly/metrics/combo_contaminant_summary_count.csv"
 	log:
-		LOGS / "assess/assembly/plot_main_figure_assembly.log"
+		LOGS / "assess/assembly/plot_main_figure_assembly_{model}.log"
 	resources:
 		mem="16GiB",
 		runtime="20m"
 	conda:
 		ENVS / "generate_figure_python.yaml"
 	output:
-		figure=FIGURES / "assess/assembly/metrics/combo_main_figure_assembly.png"
+		figure=FIGURES / "assess/assembly/metrics/combo_main_figure_assembly_{model}.png"
 	script:
 		"../scripts/plot_main_figure_assembly.py"
 
@@ -20,14 +20,14 @@ rule plot_main_figure_call:
 	input:
 		csv=TABLES / "assess/call/metrics/combo_variant_summary.csv"
 	log:
-		LOGS / "assess/call/plot_main_figure_call.log"
+		LOGS / "assess/call/plot_main_figure_call_{model}.log"
 	resources:
 		mem="16GiB",
 		runtime="20m"
 	conda:
 		ENVS / "generate_figure_python.yaml"
 	output:
-		figure=FIGURES / "assess/call/metrics/combo_main_figure_call.png"
+		figure=FIGURES / "assess/call/metrics/combo_main_figure_call_{model}.png"
 	script:
 		"../scripts/plot_main_figure_call.py"
 
