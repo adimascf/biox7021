@@ -335,8 +335,8 @@ rule plot_missed_contig:
 		tsv=expand(
 			RESULTS / "assess/assembly/missed_contigs/{combo}/{depth}x/{model}/{sample}.{combo}.{depth}x.missed_contigs.csv",
 			combo=COMBINATIONS,
-			depth=["100", "50", "20"],
-			model=["sup", "hac"],
+			depth=DEPTHS,
+			model=MODELS,
 			sample=SAMPLES)
 	log:
 		LOGS / "assess/assembly/plot_missed_contig.log"

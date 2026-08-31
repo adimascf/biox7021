@@ -118,6 +118,8 @@ rule all:
 		TABLES / "assess/assembly/metrics/combo_assembly_missed_contigs.csv",
 
 		TABLES / "assess/assembly/metrics/combo_assembly_metrics_master.csv",
+		TABLES / "assess/assembly/metrics/combo_assembly_summary_metrics_sup.csv",
+		TABLES / "assess/assembly/metrics/combo_assembly_summary_metrics_hac.csv",
 		FIGURES / "assess/assembly/metrics/combo_assembly_aggregate_score_sup.png",
 		FIGURES / "assess/assembly/metrics/combo_assembly_aggregate_score_hac.png",
 		TABLES / "assess/assembly/metrics/combo_assembly_survey_scores.csv",

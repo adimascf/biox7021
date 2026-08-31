@@ -69,3 +69,20 @@ rule plot_assembly_aggregate_score:
 	script:
 		"../scripts/plot_assembly_aggregate_score.py"
 
+
+rule summarise_assembly_metrics:
+	input:
+		master_csv=rules.compile_assembly_metrics_master.output.master
+	log:
+		LOGS / "assess/assembly/summarise_assembly_metrics_{model}.log"
+	resources:
+		mem="8GiB",
+		runtime="10m"
+	conda:
+		ENVS / "generate_figure_python.yaml"
+	output:
+		csv=TABLES / "assess/assembly/metrics/combo_assembly_summary_metrics_{model}.csv"
+	script:
+		"../scripts/summarise_assembly_metrics.py"
+
+
