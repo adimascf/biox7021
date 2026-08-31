@@ -62,6 +62,9 @@ rule all:
 	input:
 		target_files,
 		
+		FIGURES / "assess/assembly/metrics/combo_main_figure_assembly.png",
+		FIGURES / "assess/call/metrics/combo_main_figure_call.png",
+
 		FIGURES / "assess/call/metrics/combo_variant_f1_mean_pointplot.png",
 		FIGURES / "assess/call/metrics/combo_variant_precision_mean_pointplot.png",
 		FIGURES / "assess/call/metrics/combo_variant_recall_mean_pointplot.png",
@@ -112,6 +115,12 @@ rule all:
 		FIGURES / "assess/assembly/metrics/combo_assembly_total_missed_contigs.png",
 		TABLES / "assess/assembly/metrics/combo_assembly_missed_contigs.csv",
 
+		TABLES / "assess/assembly/metrics/combo_assembly_metrics_master.csv",
+		FIGURES / "assess/assembly/metrics/combo_assembly_aggregate_score_sup.png",
+		FIGURES / "assess/assembly/metrics/combo_assembly_aggregate_score_hac.png",
+		TABLES / "assess/assembly/metrics/combo_assembly_survey_scores.csv",
+		TABLES / "assess/assembly/metrics/combo_assembly_survey_ranking_summary.csv",
+
 		TABLES / "assess/call/metrics/combo_f1_score_significance.csv",
 		TABLES / "assess/call/metrics/combo_prec_significance.csv",
 		TABLES / "assess/call/metrics/combo_recall_significance.csv",
@@ -131,4 +140,5 @@ include: RULES / "downsample.smk"
 include: RULES / "call.smk"
 include: RULES / "assembly.smk"
 include: RULES / "assess.smk"
+include: RULES / "main_figure.smk"
 
