@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Week 05: QC Tool Parameter Compilation – BIOX7021 LOGBOOK - 2026</title>
+<title>Week 06: Dorado trim impact and survey weighted assembly plot – BIOX7021 LOGBOOK - 2026</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -22,41 +22,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -82,6 +47,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/bootstrap/bootstrap-2e07afffe0e1d027e310c816153ddb72.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
 <link href="../../site_libs/bootstrap/bootstrap-dark-52489e3bfee96bc9e30fc12a283dda77.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="../../site_libs/bootstrap/bootstrap-2e07afffe0e1d027e310c816153ddb72.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -433,16 +401,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
-  <li><a href="#weekly-meeting-and-action-items-25-03-2026" id="toc-weekly-meeting-and-action-items-25-03-2026" class="nav-link" data-scroll-target="#weekly-meeting-and-action-items-25-03-2026">Weekly meeting and action items (25-03-2026)</a></li>
-  <li><a href="#qc-tools-features" id="toc-qc-tools-features" class="nav-link" data-scroll-target="#qc-tools-features">QC Tools Features</a>
+  <li><a href="#dorado-trim-impact-on-already-trimmed-datasets" id="toc-dorado-trim-impact-on-already-trimmed-datasets" class="nav-link" data-scroll-target="#dorado-trim-impact-on-already-trimmed-datasets">Dorado trim impact on already trimmed datasets</a></li>
+  <li><a href="#assembly-main-figures" id="toc-assembly-main-figures" class="nav-link" data-scroll-target="#assembly-main-figures">Assembly main figures</a>
   <ul>
-  <li><a href="#adapter-trimming-tools" id="toc-adapter-trimming-tools" class="nav-link" data-scroll-target="#adapter-trimming-tools">Adapter trimming tools</a></li>
-  <li><a href="#quality-filteringtrimming-tools" id="toc-quality-filteringtrimming-tools" class="nav-link" data-scroll-target="#quality-filteringtrimming-tools">Quality filtering/trimming tools</a></li>
-  <li><a href="#example-commands" id="toc-example-commands" class="nav-link" data-scroll-target="#example-commands">Example commands</a>
+  <li><a href="#sup" id="toc-sup" class="nav-link" data-scroll-target="#sup">SUP</a>
   <ul>
-  <li><a href="#chopper---trim-approach-split-by-low-quality" id="toc-chopper---trim-approach-split-by-low-quality" class="nav-link" data-scroll-target="#chopper---trim-approach-split-by-low-quality">chopper (<code>--trim-approach</code> <code>split-by-low-quality)</code></a></li>
-  <li><a href="#fastplong" id="toc-fastplong" class="nav-link" data-scroll-target="#fastplong">fastplong</a></li>
+  <li><a href="#four-assembly-metrics" id="toc-four-assembly-metrics" class="nav-link" data-scroll-target="#four-assembly-metrics">Four assembly metrics</a></li>
+  <li><a href="#survey-weighted-assembly-plot" id="toc-survey-weighted-assembly-plot" class="nav-link" data-scroll-target="#survey-weighted-assembly-plot">Survey-weighted assembly plot</a></li>
   </ul></li>
+  <li><a href="#hac" id="toc-hac" class="nav-link" data-scroll-target="#hac">HAC</a>
+  <ul>
+  <li><a href="#four-assembly-metrics-1" id="toc-four-assembly-metrics-1" class="nav-link" data-scroll-target="#four-assembly-metrics-1">Four assembly metrics</a></li>
+  <li><a href="#survey-weighted-assembly-plot-1" id="toc-survey-weighted-assembly-plot-1" class="nav-link" data-scroll-target="#survey-weighted-assembly-plot-1">Survey-weighted assembly plot</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#variant-calling-main-figures" id="toc-variant-calling-main-figures" class="nav-link" data-scroll-target="#variant-calling-main-figures">Variant calling main figures</a>
+  <ul>
+  <li><a href="#sup-1" id="toc-sup-1" class="nav-link" data-scroll-target="#sup-1">SUP</a></li>
+  <li><a href="#hac-1" id="toc-hac-1" class="nav-link" data-scroll-target="#hac-1">HAC</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -453,7 +429,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Week 05: QC Tool Parameter Compilation</h1>
+<h1 class="title">Week 06: Dorado trim impact and survey weighted assembly plot</h1>
 </div>
 
 
@@ -472,196 +448,98 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="overview" class="level2">
 <h2 class="anchored" data-anchor-id="overview">Overview</h2>
-<hr>
-</section>
-<section id="weekly-meeting-and-action-items-25-03-2026" class="level2">
-<h2 class="anchored" data-anchor-id="weekly-meeting-and-action-items-25-03-2026">Weekly meeting and action items (25-03-2026)</h2>
 <ul>
-<li><p>Succesfully run snakemake slurm plugin and adding the benchmark as well as the resource directive in the rules</p></li>
-<li><p>Include chopper in the read quality trimming/filtering evaluation</p></li>
-<li><p>Discussed Native vs.&nbsp;Rapid read anatomy structure.</p></li>
-<li><p>Compiled the paramters for each QC tool</p></li>
+<li>Running dorado trim had very small or no effect on datasets that were already trimmed during basecalling.</li>
+<li>The survey-weighted assembly plot reveals..</li>
 </ul>
 </section>
-<section id="qc-tools-features" class="level2">
-<h2 class="anchored" data-anchor-id="qc-tools-features">QC Tools Features</h2>
-<section id="adapter-trimming-tools" class="level3">
-<h3 class="anchored" data-anchor-id="adapter-trimming-tools">Adapter trimming tools</h3>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Feature</th>
-<th><code>dorado trim</code></th>
-<th><code>porechop_abi</code></th>
-<th><code>barbell kit</code></th>
-<th><code>fastplong</code></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Adapter input</td>
-<td>It requires one kit name (<code>--sequencing-kit</code>)</td>
-<td>It can detect adapter from the read set, de novo (<code>--ab_initio)</code>. One adapter will be selected.</td>
-<td>It requires one kit name (<code>--kit</code>)</td>
-<td>Detect automatically, but the author recommends to specify the sequence (<code>start_adapter</code>, <code>end_adapter</code> and <code>adapter_fasta)</code></td>
-</tr>
-<tr class="even">
-<td>Adapter trimming extension</td>
-<td>Not specified</td>
-<td><code>--extra_end_trim,</code> (default on, = 2bp)</td>
-<td>Not specified</td>
-<td><code>--trimming_extension</code>(default on, =10bp)</td>
-</tr>
-<tr class="odd">
-<td>Middle adapter detection</td>
-<td>Not specified</td>
-<td>Yes, it can split into two reads (default, to disable searching = <code>--no_split</code>) or discard them ( <code>--discard_middle</code>).</td>
-<td>It seems <code>–-use-extended</code> option can do this ( detect fusions, breaks)</td>
-<td>No, it searches adapter at start and and of the reads</td>
-</tr>
-<tr class="even">
-<td>How does the tool find adapter</td>
-<td>Corresponding adapter sequence of the specified kit</td>
-<td>Sample the reads (<code>--check_reads</code>, default 10Kb)*, then will use kmer + graph based method to find consensus (<code>--abi</code>), or match them to static db (original impl)</td>
-<td>Corresponding adapter sequence of the specified kit</td>
-<td>Not clear. A static database seems to be expected (similar to original porechop), but the nanopore adapter is not included here in their <a href="https://github.com/OpenGene/fastplong/blob/main/src/knownadapters.h">knownadapters.h</a> file. Maybe we need to specify adapter sequence afterall.</td>
-</tr>
-<tr class="odd">
-<td>Tool related parameters</td>
-<td>-</td>
-<td><p><code>--end_size</code> (number of bases at each end of the read which will be searched for adapter sequences, default 150bp)</p>
-<p><code>--end_threshold</code> threshold identity (default 75%) to be removed</p></td>
-<td><p><code>--maximize</code> adds “risky” pattern during demultiplexing, meaning more reads are retained or assigned.</p>
-<p>When scanning for barcode flanks, we can set <code>--flank-max-errors</code>. Other paramters related threshold <code>--min-score</code>,<code>--min-score-diff</code>, <code>--alpha</code></p></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>Multithreading support (for benchmarking maybe?)</td>
-<td><code>--threads</code> (deafult using all available threads)</td>
-<td><code>--threads</code> (default is 16)</td>
-<td><code>--threads</code> (default is 10)</td>
-<td><code>--thread</code> (default is 3)</td>
-</tr>
-</tbody>
-</table>
-<p>*: It doesn’t use proportion, meaning that different read depth will have different sampling representation to “guess” (ab initio) what the adapter sequence are. Is it better to perform downsampling before adapter trimming/QC steps instead of after to minimise bias across the samples?</p>
+<section id="dorado-trim-impact-on-already-trimmed-datasets" class="level2">
+<h2 class="anchored" data-anchor-id="dorado-trim-impact-on-already-trimmed-datasets">Dorado trim impact on already trimmed datasets</h2>
+<p>ased on these two samples (representing both native and rapid libraries), running dorado trim on previously trimmed data makes no difference. Can we treat these as already trimmed during basecalling or demultiplexing, essentially serving as standard ONT adapter trimming? Since dorado trim only scans for adapter sequences, no barcode sequences</p>
+<pre class="{markdown}"><code>file                             format  type   num_seqs        sum_len  min_len  avg_len    max_len   Q1     Q2     Q3  sum_gap     N50  N50_num  Q20(%)  Q30(%)  AvgQual  GC(%)  sum_n
+ATCC_25922__202309.fastq         FASTQ   DNA   1,091,163  3,893,765,748        5  3,568.5  1,024,021  593  1,899  3,760        0   7,781   25,349   86.55   79.46    15.49  49.39      0
+ATCC_25922__202309.dorado.fastq  FASTQ   DNA   1,091,163  3,890,402,447        1  3,565.4  1,024,021  591  1,899  3,758        0   7,788   25,347   86.57   79.49    15.49  49.39      0
+AJ292__202310.fastq              FASTQ   DNA      71,969    578,320,145        5  8,035.7    193,813  695  2,911  8,884        0  24,022    6,526   91.49   84.36    19.68  56.62      0
+AJ292__202310.dorado.fastq       FASTQ   DNA      71,969    578,319,287        5  8,035.7    193,813  695  2,911  8,884        0  24,022    6,526   91.49   84.36    19.68  56.62      0</code></pre>
 </section>
-<section id="quality-filteringtrimming-tools" class="level3">
-<h3 class="anchored" data-anchor-id="quality-filteringtrimming-tools">Quality filtering/trimming tools</h3>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Feature</th>
-<th><code>fastplong</code></th>
-<th><code>filtlong</code></th>
-<th><code>chopper</code>*</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Filter based on read length</td>
-<td>Yes, minimum length (<code>--length_required</code>, default=20bp) and maximum length (<code>--length_limit</code>, default=no limitation)</td>
-<td>Yes (<code>--min_length</code>, <code>--max_length</code>) with no default values (not required)</td>
-<td><code>--min-length</code>, default=1bp and <code>--maxlength</code> with default INF</td>
-</tr>
-<tr class="even">
-<td>Filter based on average quality</td>
-<td>Yes (<code>--mean_qual</code>, default=no requirement)</td>
-<td>Yes (<code>--min_mean_q</code>, <code>—min_window_q</code>) with no default values (not required)</td>
-<td>minimum average quality score (<code>--quality</code>, default=0) and maximum (<code>--maxqual</code>, default 1000)</td>
-</tr>
-<tr class="odd">
-<td>Masking</td>
-<td><code>--mask</code> to enable this feature, then we can adjust the paramters <code>--mask_window_size</code>, <code>--mask_mean_quality</code>.</td>
-<td>Not specified</td>
-<td>Not specified</td>
-</tr>
-<tr class="even">
-<td>Trim from front and/or tail by quality</td>
-<td><p><code>--cut_front</code> to enable scan per window (<code>--cut_window_size</code>) from 5’ end, and drop it if the per window quality below (<code>--cut_front_mean_quality</code>).</p>
-<p>It can also scan from the tail 3’</p></td>
-<td>Not specified</td>
-<td><p><code>--trim-approach trim-by-quality</code> will trim reads base per base until &gt;= <code>--cutoff</code> from the ends of the reads</p>
-<p><code>--trim-approach best-read-segment</code> uses more fancy approach, calculating the differences between <code>–-cut-off</code> and base quality to get sub-read that has highest cumulative score (read more <a href="https://github.com/wdecoster/chopper/pull/52">here</a>). In the example, the author combined this option with <code>--min-length</code></p></td>
-</tr>
-<tr class="odd">
-<td>Fixed trimming</td>
-<td><code>--trim_front N</code> and <code>--trim_tail N</code> to enable</td>
-<td>Not specified</td>
-<td><code>--trim-approach fixed-crop</code>, then specify N bases to trim from the start (<code>--headcrop</code>)and and from the end (<code>--tailcrop</code>)</td>
-</tr>
-<tr class="even">
-<td>Non random downsampling</td>
-<td><p><code>--reads_to_process</code> technically, I think, can do this job</p>
-<p>because simply stops the tool after N reads</p></td>
-<td>Keeps the “best” reads up to target base count (<code>--target-base</code>) or proportion (<code>--keep_percent</code>)</td>
-<td>Not specified</td>
-</tr>
-<tr class="odd">
-<td>Low complexity/N base filtering or trimming</td>
-<td><p><code>--low_complexity_filter</code> to enable it, checking <code>base[i]!=base[i+1]</code> with <code>--complexity_threshold</code>, default 30%)</p>
-<p>and limits N bases using <code>--n_base_limit</code></p>
-<p>Also, <code>--trim_poly_x</code> to enable polyX trimming in 3’ ends</p></td>
-<td>Not specified</td>
-<td>Not specified</td>
-</tr>
-<tr class="even">
-<td>Read splitting by quality</td>
-<td><code>--break</code> to discarding the low quality bases in the middle and break the read into two pieces, and we can adjust <code>--break_window_size</code> and <code>--break_mean_quality</code></td>
-<td>No, but it can break the read as well, see External reference support</td>
-<td><p>It can split reads by low-quality segments (dynamically by scanning the quality) using <code>--trim-approach</code> <code>split-by-low-quality</code></p>
-<p>Technically, it can split one read into multiple high quality shorter reads (proved it in the example command below). In the example, the author combined this option with <code>--min-length</code></p></td>
-</tr>
-<tr class="odd">
-<td>External reference support</td>
-<td>Not specified</td>
-<td>Yes. Can use short reads or an assembly to determine quality instead of phred score. It does trimming (<code>--trim</code>) and splitting (<code>--split</code>) by reference kmer matches.</td>
-<td>Yes, we can specify “contaminant” sequences using <code>--contam</code>, to be filtered out</td>
-</tr>
-<tr class="even">
-<td>Filter by GC content</td>
-<td>Not specified</td>
-<td>Not specified</td>
-<td>Yes, <code>--mingc</code> and <code>--maxgc</code></td>
-</tr>
-<tr class="odd">
-<td>How the tool performs the process</td>
-<td>Process each parameter in isolation</td>
-<td>Reads are scored using a weighted formula based on three separate metrics: read length, mean quality, and sliding window quality to determine threshold for <code>--keep_percent</code> and <code>--target_bases</code></td>
-<td>Process each parameter in isolation</td>
-</tr>
-<tr class="even">
-<td>Multithreading support (for benchmarking maybe?)</td>
-<td>See <strong>adapter trimming tools</strong></td>
-<td>Not specified</td>
-<td><code>--threads</code> (default is 4)</td>
-</tr>
-</tbody>
-</table>
-<p>*: <code>chopper</code> does not perform any adapter preprocessing, as the author said <a href="https://github.com/wdecoster/chopper/issues/16">here</a></p>
+<section id="assembly-main-figures" class="level2">
+<h2 class="anchored" data-anchor-id="assembly-main-figures">Assembly main figures</h2>
+<section id="sup" class="level3">
+<h3 class="anchored" data-anchor-id="sup">SUP</h3>
+<section id="four-assembly-metrics" class="level4">
+<h4 class="anchored" data-anchor-id="four-assembly-metrics">Four assembly metrics</h4>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../../results/figures/main_figures/combo_main_figure_assembly_sup.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Assembly main figure SUP"><img src="../../results/figures/main_figures/combo_main_figure_assembly_sup.png" class="img-fluid figure-img" alt="Assembly main figure SUP"></a></p>
+<figcaption>Assembly main figure SUP</figcaption>
+</figure>
+</div>
 </section>
-<section id="example-commands" class="level3">
-<h3 class="anchored" data-anchor-id="example-commands">Example commands</h3>
-<section id="chopper---trim-approach-split-by-low-quality" class="level4">
-<h4 class="anchored" data-anchor-id="chopper---trim-approach-split-by-low-quality">chopper (<code>--trim-approach</code> <code>split-by-low-quality)</code></h4>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">chopper-linux</span> <span class="at">--trim-approach</span> split-by-low-quality <span class="at">--cutoff</span> 15 <span class="at">-l</span> 50 <span class="at">-i</span> biox7021/data/fastqs/KPC2__202310.fastq <span class="op">&gt;</span> split_reads.fastq</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Kept</span> 1862406 reads out of 49458 reads</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The caluclate simple read stats using seqkit:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">seqkit</span> stats biox7021/data/fastqs/KPC2__202310.fastq</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">file</span>                                     format  type  num_seqs      sum_len  min_len  avg_len  max_len</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">biox7021/data/fastqs/KPC2__202310.fastq</span>  FASTQ   DNA     49,458  431,184,574       11  8,718.2  195,090</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="ex">seqkit</span> stats split_reads.fastq </span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">file</span>               format  type   num_seqs      sum_len  min_len  avg_len  max_len</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="ex">split_reads.fastq</span>  FASTQ   DNA   1,862,406  338,902,877       50      182    6,901</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>It reduced <code>avg_len</code> and <code>max_len</code> significantly</p>
+<section id="survey-weighted-assembly-plot" class="level4">
+<h4 class="anchored" data-anchor-id="survey-weighted-assembly-plot">Survey-weighted assembly plot</h4>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../../results/figures/main_figures/combo_assembly_aggregate_score_perdepth_sup.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Survey weighted plot SUP per depth norm"><img src="../../results/figures/main_figures/combo_assembly_aggregate_score_perdepth_sup.png" class="img-fluid figure-img" alt="Survey weighted plot SUP per depth norm"></a></p>
+<figcaption>Survey weighted plot SUP per depth norm</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../../results/figures/main_figures/combo_assembly_aggregate_score_global_sup.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Survey weighted plot SUP combined norm"><img src="../../results/figures/main_figures/combo_assembly_aggregate_score_global_sup.png" class="img-fluid figure-img" alt="Survey weighted plot SUP combined norm"></a></p>
+<figcaption>Survey weighted plot SUP combined norm</figcaption>
+</figure>
+</div>
 </section>
-<section id="fastplong" class="level4">
-<h4 class="anchored" data-anchor-id="fastplong">fastplong</h4>
-<p>This command will only perform adapter trimming without quality and length filtering</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">fastplong</span> <span class="at">-i</span> {input.reads} <span class="at">-o</span> {output.reads} <span class="at">--disable_quality_filtering</span> <span class="at">--disable_length_filtering</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="hac" class="level3">
+<h3 class="anchored" data-anchor-id="hac">HAC</h3>
+<section id="four-assembly-metrics-1" class="level4">
+<h4 class="anchored" data-anchor-id="four-assembly-metrics-1">Four assembly metrics</h4>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../../results/figures/main_figures/combo_main_figure_assembly_hac.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Assembly main figure HAC"><img src="../../results/figures/main_figures/combo_main_figure_assembly_hac.png" class="img-fluid figure-img" alt="Assembly main figure HAC"></a></p>
+<figcaption>Assembly main figure HAC</figcaption>
+</figure>
+</div>
+</section>
+<section id="survey-weighted-assembly-plot-1" class="level4">
+<h4 class="anchored" data-anchor-id="survey-weighted-assembly-plot-1">Survey-weighted assembly plot</h4>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../../results/figures/main_figures/combo_assembly_aggregate_score_perdepth_hac.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Survey weighted plot HAC per depth norm"><img src="../../results/figures/main_figures/combo_assembly_aggregate_score_perdepth_hac.png" class="img-fluid figure-img" alt="Survey weighted plot HAC per depth norm"></a></p>
+<figcaption>Survey weighted plot HAC per depth norm</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../../results/figures/main_figures/combo_assembly_aggregate_score_global_hac.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="Survey weighted plot HAC combined norm"><img src="../../results/figures/main_figures/combo_assembly_aggregate_score_global_hac.png" class="img-fluid figure-img" alt="Survey weighted plot HAC combined norm"></a></p>
+<figcaption>Survey weighted plot HAC combined norm</figcaption>
+</figure>
+</div>
+</section>
+</section>
+</section>
+<section id="variant-calling-main-figures" class="level2">
+<h2 class="anchored" data-anchor-id="variant-calling-main-figures">Variant calling main figures</h2>
+<section id="sup-1" class="level3">
+<h3 class="anchored" data-anchor-id="sup-1">SUP</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../../results/figures/main_figures/combo_main_figure_call_sup.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="Variant calling assessment SUP"><img src="../../results/figures/main_figures/combo_main_figure_call_sup.png" class="img-fluid figure-img" alt="Variant calling assessment SUP"></a></p>
+<figcaption>Variant calling assessment SUP</figcaption>
+</figure>
+</div>
+</section>
+<section id="hac-1" class="level3">
+<h3 class="anchored" data-anchor-id="hac-1">HAC</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../../results/figures/main_figures/combo_main_figure_call_hac.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8" title="Variant calling assessment SUP"><img src="../../results/figures/main_figures/combo_main_figure_call_hac.png" class="img-fluid figure-img" alt="Variant calling assessment SUP"></a></p>
+<figcaption>Variant calling assessment SUP</figcaption>
+</figure>
+</div>
 
 
-</section>
 </section>
 </section>
 
@@ -1098,6 +976,38 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </div>
   </div>
 </footer>
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
 
 
 
