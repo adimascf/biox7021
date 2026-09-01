@@ -62,10 +62,14 @@ rule plot_assembly_aggregate_score:
 	conda:
 		ENVS / "generate_figure_python.yaml"
 	output:
-		fig_sup=FIGURES / "assess/assembly/metrics/combo_assembly_aggregate_score_sup.png",
-		fig_hac=FIGURES / "assess/assembly/metrics/combo_assembly_aggregate_score_hac.png",
-		scores_csv=TABLES / "assess/assembly/metrics/combo_assembly_survey_scores.csv",
-		summary_csv=TABLES / "assess/assembly/metrics/combo_assembly_survey_ranking_summary.csv"
+		fig_global_sup=FIGURES / "assess/assembly/metrics/combo_assembly_aggregate_score_global_sup.png",
+		fig_global_hac=FIGURES / "assess/assembly/metrics/combo_assembly_aggregate_score_global_hac.png",
+		fig_perdepth_sup=FIGURES / "assess/assembly/metrics/combo_assembly_aggregate_score_perdepth_sup.png",
+		fig_perdepth_hac=FIGURES / "assess/assembly/metrics/combo_assembly_aggregate_score_perdepth_hac.png",
+		scores_csv_global=TABLES / "assess/assembly/metrics/combo_assembly_survey_scores_global.csv",
+		summary_csv_global=TABLES / "assess/assembly/metrics/combo_assembly_survey_ranking_summary_global.csv",
+		scores_csv_perdepth=TABLES / "assess/assembly/metrics/combo_assembly_survey_scores_perdepth.csv",
+		summary_csv_perdepth=TABLES / "assess/assembly/metrics/combo_assembly_survey_ranking_summary_perdepth.csv"
 	script:
 		"../scripts/plot_assembly_aggregate_score.py"
 
