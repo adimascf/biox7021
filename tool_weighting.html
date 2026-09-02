@@ -626,7 +626,7 @@ def server(input, output, session):
             c["model"] = "all"
 
         # 1. Structural contiguity score (ideal = 1.0)
-        c["s_aungar"] = np.maximum(0.0, 1.0 - np.abs(c["auNGA_norm"] - 1.0)) * 100.0
+        c["s_aungar"] = np.maximum(0.0, 1.0 - np.abs(c["auNGA_ratio"] - 1.0)) * 100.0
 
         # 2. Sequence error score (lower is better)
         for err_col in ["Mismatches per 100kbp", "Indels per 100kbp"]:
@@ -701,7 +701,7 @@ def server(input, output, session):
         top_df = sorted_df.head(input.top_n()).copy()
 
         # Format columns with clean precision for presentation
-        cols_3dec = ['auNGA_norm', 'final_score']
+        cols_3dec = ['auNGA_ratio', 'final_score']
         cols_2dec = ['Mismatches per 100kbp', 'Indels per 100kbp', 'contamination_count', 'total_missed', 's_aungar', 's_mismatches', 's_indels', 's_err', 's_cont', 's_miss']
         
         top_df[cols_3dec] = top_df[cols_3dec].round(3)

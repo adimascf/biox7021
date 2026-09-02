@@ -538,7 +538,7 @@ AJ292__202310.seqkit-porechop_abi.rasusa.log: Requested coverage (100.00x) is no
 <p>Outliers annotation were identified from all sample distibution.</p>
 <section id="f1-score" class="level3">
 <h3 class="anchored" data-anchor-id="f1-score">F1 score</h3>
-<div id="84815fd2" class="cell" data-execution_count="1">
+<div id="35d45f38" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
@@ -755,7 +755,7 @@ AJ292__202310.seqkit-porechop_abi.rasusa.log: Requested coverage (100.00x) is no
 </div>
 <p>We do have few of outliers here, particularly ATCC_25922_202309 (<em>E. coli</em>), which dragged down the average F1 score across downsampling depths, basecalling models, and tool combinations (with the exception of filtlong). other outliers, such as AJ292_202310 and BPH2947_202310, consistently appeared across tool combinations in the 20x dataset, including filtlong processed dataset.</p>
 <p>Also, this trend is not exclusive to barbell-processed datasets. It occurs across almost all tool combinations except filtlong. This suggests that the filtlong combinations handled these specific samples effectively. And actually, in the all downsampling dephts, the <code>filtlong</code> combinations generally produced higher F1 scores and based on IQR and the outliers height.</p>
-<div id="48999906" class="cell" data-execution_count="2">
+<div id="ece79f41" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
@@ -985,7 +985,7 @@ AJ292__202310.seqkit-porechop_abi.rasusa.log: Requested coverage (100.00x) is no
 </section>
 <section id="genome-assembly-sequence-accuracy" class="level3">
 <h3 class="anchored" data-anchor-id="genome-assembly-sequence-accuracy">Genome assembly: Sequence accuracy</h3>
-<div id="78dcec39" class="cell" data-execution_count="3">
+<div id="de81cd3f" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
@@ -1184,7 +1184,7 @@ AJ292__202310.seqkit-porechop_abi.rasusa.log: Requested coverage (100.00x) is no
 <p>We have different outliers profile here (look at the legend), ATCC_35221__202309 (<em>Campylobacter lari</em>), and ATCC_33560__202309 (<em>Campylobacter jejuni</em>), and also with BPH2947__202310 (<em>Staphylococcus aureus</em>) inflate the average for this metric. However, these outliers are not exclusive to the <code>barbell</code> combinations. Based on the IQR, at least in the 20x datasets, the <code>barbell</code> combinations instead appear to generally produce higher error values across the datasets, with more extreme outliers than the other tool combinations.</p>
 <section id="mismatches-in-native-vs-rapid-samples" class="level4">
 <h4 class="anchored" data-anchor-id="mismatches-in-native-vs-rapid-samples">mismatches in native vs rapid samples</h4>
-<div id="78b7c6b1" class="cell" data-execution_count="4">
+<div id="ad1b8d64" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
@@ -1418,7 +1418,7 @@ AJ292__202310.seqkit-porechop_abi.rasusa.log: Requested coverage (100.00x) is no
 </section>
 <section id="genome-assembly-structural-accuracy" class="level3">
 <h3 class="anchored" data-anchor-id="genome-assembly-structural-accuracy">Genome assembly: Structural accuracy</h3>
-<div id="3fe8a224" class="cell" data-execution_count="5">
+<div id="d3747e56" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
@@ -1581,7 +1581,7 @@ AJ292__202310.seqkit-porechop_abi.rasusa.log: Requested coverage (100.00x) is no
 </figure>
 </div>
 <p>ATCC_17802__202309 (<em>Vibrio parahaemolyticus</em>) had lower NGA50 than others across combination tools and across downsampling depth.</p>
-<div id="77d6545f" class="cell" data-execution_count="6">
+<div id="d68e7269" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
@@ -1816,7 +1816,7 @@ AJ292__202310.seqkit-porechop_abi.rasusa.log: Requested coverage (100.00x) is no
 <section id="genome-assembly-contamination-count" class="level3">
 <h3 class="anchored" data-anchor-id="genome-assembly-contamination-count">Genome assembly: Contamination count</h3>
 <p>The contamination more or less were found evenly in both native and rapid samples</p>
-<div id="c52c691e" class="cell" data-execution_count="7">
+<div id="55ce7b79" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
@@ -2008,7 +2008,7 @@ AJ292__202310.seqkit-porechop_abi.rasusa.log: Requested coverage (100.00x) is no
 <h3 class="anchored" data-anchor-id="variant-calling-f1-score">Variant calling: F1 score</h3>
 <p>Because the metrics we used did not follow a normal distribution, I used non-parametric testing and also perfomed a False Discovery Rate (FDR) correction for multiple hypothesis testing. We found no significant difference between the <code>unprocessed-untrimmed</code>dataset and any of the treatments.</p>
 <p>However, when looking at the plot on a logit scale above, we can see that the <code>filtlong</code> dataset has a different distribution compared to both the <code>unprocessed-untrimmed</code> baseline and the other treatments. Because non parametric testing does not account for that small imrpovement that we actually care about, it is hard to get the power.</p>
-<div id="c7d58a73" class="cell" data-execution_count="8">
+<div id="c575577a" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -2022,7 +2022,7 @@ AJ292__202310.seqkit-porechop_abi.rasusa.log: Requested coverage (100.00x) is no
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_536feebe_ed24_49af_89bd_319272493b7c">
+<table id="itables_ed423dd0_4b4f_43c0_8961_d0a0a58f14af">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -2092,7 +2092,7 @@ AJ292__202310.seqkit-porechop_abi.rasusa.log: Requested coverage (100.00x) is no
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_536feebe_ed24_49af_89bd_319272493b7c:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_ed423dd0_4b4f_43c0_8961_d0a0a58f14af:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
@@ -2119,7 +2119,7 @@ AJ292__202310.seqkit-porechop_abi.rasusa.log: Requested coverage (100.00x) is no
 <h3 class="anchored" data-anchor-id="genome-assembly-sequence-accuracy-1">Genome assembly: Sequence accuracy</h3>
 <section id="mismatches" class="level4">
 <h4 class="anchored" data-anchor-id="mismatches">Mismatches</h4>
-<div id="229f93b0" class="cell" data-execution_count="9">
+<div id="7d7f3dbd" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -2133,7 +2133,7 @@ AJ292__202310.seqkit-porechop_abi.rasusa.log: Requested coverage (100.00x) is no
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_52314c46_ac59_451c_9eb4_5fbe582a68ec">
+<table id="itables_e108ddfa_da96_4176_9e72_fc0c32e9da59">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -2203,7 +2203,7 @@ AJ292__202310.seqkit-porechop_abi.rasusa.log: Requested coverage (100.00x) is no
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_52314c46_ac59_451c_9eb4_5fbe582a68ec:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_e108ddfa_da96_4176_9e72_fc0c32e9da59:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
@@ -2228,7 +2228,7 @@ AJ292__202310.seqkit-porechop_abi.rasusa.log: Requested coverage (100.00x) is no
 </section>
 <section id="indels" class="level4">
 <h4 class="anchored" data-anchor-id="indels">Indels</h4>
-<div id="a071975c" class="cell" data-execution_count="10">
+<div id="57ccdaac" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -2242,7 +2242,7 @@ AJ292__202310.seqkit-porechop_abi.rasusa.log: Requested coverage (100.00x) is no
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_04181ba7_174a_4aae_aa9a_f44035707a0f">
+<table id="itables_9b575b8d_4347_4b7f_9dc0_8f6800bb9b9d">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -2312,7 +2312,7 @@ AJ292__202310.seqkit-porechop_abi.rasusa.log: Requested coverage (100.00x) is no
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_04181ba7_174a_4aae_aa9a_f44035707a0f:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_9b575b8d_4347_4b7f_9dc0_8f6800bb9b9d:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
@@ -2338,7 +2338,7 @@ AJ292__202310.seqkit-porechop_abi.rasusa.log: Requested coverage (100.00x) is no
 </section>
 <section id="genome-assembly-nga50" class="level3">
 <h3 class="anchored" data-anchor-id="genome-assembly-nga50">Genome assembly: NGA50</h3>
-<div id="c6f8362c" class="cell" data-execution_count="11">
+<div id="0d5d4b33" class="cell" data-execution_count="11">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -2352,7 +2352,7 @@ AJ292__202310.seqkit-porechop_abi.rasusa.log: Requested coverage (100.00x) is no
 </details>
 <div class="cell-output cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_53c634ae_9c4e_4805_854b_85dc97cb5c5c">
+<table id="itables_96298916_355a_47ec_b070_9ad6de2048d0">
   <tbody>
     <tr>
       <td style="vertical-align:middle; text-align:left"><a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
@@ -2422,7 +2422,7 @@ AJ292__202310.seqkit-porechop_abi.rasusa.log: Requested coverage (100.00x) is no
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.1/dt_bundle.js';
 
-    document.querySelectorAll("#itables_53c634ae_9c4e_4805_854b_85dc97cb5c5c:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_96298916_355a_47ec_b070_9ad6de2048d0:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
