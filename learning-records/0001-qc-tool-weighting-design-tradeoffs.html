@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Week 06: Trimming only assessment – BIOX7021 LOGBOOK - 2026</title>
+<title>qc-tool-weighting-design-tradeoffs – BIOX7021 LOGBOOK - 2026</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -23,69 +23,30 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../">
-<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-adfb2833bc15652ec5881dc6381ea988.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-60eb8141d3f50090c0f52d36a83ed331.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-adfb2833bc15652ec5881dc6381ea988.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
-<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-2e07afffe0e1d027e310c816153ddb72.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-52489e3bfee96bc9e30fc12a283dda77.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-2e07afffe0e1d027e310c816153ddb72.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/quarto-contrib/carousel-0.1.0/quarto-carousel.css" rel="stylesheet">
-<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
-<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
-<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-adfb2833bc15652ec5881dc6381ea988.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-60eb8141d3f50090c0f52d36a83ed331.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-adfb2833bc15652ec5881dc6381ea988.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-2e07afffe0e1d027e310c816153ddb72.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-52489e3bfee96bc9e30fc12a283dda77.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-2e07afffe0e1d027e310c816153ddb72.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -114,9 +75,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
-<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
-
-<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 </head>
@@ -290,7 +248,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../../index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">BIOX7021 LOGBOOK - 2026</span>
     </a>
   </div>
@@ -301,11 +259,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../home.html"> 
+    <a class="nav-link" href="../home.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../tool_weighting.html"> 
+    <a class="nav-link" href="../tool_weighting.html"> 
 <span class="menu-text">QC Tool Selection</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -314,75 +272,75 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-semester-1">    
         <li>
-    <a class="dropdown-item" href="../../logbook/semester1/week01.html">
+    <a class="dropdown-item" href="../logbook/semester1/week01.html">
  <span class="dropdown-text">Week 1</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../logbook/semester1/week02.html">
+    <a class="dropdown-item" href="../logbook/semester1/week02.html">
  <span class="dropdown-text">Week 2</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../logbook/semester1/week03.html">
+    <a class="dropdown-item" href="../logbook/semester1/week03.html">
  <span class="dropdown-text">Week 3</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../logbook/semester1/week04.html">
+    <a class="dropdown-item" href="../logbook/semester1/week04.html">
  <span class="dropdown-text">Week 4</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../logbook/semester1/week05.html">
+    <a class="dropdown-item" href="../logbook/semester1/week05.html">
  <span class="dropdown-text">Week 5</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../logbook/semester1/week06.html">
+    <a class="dropdown-item" href="../logbook/semester1/week06.html">
  <span class="dropdown-text">Week 6</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../logbook/semester1/week07.html">
+    <a class="dropdown-item" href="../logbook/semester1/week07.html">
  <span class="dropdown-text">Week 7</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../logbook/semester1/week08.html">
+    <a class="dropdown-item" href="../logbook/semester1/week08.html">
  <span class="dropdown-text">Week 8</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../logbook/semester1/week09.html">
+    <a class="dropdown-item" href="../logbook/semester1/week09.html">
  <span class="dropdown-text">Week 9</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../logbook/semester1/week10.html">
+    <a class="dropdown-item" href="../logbook/semester1/week10.html">
  <span class="dropdown-text">Week 10</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../logbook/semester1/week11.html">
+    <a class="dropdown-item" href="../logbook/semester1/week11.html">
  <span class="dropdown-text">Week 11</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../logbook/semester1/week12.html">
+    <a class="dropdown-item" href="../logbook/semester1/week12.html">
  <span class="dropdown-text">Week 12</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../logbook/semester1/week13.html">
+    <a class="dropdown-item" href="../logbook/semester1/week13.html">
  <span class="dropdown-text">Week 13</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../logbook/semester1/week14.html">
+    <a class="dropdown-item" href="../logbook/semester1/week14.html">
  <span class="dropdown-text">Week 14</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../logbook/semester1/week15.html">
+    <a class="dropdown-item" href="../logbook/semester1/week15.html">
  <span class="dropdown-text">Week 15</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../logbook/semester1/week16.html">
+    <a class="dropdown-item" href="../logbook/semester1/week16.html">
  <span class="dropdown-text">Week 16</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../logbook/semester1/week17.html">
+    <a class="dropdown-item" href="../logbook/semester1/week17.html">
  <span class="dropdown-text">Week 17</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../logbook/semester1/week18.html">
+    <a class="dropdown-item" href="../logbook/semester1/week18.html">
  <span class="dropdown-text">Week 18</span></a>
   </li>  
     </ul>
@@ -393,33 +351,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-semester-2">    
         <li>
-    <a class="dropdown-item" href="../../logbook/semester2/week01.html">
+    <a class="dropdown-item" href="../logbook/semester2/week01.html">
  <span class="dropdown-text">Week 01</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../logbook/semester2/week02.html">
+    <a class="dropdown-item" href="../logbook/semester2/week02.html">
  <span class="dropdown-text">Week 02</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../logbook/semester2/week03.html">
+    <a class="dropdown-item" href="../logbook/semester2/week03.html">
  <span class="dropdown-text">Week 03</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../logbook/semester2/week04.html">
+    <a class="dropdown-item" href="../logbook/semester2/week04.html">
  <span class="dropdown-text">Week 04</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../logbook/semester2/week05.html">
+    <a class="dropdown-item" href="../logbook/semester2/week05.html">
  <span class="dropdown-text">Week 05</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../logbook/semester2/week06.html">
+    <a class="dropdown-item" href="../logbook/semester2/week06.html">
  <span class="dropdown-text">Week 06</span></a>
   </li>  
     </ul>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="../../summary.html" target="_blank"> 
+    <a class="nav-link" href="../summary.html" target="_blank"> 
 <span class="menu-text">Summary</span></a>
   </li>  
 </ul>
@@ -439,265 +397,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
-  <li><a href="#weekly-meeting-and-action-items-01-04-2026" id="toc-weekly-meeting-and-action-items-01-04-2026" class="nav-link" data-scroll-target="#weekly-meeting-and-action-items-01-04-2026">Weekly meeting and action items (01-04-2026)</a></li>
-  <li><a href="#trimming-only-assessement" id="toc-trimming-only-assessement" class="nav-link" data-scroll-target="#trimming-only-assessement">Trimming only assessement</a>
-  <ul>
-  <li><a href="#snakemake-rulegraph" id="toc-snakemake-rulegraph" class="nav-link" data-scroll-target="#snakemake-rulegraph">Snakemake rulegraph</a></li>
-  <li><a href="#f1-precision-and-recall-plots" id="toc-f1-precision-and-recall-plots" class="nav-link" data-scroll-target="#f1-precision-and-recall-plots">F1, Precision, and Recall plots</a></li>
-  </ul></li>
+  <li><a href="#qc-tool-weighting-architecture-pitfalls-and-refinement-roadmap" id="toc-qc-tool-weighting-architecture-pitfalls-and-refinement-roadmap" class="nav-link active" data-scroll-target="#qc-tool-weighting-architecture-pitfalls-and-refinement-roadmap">QC Tool Weighting Architecture, Pitfalls, and Refinement Roadmap</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Week 06: Trimming only assessment</h1>
-</div>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
 
 
 
-<div class="quarto-title-meta">
-
-    
-  
-    
-  </div>
-  
 
 
-</header>
+<section id="qc-tool-weighting-architecture-pitfalls-and-refinement-roadmap" class="level1">
+<h1>QC Tool Weighting Architecture, Pitfalls, and Refinement Roadmap</h1>
+<p>The current <code>tool_weighting.qmd</code> system uses dynamic min-max normalisation and a weighted geometric mean inspired by Filtlong to balance assembly trade-offs (structural contiguity, sequence accuracy, contamination, and missed plasmids). While geometric aggregation successfully avoids compensatory masking, min-max rescaling introduces vulnerability to noise magnification and rank reversal, and zero-score near-annihilation requires mathematical smoothing (e.g., shifted power mean and asymmetric contiguity functions) before final thesis presentation.</p>
 
 
-<section id="overview" class="level2">
-<h2 class="anchored" data-anchor-id="overview">Overview</h2>
-</section>
-<section id="weekly-meeting-and-action-items-01-04-2026" class="level2">
-<h2 class="anchored" data-anchor-id="weekly-meeting-and-action-items-01-04-2026">Weekly meeting and action items (01-04-2026)</h2>
-<ul>
-<li>Isolate the adapter trimming only step, and assess them on the varriant calling</li>
-<li>Explore several possible parameters for each of the adapter trimming tool</li>
-<li>Dimas will assess read quality at the last 100 bp or so from both ends</li>
-<li>Explore different depth maybe (50x and 20x)</li>
-<li>Test the trimming tools on the assembly using Flye</li>
-</ul>
-</section>
-<section id="trimming-only-assessement" class="level2">
-<h2 class="anchored" data-anchor-id="trimming-only-assessement">Trimming only assessement</h2>
-<section id="snakemake-rulegraph" class="level3">
-<h3 class="anchored" data-anchor-id="snakemake-rulegraph">Snakemake rulegraph</h3>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="../images/trimming_rulegraph_horisontal.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Trimming only rulegraph"><img src="../images/trimming_rulegraph_horisontal.png" class="img-fluid figure-img" style="width:85.0%" alt="Trimming only rulegraph"></a></p>
-<figcaption>Trimming only rulegraph</figcaption>
-</figure>
-</div>
-<p>The code for ariant calling assessment and the visualisation mostly copied from <a href="https://github.com/mbhall88/NanoVarBench/blob/main/workflow/scripts/best_f1.py">Michael’s Nanovar repo</a> with slight modification so that it works in this benchmark</p>
-</section>
-<section id="f1-precision-and-recall-plots" class="level3">
-<h3 class="anchored" data-anchor-id="f1-precision-and-recall-plots">F1, Precision, and Recall plots</h3>
-<div style="max-width: 800px; margin: auto;">
-<div id="quarto-carousel-1" class="carousel slide" data-bs-ride="carousel">
-<div class="carousel-indicators">
-  <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="0" class=" active" aria-current="true" aria-label="Slide 1"></button>
-  
-  <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="1" class="" aria-label="Slide 2"></button>
-  
-  <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="2" class="" aria-label="Slide 3"></button>
-  
-</div>
-<div class="carousel-inner">
-<div class="carousel-item active" data-bs-interval="3000">
-<img src="../images/trimming_f1.png" class="d-block mx-auto">
-</div>
-<div class="carousel-item" data-bs-interval="3000">
-<img src="../images/trimming_precision.png" class="d-block mx-auto">
-</div>
-<div class="carousel-item" data-bs-interval="3000">
-<img src="../images/trimming_recall.png" class="d-block mx-auto">
-</div>
-</div>
-      <button class="carousel-control-prev" type="button" data-bs-target="#quarto-carousel-1" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-      </button>
-    
-      <button class="carousel-control-next" type="button" data-bs-target="#quarto-carousel-1" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-      </button>
-    
-</div>
-<section id="performance-stats-in-average" class="level3">
-<h3 class="anchored" data-anchor-id="performance-stats-in-average">Performance stats in average</h3>
-<p>From the best_f1 rule csv output, I just calculate the average per tool and per SNP type:</p>
-<div id="25252acb" class="cell" data-execution_count="1">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"../images/trimming_summary_averages.csv"</span>)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-display" data-execution_count="1">
-<div>
-
-
-<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">trimmer</th>
-<th data-quarto-table-cell-role="th">VAR_TYPE</th>
-<th data-quarto-table-cell-role="th">PREC</th>
-<th data-quarto-table-cell-role="th">RECALL</th>
-<th data-quarto-table-cell-role="th">F1_SCORE</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">0</th>
-<td>barbell_default</td>
-<td>INDEL</td>
-<td>0.9997</td>
-<td>0.9875</td>
-<td>0.9936</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">1</th>
-<td>barbell_default</td>
-<td>SNP</td>
-<td>1.0000</td>
-<td>0.9977</td>
-<td>0.9989</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">2</th>
-<td>barbell_max</td>
-<td>INDEL</td>
-<td>0.9999</td>
-<td>0.9857</td>
-<td>0.9927</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">3</th>
-<td>barbell_max</td>
-<td>SNP</td>
-<td>1.0000</td>
-<td>0.9978</td>
-<td>0.9989</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">4</th>
-<td>dorado</td>
-<td>INDEL</td>
-<td>0.9985</td>
-<td>0.9869</td>
-<td>0.9926</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">5</th>
-<td>dorado</td>
-<td>SNP</td>
-<td>1.0000</td>
-<td>0.9979</td>
-<td>0.9989</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">6</th>
-<td>fastplong</td>
-<td>INDEL</td>
-<td>0.9992</td>
-<td>0.9878</td>
-<td>0.9935</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">7</th>
-<td>fastplong</td>
-<td>SNP</td>
-<td>1.0000</td>
-<td>0.9980</td>
-<td>0.9990</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">8</th>
-<td>porechop_abi_discard</td>
-<td>INDEL</td>
-<td>0.9997</td>
-<td>0.9860</td>
-<td>0.9927</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">9</th>
-<td>porechop_abi_discard</td>
-<td>SNP</td>
-<td>1.0000</td>
-<td>0.9977</td>
-<td>0.9988</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">10</th>
-<td>porechop_abi_nocheck</td>
-<td>INDEL</td>
-<td>0.9990</td>
-<td>0.9866</td>
-<td>0.9927</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">11</th>
-<td>porechop_abi_nocheck</td>
-<td>SNP</td>
-<td>1.0000</td>
-<td>0.9978</td>
-<td>0.9989</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">12</th>
-<td>porechop_abi_split</td>
-<td>INDEL</td>
-<td>0.9995</td>
-<td>0.9898</td>
-<td>0.9946</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">13</th>
-<td>porechop_abi_split</td>
-<td>SNP</td>
-<td>1.0000</td>
-<td>0.9979</td>
-<td>0.9989</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">14</th>
-<td>untrimmed</td>
-<td>INDEL</td>
-<td>0.9998</td>
-<td>0.9856</td>
-<td>0.9926</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">15</th>
-<td>untrimmed</td>
-<td>SNP</td>
-<td>1.0000</td>
-<td>0.9979</td>
-<td>0.9989</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-</div>
-</div>
-</section>
-</div>
-
-
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -1133,41 +848,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </div>
   </div>
 </footer>
-<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
-(function() {
-  let previousOnload = window.onload;
-  window.onload = () => {
-    if (previousOnload) {
-      previousOnload();
-    }
-    lightboxQuarto.on('slide_before_load', (data) => {
-      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
-      const href = trigger.getAttribute('href');
-      if (href !== null) {
-        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
-        if (imgEl !== null) {
-          const srcAttr = imgEl.getAttribute("src");
-          if (srcAttr && srcAttr.startsWith("data:")) {
-            slideConfig.href = srcAttr;
-          }
-        }
-      } 
-    });
-  
-    lightboxQuarto.on('slide_after_load', (data) => {
-      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(slideNode);
-      }
-    });
-  
-  };
-  
-})();
-          </script>
 
 
 
 
-<script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>

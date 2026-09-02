@@ -2,11 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://adimascf.github.io/biox7021/tool_weighting.html</loc>
-    <lastmod>2026-08-18T04:48:34.149Z</lastmod>
+    <lastmod>2026-09-02T03:22:41.713Z</lastmod>
   </url>
   <url>
     <loc>https://adimascf.github.io/biox7021/summary.html</loc>
     <lastmod>2026-07-28T23:15:23.788Z</lastmod>
+  </url>
+  <url>
+    <loc>https://adimascf.github.io/biox7021/learning-records/0002-dual-formula-geometric-mean.html</loc>
+    <lastmod>2026-09-02T03:19:07.979Z</lastmod>
   </url>
   <url>
     <loc>https://adimascf.github.io/biox7021/logbook/semester1/week02.html</loc>
@@ -61,6 +65,14 @@
     <lastmod>2026-09-01T06:19:20.260Z</lastmod>
   </url>
   <url>
+    <loc>https://adimascf.github.io/biox7021/RESOURCES.html</loc>
+    <lastmod>2026-09-02T02:50:46.091Z</lastmod>
+  </url>
+  <url>
+    <loc>https://adimascf.github.io/biox7021/MISSION.html</loc>
+    <lastmod>2026-09-02T02:50:39.422Z</lastmod>
+  </url>
+  <url>
     <loc>https://adimascf.github.io/biox7021/logbook/semester2/week05.html</loc>
     <lastmod>2026-08-31T04:23:12.632Z</lastmod>
   </url>
@@ -111,6 +123,10 @@
   <url>
     <loc>https://adimascf.github.io/biox7021/home.html</loc>
     <lastmod>2026-07-26T02:06:10.255Z</lastmod>
+  </url>
+  <url>
+    <loc>https://adimascf.github.io/biox7021/learning-records/0001-qc-tool-weighting-design-tradeoffs.html</loc>
+    <lastmod>2026-09-02T02:50:51.757Z</lastmod>
   </url>
   <url>
     <loc>https://adimascf.github.io/biox7021/weekly-logbook/week01.html</loc>

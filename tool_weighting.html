@@ -432,6 +432,7 @@ window.Quarto = {
    
   <ul>
   <li><a href="#metric-scoring-and-weighting" id="toc-metric-scoring-and-weighting" class="nav-link active" data-scroll-target="#metric-scoring-and-weighting">Metric Scoring and Weighting</a></li>
+  <li><a href="#score-aggregation-formulations" id="toc-score-aggregation-formulations" class="nav-link" data-scroll-target="#score-aggregation-formulations">Score Aggregation Formulations</a></li>
   <li><a href="#interactive-tool-selection" id="toc-interactive-tool-selection" class="nav-link" data-scroll-target="#interactive-tool-selection">Interactive Tool Selection</a></li>
   </ul>
 </nav>
@@ -463,39 +464,65 @@ window.Quarto = {
 <h3 class="anchored" data-anchor-id="metric-scoring-and-weighting">Metric Scoring and Weighting</h3>
 <p>To standardise the metrics, each is transformed into a score between 0 and 100:</p>
 <ul>
-<li><p><strong>For structural accuracy (auNGA ratio):</strong> The ideal auNGA ratio is exactly 1.0. Therefore, deviations below and above 1 are penalised symmetrically: <span class="math display">\[\text{Score} = \max(0, 1 - |x - 1|) \times 100\]</span></p></li>
-<li><p><strong>For assembly errors (indels and mismatches) and adapter/barcode contamination (lower is better):</strong> These metrics use simple <a href="https://en.wikipedia.org/wiki/Feature_scaling">min-max scaling</a>: <span class="math display">\[\text{Score} = \frac{\max - x}{\max - \min} \times 100\]</span></p></li>
+<li><p><strong>For structural accuracy (auNGA ratio):</strong> The ideal auNGA ratio is exactly 1.0. Therefore, deviations below (fragmentation) and above (duplication/over-assembly) 1.0 are penalised symmetrically: <span class="math display">\[\text{Score}_{\text{aungar}} = \max(0, 1 - |x - 1|) \times 100\]</span></p></li>
+<li><p><strong>For assembly errors (indels and mismatches) and adapter/barcode contamination (lower is better):</strong> These metrics use inverted <a href="https://en.wikipedia.org/wiki/Feature_scaling">min-max scaling</a>: <span class="math display">\[\text{Score} = \frac{\max - x}{\max - \min} \times 100\]</span></p></li>
 </ul>
-<p>The normalised scores are aggregated using a Weighted Geometric Mean formula to calculate the final performance rank: <span class="math display">\[\text{Final Score} = \left( S_{aungar}^{w_n} \times S_{err}^{w_e} \times S_{cont}^{w_c} \times S_{miss}^{w_m} \right)^{\frac{1}{w_n + w_e + w_c + w_m}}\]</span></p>
-<p>Where:</p>
+<hr>
+</section>
+<section id="score-aggregation-formulations" class="level3">
+<h3 class="anchored" data-anchor-id="score-aggregation-formulations">Score Aggregation Formulations</h3>
+<p>The dashboard supports two mathematical formulations for aggregating scores:</p>
+<section id="option-1-shifted-zero-safe-geometric-mean-default-recommended" class="level4">
+<h4 class="anchored" data-anchor-id="option-1-shifted-zero-safe-geometric-mean-default-recommended">Option 1: Shifted Zero-Safe Geometric Mean (Default &amp; Recommended)</h4>
+<p>To maintain non-compensatory scoring without suffering from floating-point zero-score collapse, an additive offset (<span class="math inline">\(+1\)</span>) is applied before multiplication:</p>
+<p><span class="math display">\[\text{Final Score} = \left( (S_{\text{aungar}} + 1)^{w_n} \times (S_{\text{err}} + 1)^{w_e} \times (S_{\text{cont}} + 1)^{w_c} \times (S_{\text{miss}} + 1)^{w_m} \right)^{\frac{1}{w_n + w_e + w_c + w_m}} - 1\]</span></p>
 <ul>
-<li><p><span class="math inline">\(S_{aungar}\)</span>: Normalised score for structural accuracy (auNGA ratio).</p></li>
-<li><p><span class="math inline">\(S_{err}\)</span>: Normalised score for sequence accuracy (mismatches and indels combined).</p></li>
-<li><p><span class="math inline">\(S_{cont}\)</span>: Normalised score for residual adapter/barcode contamination.</p></li>
-<li><p><span class="math inline">\(S_{miss}\)</span>: Normalised score for missed contigs.</p></li>
-<li><p><span class="math inline">\(w_n, w_e, w_c, w_m\)</span>: User-adjusted importance weights for structural accuracy, sequence accuracy, contamination, and missed contigs, respectively.</p></li>
+<li><strong>Why this is preferred:</strong> If a pipeline receives <span class="math inline">\(0\)</span> in one metric (e.g.&nbsp;dropping a small plasmid), the <span class="math inline">\(+1\)</span> offset heavily penalises the pipeline without completely wiping out high scores in the other three categories.</li>
 </ul>
+</section>
+<section id="option-2-original-geometric-mean-epsilon-10-5-floor" class="level4">
+<h4 class="anchored" data-anchor-id="option-2-original-geometric-mean-epsilon-10-5-floor">Option 2: Original Geometric Mean (<span class="math inline">\(\epsilon = 10^{-5}\)</span> Floor)</h4>
+<p>The classic geometric product floors zero scores to <span class="math inline">\(\epsilon = 10^{-5}\)</span>:</p>
+<p><span class="math display">\[\text{Final Score} = \left( S_{\text{aungar, safe}}^{w_n} \times S_{\text{err, safe}}^{w_e} \times S_{\text{cont, safe}}^{w_c} \times S_{\text{miss, safe}}^{w_m} \right)^{\frac{1}{w_n + w_e + w_c + w_m}}\]</span></p>
+<p>Where <span class="math inline">\(S_{\text{safe}} = \max(S, 10^{-5})\)</span>.</p>
+<ul>
+<li><strong>Behavior:</strong> Imposes an extremely strict penalty when a sub-score is 0, pulling the entire final score close to zero.</li>
+</ul>
+<hr>
+</section>
 </section>
 <section id="interactive-tool-selection" class="level3">
 <h3 class="anchored" data-anchor-id="interactive-tool-selection">Interactive Tool Selection</h3>
 <p>Adjust the importance weights of the metrics below to identify the best combination of adapter trimming and quality preprocessing tools for genome assembly.</p>
-<p>Note: The default weights are based on the average community survey responses from the Microbial QC Survey <a href="https://microbial-qc-survey.streamlit.app/">https://microbial-qc-survey.streamlit.app/</a></p>
+<p><em>Note: Default weights reflect the average community survey responses from the <a href="https://microbial-qc-survey.streamlit.app/">Microbial QC Survey</a>.</em></p>
 <pre class="shinylive-python" data-engine="python"><code>#| '!! shinylive warning !!': |
 #|   shinylive does not work in self-contained HTML documents.
 #|   Please set `embed-resources: false` in your metadata.
 #| standalone: true
-#| viewerHeight: 880
+#| viewerHeight: 920
 
 from shiny import App, render, ui, reactive
-
+import numpy as np
+import pandas as pd
 
 app_ui = ui.page_fluid(
     ui.layout_sidebar(
         ui.sidebar(
-            ui.input_slider("w_aungar", "Structural Accuracy (aungar)", 0.0, 1.0, 0.20, step=0.05),
+            ui.input_select(
+                "method_select", 
+                "Aggregation Formula", 
+                {
+                    "shifted": "Shifted Zero-Safe Geometric Mean (+1)",
+                    "original": "Original Geometric Mean (ε = 10⁻⁵)"
+                },
+                selected="shifted"
+            ),
+            ui.tags.hr(style="margin-top: 5px; margin-bottom: 15px;"),
+
+            ui.input_slider("w_aungar", "Structural Accuracy (auNGA)", 0.0, 1.0, 0.20, step=0.05),
             ui.output_ui("eff_aungar"),
 
-            ui.input_slider("w_err", "Sequence Accuracy (Mismatches/Indels)", 0.0, 1.0, 0.28, step=0.05),
+            ui.input_slider("w_err", "Sequence Accuracy (Errors)", 0.0, 1.0, 0.28, step=0.05),
             ui.output_ui("eff_err"),
 
             ui.input_slider("w_cont", "Contamination", 0.0, 1.0, 0.17, step=0.05),
@@ -504,16 +531,27 @@ app_ui = ui.page_fluid(
             ui.input_slider("w_miss", "Missed Contigs", 0.0, 1.0, 0.35, step=0.05),
             ui.output_ui("eff_miss"),
 
+            ui.tags.hr(style="margin-top: 5px; margin-bottom: 15px;"),
+
             ui.input_select("model_select", "Basecalling Model", ["all", "hac", "sup"]),
             ui.input_select("depth_select", "Sequencing Depth", ["all", "20x", "50x", "100x"]),
 
-            ui.input_numeric("top_n", "Show Top N Ranks", 3, min=1)
+            ui.input_numeric("top_n", "Show Top N Ranks", 5, min=1)
         ),
         ui.output_data_frame("ranking_table")
     )
 )
 
 def server(input, output, session):
+
+    @reactive.Calc
+    def load_metrics_data():
+        try:
+            from pyodide.http import open_url
+            url = "https://raw.githubusercontent.com/adimascf/biox7021/refs/heads/trimming-quality/logbook/assembly_metrics.csv"
+            return pd.read_csv(open_url(url))
+        except Exception:
+            return pd.read_csv("assembly_metrics.csv")
 
     @reactive.Calc
     def weight_percentages():
@@ -524,121 +562,126 @@ def server(input, output, session):
         total = w1 + w2 + w3 + w4
 
         if total == 0:
-            return 0, 0, 0, 0
+            return 0.0, 0.0, 0.0, 0.0
         return (w1 / total) * 100, (w2 / total) * 100, (w3 / total) * 100, (w4 / total) * 100
 
     @output
     @render.ui
     def eff_aungar():
         p1, p2, p3, p4 = weight_percentages()
-        return ui.HTML(f"&lt;div style='margin-top: -15px; margin-bottom: 15px; font-size: 0.85em; color: #555;'&gt;↳ Percentage: &lt;strong style='color: #007bc2;'&gt;{p1:.1f}%&lt;/strong&gt;&lt;/div&gt;")
+        return ui.HTML(f"&lt;div style='margin-top: -15px; margin-bottom: 15px; font-size: 0.85em; color: #555;'&gt;↳ Proportion: &lt;strong style='color: #007bc2;'&gt;{p1:.1f}%&lt;/strong&gt;&lt;/div&gt;")
 
     @output
     @render.ui
     def eff_err():
         p1, p2, p3, p4 = weight_percentages()
-        return ui.HTML(f"&lt;div style='margin-top: -15px; margin-bottom: 15px; font-size: 0.85em; color: #555;'&gt;↳ Percentage: &lt;strong style='color: #007bc2;'&gt;{p2:.1f}%&lt;/strong&gt;&lt;/div&gt;")
+        return ui.HTML(f"&lt;div style='margin-top: -15px; margin-bottom: 15px; font-size: 0.85em; color: #555;'&gt;↳ Proportion: &lt;strong style='color: #007bc2;'&gt;{p2:.1f}%&lt;/strong&gt;&lt;/div&gt;")
 
     @output
     @render.ui
     def eff_cont():
         p1, p2, p3, p4 = weight_percentages()
-        return ui.HTML(f"&lt;div style='margin-top: -15px; margin-bottom: 15px; font-size: 0.85em; color: #555;'&gt;↳ Percentage: &lt;strong style='color: #007bc2;'&gt;{p3:.1f}%&lt;/strong&gt;&lt;/div&gt;")
+        return ui.HTML(f"&lt;div style='margin-top: -15px; margin-bottom: 15px; font-size: 0.85em; color: #555;'&gt;↳ Proportion: &lt;strong style='color: #007bc2;'&gt;{p3:.1f}%&lt;/strong&gt;&lt;/div&gt;")
 
     @output
     @render.ui
     def eff_miss():
         p1, p2, p3, p4 = weight_percentages()
-        return ui.HTML(f"&lt;div style='margin-top: -15px; margin-bottom: 15px; font-size: 0.85em; color: #555;'&gt;↳ Percentage: &lt;strong style='color: #007bc2;'&gt;{p4:.1f}%&lt;/strong&gt;&lt;/div&gt;")
+        return ui.HTML(f"&lt;div style='margin-top: -15px; margin-bottom: 15px; font-size: 0.85em; color: #555;'&gt;↳ Proportion: &lt;strong style='color: #007bc2;'&gt;{p4:.1f}%&lt;/strong&gt;&lt;/div&gt;")
+
+    def rank_tools(
+        df,
+        weights={"aungar": 1.0, "error": 1.0, "contaminants": 1.0, "missed": 1.0},
+        target_model="all",
+        target_depth="all",
+        method="shifted"
+    ):
+        # Subset filtering
+        if target_model != "all":
+            df = df[df["model"] == target_model]
+        if target_depth != "all":
+            df = df[df["depth"] == target_depth]
+
+        # Aggregation grouping
+        group_cols = ["combo"]
+        if target_depth != "all":
+            group_cols.append("depth")
+        if target_model != "all":
+            group_cols.append("model")
+
+        metric_cols = [
+            "auNGA_ratio",
+            "Mismatches per 100kbp",
+            "Indels per 100kbp",
+            "contamination_count",
+            "total_missed"
+        ]
+
+        # Group-level average
+        c = df.groupby(group_cols, as_index=False)[metric_cols].mean().copy()
+
+        if target_depth == "all":
+            c["depth"] = "all"
+        if target_model == "all":
+            c["model"] = "all"
+
+        # 1. Structural contiguity score (ideal = 1.0)
+        c["s_aungar"] = np.maximum(0.0, 1.0 - np.abs(c["auNGA_norm"] - 1.0)) * 100.0
+
+        # 2. Sequence error score (lower is better)
+        for err_col in ["Mismatches per 100kbp", "Indels per 100kbp"]:
+            mx, mn = c[err_col].max(), c[err_col].min()
+            suffix = "mismatches" if "Mismatches" in err_col else "indels"
+            c[f"s_{suffix}"] = (((mx - c[err_col]) / (mx - mn) * 100.0) if mx != mn else 100.0)
+        c["s_err"] = (c["s_mismatches"] + c["s_indels"]) / 2.0
+
+        # 3. Contamination score (lower is better)
+        mx_con, mn_con = c["contamination_count"].max(), c["contamination_count"].min()
+        c["s_cont"] = (((mx_con - c["contamination_count"]) / (mx_con - mn_con) * 100.0) if mx_con != mn_con else 100.0)
+
+        # 4. Missed contigs score (lower is better)
+        mx_mis, mn_mis = c["total_missed"].max(), c["total_missed"].min()
+        c["s_miss"] = (((mx_mis - c["total_missed"]) / (mx_mis - mn_mis) * 100.0) if mx_mis != mn_mis else 100.0)
+
+        # Weights
+        wn = weights.get("aungar", 1.0)
+        we = weights.get("error", 1.0)
+        wc = weights.get("contaminants", 1.0)
+        wm = weights.get("missed", 1.0)
+        total_weight = wn + we + wc + wm
+        if total_weight == 0:
+            total_weight = 1e-5
+
+        # 5. Geometric Mean Aggregation
+        if method == "shifted":
+            # Shifted Zero-Safe Geometric Mean (+1 offset)
+            c["final_score"] = (
+                ((c["s_aungar"] + 1.0)**wn) *
+                ((c["s_err"] + 1.0)**we) *
+                ((c["s_cont"] + 1.0)**wc) *
+                ((c["s_miss"] + 1.0)**wm)
+            ) ** (1.0 / total_weight) - 1.0
+        else:
+            # Original geometric mean with epsilon floor
+            eps = 1e-5
+            s_aungar_safe = np.where(c["s_aungar"] &lt;= 0, eps, c["s_aungar"])
+            s_err_safe = np.where(c["s_err"] &lt;= 0, eps, c["s_err"])
+            s_cont_safe = np.where(c["s_cont"] &lt;= 0, eps, c["s_cont"])
+            s_miss_safe = np.where(c["s_miss"] &lt;= 0, eps, c["s_miss"])
+            c["final_score"] = (
+                (s_aungar_safe**wn) *
+                (s_err_safe**we) *
+                (s_cont_safe**wc) *
+                (s_miss_safe**wm)
+            ) ** (1.0 / total_weight)
+
+        c["rank"] = c["final_score"].rank(ascending=False, method="min").astype(int)
+        return c.sort_values(by="final_score", ascending=False)
 
     @output
     @render.data_frame
     def ranking_table():
-
-        import numpy as np
-        import pandas as pd
-
-        def rank_tools_geometric_mean(
-            df,
-            weights={"aungar": 1.0, "error": 1.0, "contaminants": 1.0, "missed": 1.0},
-            target_model="all",
-            target_depth="all",
-        ):
-            # Apply strict filtering if a specific model/depth is chosen
-            if target_model != "all":
-                df = df[df["model"] == target_model]
-            if target_depth != "all":
-                df = df[df["depth"] == target_depth]
-
-            # Determine aggregation grouping based on selections
-            # If "all" is selected, the column is excluded from groupby, forcing an average across it
-            group_cols = ["combo"]
-            if target_depth != "all":
-                group_cols.append("depth")
-            if target_model != "all":
-                group_cols.append("model")
-
-            metric_cols = [
-                "auNGA_norm",
-                "Mismatches per 100kbp",
-                "Indels per 100kbp",
-                "contamination_count",
-                "total_missed"
-            ]
-
-            # Aggregate the metrics
-            c = df.groupby(group_cols, as_index=False)[metric_cols].mean().copy()
-
-            # Fill in the "all" strings so the table looks complete
-            if target_depth == "all":
-                c["depth"] = "all"
-            if target_model == "all":
-                c["model"] = "all"
-
-
-            c["s_aungar"] = np.maximum(0, 1 - np.abs(c["auNGA_norm"] - 1.0)) * 100
-
-            # Min-Max Scaling (0 to 100)
-            # s_err: Lower is better
-            for err_col in ["Mismatches per 100kbp", "Indels per 100kbp"]:
-                mx, mn = c[err_col].max(), c[err_col].min()
-                suffix = "mismatches" if "Mismatches" in err_col else "indels"
-                c[f"s_{suffix}"] = (((mx - c[err_col]) / (mx - mn) * 100) if mx != mn else 100.0)
-            c["s_err"] = (c["s_mismatches"] + c["s_indels"]) / 2.0
-
-            # s_cont: Lower is better
-            mx_con, mn_con = c["contamination_count"].max(), c["contamination_count"].min()
-            c["s_cont"] = (((mx_con - c["contamination_count"]) / (mx_con - mn_con) * 100) if mx_con != mn_con else 100.0)
-
-            # s_miss: Lower is better (fewer missed contigs is good)
-            mx_mis, mn_mis = c["total_missed"].max(), c["total_missed"].min()
-            c["s_miss"] = (((mx_mis - c["total_missed"]) / (mx_mis - mn_mis) * 100) if mx_mis != mn_mis else 100.0)
-
-            # 4. Geometric Mean Execution
-            eps = 1e-5
-            s_aungar_safe = np.where(c["s_aungar"] == 0, eps, c["s_aungar"])
-            s_err_safe = np.where(c["s_err"] == 0, eps, c["s_err"])
-            s_cont_safe = np.where(c["s_cont"] == 0, eps, c["s_cont"])
-            s_miss_safe = np.where(c["s_miss"] == 0, eps, c["s_miss"])
-
-            wn = weights.get("aungar", 1.0)
-            we = weights.get("error", 1.0)
-            wc = weights.get("contaminants", 1.0)
-            wm = weights.get("missed", 1.0)
-
-            total_weight = wn + we + wc + wm
-            if total_weight == 0:
-                total_weight = 1e-5
-
-            c["final_score"] = (s_aungar_safe**wn * s_err_safe**we * s_cont_safe**wc * s_miss_safe**wm) ** (1.0 / total_weight)
-            c["rank"] = c["final_score"].rank(ascending=False, method="min")
-
-            return c.sort_values(by="final_score", ascending=False)
-
-        from pyodide.http import open_url
-
-        url = "https://raw.githubusercontent.com/adimascf/biox7021/refs/heads/trimming-quality/logbook/assembly_metrics.csv"
-        df = pd.read_csv(open_url(url))
+        df = load_metrics_data()
 
         weights = {
             "aungar": input.w_aungar(),
@@ -647,20 +690,26 @@ def server(input, output, session):
             "missed": input.w_miss()
         }
 
-        sorted_df = rank_tools_geometric_mean(
+        sorted_df = rank_tools(
             df,
             weights=weights,
             target_model=input.model_select(),
-            target_depth=input.depth_select()
+            target_depth=input.depth_select(),
+            method=input.method_select()
         )
 
         top_df = sorted_df.head(input.top_n()).copy()
 
-        cols_to_round = ['auNGA_norm', 'Mismatches per 100kbp', 'Indels per 100kbp', 'contamination_count', 'total_missed', 's_aungar', 's_mismatches', 's_indels', 's_err', 's_cont', 's_miss', 'final_score']
-        top_df[cols_to_round] = top_df[cols_to_round].round(5)
+        # Format columns with clean precision for presentation
+        cols_3dec = ['auNGA_norm', 'final_score']
+        cols_2dec = ['Mismatches per 100kbp', 'Indels per 100kbp', 'contamination_count', 'total_missed', 's_aungar', 's_mismatches', 's_indels', 's_err', 's_cont', 's_miss']
+        
+        top_df[cols_3dec] = top_df[cols_3dec].round(3)
+        top_df[cols_2dec] = top_df[cols_2dec].round(2)
 
         top_df = top_df.rename(columns={'combo': "QC Tools pair"})
-        return top_df[['rank', 'QC Tools pair', 'model', 'depth'] + cols_to_round]
+        display_cols = ['rank', 'QC Tools pair', 'model', 'depth', 'final_score', 'auNGA_norm', 's_aungar', 's_err', 's_cont', 's_miss', 'Mismatches per 100kbp', 'Indels per 100kbp', 'contamination_count', 'total_missed']
+        return top_df[display_cols]
 
 app = App(app_ui, server)</code></pre>
 
