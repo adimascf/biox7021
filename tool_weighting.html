@@ -548,7 +548,7 @@ def server(input, output, session):
     def load_metrics_data():
         try:
             from pyodide.http import open_url
-            url = "https://raw.githubusercontent.com/adimascf/biox7021/refs/heads/trimming-quality/logbook/assembly_metrics.csv"
+            url = "https://raw.githubusercontent.com/adimascf/biox7021/refs/heads/main/logbook/assembly_metrics.csv"
             return pd.read_csv(open_url(url))
         except Exception:
             return pd.read_csv("assembly_metrics.csv")
@@ -708,7 +708,7 @@ def server(input, output, session):
         top_df[cols_2dec] = top_df[cols_2dec].round(2)
 
         top_df = top_df.rename(columns={'combo': "QC Tools pair"})
-        display_cols = ['rank', 'QC Tools pair', 'model', 'depth', 'final_score', 'auNGA_norm', 's_aungar', 's_err', 's_cont', 's_miss', 'Mismatches per 100kbp', 'Indels per 100kbp', 'contamination_count', 'total_missed']
+        display_cols = ['rank', 'QC Tools pair', 'model', 'depth', 'final_score', 'auNGA_ratio', 's_aungar', 's_err', 's_cont', 's_miss', 'Mismatches per 100kbp', 'Indels per 100kbp', 'contamination_count', 'total_missed']
         return top_df[display_cols]
 
 app = App(app_ui, server)</code></pre>
