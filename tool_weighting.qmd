@@ -10,13 +10,13 @@ filters:
 
 ::: {.callout-note appearance="simple" icon=false}
 **Scoring Specification:** 1.0 &nbsp;|&nbsp;
-**Benchmark Scope:** 13 reference isolates &times; 17 combinations &times; HAC/SUP &times; 20&times;/100&times; (884 observations) &nbsp;|&nbsp;
+**Benchmark Scope:** 13 reference bacterial isolates &times; 17 combinations &times; HAC/SUP &times; 20&times;/100&times; (884 observations) &nbsp;|&nbsp;
 **Provenance:** [adimascf/biox7021](https://github.com/adimascf/biox7021) @ [`4d6b8cb`](https://github.com/adimascf/biox7021/commit/4d6b8cb1d482e5066f9ca575ebd3b67af4a32562)
 :::
 
 ```{shinylive-python}
 #| standalone: true
-#| viewerHeight: 900
+#| viewerHeight: 1100
 
 from shiny import App, render, ui, reactive
 import pandas as pd
@@ -57,6 +57,26 @@ app_ui = ui.page_fluid(
             overflow: hidden;
             clip: rect(0, 0, 0, 0);
             border: 0;
+        }
+        .ranking-table th {
+            background-color: #f8fafc;
+            color: #334155;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border-bottom: 2px solid #cbd5e1;
+        }
+        .ranking-table td {
+            vertical-align: middle;
+            font-size: 0.9rem;
+        }
+        .near-tie-badge {
+            font-size: 0.72rem;
+            background-color: #64748b;
+            color: #ffffff;
+            padding: 2px 6px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-top: 2px;
         }
     """),
 
@@ -128,17 +148,8 @@ app_ui = ui.page_fluid(
     ui.tags.section(
         {"id": "region-shortlist", "role": "region", "aria-labelledby": "heading-shortlist", "class": "region-container"},
         ui.tags.h2({"id": "heading-shortlist", "class": "region-header"}, "3. Recommendation Shortlist"),
-        ui.tags.p("Ranked eligible QC–trimming combinations ordered by preference-alignment score:"),
-        ui.output_ui("shortlist_status_msg"),
-        ui.output_data_frame("ranking_table"),
-        ui.tags.div(
-            {"style": "margin-top: 12px;"},
-            ui.input_action_button("btn_reveal_all", "Toggle Show All 17 / Top 5", class_="btn-sm btn-outline-secondary")
-        ),
-        ui.tags.div(
-            {"id": "excluded-combinations-container", "style": "margin-top: 18px;"},
-            ui.output_ui("excluded_combinations_ui")
-        )
+        ui.tags.p("Ranked eligible QC–trimming combinations ordered by full-precision preference-alignment score (fixed ranking order; not re-sortable by individual metrics):"),
+        ui.output_ui("shortlist_content")
     ),
 
     # Region 4: Selected Detail
@@ -172,7 +183,10 @@ app_ui = ui.page_fluid(
             ui.tags.strong("Scoring Version: "), "1.0 | ",
             ui.tags.strong("Source Repository: "), "adimascf/biox7021 | ",
             ui.tags.strong("Pinned Commit: "), "4d6b8cb1d482e5066f9ca575ebd3b67af4a32562 | ",
-            ui.tags.strong("Scope: "), "13 bacterial reference isolates, 17 QC–trimming combinations (884 observations)"
+            ui.tags.strong("Benchmark Scope & Limitations: "),
+            "Evaluated on 13 reference bacterial isolates across 17 QC–trimming combinations (884 observations). "
+            "Scores represent preference-alignment trade-offs on this benchmark cohort and are not universal assembly quality indicators. "
+            "No qualitative evaluation labels, rating tiers, or subjective categories are assigned."
         )
     )
 )
@@ -255,7 +269,7 @@ def server(input, output, session):
         m = input.model_select()
         d = input.depth_select()
         if not m or not d:
-            return ui.HTML("<div class='alert alert-info' role='alert'><strong>Notice:</strong> Please select both a basecalling model and sequencing depth to view recommendations.</div>")
+            return ui.HTML("<div class='alert alert-info' role='alert'><strong>Notice:</strong> Please select both a basecalling model and sequencing depth to view recommendations. (Selections begin unset.)</div>")
         return ui.HTML(f"<div class='alert alert-success' role='status'>Active Scenario: <strong>{m.upper()}</strong> basecalling at <strong>{d}</strong> depth.</div>")
 
     @output
@@ -287,17 +301,6 @@ def server(input, output, session):
         else:
             return ui.HTML(f"<div style='color: #dc2626; font-size: 0.9rem; margin-top: 4px;'>⚠ Total: <strong>{total}%</strong> ({diff}% above 100%) — <em>Ranking paused</em></div>")
 
-    @output
-    @render.ui
-    def shortlist_status_msg():
-        m = input.model_select()
-        d = input.depth_select()
-        if not m or not d:
-            return ui.HTML("<p class='text-muted'>Awaiting scenario selection.</p>")
-        if not weights_valid():
-            return ui.HTML("<div class='alert alert-warning' role='alert'><strong>Ranking paused:</strong> Allocation must total exactly 100% before recommendations can be evaluated.</div>")
-        return None
-
     @reactive.Calc
     def evaluated_results():
         m = input.model_select()
@@ -324,8 +327,18 @@ def server(input, output, session):
             mean_acc = float(np.mean(np.clip(1.0 - (grp["Mismatches per 100kbp"] + grp["Indels per 100kbp"]) / 10.0, 0.0, 1.0) * 100.0))
             clean_pct = float(np.mean(grp["contamination_count"] == 0) * 100.0)
             t_hits = int(grp["contamination_count"].sum())
+            clean_isolates = int((grp["contamination_count"] == 0).sum())
+            affected_residual_isolates = int((grp["contamination_count"] > 0).sum())
             t_miss = int(grp["total_missed"].sum())
+            full_missed = int(grp["full_missed"].sum())
+            partial_missed = int(grp["partial_missed"].sum())
+            affected_replicon_isolates = int((grp["total_missed"] > 0).sum())
             score_rep = float(max(0.0, 1.0 - t_miss / 3.0) * 100.0)
+
+            mean_error_rate = float(np.mean(grp["Mismatches per 100kbp"] + grp["Indels per 100kbp"]))
+            mean_mismatches = float(np.mean(grp["Mismatches per 100kbp"]))
+            mean_indels = float(np.mean(grp["Indels per 100kbp"]))
+            mean_aunga = float(np.mean(grp["auNGA_ratio"]))
 
             overall_score = (w_acc * mean_acc + w_cont * mean_cont + w_res * clean_pct + w_rep * score_rep)
 
@@ -340,15 +353,44 @@ def server(input, output, session):
                 is_eligible = False
                 reasons.append(f"fails zero-residual-hits gate ({t_hits} hit(s) detected)")
 
+            # Warnings
+            warnings = []
+            if t_hits > 0:
+                warnings.append(f"{t_hits} residual hit(s) across {affected_residual_isolates} isolate(s)")
+            if t_miss > 0:
+                warnings.append(f"{t_miss} missed replicon(s) across {affected_replicon_isolates} isolate(s) ({full_missed} full, {partial_missed} partial)")
+
+            iso_acc = np.clip(1.0 - (grp["Mismatches per 100kbp"] + grp["Indels per 100kbp"]) / 10.0, 0.0, 1.0) * 100.0
+            if (mean_acc - float(np.min(iso_acc))) >= 25.0:
+                warnings.append("Variable sequence accuracy across isolates (lowest isolate is ≥25 pts below mean)")
+
+            iso_cont = np.maximum(0.0, 1.0 - np.abs(grp["auNGA_ratio"] - 1.0)) * 100.0
+            if (mean_cont - float(np.min(iso_cont))) >= 25.0:
+                warnings.append("Variable contiguity across isolates (lowest isolate is ≥25 pts below mean)")
+
             item = {
-                "combo": combo,
+                "combo": str(combo),
                 "overall_score": overall_score,
                 "display_score": round(overall_score, 1),
                 "contiguity": round(mean_cont, 1),
                 "accuracy": round(mean_acc, 1),
                 "residual": round(clean_pct, 1),
                 "replicon": round(score_rep, 1),
-                "reasons": reasons
+                "mean_error_rate": mean_error_rate,
+                "mean_mismatches": mean_mismatches,
+                "mean_indels": mean_indels,
+                "mean_aunga": mean_aunga,
+                "t_hits": t_hits,
+                "clean_isolates": clean_isolates,
+                "affected_residual_isolates": affected_residual_isolates,
+                "t_miss": t_miss,
+                "full_missed": full_missed,
+                "partial_missed": partial_missed,
+                "affected_replicon_isolates": affected_replicon_isolates,
+                "reasons": reasons,
+                "warnings": warnings,
+                "is_near_tie": False,
+                "raw_group": grp,
             }
 
             if is_eligible:
@@ -370,50 +412,177 @@ def server(input, output, session):
                 else:
                     rec["rank"] = idx + 1
 
+        # Near tie calculation
+        for idx in range(len(eligible_records) - 1):
+            if abs(eligible_records[idx]["overall_score"] - eligible_records[idx + 1]["overall_score"]) < 1.0:
+                eligible_records[idx]["is_near_tie"] = True
+                eligible_records[idx + 1]["is_near_tie"] = True
+
         return eligible_records, excluded_records
 
     @output
-    @render.data_frame
-    def ranking_table():
-        eligible, _ = evaluated_results()
-        if not eligible:
-            return pd.DataFrame(columns=["Rank", "Combination", "Preference Score", "Contiguity", "Accuracy", "Residual Removal", "Replicon Recovery"])
-
-        display_rows = []
-        for r in eligible:
-            display_rows.append({
-                "Rank": r["rank"],
-                "Combination": r["combo"],
-                "Preference Score": r["display_score"],
-                "Contiguity": r["contiguity"],
-                "Accuracy": r["accuracy"],
-                "Residual Removal": r["residual"],
-                "Replicon Recovery": r["replicon"]
-            })
-
-        res_df = pd.DataFrame(display_rows)
-        limit = len(res_df) if show_all.get() else 5
-        return res_df.head(limit)
-
-    @output
     @render.ui
-    def excluded_combinations_ui():
-        _, excluded = evaluated_results()
-        n = len(excluded)
-        if n == 0:
-            return ui.HTML("<details><summary style='cursor: pointer; font-weight: 500;'>Excluded / Ineligible Combinations (0)</summary><p style='margin-top: 8px; font-size: 0.9rem; color: #64748b;'>All evaluated combinations are currently eligible under active criteria.</p></details>")
+    def shortlist_content():
+        m = input.model_select()
+        d = input.depth_select()
+        if not m or not d:
+            return ui.HTML("<div class='alert alert-info' role='status'><strong>Notice:</strong> Please select both a basecalling model and sequencing depth in step 1 to view recommendations. (Selections begin unset.)</div>")
 
-        items = []
-        for r in excluded:
-            reason_txt = "; ".join(r["reasons"])
-            items.append(f"<li><strong>{r['combo']}</strong>: {reason_txt}</li>")
-        list_html = "".join(items)
-        return ui.HTML(f"<details><summary style='cursor: pointer; font-weight: 500; color: #dc2626;'>Excluded / Ineligible Combinations ({n})</summary><ul style='margin-top: 8px; font-size: 0.9rem;'>{list_html}</ul></details>")
+        if not weights_valid():
+            return ui.HTML("<div class='alert alert-warning' role='alert'><strong>Ranking paused:</strong> Allocation must total exactly 100% before recommendations can be evaluated.</div>")
+
+        eligible, excluded = evaluated_results()
+        if not eligible and not excluded:
+            return ui.HTML("<p class='text-muted'>No benchmark data found for this scenario.</p>")
+
+        limit = len(eligible) if show_all.get() else 5
+        displayed_eligible = eligible[:limit]
+        btn_label = "Show Top 5 Only" if show_all.get() else "Reveal All 17 Combinations"
+
+        table_rows = []
+        for r in displayed_eligible:
+            near_tie_html = '<br><span class="near-tie-badge">similar score (&lt;1.0)</span>' if r["is_near_tie"] else ""
+
+            warnings_html = ""
+            if r["warnings"]:
+                w_items = "".join(f"<li>{w}</li>" for w in r["warnings"])
+                warnings_html = f"<ul class='list-unstyled mb-0 small text-danger' style='font-size: 0.8rem;'>{w_items}</ul>"
+            else:
+                warnings_html = "<span class='text-success small' style='font-size: 0.8rem;'>✓ Clean</span>"
+
+            row_html = f"""
+            <tr>
+                <td class='text-center fw-bold'>{r['rank']}</td>
+                <td><strong>{r['combo']}</strong></td>
+                <td class='text-center'><strong style='font-size: 1.05rem;'>{r['display_score']}</strong>{near_tie_html}</td>
+                <td>
+                    <div class='fw-bold'>{r['accuracy']}</div>
+                    <div class='text-muted small' style='font-size: 0.8rem;'>{r['mean_error_rate']:.2f} err/100kbp<br>({r['mean_mismatches']:.2f} mm, {r['mean_indels']:.2f} indel)</div>
+                </td>
+                <td>
+                    <div class='fw-bold'>{r['contiguity']}</div>
+                    <div class='text-muted small' style='font-size: 0.8rem;'>auNGA: {r['mean_aunga']:.3f}</div>
+                </td>
+                <td>
+                    <div class='fw-bold'>{r['residual']}</div>
+                    <div class='text-muted small' style='font-size: 0.8rem;'>{r['t_hits']} hit(s) ({r['clean_isolates']}/13 clean)</div>
+                </td>
+                <td>
+                    <div class='fw-bold'>{r['replicon']}</div>
+                    <div class='text-muted small' style='font-size: 0.8rem;'>{r['t_miss']} missed ({r['full_missed']} full, {r['partial_missed']} partial)</div>
+                </td>
+                <td>{warnings_html}</td>
+            </tr>
+            """
+            table_rows.append(row_html)
+
+        tbody_html = "".join(table_rows)
+
+        # Build excluded section
+        n_excluded = len(excluded)
+        if n_excluded == 0:
+            excluded_html = "<details style='margin-top: 18px;'><summary style='cursor: pointer; font-weight: 500; color: #475569;'>Excluded / Ineligible Combinations (0)</summary><p style='margin-top: 8px; font-size: 0.9rem; color: #64748b;'>All evaluated combinations are currently eligible under active criteria.</p></details>"
+        else:
+            ex_items = "".join(f"<li><strong>{r['combo']}</strong>: {'; '.join(r['reasons'])}</li>" for r in excluded)
+            excluded_html = f"<details style='margin-top: 18px;'><summary style='cursor: pointer; font-weight: 500; color: #dc2626;'>Excluded / Ineligible Combinations ({n_excluded})</summary><ul style='margin-top: 8px; font-size: 0.9rem;'>{ex_items}</ul></details>"
+
+        return ui.HTML(f"""
+            <div style='margin-bottom: 12px;'>
+                <button id='btn_reveal_all' type='button' class='btn btn-sm btn-outline-primary action-button'>{btn_label}</button>
+            </div>
+            <div class='table-responsive'>
+                <table class='table table-hover table-striped table-bordered ranking-table align-middle' aria-label='Recommendation Shortlist'>
+                    <thead>
+                        <tr>
+                            <th scope='col' class='text-center' style='width: 6%;'>Rank</th>
+                            <th scope='col' style='width: 16%;'>Combination</th>
+                            <th scope='col' class='text-center' style='width: 12%;'>Preference Score</th>
+                            <th scope='col' style='width: 17%;'>Sequence Accuracy</th>
+                            <th scope='col' style='width: 15%;'>Reference Contiguity</th>
+                            <th scope='col' style='width: 16%;'>Residual Removal</th>
+                            <th scope='col' style='width: 18%;'>Replicon Recovery</th>
+                            <th scope='col'>Diagnostics</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {tbody_html}
+                    </tbody>
+                </table>
+            </div>
+            {excluded_html}
+        """)
 
     @output
     @render.ui
     def selected_combo_detail():
-        return ui.HTML("<div class='text-muted' style='font-size: 0.95rem; font-style: italic;'>Select a combination from the shortlist above to inspect per-isolate evidence, warnings, and diagnostic breakdowns.</div>")
+        m = input.model_select()
+        d = input.depth_select()
+        if not m or not d:
+            return ui.HTML("<div class='text-muted' style='font-size: 0.95rem; font-style: italic;'>Select a scenario in step 1 to inspect per-isolate evidence and diagnostics.</div>")
+
+        eligible, _ = evaluated_results()
+        if not eligible:
+            return ui.HTML("<div class='text-muted'>No eligible combinations under current criteria.</div>")
+
+        # Display details for the leading combination
+        leader = eligible[0]
+        grp = leader["raw_group"]
+
+        iso_rows = []
+        for _, row in grp.iterrows():
+            sample_name = row["sample"]
+            aunga = row["auNGA_ratio"]
+            cont_score = max(0.0, 1.0 - abs(aunga - 1.0)) * 100.0
+            err_rate = row["Mismatches per 100kbp"] + row["Indels per 100kbp"]
+            acc_score = max(0.0, min(1.0, 1.0 - err_rate / 10.0)) * 100.0
+            res_hits = row["contamination_count"]
+            missed_rep = row["total_missed"]
+            cov_str = str(row.get("all_contigs_coverage", ""))
+
+            iso_rows.append(f"""
+                <tr>
+                    <td><code>{sample_name}</code></td>
+                    <td>{aunga:.3f} (score {cont_score:.1f})</td>
+                    <td>{err_rate:.2f} ({row['Mismatches per 100kbp']:.2f} mm, {row['Indels per 100kbp']:.2f} indel; score {acc_score:.1f})</td>
+                    <td>{res_hits} hit(s)</td>
+                    <td>{missed_rep} missed</td>
+                    <td class='small text-muted' style='font-size: 0.75rem;'>{cov_str}</td>
+                </tr>
+            """)
+
+        iso_tbody = "".join(iso_rows)
+
+        return ui.HTML(f"""
+            <div style='background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 14px 16px; margin-bottom: 16px;'>
+                <h4 style='margin-top: 0; font-size: 1.1rem; color: #0f172a;'>
+                    Leading Combination: <strong>{leader['combo']}</strong> (Rank {leader['rank']}, Preference Score: {leader['display_score']})
+                </h4>
+                <div style='font-size: 0.9rem; color: #475569;'>
+                    Contiguity: <strong>{leader['contiguity']}</strong> (mean auNGA: {leader['mean_aunga']:.3f}) |
+                    Accuracy: <strong>{leader['accuracy']}</strong> ({leader['mean_error_rate']:.2f} err/100kbp) |
+                    Residual Removal: <strong>{leader['residual']}%</strong> ({leader['t_hits']} hit(s)) |
+                    Replicon Recovery: <strong>{leader['replicon']}</strong> ({leader['t_miss']} missed)
+                </div>
+            </div>
+            <h5 style='font-size: 0.95rem; font-weight: 600; color: #334155; margin-bottom: 8px;'>Per-Isolate Breakdown (13 Reference Isolates):</h5>
+            <div class='table-responsive'>
+                <table class='table table-sm table-bordered' style='font-size: 0.85rem;' aria-label='Per-isolate details'>
+                    <thead style='background-color: #f1f5f9;'>
+                        <tr>
+                            <th>Isolate</th>
+                            <th>auNGA Ratio</th>
+                            <th>Errors per 100kbp</th>
+                            <th>Residual Hits</th>
+                            <th>Missed Replicons</th>
+                            <th>Coverage Summary</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {iso_tbody}
+                    </tbody>
+                </table>
+            </div>
+        """)
 
 app = App(app_ui, server)
 ```
