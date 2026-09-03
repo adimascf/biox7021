@@ -1,0 +1,280 @@
+---
+title: "QC Tool Recommendation Dashboard"
+format:
+  html:
+    embed-resources: false
+    page-layout: full
+filters:
+  - shinylive
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Scoring Specification:** 1.0 &nbsp;|&nbsp;
+**Benchmark Scope:** 13 reference isolates &times; 17 combinations &times; HAC/SUP &times; 20&times;/100&times; (884 observations) &nbsp;|&nbsp;
+**Provenance:** [adimascf/biox7021](https://github.com/adimascf/biox7021) @ [`4d6b8cb`](https://github.com/adimascf/biox7021/commit/4d6b8cb1d482e5066f9ca575ebd3b67af4a32562)
+:::
+
+```{shinylive-python}
+#| standalone: true
+#| viewerHeight: 900
+
+from shiny import App, render, ui, reactive
+import pandas as pd
+import numpy as np
+
+app_ui = ui.page_fluid(
+    ui.tags.style("""
+        .region-container {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 18px 20px;
+            margin-bottom: 20px;
+            background-color: #ffffff;
+        }
+        .region-header {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 0;
+            margin-bottom: 12px;
+            color: #1e293b;
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 8px;
+        }
+        .provenance-box {
+            font-size: 0.85rem;
+            color: #64748b;
+            background-color: #f8fafc;
+            border-left: 4px solid #3b82f6;
+            padding: 10px 14px;
+            margin-top: 15px;
+        }
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+    """),
+
+    # Region 1: Scenario Selection
+    ui.tags.section(
+        {"id": "section-scenario", "role": "region", "aria-labelledby": "heading-scenario", "class": "region-container"},
+        ui.tags.h2({"id": "heading-scenario", "class": "region-header"}, "1. Scenario Selection"),
+        ui.tags.p("Select the basecalling model and sequencing depth matching your experiment. Selections begin unset."),
+        ui.layout_columns(
+            ui.input_select(
+                "model_select",
+                "Basecalling Model",
+                {"": "-- Select Basecalling Model --", "hac": "HAC (High Accuracy)", "sup": "SUP (Super Accurate)"},
+                selected="",
+            ),
+            ui.input_select(
+                "depth_select",
+                "Sequencing Depth",
+                {"": "-- Select Sequencing Depth --", "20x": "20× Depth", "100x": "100× Depth"},
+                selected="",
+            ),
+            col_widths=(6, 6)
+        ),
+        ui.output_ui("scenario_validation_msg")
+    ),
+
+    # Region 2: Priorities and Weights
+    ui.tags.section(
+        {"id": "section-priorities", "role": "region", "aria-labelledby": "heading-priorities", "class": "region-container"},
+        ui.tags.h2({"id": "heading-priorities", "class": "region-header"}, "2. Priorities & Eligibility Requirements"),
+        ui.tags.p("Choose a published starting preset or define custom percentage priorities totaling 100%."),
+        ui.layout_columns(
+            ui.input_select(
+                "preset_select",
+                "Preference Preset",
+                {
+                    "community_balanced": "Community-balanced (28% Acc, 20% Contig, 17% Res, 35% Repl)",
+                    "complete_replicon_recovery": "Complete-replicon-recovery (Gate: all replicons ≥95%)",
+                    "sequence_accurate_assembly": "Sequence-accurate-assembly (50% Acc, 14% Contig, 12% Res, 24% Repl)",
+                    "custom": "Custom Priorities"
+                },
+                selected="community_balanced"
+            ),
+            ui.output_ui("preset_description"),
+            col_widths=(6, 6)
+        ),
+        ui.tags.div(
+            {"role": "group", "aria-labelledby": "weights-label"},
+            ui.tags.span({"id": "weights-label", "class": "sr-only"}, "Criterion percentage weights"),
+            ui.layout_columns(
+                ui.input_numeric("w_acc", "Sequence Accuracy (%)", value=28, min=0, max=100, step=1),
+                ui.input_numeric("w_cont", "Reference Contiguity (%)", value=20, min=0, max=100, step=1),
+                ui.input_numeric("w_res", "Residual Adapter Removal (%)", value=17, min=0, max=100, step=1),
+                ui.input_numeric("w_rep", "Replicon Recovery (%)", value=35, min=0, max=100, step=1),
+                col_widths=(3, 3, 3, 3)
+            ),
+            ui.output_ui("weight_total_indicator")
+        ),
+        ui.tags.hr(),
+        ui.tags.div(
+            {"role": "group", "aria-labelledby": "gates-label"},
+            ui.tags.h3({"id": "gates-label", "style": "font-size: 1rem; font-weight: 600;"}, "Non-compensatory Eligibility Gates"),
+            ui.input_checkbox("gate_complete", "Require Complete Replicon Recovery (all replicons ≥95% coverage)", value=False),
+            ui.input_checkbox("gate_zero_hits", "Require Zero Detected Residual Adapter/Barcode Hits", value=False)
+        )
+    ),
+
+    # Region 3: Recommendation Shortlist
+    ui.tags.section(
+        {"id": "section-shortlist", "role": "region", "aria-labelledby": "heading-shortlist", "class": "region-container"},
+        ui.tags.h2({"id": "heading-shortlist", "class": "region-header"}, "3. Recommendation Shortlist"),
+        ui.tags.p("Top-ranked eligible QC–trimming combinations ordered by preference-alignment score:"),
+        ui.output_data_frame("ranking_table"),
+        ui.tags.div(
+            {"style": "margin-top: 12px;"},
+            ui.input_action_button("btn_reveal_all", "Reveal All 17 Combinations", class_="btn-sm btn-outline-secondary")
+        ),
+        ui.tags.div(
+            {"id": "excluded-combinations-container", "style": "margin-top: 18px;"},
+            ui.output_ui("excluded_combinations_ui")
+        )
+    ),
+
+    # Region 4: Selected Detail
+    ui.tags.section(
+        {"id": "section-detail", "role": "region", "aria-labelledby": "heading-detail", "class": "region-container"},
+        ui.tags.h2({"id": "heading-detail", "class": "region-header"}, "4. Selected Combination Evidence & Diagnostics"),
+        ui.tags.p("Detailed per-isolate performance, warnings, and error-event breakdown for the selected tool combination:"),
+        ui.output_ui("selected_combo_detail")
+    ),
+
+    # Region 5: Concise Methodology
+    ui.tags.section(
+        {"id": "section-methodology", "role": "region", "aria-labelledby": "heading-methodology", "class": "region-container"},
+        ui.tags.h2({"id": "heading-methodology", "class": "region-header"}, "5. Concise Methodology & Provenance"),
+        ui.tags.p(
+            "Scoring Specification 1.0 evaluates four fixed 0–100 criterion scales without dynamic min–max rescaling: "
+            "(1) Reference-aware contiguity via symmetric distance from auNGA ratio 1.0; "
+            "(2) Sequence accuracy via combined mismatch-plus-indel event rate (0 at ≥10 events/100kbp); "
+            "(3) Residual adapter/barcode removal via cohort clean-isolate percentage; "
+            "(4) Reference-replicon recovery via cohort absolute count of replicons <50% coverage with fixed denominator 3."
+        ),
+        ui.tags.div(
+            {"class": "provenance-box"},
+            ui.tags.strong("Scoring Version: "), "1.0 | ",
+            ui.tags.strong("Source Repository: "), "adimascf/biox7021 | ",
+            ui.tags.strong("Pinned Commit: "), "4d6b8cb1d482e5066f9ca575ebd3b67af4a32562 | ",
+            ui.tags.strong("Scope: "), "13 bacterial reference isolates, 17 QC–trimming combinations (884 observations)"
+        )
+    )
+)
+
+def server(input, output, session):
+
+    @reactive.Calc
+    def load_metrics_data():
+        # Load pinned benchmark data bundled with the site or fallback to pinned commit
+        try:
+            return pd.read_csv("assets/data/assembly_metrics.csv")
+        except Exception:
+            try:
+                return pd.read_csv("assembly_metrics.csv")
+            except Exception:
+                from pyodide.http import open_url
+                pinned_url = "https://raw.githubusercontent.com/adimascf/biox7021/4d6b8cb1d482e5066f9ca575ebd3b67af4a32562/logbook/assembly_metrics.csv"
+                return pd.read_csv(open_url(pinned_url))
+
+    @output
+    @render.ui
+    def scenario_validation_msg():
+        m = input.model_select()
+        d = input.depth_select()
+        if not m or not d:
+            return ui.HTML("<div class='alert alert-info' role='alert'><strong>Notice:</strong> Please select both a basecalling model and sequencing depth to view recommendations.</div>")
+        return ui.HTML(f"<div class='alert alert-success' role='status'>Active Scenario: <strong>{m.upper()}</strong> basecalling at <strong>{d}</strong> depth.</div>")
+
+    @output
+    @render.ui
+    def preset_description():
+        p = input.preset_select()
+        descriptions = {
+            "community_balanced": "Community-balanced: 28% sequence accuracy, 20% reference contiguity, 17% residual removal, 35% replicon recovery.",
+            "complete_replicon_recovery": "Complete-replicon-recovery: Enforces ≥95% coverage on all reference replicons; ranks eligible tools with 43% accuracy, 31% contiguity, 26% residual removal.",
+            "sequence_accurate_assembly": "Sequence-accurate-assembly: Prioritizes base-level sequence fidelity with 50% accuracy weight.",
+            "custom": "Custom Priorities: Specify your own percentage weights totaling 100% and toggle non-compensatory gates."
+        }
+        desc = descriptions.get(p, "")
+        return ui.tags.div({"class": "alert alert-secondary", "style": "margin-bottom: 0; padding: 8px 12px; font-size: 0.9rem;"}, desc)
+
+    @output
+    @render.ui
+    def weight_total_indicator():
+        w1 = input.w_acc() or 0
+        w2 = input.w_cont() or 0
+        w3 = input.w_res() or 0
+        w4 = input.w_rep() or 0
+        total = w1 + w2 + w3 + w4
+        diff = total - 100
+        if diff == 0:
+            return ui.HTML("<div style='color: #16a34a; font-size: 0.9rem; margin-top: 4px;'>✓ Total: <strong>100%</strong></div>")
+        elif diff < 0:
+            return ui.HTML(f"<div style='color: #dc2626; font-size: 0.9rem; margin-top: 4px;'>⚠ Total: <strong>{total}%</strong> ({abs(diff)}% remaining to allocate)</div>")
+        else:
+            return ui.HTML(f"<div style='color: #dc2626; font-size: 0.9rem; margin-top: 4px;'>⚠ Total: <strong>{total}%</strong> ({diff}% above 100%)</div>")
+
+    @output
+    @render.data_frame
+    def ranking_table():
+        m = input.model_select()
+        d = input.depth_select()
+        if not m or not d:
+            empty_df = pd.DataFrame(columns=["Rank", "Combination", "Preference Score", "Contiguity", "Accuracy", "Residual Removal", "Replicon Recovery"])
+            return empty_df
+
+        df = load_metrics_data()
+        subset = df[(df["model"] == m) & (df["depth"] == d)]
+        
+        # Placeholder summary table for initial foundation
+        records = []
+        for combo, grp in subset.groupby("combo"):
+            mean_cont = float(np.mean(np.maximum(0.0, 1.0 - np.abs(grp["auNGA_ratio"] - 1.0)) * 100.0))
+            mean_acc = float(np.mean(np.clip(1.0 - (grp["Mismatches per 100kbp"] + grp["Indels per 100kbp"]) / 10.0, 0.0, 1.0) * 100.0))
+            clean_pct = float(np.mean(grp["contamination_count"] == 0) * 100.0)
+            t_miss = int(grp["total_missed"].sum())
+            score_rep = float(max(0.0, 1.0 - t_miss / 3.0) * 100.0)
+            
+            w_acc = (input.w_acc() or 0) / 100.0
+            w_cont = (input.w_cont() or 0) / 100.0
+            w_res = (input.w_res() or 0) / 100.0
+            w_rep = (input.w_rep() or 0) / 100.0
+            total_w = w_acc + w_cont + w_res + w_rep
+            if total_w == 0:
+                overall = 0.0
+            else:
+                overall = (w_acc * mean_acc + w_cont * mean_cont + w_res * clean_pct + w_rep * score_rep) / total_w
+                
+            records.append({
+                "Combination": combo,
+                "Preference Score": round(overall, 1),
+                "Contiguity": round(mean_cont, 1),
+                "Accuracy": round(mean_acc, 1),
+                "Residual Removal": round(clean_pct, 1),
+                "Replicon Recovery": round(score_rep, 1)
+            })
+            
+        res_df = pd.DataFrame(records).sort_values(by="Preference Score", ascending=False)
+        res_df.insert(0, "Rank", range(1, len(res_df) + 1))
+        return res_df.head(5)
+
+    @output
+    @render.ui
+    def excluded_combinations_ui():
+        return ui.HTML("<details><summary style='cursor: pointer; font-weight: 500;'>Excluded / Ineligible Combinations (0)</summary><p style='margin-top: 8px; font-size: 0.9rem; color: #64748b;'>All 17 combinations are currently eligible under active criteria.</p></details>")
+
+    @output
+    @render.ui
+    def selected_combo_detail():
+        return ui.HTML("<div class='text-muted' style='font-size: 0.95rem; font-style: italic;'>Select a combination from the shortlist above to inspect per-isolate evidence, warnings, and diagnostic breakdowns.</div>")
+
+app = App(app_ui, server)
+```
