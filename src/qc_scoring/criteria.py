@@ -9,18 +9,18 @@ def score_isolate_contiguity(auNGA_ratio: float) -> float:
 
 def score_isolate_accuracy(mismatches_per_100kbp: float, indels_per_100kbp: float) -> float:
     event_rate = mismatches_per_100kbp + indels_per_100kbp
-    val = 1.0 - (event_rate / 10.0)
-    clipped = min(1.0, max(0.0, val))
+    ratio = 1.0 - (event_rate / 10.0)
+    clipped = min(1.0, max(0.0, ratio))
     return float(clipped * 100.0)
 
 def score_isolate_residual_clean(contamination_count: int | float) -> float:
     return 100.0 if contamination_count == 0 else 0.0
 
 def score_replicon_recovery(total_missed_cohort: int | float) -> float:
-    val = 1.0 - (total_missed_cohort / 3.0)
-    return float(max(0.0, val) * 100.0)
+    ratio = 1.0 - (total_missed_cohort / 3.0)
+    return float(max(0.0, ratio) * 100.0)
 
-@dataclass
+@dataclass(frozen=True)
 class CohortCriteriaResult:
     # 4 fixed 0-100 criterion scores
     score_contiguity: float
@@ -47,7 +47,7 @@ class CohortCriteriaResult:
     all_replicons_complete: bool
     zero_residual_hits: bool
 
-    # Per-isolate details (for warnings and visualisations)
+    # Per-isolate details
     isolate_contiguity_scores: Dict[str, float] = field(default_factory=dict)
     isolate_accuracy_scores: Dict[str, float] = field(default_factory=dict)
 
@@ -58,8 +58,8 @@ def calculate_cohort_criteria(combo_df: pd.DataFrame) -> CohortCriteriaResult:
 
     contiguity_scores: Dict[str, float] = {}
     accuracy_scores: Dict[str, float] = {}
-    clean_count = 0
-    total_hits = 0
+    clean_isolates_count = 0
+    total_residual_hits = 0
     affected_residual_count = 0
 
     full_missed_sum = 0
@@ -77,35 +77,35 @@ def calculate_cohort_criteria(combo_df: pd.DataFrame) -> CohortCriteriaResult:
         sample_name = str(row["sample"])
 
         # Contiguity
-        aunga = float(row["auNGA_ratio"])
-        aunga_sum += aunga
-        cont_score = score_isolate_contiguity(aunga)
+        aunga_ratio = float(row["auNGA_ratio"])
+        aunga_sum += aunga_ratio
+        cont_score = score_isolate_contiguity(aunga_ratio)
         contiguity_scores[sample_name] = cont_score
 
         # Accuracy
-        mism = float(row["Mismatches per 100kbp"])
-        indel = float(row["Indels per 100kbp"])
-        mismatches_sum += mism
-        indels_sum += indel
-        acc_score = score_isolate_accuracy(mism, indel)
+        mismatches = float(row["Mismatches per 100kbp"])
+        indels = float(row["Indels per 100kbp"])
+        mismatches_sum += mismatches
+        indels_sum += indels
+        acc_score = score_isolate_accuracy(mismatches, indels)
         accuracy_scores[sample_name] = acc_score
 
         # Residual hits
-        hits = int(row["contamination_count"])
-        total_hits += hits
-        if hits == 0:
-            clean_count += 1
+        contamination_count = int(row["contamination_count"])
+        total_residual_hits += contamination_count
+        if contamination_count == 0:
+            clean_isolates_count += 1
         else:
             affected_residual_count += 1
 
         # Replicons
-        f_mis = int(row["full_missed"])
-        p_mis = int(row["partial_missed"])
-        t_mis = int(row["total_missed"])
-        full_missed_sum += f_mis
-        partial_missed_sum += p_mis
-        total_missed_sum += t_mis
-        if t_mis > 0:
+        full_missed = int(row["full_missed"])
+        partial_missed = int(row["partial_missed"])
+        total_missed = int(row["total_missed"])
+        full_missed_sum += full_missed
+        partial_missed_sum += partial_missed
+        total_missed_sum += total_missed
+        if total_missed > 0:
             affected_replicon_count += 1
 
         # Parse replicons and verify completeness gate (>= 95% for all replicons)
@@ -116,7 +116,7 @@ def calculate_cohort_criteria(combo_df: pd.DataFrame) -> CohortCriteriaResult:
     # Cohort scores
     score_contiguity = float(np.mean(list(contiguity_scores.values())))
     score_accuracy = float(np.mean(list(accuracy_scores.values())))
-    score_residual = float((clean_count / n_isolates) * 100.0)
+    score_residual = float((clean_isolates_count / n_isolates) * 100.0)
     score_replicon = score_replicon_recovery(total_missed_sum)
 
     return CohortCriteriaResult(
@@ -128,15 +128,15 @@ def calculate_cohort_criteria(combo_df: pd.DataFrame) -> CohortCriteriaResult:
         mean_error_rate=(mismatches_sum + indels_sum) / n_isolates,
         mean_mismatches=mismatches_sum / n_isolates,
         mean_indels=indels_sum / n_isolates,
-        residual_total_hits=total_hits,
-        residual_clean_isolates=clean_count,
+        residual_total_hits=total_residual_hits,
+        residual_clean_isolates=clean_isolates_count,
         residual_affected_isolates=affected_residual_count,
         replicon_total_missed=total_missed_sum,
         replicon_full_missed=full_missed_sum,
         replicon_partial_missed=partial_missed_sum,
         replicon_affected_isolates=affected_replicon_count,
         all_replicons_complete=all_complete_recovery,
-        zero_residual_hits=(total_hits == 0),
+        zero_residual_hits=(total_residual_hits == 0),
         isolate_contiguity_scores=contiguity_scores,
         isolate_accuracy_scores=accuracy_scores,
     )

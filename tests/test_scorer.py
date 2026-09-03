@@ -198,3 +198,24 @@ def test_pinned_real_data_acceptance_fixture():
                     assert rec.rank is not None
                     assert 0.0 <= rec.overall_score <= 100.0
                     assert rec.display_score == round(rec.overall_score, 1)
+
+def test_export_recommendations_csv():
+    from qc_scoring.scorer import export_recommendations_csv, recommendations_to_dataframe
+    df = pd.read_csv("logbook/assembly_metrics.csv")
+    res = score_benchmark(
+        df,
+        Scenario(model="hac", depth="100x"),
+        weights=WeightsConfig(accuracy=28.0, contiguity=20.0, residual=17.0, replicon=35.0),
+        gates=GateConfig(),
+    )
+    csv_text = export_recommendations_csv(res)
+    assert len(csv_text) > 0
+    lines = csv_text.strip().split("\n")
+    assert len(lines) == 18  # 1 header + 17 rows
+    export_df = recommendations_to_dataframe(res)
+    assert len(export_df) == 17
+    assert "rank" in export_df.columns
+    assert "combo" in export_df.columns
+    assert "overall_score" in export_df.columns
+    assert "scoring_version" in export_df.columns
+    assert "source_data_commit" in export_df.columns

@@ -1,6 +1,7 @@
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 import hashlib
+import io
 from typing import Dict, List, Optional
 import pandas as pd
 from qc_scoring.criteria import calculate_cohort_criteria, CohortCriteriaResult
@@ -33,31 +34,78 @@ class CombinationRecommendation:
     is_near_tie: bool
     overall_score: float
     display_score: Optional[float]
-
-    # 4 Criterion scores
-    score_contiguity: float
-    score_accuracy: float
-    score_residual: float
-    score_replicon: float
-
-    # Raw evidence summaries
-    mean_auNGA_ratio: float
-    mean_error_rate: float
-    mean_mismatches: float
-    mean_indels: float
-
-    residual_total_hits: int
-    residual_clean_isolates: int
-    residual_affected_isolates: int
-
-    replicon_total_missed: int
-    replicon_full_missed: int
-    replicon_partial_missed: int
-    replicon_affected_isolates: int
+    cohort: CohortCriteriaResult
 
     warnings: List[str] = field(default_factory=list)
-    isolate_contiguity_scores: Dict[str, float] = field(default_factory=dict)
-    isolate_accuracy_scores: Dict[str, float] = field(default_factory=dict)
+
+    # Delegation properties for convenience
+    @property
+    def score_contiguity(self) -> float:
+        return self.cohort.score_contiguity
+
+    @property
+    def score_accuracy(self) -> float:
+        return self.cohort.score_accuracy
+
+    @property
+    def score_residual(self) -> float:
+        return self.cohort.score_residual
+
+    @property
+    def score_replicon(self) -> float:
+        return self.cohort.score_replicon
+
+    @property
+    def mean_auNGA_ratio(self) -> float:
+        return self.cohort.mean_auNGA_ratio
+
+    @property
+    def mean_error_rate(self) -> float:
+        return self.cohort.mean_error_rate
+
+    @property
+    def mean_mismatches(self) -> float:
+        return self.cohort.mean_mismatches
+
+    @property
+    def mean_indels(self) -> float:
+        return self.cohort.mean_indels
+
+    @property
+    def residual_total_hits(self) -> int:
+        return self.cohort.residual_total_hits
+
+    @property
+    def residual_clean_isolates(self) -> int:
+        return self.cohort.residual_clean_isolates
+
+    @property
+    def residual_affected_isolates(self) -> int:
+        return self.cohort.residual_affected_isolates
+
+    @property
+    def replicon_total_missed(self) -> int:
+        return self.cohort.replicon_total_missed
+
+    @property
+    def replicon_full_missed(self) -> int:
+        return self.cohort.replicon_full_missed
+
+    @property
+    def replicon_partial_missed(self) -> int:
+        return self.cohort.replicon_partial_missed
+
+    @property
+    def replicon_affected_isolates(self) -> int:
+        return self.cohort.replicon_affected_isolates
+
+    @property
+    def isolate_contiguity_scores(self) -> Dict[str, float]:
+        return self.cohort.isolate_contiguity_scores
+
+    @property
+    def isolate_accuracy_scores(self) -> Dict[str, float]:
+        return self.cohort.isolate_accuracy_scores
 
 
 @dataclass
@@ -84,7 +132,6 @@ class ScoringResult:
 
 
 def _calculate_content_hash(df: pd.DataFrame) -> str:
-    # Deterministic content hash of the dataframe
     csv_bytes = df.to_csv(index=False).encode("utf-8")
     return hashlib.sha256(csv_bytes).hexdigest()
 
@@ -165,24 +212,8 @@ def score_benchmark(
             is_near_tie=False,
             overall_score=overall,
             display_score=round(overall, 1) if is_eligible else round(overall, 1),
-            score_contiguity=cohort.score_contiguity,
-            score_accuracy=cohort.score_accuracy,
-            score_residual=cohort.score_residual,
-            score_replicon=cohort.score_replicon,
-            mean_auNGA_ratio=cohort.mean_auNGA_ratio,
-            mean_error_rate=cohort.mean_error_rate,
-            mean_mismatches=cohort.mean_mismatches,
-            mean_indels=cohort.mean_indels,
-            residual_total_hits=cohort.residual_total_hits,
-            residual_clean_isolates=cohort.residual_clean_isolates,
-            residual_affected_isolates=cohort.residual_affected_isolates,
-            replicon_total_missed=cohort.replicon_total_missed,
-            replicon_full_missed=cohort.replicon_full_missed,
-            replicon_partial_missed=cohort.replicon_partial_missed,
-            replicon_affected_isolates=cohort.replicon_affected_isolates,
+            cohort=cohort,
             warnings=warnings,
-            isolate_contiguity_scores=cohort.isolate_contiguity_scores,
-            isolate_accuracy_scores=cohort.isolate_accuracy_scores,
         )
 
         if is_eligible:
@@ -191,6 +222,25 @@ def score_benchmark(
             ineligible_recs.append(rec)
 
     # Process combinations with insufficient data
+    empty_cohort = CohortCriteriaResult(
+        score_contiguity=0.0,
+        score_accuracy=0.0,
+        score_residual=0.0,
+        score_replicon=0.0,
+        mean_auNGA_ratio=0.0,
+        mean_error_rate=0.0,
+        mean_mismatches=0.0,
+        mean_indels=0.0,
+        residual_total_hits=0,
+        residual_clean_isolates=0,
+        residual_affected_isolates=0,
+        replicon_total_missed=0,
+        replicon_full_missed=0,
+        replicon_partial_missed=0,
+        replicon_affected_isolates=0,
+        all_replicons_complete=False,
+        zero_residual_hits=False,
+    )
     for combo_name, reason in incomplete_reasons.items():
         rec = CombinationRecommendation(
             combo=combo_name,
@@ -200,21 +250,7 @@ def score_benchmark(
             is_near_tie=False,
             overall_score=0.0,
             display_score=None,
-            score_contiguity=0.0,
-            score_accuracy=0.0,
-            score_residual=0.0,
-            score_replicon=0.0,
-            mean_auNGA_ratio=0.0,
-            mean_error_rate=0.0,
-            mean_mismatches=0.0,
-            mean_indels=0.0,
-            residual_total_hits=0,
-            residual_clean_isolates=0,
-            residual_affected_isolates=0,
-            replicon_total_missed=0,
-            replicon_full_missed=0,
-            replicon_partial_missed=0,
-            replicon_affected_isolates=0,
+            cohort=empty_cohort,
             warnings=["Insufficient benchmark data"],
         )
         ineligible_recs.append(rec)
@@ -267,3 +303,53 @@ def score_benchmark(
         recommendations=all_recommendations,
         provenance=provenance,
     )
+
+
+def recommendations_to_dataframe(result: ScoringResult) -> pd.DataFrame:
+    rows = []
+    for r in result.recommendations:
+        rows.append({
+            "rank": r.rank if r.rank is not None else "",
+            "combo": r.combo,
+            "overall_score": r.overall_score,
+            "display_score": r.display_score if r.display_score is not None else "",
+            "is_eligible": r.is_eligible,
+            "ineligible_reason": r.ineligible_reason or "",
+            "is_near_tie": r.is_near_tie,
+            "score_contiguity": r.score_contiguity,
+            "score_accuracy": r.score_accuracy,
+            "score_residual": r.score_residual,
+            "score_replicon": r.score_replicon,
+            "mean_auNGA_ratio": r.mean_auNGA_ratio,
+            "mean_error_rate": r.mean_error_rate,
+            "mean_mismatches": r.mean_mismatches,
+            "mean_indels": r.mean_indels,
+            "residual_total_hits": r.residual_total_hits,
+            "residual_clean_isolates": r.residual_clean_isolates,
+            "residual_affected_isolates": r.residual_affected_isolates,
+            "replicon_total_missed": r.replicon_total_missed,
+            "replicon_full_missed": r.replicon_full_missed,
+            "replicon_partial_missed": r.replicon_partial_missed,
+            "replicon_affected_isolates": r.replicon_affected_isolates,
+            "warnings": "; ".join(r.warnings),
+            "scenario_model": result.scenario.model,
+            "scenario_depth": result.scenario.depth,
+            "weight_accuracy": result.weights.accuracy,
+            "weight_contiguity": result.weights.contiguity,
+            "weight_residual": result.weights.residual,
+            "weight_replicon": result.weights.replicon,
+            "gate_complete_recovery": result.gates.complete_recovery,
+            "gate_zero_residual_hits": result.gates.zero_residual_hits,
+            "scoring_version": result.scoring_version,
+            "source_data_commit": result.provenance.source_data_commit or "",
+            "source_data_hash": result.provenance.source_data_hash,
+            "generated_at": result.provenance.generated_at,
+        })
+    return pd.DataFrame(rows)
+
+
+def export_recommendations_csv(result: ScoringResult) -> str:
+    df = recommendations_to_dataframe(result)
+    buffer = io.StringIO()
+    df.to_csv(buffer, index=False)
+    return buffer.getvalue()

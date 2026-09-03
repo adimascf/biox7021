@@ -62,7 +62,7 @@ app_ui = ui.page_fluid(
 
     # Region 1: Scenario Selection
     ui.tags.section(
-        {"id": "section-scenario", "role": "region", "aria-labelledby": "heading-scenario", "class": "region-container"},
+        {"id": "region-scenario", "role": "region", "aria-labelledby": "heading-scenario", "class": "region-container"},
         ui.tags.h2({"id": "heading-scenario", "class": "region-header"}, "1. Scenario Selection"),
         ui.tags.p("Select the basecalling model and sequencing depth matching your experiment. Selections begin unset."),
         ui.layout_columns(
@@ -85,7 +85,7 @@ app_ui = ui.page_fluid(
 
     # Region 2: Priorities and Weights
     ui.tags.section(
-        {"id": "section-priorities", "role": "region", "aria-labelledby": "heading-priorities", "class": "region-container"},
+        {"id": "region-priorities", "role": "region", "aria-labelledby": "heading-priorities", "class": "region-container"},
         ui.tags.h2({"id": "heading-priorities", "class": "region-header"}, "2. Priorities & Eligibility Requirements"),
         ui.tags.p("Choose a published starting preset or define custom percentage priorities totaling 100%."),
         ui.layout_columns(
@@ -126,13 +126,14 @@ app_ui = ui.page_fluid(
 
     # Region 3: Recommendation Shortlist
     ui.tags.section(
-        {"id": "section-shortlist", "role": "region", "aria-labelledby": "heading-shortlist", "class": "region-container"},
+        {"id": "region-shortlist", "role": "region", "aria-labelledby": "heading-shortlist", "class": "region-container"},
         ui.tags.h2({"id": "heading-shortlist", "class": "region-header"}, "3. Recommendation Shortlist"),
-        ui.tags.p("Top-ranked eligible QC–trimming combinations ordered by preference-alignment score:"),
+        ui.tags.p("Ranked eligible QC–trimming combinations ordered by preference-alignment score:"),
+        ui.output_ui("shortlist_status_msg"),
         ui.output_data_frame("ranking_table"),
         ui.tags.div(
             {"style": "margin-top: 12px;"},
-            ui.input_action_button("btn_reveal_all", "Reveal All 17 Combinations", class_="btn-sm btn-outline-secondary")
+            ui.input_action_button("btn_reveal_all", "Toggle Show All 17 / Top 5", class_="btn-sm btn-outline-secondary")
         ),
         ui.tags.div(
             {"id": "excluded-combinations-container", "style": "margin-top: 18px;"},
@@ -142,7 +143,7 @@ app_ui = ui.page_fluid(
 
     # Region 4: Selected Detail
     ui.tags.section(
-        {"id": "section-detail", "role": "region", "aria-labelledby": "heading-detail", "class": "region-container"},
+        {"id": "region-detail", "role": "region", "aria-labelledby": "heading-detail", "class": "region-container"},
         ui.tags.h2({"id": "heading-detail", "class": "region-header"}, "4. Selected Combination Evidence & Diagnostics"),
         ui.tags.p("Detailed per-isolate performance, warnings, and error-event breakdown for the selected tool combination:"),
         ui.output_ui("selected_combo_detail")
@@ -150,7 +151,7 @@ app_ui = ui.page_fluid(
 
     # Region 5: Concise Methodology
     ui.tags.section(
-        {"id": "section-methodology", "role": "region", "aria-labelledby": "heading-methodology", "class": "region-container"},
+        {"id": "region-methodology", "role": "region", "aria-labelledby": "heading-methodology", "class": "region-container"},
         ui.tags.h2({"id": "heading-methodology", "class": "region-header"}, "5. Concise Methodology & Provenance"),
         ui.tags.p(
             "Scoring Specification 1.0 evaluates four fixed 0–100 criterion scales without dynamic min–max rescaling: "
@@ -158,6 +159,13 @@ app_ui = ui.page_fluid(
             "(2) Sequence accuracy via combined mismatch-plus-indel event rate (0 at ≥10 events/100kbp); "
             "(3) Residual adapter/barcode removal via cohort clean-isolate percentage; "
             "(4) Reference-replicon recovery via cohort absolute count of replicons <50% coverage with fixed denominator 3."
+        ),
+        ui.tags.p(
+            ui.tags.a(
+                "Full Methodology & Robustness Specification →",
+                href="docs/qc-trimming-recommendation-system-specification.md",
+                target="_blank"
+            )
         ),
         ui.tags.div(
             {"class": "provenance-box"},
@@ -171,18 +179,56 @@ app_ui = ui.page_fluid(
 
 def server(input, output, session):
 
+    show_all = reactive.Value(False)
+
+    @reactive.Effect
+    @reactive.event(input.btn_reveal_all)
+    def _toggle_show_all():
+        show_all.set(not show_all.get())
+
+    @reactive.Effect
+    @reactive.event(input.preset_select)
+    def _apply_preset():
+        p = input.preset_select()
+        if p == "community_balanced":
+            ui.update_numeric("w_acc", value=28)
+            ui.update_numeric("w_cont", value=20)
+            ui.update_numeric("w_res", value=17)
+            ui.update_numeric("w_rep", value=35)
+            ui.update_checkbox("gate_complete", value=False)
+            ui.update_checkbox("gate_zero_hits", value=False)
+        elif p == "complete_replicon_recovery":
+            ui.update_numeric("w_acc", value=43)
+            ui.update_numeric("w_cont", value=31)
+            ui.update_numeric("w_res", value=26)
+            ui.update_numeric("w_rep", value=0)
+            ui.update_checkbox("gate_complete", value=True)
+            ui.update_checkbox("gate_zero_hits", value=False)
+        elif p == "sequence_accurate_assembly":
+            ui.update_numeric("w_acc", value=50)
+            ui.update_numeric("w_cont", value=14)
+            ui.update_numeric("w_res", value=12)
+            ui.update_numeric("w_rep", value=24)
+            ui.update_checkbox("gate_complete", value=False)
+            ui.update_checkbox("gate_zero_hits", value=False)
+
     @reactive.Calc
     def load_metrics_data():
-        # Load pinned benchmark data bundled with the site or fallback to pinned commit
         try:
             return pd.read_csv("assets/data/assembly_metrics.csv")
         except Exception:
-            try:
-                return pd.read_csv("assembly_metrics.csv")
-            except Exception:
-                from pyodide.http import open_url
-                pinned_url = "https://raw.githubusercontent.com/adimascf/biox7021/4d6b8cb1d482e5066f9ca575ebd3b67af4a32562/logbook/assembly_metrics.csv"
-                return pd.read_csv(open_url(pinned_url))
+            return pd.read_csv("assembly_metrics.csv")
+
+    @reactive.Calc
+    def weights_valid():
+        w1 = input.w_acc() or 0
+        w2 = input.w_cont() or 0
+        w3 = input.w_res() or 0
+        w4 = input.w_rep() or 0
+        if w1 < 0 or w2 < 0 or w3 < 0 or w4 < 0:
+            return False
+        total = w1 + w2 + w3 + w4
+        return total == 100 and total > 0
 
     @output
     @render.ui
@@ -218,58 +264,132 @@ def server(input, output, session):
         if diff == 0:
             return ui.HTML("<div style='color: #16a34a; font-size: 0.9rem; margin-top: 4px;'>✓ Total: <strong>100%</strong></div>")
         elif diff < 0:
-            return ui.HTML(f"<div style='color: #dc2626; font-size: 0.9rem; margin-top: 4px;'>⚠ Total: <strong>{total}%</strong> ({abs(diff)}% remaining to allocate)</div>")
+            return ui.HTML(f"<div style='color: #dc2626; font-size: 0.9rem; margin-top: 4px;'>⚠ Total: <strong>{total}%</strong> ({abs(diff)}% remaining to allocate) — <em>Ranking paused</em></div>")
         else:
-            return ui.HTML(f"<div style='color: #dc2626; font-size: 0.9rem; margin-top: 4px;'>⚠ Total: <strong>{total}%</strong> ({diff}% above 100%)</div>")
+            return ui.HTML(f"<div style='color: #dc2626; font-size: 0.9rem; margin-top: 4px;'>⚠ Total: <strong>{total}%</strong> ({diff}% above 100%) — <em>Ranking paused</em></div>")
 
     @output
-    @render.data_frame
-    def ranking_table():
+    @render.ui
+    def shortlist_status_msg():
         m = input.model_select()
         d = input.depth_select()
         if not m or not d:
-            empty_df = pd.DataFrame(columns=["Rank", "Combination", "Preference Score", "Contiguity", "Accuracy", "Residual Removal", "Replicon Recovery"])
-            return empty_df
+            return ui.HTML("<p class='text-muted'>Awaiting scenario selection.</p>")
+        if not weights_valid():
+            return ui.HTML("<div class='alert alert-warning' role='alert'><strong>Ranking paused:</strong> Allocation must total exactly 100% before recommendations can be evaluated.</div>")
+        return None
+
+    @reactive.Calc
+    def evaluated_results():
+        m = input.model_select()
+        d = input.depth_select()
+        if not m or not d or not weights_valid():
+            return [], []
 
         df = load_metrics_data()
         subset = df[(df["model"] == m) & (df["depth"] == d)]
-        
-        # Placeholder summary table for initial foundation
-        records = []
+
+        gate_complete = input.gate_complete()
+        gate_zero_hits = input.gate_zero_hits()
+
+        w_acc = (input.w_acc() or 0) / 100.0
+        w_cont = (input.w_cont() or 0) / 100.0
+        w_res = (input.w_res() or 0) / 100.0
+        w_rep = (input.w_rep() or 0) / 100.0
+
+        eligible_records = []
+        excluded_records = []
+
         for combo, grp in subset.groupby("combo"):
             mean_cont = float(np.mean(np.maximum(0.0, 1.0 - np.abs(grp["auNGA_ratio"] - 1.0)) * 100.0))
             mean_acc = float(np.mean(np.clip(1.0 - (grp["Mismatches per 100kbp"] + grp["Indels per 100kbp"]) / 10.0, 0.0, 1.0) * 100.0))
             clean_pct = float(np.mean(grp["contamination_count"] == 0) * 100.0)
+            t_hits = int(grp["contamination_count"].sum())
             t_miss = int(grp["total_missed"].sum())
             score_rep = float(max(0.0, 1.0 - t_miss / 3.0) * 100.0)
-            
-            w_acc = (input.w_acc() or 0) / 100.0
-            w_cont = (input.w_cont() or 0) / 100.0
-            w_res = (input.w_res() or 0) / 100.0
-            w_rep = (input.w_rep() or 0) / 100.0
-            total_w = w_acc + w_cont + w_res + w_rep
-            if total_w == 0:
-                overall = 0.0
+
+            overall_score = (w_acc * mean_acc + w_cont * mean_cont + w_res * clean_pct + w_rep * score_rep)
+
+            is_eligible = True
+            reasons = []
+
+            if gate_complete and t_miss > 0:
+                is_eligible = False
+                reasons.append("fails complete-recovery gate (<95% coverage on at least one replicon)")
+
+            if gate_zero_hits and t_hits > 0:
+                is_eligible = False
+                reasons.append(f"fails zero-residual-hits gate ({t_hits} hit(s) detected)")
+
+            item = {
+                "combo": combo,
+                "overall_score": overall_score,
+                "display_score": round(overall_score, 1),
+                "contiguity": round(mean_cont, 1),
+                "accuracy": round(mean_acc, 1),
+                "residual": round(clean_pct, 1),
+                "replicon": round(score_rep, 1),
+                "reasons": reasons
+            }
+
+            if is_eligible:
+                eligible_records.append(item)
             else:
-                overall = (w_acc * mean_acc + w_cont * mean_cont + w_res * clean_pct + w_rep * score_rep) / total_w
-                
-            records.append({
-                "Combination": combo,
-                "Preference Score": round(overall, 1),
-                "Contiguity": round(mean_cont, 1),
-                "Accuracy": round(mean_acc, 1),
-                "Residual Removal": round(clean_pct, 1),
-                "Replicon Recovery": round(score_rep, 1)
+                excluded_records.append(item)
+
+        # Sort eligible by full precision overall_score descending, then combo
+        eligible_records.sort(key=lambda r: (-r["overall_score"], r["combo"]))
+
+        # Competition ranking
+        for idx, rec in enumerate(eligible_records):
+            if idx == 0:
+                rec["rank"] = 1
+            else:
+                prev = eligible_records[idx - 1]
+                if abs(rec["overall_score"] - prev["overall_score"]) < 1e-9:
+                    rec["rank"] = prev["rank"]
+                else:
+                    rec["rank"] = idx + 1
+
+        return eligible_records, excluded_records
+
+    @output
+    @render.data_frame
+    def ranking_table():
+        eligible, _ = evaluated_results()
+        if not eligible:
+            return pd.DataFrame(columns=["Rank", "Combination", "Preference Score", "Contiguity", "Accuracy", "Residual Removal", "Replicon Recovery"])
+
+        display_rows = []
+        for r in eligible:
+            display_rows.append({
+                "Rank": r["rank"],
+                "Combination": r["combo"],
+                "Preference Score": r["display_score"],
+                "Contiguity": r["contiguity"],
+                "Accuracy": r["accuracy"],
+                "Residual Removal": r["residual"],
+                "Replicon Recovery": r["replicon"]
             })
-            
-        res_df = pd.DataFrame(records).sort_values(by="Preference Score", ascending=False)
-        res_df.insert(0, "Rank", range(1, len(res_df) + 1))
-        return res_df.head(5)
+
+        res_df = pd.DataFrame(display_rows)
+        limit = len(res_df) if show_all.get() else 5
+        return res_df.head(limit)
 
     @output
     @render.ui
     def excluded_combinations_ui():
-        return ui.HTML("<details><summary style='cursor: pointer; font-weight: 500;'>Excluded / Ineligible Combinations (0)</summary><p style='margin-top: 8px; font-size: 0.9rem; color: #64748b;'>All 17 combinations are currently eligible under active criteria.</p></details>")
+        _, excluded = evaluated_results()
+        n = len(excluded)
+        if n == 0:
+            return ui.HTML("<details><summary style='cursor: pointer; font-weight: 500;'>Excluded / Ineligible Combinations (0)</summary><p style='margin-top: 8px; font-size: 0.9rem; color: #64748b;'>All evaluated combinations are currently eligible under active criteria.</p></details>")
+
+        items = []
+        for r in excluded:
+            reason_txt = "; ".join(r["reasons"])
+            items.append(f"<li><strong>{r['combo']}</strong>: {reason_txt}</li>")
+        list_html = "".join(items)
+        return ui.HTML(f"<details><summary style='cursor: pointer; font-weight: 500; color: #dc2626;'>Excluded / Ineligible Combinations ({n})</summary><ul style='margin-top: 8px; font-size: 0.9rem;'>{list_html}</ul></details>")
 
     @output
     @render.ui
