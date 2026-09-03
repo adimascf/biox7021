@@ -215,9 +215,28 @@ def server(input, output, session):
     @reactive.Calc
     def load_metrics_data():
         try:
-            return pd.read_csv("assets/data/assembly_metrics.csv")
-        except Exception:
-            return pd.read_csv("assembly_metrics.csv")
+            from pyodide.http import open_url
+            try:
+                return pd.read_csv(open_url("assets/data/assembly_metrics.csv"))
+            except Exception:
+                pass
+            try:
+                return pd.read_csv(open_url("logbook/assembly_metrics.csv"))
+            except Exception:
+                pass
+            pinned_url = "https://raw.githubusercontent.com/adimascf/biox7021/4d6b8cb1d482e5066f9ca575ebd3b67af4a32562/logbook/assembly_metrics.csv"
+            return pd.read_csv(open_url(pinned_url))
+        except ImportError:
+            for path in [
+                "assets/data/assembly_metrics.csv",
+                "logbook/assembly_metrics.csv",
+                "assembly_metrics.csv"
+            ]:
+                try:
+                    return pd.read_csv(path)
+                except Exception:
+                    continue
+            raise FileNotFoundError("Could not find assembly_metrics.csv in local paths")
 
     @reactive.Calc
     def weights_valid():
