@@ -1,8 +1,11 @@
 # QC–trimming recommendation system specification
 
-**Scoring specification:** 1.0  
-**Status:** Proposed for coauthor review  
-**Benchmark scope:** 13 bacterial reference isolates, 17 QC–trimming combinations, HAC/SUP basecalling, and 20×/100× depth  
+**Scoring specification:** 1.0
+
+**Status:** Proposed for coauthor review
+
+**Benchmark scope:** 13 bacterial reference isolates, 17 QC–trimming combinations, HAC/SUP basecalling, and 20×/100× depth
+
 **Source-data baseline:** 884 complete scenario–isolate–combination observations at project commit `4d6b8cb1d482e5066f9ca575ebd3b67af4a32562`
 
 ## Problem Statement
