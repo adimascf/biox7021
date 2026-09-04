@@ -5,7 +5,8 @@
 .Rhistory
 data/
 !assets/data/
-results/
+/results/*
+!/results/robustness/
 .snakemake/
 logs/
 tmp/

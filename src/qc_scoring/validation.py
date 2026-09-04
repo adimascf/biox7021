@@ -1,4 +1,4 @@
-from typing import Dict, List, Set, Tuple
+from typing import Dict, List, Optional, Set, Tuple
 import numpy as np
 import pandas as pd
 from qc_scoring.models import Scenario
@@ -117,7 +117,7 @@ def validate_benchmark_dataframe(df: pd.DataFrame) -> None:
 
 
 def filter_scenario_data(
-    df: pd.DataFrame, scenario: Scenario
+    df: pd.DataFrame, scenario: Scenario, expected_samples: Optional[Set[str]] = None
 ) -> Tuple[pd.DataFrame, Dict[str, str]]:
     """
     Validates scenario and filters benchmark DataFrame to matching rows.
@@ -126,6 +126,11 @@ def filter_scenario_data(
     """
     validate_scenario(scenario)
     validate_benchmark_dataframe(df)
+
+    if expected_samples is None:
+        target_samples = EXPECTED_SAMPLES
+    else:
+        target_samples = expected_samples
 
     mask = (df["model"] == scenario.model) & (df["depth"] == scenario.depth)
     scenario_df = df[mask].copy()
@@ -140,7 +145,7 @@ def filter_scenario_data(
     for combo in all_combos:
         combo_rows = scenario_df[scenario_df["combo"] == combo]
         samples_present = set(combo_rows["sample"].unique())
-        missing_samples = EXPECTED_SAMPLES - samples_present
+        missing_samples = target_samples - samples_present
         if missing_samples:
             incomplete[combo] = (
                 f"insufficient benchmark data: missing {len(missing_samples)} isolate(s): "

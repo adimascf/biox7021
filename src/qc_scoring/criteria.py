@@ -16,9 +16,12 @@ def score_isolate_accuracy(mismatches_per_100kbp: float, indels_per_100kbp: floa
 def score_isolate_residual_clean(contamination_count: int | float) -> float:
     return 100.0 if contamination_count == 0 else 0.0
 
-def score_replicon_recovery(total_missed_cohort: int | float) -> float:
-    ratio = 1.0 - (total_missed_cohort / 3.0)
+def score_replicon_recovery(total_missed_cohort: int | float, denominator: float = 3.0) -> float:
+    if denominator <= 0:
+        raise ValueError(f"Replicon calibration denominator must be positive, got {denominator}")
+    ratio = 1.0 - (total_missed_cohort / denominator)
     return float(max(0.0, ratio) * 100.0)
+
 
 @dataclass(frozen=True)
 class CohortCriteriaResult:
@@ -57,7 +60,7 @@ class CohortCriteriaResult:
     isolate_duplication_ratios: Dict[str, float] = field(default_factory=dict)
     isolate_misassemblies: Dict[str, int] = field(default_factory=dict)
 
-def calculate_cohort_criteria(combo_df: pd.DataFrame) -> CohortCriteriaResult:
+def calculate_cohort_criteria(combo_df: pd.DataFrame, replicon_denominator: float = 3.0) -> CohortCriteriaResult:
     n_isolates = len(combo_df)
     if n_isolates == 0:
         raise ValueError("Cannot calculate cohort criteria on empty DataFrame")
@@ -136,7 +139,7 @@ def calculate_cohort_criteria(combo_df: pd.DataFrame) -> CohortCriteriaResult:
     score_contiguity = float(np.mean(list(contiguity_scores.values())))
     score_accuracy = float(np.mean(list(accuracy_scores.values())))
     score_residual = float((clean_isolates_count / n_isolates) * 100.0)
-    score_replicon = score_replicon_recovery(total_missed_sum)
+    score_replicon = score_replicon_recovery(total_missed_sum, denominator=replicon_denominator)
 
     return CohortCriteriaResult(
         score_contiguity=score_contiguity,

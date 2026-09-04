@@ -595,4 +595,58 @@ def test_export_recommendations_csv_contract():
         score_benchmark(df, Scenario(model="unknown", depth="20x"), weights=weights)
 
 
+def test_score_benchmark_replicon_denominator_parameterization():
+    df = pd.read_csv("assets/data/assembly_metrics.csv")
+    scenario = Scenario(model="hac", depth="100x")
+    weights = WeightsConfig(accuracy=0.0, contiguity=0.0, residual=0.0, replicon=100.0)
+
+    # Base run: denominator 3.0
+    res_base = score_benchmark(df, scenario, weights=weights, replicon_denominator=3.0)
+    # Denominator 2.0
+    res_d2 = score_benchmark(df, scenario, weights=weights, replicon_denominator=2.0)
+    # Denominator 4.0
+    res_d4 = score_benchmark(df, scenario, weights=weights, replicon_denominator=4.0)
+
+    # Check a combo that has non-zero replicon losses, e.g. chopper-untrimmed or similar
+    # All non-replicon criteria must remain identical
+    for r_base, r_d2, r_d4 in zip(res_base.recommendations, res_d2.recommendations, res_d4.recommendations):
+        assert r_base.combo == r_d2.combo == r_d4.combo
+        assert r_base.score_contiguity == r_d2.score_contiguity == r_d4.score_contiguity
+        assert r_base.score_accuracy == r_d2.score_accuracy == r_d4.score_accuracy
+        assert r_base.score_residual == r_d2.score_residual == r_d4.score_residual
+
+        missed = r_base.replicon_total_missed
+        expected_d2 = max(0.0, 1.0 - (missed / 2.0)) * 100.0
+        expected_d3 = max(0.0, 1.0 - (missed / 3.0)) * 100.0
+        expected_d4 = max(0.0, 1.0 - (missed / 4.0)) * 100.0
+
+        assert abs(r_d2.score_replicon - expected_d2) < 1e-6
+        assert abs(r_base.score_replicon - expected_d3) < 1e-6
+        assert abs(r_d4.score_replicon - expected_d4) < 1e-6
+
+
+def test_score_benchmark_expected_samples_parameterization():
+    df = pd.read_csv("assets/data/assembly_metrics.csv")
+    scenario = Scenario(model="hac", depth="100x")
+    weights = WeightsConfig(accuracy=28.0, contiguity=20.0, residual=17.0, replicon=35.0)
+
+    # Leave one isolate out: omit 'AJ292__202310'
+    omitted = "AJ292__202310"
+    subset_samples = EXPECTED_SAMPLES - {omitted}
+    assert len(subset_samples) == 12
+
+    filtered_df = df[df["sample"] != omitted].copy()
+
+    # Without expected_samples, score_benchmark should treat all combos as having missing isolates
+    res_strict = score_benchmark(filtered_df, scenario, weights=weights)
+    assert res_strict.eligible_count == 0
+    assert all(r.is_insufficient_data for r in res_strict.recommendations)
+
+    # With expected_samples, score_benchmark should accept the 12 isolates as complete
+    res_loo = score_benchmark(filtered_df, scenario, weights=weights, expected_samples=subset_samples)
+    assert res_loo.eligible_count == 17
+    assert not any(r.is_insufficient_data for r in res_loo.recommendations)
+
+
+
 

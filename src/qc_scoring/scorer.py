@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 import hashlib
 import io
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Set
 import pandas as pd
 from qc_scoring.criteria import calculate_cohort_criteria, CohortCriteriaResult
 from qc_scoring.models import Scenario
@@ -24,6 +24,7 @@ class Provenance:
     gates: Dict[str, bool]
     generated_at: str
     preset: Optional[str] = None
+    replicon_denominator: float = 3.0
 
 
 @dataclass
@@ -166,12 +167,16 @@ def score_benchmark(
     gates: Optional[GateConfig] = None,
     source_data_commit: Optional[str] = SOURCE_DATA_BASELINE_COMMIT,
     preset: Optional[str] = None,
+    replicon_denominator: float = 3.0,
+    expected_samples: Optional[Set[str]] = None,
 ) -> ScoringResult:
     if gates is None:
         gates = GateConfig()
 
     validate_weights(weights)
-    filtered_df, incomplete_reasons = filter_scenario_data(df, scenario)
+    filtered_df, incomplete_reasons = filter_scenario_data(
+        df, scenario, expected_samples=expected_samples
+    )
 
     if preset is None:
         from qc_scoring.preferences import PRESETS
@@ -197,7 +202,9 @@ def score_benchmark(
     grouped = filtered_df.groupby("combo", observed=True)
     for combo, combo_df in grouped:
         combo_name = str(combo)
-        cohort: CohortCriteriaResult = calculate_cohort_criteria(combo_df)
+        cohort: CohortCriteriaResult = calculate_cohort_criteria(
+            combo_df, replicon_denominator=replicon_denominator
+        )
 
         # Preference alignment score (unrounded full precision)
         overall = (
@@ -345,6 +352,7 @@ def score_benchmark(
         weights=weights.as_dict(),
         gates=gates.as_dict(),
         generated_at=now_iso,
+        replicon_denominator=replicon_denominator,
     )
 
     return ScoringResult(
