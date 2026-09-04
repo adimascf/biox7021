@@ -47,9 +47,15 @@ class CohortCriteriaResult:
     all_replicons_complete: bool
     zero_residual_hits: bool
 
+    # Supporting diagnostics
+    mean_duplication_ratio: float = 1.0
+    total_misassemblies: int = 0
+
     # Per-isolate details
     isolate_contiguity_scores: Dict[str, float] = field(default_factory=dict)
     isolate_accuracy_scores: Dict[str, float] = field(default_factory=dict)
+    isolate_duplication_ratios: Dict[str, float] = field(default_factory=dict)
+    isolate_misassemblies: Dict[str, int] = field(default_factory=dict)
 
 def calculate_cohort_criteria(combo_df: pd.DataFrame) -> CohortCriteriaResult:
     n_isolates = len(combo_df)
@@ -58,6 +64,8 @@ def calculate_cohort_criteria(combo_df: pd.DataFrame) -> CohortCriteriaResult:
 
     contiguity_scores: Dict[str, float] = {}
     accuracy_scores: Dict[str, float] = {}
+    duplication_ratios: Dict[str, float] = {}
+    misassemblies_counts: Dict[str, int] = {}
     clean_isolates_count = 0
     total_residual_hits = 0
     affected_residual_count = 0
@@ -72,6 +80,8 @@ def calculate_cohort_criteria(combo_df: pd.DataFrame) -> CohortCriteriaResult:
     mismatches_sum = 0.0
     indels_sum = 0.0
     aunga_sum = 0.0
+    duplication_sum = 0.0
+    misassemblies_sum = 0
 
     for _, row in combo_df.iterrows():
         sample_name = str(row["sample"])
@@ -89,6 +99,15 @@ def calculate_cohort_criteria(combo_df: pd.DataFrame) -> CohortCriteriaResult:
         indels_sum += indels
         acc_score = score_isolate_accuracy(mismatches, indels)
         accuracy_scores[sample_name] = acc_score
+
+        # Supporting diagnostics
+        dup_val = float(row["Duplication_ratio"]) if "Duplication_ratio" in row and pd.notna(row["Duplication_ratio"]) else 1.0
+        duplication_sum += dup_val
+        duplication_ratios[sample_name] = dup_val
+
+        mis_val = int(row["misassemblies"]) if "misassemblies" in row and pd.notna(row["misassemblies"]) else 0
+        misassemblies_sum += mis_val
+        misassemblies_counts[sample_name] = mis_val
 
         # Residual hits
         contamination_count = int(row["contamination_count"])
@@ -137,6 +156,10 @@ def calculate_cohort_criteria(combo_df: pd.DataFrame) -> CohortCriteriaResult:
         replicon_affected_isolates=affected_replicon_count,
         all_replicons_complete=all_complete_recovery,
         zero_residual_hits=(total_residual_hits == 0),
+        mean_duplication_ratio=duplication_sum / n_isolates,
+        total_misassemblies=misassemblies_sum,
         isolate_contiguity_scores=contiguity_scores,
         isolate_accuracy_scores=accuracy_scores,
+        isolate_duplication_ratios=duplication_ratios,
+        isolate_misassemblies=misassemblies_counts,
     )

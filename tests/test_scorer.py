@@ -337,3 +337,176 @@ def test_complete_recovery_sub_95_gate_edge_case():
     assert rec.rank is None
     assert "fails complete-recovery gate (<95% coverage on at least one replicon)" in (rec.ineligible_reason or "")
 
+
+def test_warning_boundaries_immediately_below_and_at_25_points():
+    sample_list = sorted(EXPECTED_SAMPLES)
+
+    # 1. Test sequence accuracy at exactly 25.0 points difference:
+    # All 13 isolates: 12 have score 100.0 (err=0), 1 has score 72.91666666666667
+    # Mean = (12 * 100 + S) / 13 = (1200 + S) / 13.
+    # We want Mean - S = 25.0 => 1200 + S - 13S = 25 * 13 => 1200 - 12S = 325 => 12S = 875 => S = 72.91666666666667
+    # Then Mean = 97.91666666666667, S = 72.91666666666667, Mean - S = 25.0!
+    # With score_isolate_accuracy: S = 100 * (1 - err/10) => err = 10 * (1 - S/100) = 10 * (1 - 0.7291666666666667) = 2.708333333333333
+    target_s_exact = 875.0 / 12.0
+    err_exact = 10.0 * (1.0 - target_s_exact / 100.0)
+
+    records_exact = []
+    for idx, sample in enumerate(sample_list):
+        records_exact.append({
+            "combo": "filtlong-dorado",
+            "depth": "100x",
+            "sample": sample,
+            "model": "hac",
+            "Mismatches per 100kbp": err_exact if idx == 0 else 0.0,
+            "Indels per 100kbp": 0.0,
+            "auNGA_ratio": 1.0,
+            "contamination_count": 0,
+            "full_missed": 0,
+            "partial_missed": 0,
+            "total_missed": 0,
+            "all_contigs_coverage": "chr (1000000bp, 100.0% cov)",
+            "Duplication_ratio": 1.0,
+            "misassemblies": 0,
+        })
+
+    res_exact = score_benchmark(
+        pd.DataFrame(records_exact),
+        Scenario(model="hac", depth="100x"),
+        weights=WeightsConfig(accuracy=28.0, contiguity=20.0, residual=17.0, replicon=35.0),
+    )
+    rec_exact = [r for r in res_exact.recommendations if r.combo == "filtlong-dorado"][0]
+    acc_warns_exact = [w for w in rec_exact.warnings if "Variable sequence accuracy" in w]
+    assert len(acc_warns_exact) == 1
+    # Check that it reports both the lowest isolate score and cohort mean
+    warn_text = acc_warns_exact[0]
+    assert f"{target_s_exact:.1f}" in warn_text
+    assert f"{rec_exact.score_accuracy:.1f}" in warn_text
+
+    # 2. Test immediately below 25.0 points difference (e.g. difference is 24.9 points):
+    # Mean - S = 24.9 => 1200 - 12S = 24.9 * 13 = 323.7 => 12S = 876.3 => S = 73.025
+    target_s_below = 876.3 / 12.0
+    err_below = 10.0 * (1.0 - target_s_below / 100.0)
+
+    records_below = []
+    for idx, sample in enumerate(sample_list):
+        records_below.append({
+            "combo": "filtlong-dorado",
+            "depth": "100x",
+            "sample": sample,
+            "model": "hac",
+            "Mismatches per 100kbp": err_below if idx == 0 else 0.0,
+            "Indels per 100kbp": 0.0,
+            "auNGA_ratio": 1.0,
+            "contamination_count": 0,
+            "full_missed": 0,
+            "partial_missed": 0,
+            "total_missed": 0,
+            "all_contigs_coverage": "chr (1000000bp, 100.0% cov)",
+            "Duplication_ratio": 1.0,
+            "misassemblies": 0,
+        })
+
+    res_below = score_benchmark(
+        pd.DataFrame(records_below),
+        Scenario(model="hac", depth="100x"),
+        weights=WeightsConfig(accuracy=28.0, contiguity=20.0, residual=17.0, replicon=35.0),
+    )
+    rec_below = [r for r in res_below.recommendations if r.combo == "filtlong-dorado"][0]
+    acc_warns_below = [w for w in rec_below.warnings if "Variable sequence accuracy" in w]
+    assert len(acc_warns_below) == 0, f"Expected no warning for 24.9 pt gap, got {acc_warns_below}"
+
+    # 3. Test contiguity variability boundary: exactly 25.0 points vs 24.9 points
+    # Contiguity score = 100 * max(0, 1 - |r - 1|).
+    # S = 100 * (1 - (r - 1)) = 100 * (2 - r) => r = 2 - S/100
+    r_exact = 2.0 - (target_s_exact / 100.0)
+    for r in records_exact:
+        r["Mismatches per 100kbp"] = 0.0
+    records_exact[0]["auNGA_ratio"] = r_exact
+
+    res_cont_exact = score_benchmark(
+        pd.DataFrame(records_exact),
+        Scenario(model="hac", depth="100x"),
+        weights=WeightsConfig(accuracy=28.0, contiguity=20.0, residual=17.0, replicon=35.0),
+    )
+    rec_cont_exact = [r for r in res_cont_exact.recommendations if r.combo == "filtlong-dorado"][0]
+    cont_warns_exact = [w for w in rec_cont_exact.warnings if "Variable contiguity" in w]
+    assert len(cont_warns_exact) == 1
+    assert f"{target_s_exact:.1f}" in cont_warns_exact[0]
+    assert f"{rec_cont_exact.score_contiguity:.1f}" in cont_warns_exact[0]
+
+    # Contiguity immediately below 25 points:
+    r_below = 2.0 - (target_s_below / 100.0)
+    for r in records_below:
+        r["Mismatches per 100kbp"] = 0.0
+    records_below[0]["auNGA_ratio"] = r_below
+
+    res_cont_below = score_benchmark(
+        pd.DataFrame(records_below),
+        Scenario(model="hac", depth="100x"),
+        weights=WeightsConfig(accuracy=28.0, contiguity=20.0, residual=17.0, replicon=35.0),
+    )
+    rec_cont_below = [r for r in res_cont_below.recommendations if r.combo == "filtlong-dorado"][0]
+    cont_warns_below = [w for w in rec_cont_below.warnings if "Variable contiguity" in w]
+    assert len(cont_warns_below) == 0
+
+
+def test_warnings_remain_visible_when_criterion_weight_is_zero():
+    # In real data, test with zero weights for various criteria
+    df = pd.read_csv("logbook/assembly_metrics.csv")
+
+    # Zero residual weight: residual warnings still present
+    res_zero_res = score_benchmark(
+        df,
+        Scenario(model="hac", depth="100x"),
+        weights=WeightsConfig(accuracy=50.0, contiguity=50.0, residual=0.0, replicon=0.0),
+    )
+    # Check combos that have residual hits
+    recs_with_hits = [r for r in res_zero_res.recommendations if r.residual_total_hits > 0]
+    assert len(recs_with_hits) > 0
+    for r in recs_with_hits:
+        hit_warns = [w for w in r.warnings if "residual adapter/barcode hit(s)" in w]
+        assert len(hit_warns) == 1, f"Expected residual hit warning despite 0 weight for {r.combo}"
+
+    # Zero replicon weight: replicon warnings still present
+    res_zero_rep = score_benchmark(
+        df,
+        Scenario(model="hac", depth="100x"),
+        weights=WeightsConfig(accuracy=50.0, contiguity=50.0, residual=0.0, replicon=0.0),
+    )
+    recs_with_miss = [r for r in res_zero_rep.recommendations if r.replicon_total_missed > 0]
+    assert len(recs_with_miss) > 0
+    for r in recs_with_miss:
+        miss_warns = [w for w in r.warnings if "missed or severely incomplete replicon(s)" in w]
+        assert len(miss_warns) == 1, f"Expected replicon warning despite 0 weight for {r.combo}"
+
+    # Zero accuracy weight: variable accuracy warnings still present
+    res_zero_acc = score_benchmark(
+        df,
+        Scenario(model="hac", depth="100x"),
+        weights=WeightsConfig(accuracy=0.0, contiguity=50.0, residual=25.0, replicon=25.0),
+    )
+    recs_var_acc = [
+        r for r in res_zero_acc.recommendations
+        if r.isolate_accuracy_scores and (r.score_accuracy - min(r.isolate_accuracy_scores.values())) >= 25.0
+    ]
+    assert len(recs_var_acc) > 0
+    for r in recs_var_acc:
+        acc_warns = [w for w in r.warnings if "Variable sequence accuracy" in w]
+        assert len(acc_warns) == 1, f"Expected var acc warning despite 0 weight for {r.combo}"
+
+
+def test_supporting_metrics_duplication_ratio_and_misassemblies():
+    df = pd.read_csv("logbook/assembly_metrics.csv")
+    res = score_benchmark(
+        df,
+        Scenario(model="hac", depth="100x"),
+        weights=WeightsConfig(accuracy=28.0, contiguity=20.0, residual=17.0, replicon=35.0),
+    )
+    for r in res.recommendations:
+        if r.is_eligible:
+            assert hasattr(r, "mean_duplication_ratio")
+            assert hasattr(r, "total_misassemblies")
+            assert r.mean_duplication_ratio > 0.0
+            assert r.total_misassemblies >= 0
+
+

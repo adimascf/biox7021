@@ -107,6 +107,26 @@ class CombinationRecommendation:
     def isolate_accuracy_scores(self) -> Dict[str, float]:
         return self.cohort.isolate_accuracy_scores
 
+    @property
+    def mean_duplication_ratio(self) -> float:
+        return self.cohort.mean_duplication_ratio
+
+    @property
+    def total_misassemblies(self) -> int:
+        return self.cohort.total_misassemblies
+
+    @property
+    def isolate_duplication_ratios(self) -> Dict[str, float]:
+        return self.cohort.isolate_duplication_ratios
+
+    @property
+    def isolate_misassemblies(self) -> Dict[str, int]:
+        return self.cohort.isolate_misassemblies
+
+    @property
+    def near_tie_label(self) -> Optional[str]:
+        return "similar overall scores" if self.is_near_tie else None
+
 
 @dataclass
 class ScoringResult:
@@ -198,11 +218,17 @@ def score_benchmark(
         # Isolate variability warnings (>= 25 points between mean and min isolate)
         min_acc = min(cohort.isolate_accuracy_scores.values()) if cohort.isolate_accuracy_scores else cohort.score_accuracy
         if (cohort.score_accuracy - min_acc) >= 25.0:
-            warnings.append("Variable sequence accuracy across isolates (lowest isolate score is >=25 points below cohort mean)")
+            warnings.append(
+                f"Variable sequence accuracy across isolates: lowest isolate score is {min_acc:.1f} "
+                f"(cohort mean {cohort.score_accuracy:.1f})"
+            )
 
         min_cont = min(cohort.isolate_contiguity_scores.values()) if cohort.isolate_contiguity_scores else cohort.score_contiguity
         if (cohort.score_contiguity - min_cont) >= 25.0:
-            warnings.append("Variable contiguity across isolates (lowest isolate score is >=25 points below cohort mean)")
+            warnings.append(
+                f"Variable contiguity across isolates: lowest isolate score is {min_cont:.1f} "
+                f"(cohort mean {cohort.score_contiguity:.1f})"
+            )
 
         rec = CombinationRecommendation(
             combo=combo_name,
@@ -316,6 +342,7 @@ def recommendations_to_dataframe(result: ScoringResult) -> pd.DataFrame:
             "is_eligible": r.is_eligible,
             "ineligible_reason": r.ineligible_reason or "",
             "is_near_tie": r.is_near_tie,
+            "near_tie_label": r.near_tie_label or "",
             "score_contiguity": r.score_contiguity,
             "score_accuracy": r.score_accuracy,
             "score_residual": r.score_residual,
@@ -331,6 +358,8 @@ def recommendations_to_dataframe(result: ScoringResult) -> pd.DataFrame:
             "replicon_full_missed": r.replicon_full_missed,
             "replicon_partial_missed": r.replicon_partial_missed,
             "replicon_affected_isolates": r.replicon_affected_isolates,
+            "mean_duplication_ratio": r.mean_duplication_ratio,
+            "total_misassemblies": r.total_misassemblies,
             "warnings": "; ".join(r.warnings),
             "scenario_model": result.scenario.model,
             "scenario_depth": result.scenario.depth,
