@@ -322,49 +322,49 @@ def server(input, output, session):
         eligible_records = []
         excluded_records = []
 
-        for combo, grp in subset.groupby("combo"):
-            mean_cont = float(np.mean(np.maximum(0.0, 1.0 - np.abs(grp["auNGA_ratio"] - 1.0)) * 100.0))
-            mean_acc = float(np.mean(np.clip(1.0 - (grp["Mismatches per 100kbp"] + grp["Indels per 100kbp"]) / 10.0, 0.0, 1.0) * 100.0))
-            clean_pct = float(np.mean(grp["contamination_count"] == 0) * 100.0)
-            t_hits = int(grp["contamination_count"].sum())
-            clean_isolates = int((grp["contamination_count"] == 0).sum())
-            affected_residual_isolates = int((grp["contamination_count"] > 0).sum())
-            t_miss = int(grp["total_missed"].sum())
-            full_missed = int(grp["full_missed"].sum())
-            partial_missed = int(grp["partial_missed"].sum())
-            affected_replicon_isolates = int((grp["total_missed"] > 0).sum())
-            score_rep = float(max(0.0, 1.0 - t_miss / 3.0) * 100.0)
+        for combo, isolate_metrics in subset.groupby("combo"):
+            mean_cont = float(np.mean(np.maximum(0.0, 1.0 - np.abs(isolate_metrics["auNGA_ratio"] - 1.0)) * 100.0))
+            mean_acc = float(np.mean(np.clip(1.0 - (isolate_metrics["Mismatches per 100kbp"] + isolate_metrics["Indels per 100kbp"]) / 10.0, 0.0, 1.0) * 100.0))
+            clean_pct = float(np.mean(isolate_metrics["contamination_count"] == 0) * 100.0)
+            total_residual_hits = int(isolate_metrics["contamination_count"].sum())
+            clean_isolates = int((isolate_metrics["contamination_count"] == 0).sum())
+            affected_residual_isolates = int((isolate_metrics["contamination_count"] > 0).sum())
+            total_missed_replicons = int(isolate_metrics["total_missed"].sum())
+            full_missed = int(isolate_metrics["full_missed"].sum())
+            partial_missed = int(isolate_metrics["partial_missed"].sum())
+            affected_replicon_isolates = int((isolate_metrics["total_missed"] > 0).sum())
+            score_rep = float(max(0.0, 1.0 - total_missed_replicons / 3.0) * 100.0)
 
-            mean_error_rate = float(np.mean(grp["Mismatches per 100kbp"] + grp["Indels per 100kbp"]))
-            mean_mismatches = float(np.mean(grp["Mismatches per 100kbp"]))
-            mean_indels = float(np.mean(grp["Indels per 100kbp"]))
-            mean_aunga = float(np.mean(grp["auNGA_ratio"]))
+            mean_error_rate = float(np.mean(isolate_metrics["Mismatches per 100kbp"] + isolate_metrics["Indels per 100kbp"]))
+            mean_mismatches = float(np.mean(isolate_metrics["Mismatches per 100kbp"]))
+            mean_indels = float(np.mean(isolate_metrics["Indels per 100kbp"]))
+            mean_aunga = float(np.mean(isolate_metrics["auNGA_ratio"]))
 
             overall_score = (w_acc * mean_acc + w_cont * mean_cont + w_res * clean_pct + w_rep * score_rep)
 
             is_eligible = True
             reasons = []
 
-            if gate_complete and t_miss > 0:
+            if gate_complete and total_missed_replicons > 0:
                 is_eligible = False
                 reasons.append("fails complete-recovery gate (<95% coverage on at least one replicon)")
 
-            if gate_zero_hits and t_hits > 0:
+            if gate_zero_hits and total_residual_hits > 0:
                 is_eligible = False
-                reasons.append(f"fails zero-residual-hits gate ({t_hits} hit(s) detected)")
+                reasons.append(f"fails zero-residual-hits gate ({total_residual_hits} hit(s) detected)")
 
             # Warnings
             warnings = []
-            if t_hits > 0:
-                warnings.append(f"{t_hits} residual hit(s) across {affected_residual_isolates} isolate(s)")
-            if t_miss > 0:
-                warnings.append(f"{t_miss} missed replicon(s) across {affected_replicon_isolates} isolate(s) ({full_missed} full, {partial_missed} partial)")
+            if total_residual_hits > 0:
+                warnings.append(f"{total_residual_hits} residual hit(s) across {affected_residual_isolates} isolate(s)")
+            if total_missed_replicons > 0:
+                warnings.append(f"{total_missed_replicons} missed replicon(s) across {affected_replicon_isolates} isolate(s) ({full_missed} full, {partial_missed} partial)")
 
-            iso_acc = np.clip(1.0 - (grp["Mismatches per 100kbp"] + grp["Indels per 100kbp"]) / 10.0, 0.0, 1.0) * 100.0
+            iso_acc = np.clip(1.0 - (isolate_metrics["Mismatches per 100kbp"] + isolate_metrics["Indels per 100kbp"]) / 10.0, 0.0, 1.0) * 100.0
             if (mean_acc - float(np.min(iso_acc))) >= 25.0:
                 warnings.append("Variable sequence accuracy across isolates (lowest isolate is ≥25 pts below mean)")
 
-            iso_cont = np.maximum(0.0, 1.0 - np.abs(grp["auNGA_ratio"] - 1.0)) * 100.0
+            iso_cont = np.maximum(0.0, 1.0 - np.abs(isolate_metrics["auNGA_ratio"] - 1.0)) * 100.0
             if (mean_cont - float(np.min(iso_cont))) >= 25.0:
                 warnings.append("Variable contiguity across isolates (lowest isolate is ≥25 pts below mean)")
 
@@ -380,17 +380,17 @@ def server(input, output, session):
                 "mean_mismatches": mean_mismatches,
                 "mean_indels": mean_indels,
                 "mean_aunga": mean_aunga,
-                "t_hits": t_hits,
+                "t_hits": total_residual_hits,
                 "clean_isolates": clean_isolates,
                 "affected_residual_isolates": affected_residual_isolates,
-                "t_miss": t_miss,
+                "t_miss": total_missed_replicons,
                 "full_missed": full_missed,
                 "partial_missed": partial_missed,
                 "affected_replicon_isolates": affected_replicon_isolates,
                 "reasons": reasons,
                 "warnings": warnings,
                 "is_near_tie": False,
-                "raw_group": grp,
+                "raw_group": isolate_metrics,
             }
 
             if is_eligible:
@@ -526,10 +526,10 @@ def server(input, output, session):
 
         # Display details for the leading combination
         leader = eligible[0]
-        grp = leader["raw_group"]
+        isolate_metrics = leader["raw_group"]
 
         iso_rows = []
-        for _, row in grp.iterrows():
+        for _, row in isolate_metrics.iterrows():
             sample_name = row["sample"]
             aunga = row["auNGA_ratio"]
             cont_score = max(0.0, 1.0 - abs(aunga - 1.0)) * 100.0

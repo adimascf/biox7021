@@ -112,15 +112,17 @@ def test_dashboard_source_journey_specifications():
     assert "13" in qmd_content and "isolate" in qmd_content
 
 
+def _extract_app_code(qmd_path: Path = Path("tool_weighting.qmd")) -> str:
+    qmd_content = qmd_path.read_text()
+    match = re.search(r"```\{shinylive-python\}\n(.*?)\n```", qmd_content, re.DOTALL)
+    assert match is not None, "shinylive-python code chunk not found in dashboard source"
+    app_lines = [l for l in match.group(1).split("\n") if not l.strip().startswith("#|")]
+    return "\n".join(app_lines)
+
+
 # 3. Parity between dashboard evaluated_results and canonical scorer
 def test_dashboard_evaluated_results_parity():
-    qmd_content = Path("tool_weighting.qmd").read_text()
-    match = re.search(r"```\{shinylive-python\}\n(.*?)\n```", qmd_content, re.DOTALL)
-    assert match is not None
-    code = match.group(1)
-    clean_lines = [l for l in code.split("\n") if not l.strip().startswith("#|")]
-    clean_code = "\n".join(clean_lines)
-
+    clean_code = _extract_app_code()
     scope = {}
     exec(clean_code, scope)
 
@@ -147,11 +149,8 @@ def test_browser_acceptance_community_journey(tmp_path):
     assert repo_owner is not None and len(repo_owner) > 0
     assert repo_name is not None and len(repo_name) > 0
 
-    qmd_content = Path("tool_weighting.qmd").read_text()
-    match = re.search(r"```\{shinylive-python\}\n(.*?)\n```", qmd_content, re.DOTALL)
-    assert match is not None
-    app_lines = [l for l in match.group(1).split("\n") if not l.strip().startswith("#|")]
-    app_code = "\n".join(app_lines)
+    qmd_path = Path("tool_weighting.qmd")
+    app_code = _extract_app_code(qmd_path)
 
     app_file = tmp_path / "app.py"
     app_file.write_text(app_code)
