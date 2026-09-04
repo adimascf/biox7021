@@ -70,3 +70,32 @@ def test_dashboard_quarto_render_smoke():
     cfg = load_dashboard_config()
     # Check that configured provenance (e.g. pinned commit or repo) is visible
     assert cfg.pinned_commit[:7] in html_content or cfg.pinned_commit in html_content
+
+
+def test_dashboard_pyodide_standalone_import_and_config(monkeypatch):
+    # Regression test for Pyodide / Shinylive browser environment where qc_scoring is not installed
+    import re
+    import sys
+
+    dash_source = Path("tool_weighting.qmd")
+    content = dash_source.read_text()
+    match = re.search(r"```\{shinylive-python\}\n(.*?)\n```", content, re.DOTALL)
+    assert match is not None, "shinylive-python code chunk not found"
+    app_lines = [l for l in match.group(1).split("\n") if not l.strip().startswith("#|")]
+    app_code = "\n".join(app_lines)
+
+    # Block qc_scoring imports in sys.modules to simulate Pyodide WASM environment
+    monkeypatch.setitem(sys.modules, "qc_scoring", None)
+    monkeypatch.setitem(sys.modules, "qc_scoring.config", None)
+
+    scope = {}
+    exec(app_code, scope)
+
+    assert "app_config" in scope, "app_config must be loaded even in standalone Pyodide runtime"
+    config = scope["app_config"]
+    assert config.repository_owner == "adimascf"
+    assert config.repository_name == "biox7021"
+    assert config.scoring_version == "1.0"
+    assert "https://raw.githubusercontent.com/adimascf/biox7021/" in config.data_url()
+    assert "app" in scope, "Shiny App object must be instantiated without errors"
+
