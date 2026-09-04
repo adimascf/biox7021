@@ -22,6 +22,46 @@ from shiny import App, render, ui, reactive
 import pandas as pd
 import numpy as np
 
+def _load_app_config():
+    try:
+        from qc_scoring.config import load_dashboard_config
+        return load_dashboard_config()
+    except Exception:
+        import yaml
+        for p in ["config/dashboard_config.yaml", "../config/dashboard_config.yaml"]:
+            try:
+                with open(p, "r", encoding="utf-8") as f:
+                    data = yaml.safe_load(f) or {}
+                    repo = data.get("repository", {})
+                    evidence = data.get("evidence", {})
+                    scoring = data.get("scoring", {})
+                    from qc_scoring.config import DashboardConfig
+                    return DashboardConfig(
+                        repository_owner=str(repo.get("owner", "adimascf")),
+                        repository_name=str(repo.get("name", "biox7021")),
+                        site_base_url=str(repo.get("base_url", "https://adimascf.github.io/biox7021/")),
+                        default_branch=str(repo.get("default_branch", "main")),
+                        source_data_path=str(evidence.get("source_data_path", "logbook/assembly_metrics.csv")),
+                        pinned_commit=str(evidence.get("pinned_commit", "4d6b8cb1d482e5066f9ca575ebd3b67af4a32562")),
+                        bundled_data_path=str(evidence.get("bundled_data_path", "assets/data/assembly_metrics.csv")),
+                        scoring_version=str(scoring.get("version", "1.0")),
+                    )
+            except Exception:
+                pass
+        from qc_scoring.config import DashboardConfig
+        return DashboardConfig(
+            repository_owner="adimascf",
+            repository_name="biox7021",
+            site_base_url="https://adimascf.github.io/biox7021/",
+            default_branch="main",
+            source_data_path="logbook/assembly_metrics.csv",
+            pinned_commit="4d6b8cb1d482e5066f9ca575ebd3b67af4a32562",
+            bundled_data_path="assets/data/assembly_metrics.csv",
+            scoring_version="1.0",
+        )
+
+app_config = _load_app_config()
+
 app_ui = ui.page_fluid(
     ui.tags.style("""
         .region-container {
@@ -180,9 +220,9 @@ app_ui = ui.page_fluid(
         ),
         ui.tags.div(
             {"class": "provenance-box"},
-            ui.tags.strong("Scoring Version: "), "1.0 | ",
-            ui.tags.strong("Source Repository: "), "adimascf/biox7021 | ",
-            ui.tags.strong("Pinned Commit: "), "4d6b8cb1d482e5066f9ca575ebd3b67af4a32562 | ",
+            ui.tags.strong("Scoring Version: "), f"{app_config.scoring_version} | ",
+            ui.tags.strong("Source Repository: "), f"{app_config.repository_owner}/{app_config.repository_name} | ",
+            ui.tags.strong("Pinned Commit: "), f"{app_config.pinned_commit} | ",
             ui.tags.strong("Benchmark Scope & Limitations: "),
             "Evaluated on 13 reference bacterial isolates across 17 QC–trimming combinations (884 observations). "
             "Scores represent preference-alignment trade-offs on this benchmark cohort and are not universal assembly quality indicators. "
@@ -190,6 +230,124 @@ app_ui = ui.page_fluid(
         )
     )
 )
+
+def calculate_scenario_rankings(
+    df: pd.DataFrame,
+    model: str,
+    depth: str,
+    weight_accuracy: float,
+    weight_contiguity: float,
+    weight_residual: float,
+    weight_replicon: float,
+    gate_complete: bool = False,
+    gate_zero_hits: bool = False,
+):
+    subset = df[(df["model"] == model) & (df["depth"] == depth)]
+    w_acc = float(weight_accuracy) / 100.0
+    w_cont = float(weight_contiguity) / 100.0
+    w_res = float(weight_residual) / 100.0
+    w_rep = float(weight_replicon) / 100.0
+
+    eligible_records = []
+    excluded_records = []
+
+    for combo, isolate_metrics in subset.groupby("combo"):
+        mean_cont = float(np.mean(np.maximum(0.0, 1.0 - np.abs(isolate_metrics["auNGA_ratio"] - 1.0)) * 100.0))
+        mean_acc = float(np.mean(np.clip(1.0 - (isolate_metrics["Mismatches per 100kbp"] + isolate_metrics["Indels per 100kbp"]) / 10.0, 0.0, 1.0) * 100.0))
+        clean_pct = float(np.mean(isolate_metrics["contamination_count"] == 0) * 100.0)
+        total_residual_hits = int(isolate_metrics["contamination_count"].sum())
+        clean_isolates = int((isolate_metrics["contamination_count"] == 0).sum())
+        affected_residual_isolates = int((isolate_metrics["contamination_count"] > 0).sum())
+        total_missed_replicons = int(isolate_metrics["total_missed"].sum())
+        full_missed = int(isolate_metrics["full_missed"].sum())
+        partial_missed = int(isolate_metrics["partial_missed"].sum())
+        affected_replicon_isolates = int((isolate_metrics["total_missed"] > 0).sum())
+        score_rep = float(max(0.0, 1.0 - total_missed_replicons / 3.0) * 100.0)
+
+        mean_error_rate = float(np.mean(isolate_metrics["Mismatches per 100kbp"] + isolate_metrics["Indels per 100kbp"]))
+        mean_mismatches = float(np.mean(isolate_metrics["Mismatches per 100kbp"]))
+        mean_indels = float(np.mean(isolate_metrics["Indels per 100kbp"]))
+        mean_aunga = float(np.mean(isolate_metrics["auNGA_ratio"]))
+
+        overall_score = (w_acc * mean_acc + w_cont * mean_cont + w_res * clean_pct + w_rep * score_rep)
+
+        is_eligible = True
+        reasons = []
+
+        if gate_complete and total_missed_replicons > 0:
+            is_eligible = False
+            reasons.append("fails complete-recovery gate (<95% coverage on at least one replicon)")
+
+        if gate_zero_hits and total_residual_hits > 0:
+            is_eligible = False
+            reasons.append(f"fails zero-residual-hits gate ({total_residual_hits} hit(s) detected)")
+
+        # Warnings
+        warnings = []
+        if total_residual_hits > 0:
+            warnings.append(f"{total_residual_hits} residual hit(s) across {affected_residual_isolates} isolate(s)")
+        if total_missed_replicons > 0:
+            warnings.append(f"{total_missed_replicons} missed replicon(s) across {affected_replicon_isolates} isolate(s) ({full_missed} full, {partial_missed} partial)")
+
+        iso_acc = np.clip(1.0 - (isolate_metrics["Mismatches per 100kbp"] + isolate_metrics["Indels per 100kbp"]) / 10.0, 0.0, 1.0) * 100.0
+        if (mean_acc - float(np.min(iso_acc))) >= 25.0:
+            warnings.append("Variable sequence accuracy across isolates (lowest isolate is ≥25 pts below mean)")
+
+        iso_cont = np.maximum(0.0, 1.0 - np.abs(isolate_metrics["auNGA_ratio"] - 1.0)) * 100.0
+        if (mean_cont - float(np.min(iso_cont))) >= 25.0:
+            warnings.append("Variable contiguity across isolates (lowest isolate is ≥25 pts below mean)")
+
+        item = {
+            "combo": str(combo),
+            "overall_score": overall_score,
+            "display_score": round(overall_score, 1),
+            "contiguity": round(mean_cont, 1),
+            "accuracy": round(mean_acc, 1),
+            "residual": round(clean_pct, 1),
+            "replicon": round(score_rep, 1),
+            "mean_error_rate": mean_error_rate,
+            "mean_mismatches": mean_mismatches,
+            "mean_indels": mean_indels,
+            "mean_aunga": mean_aunga,
+            "t_hits": total_residual_hits,
+            "clean_isolates": clean_isolates,
+            "affected_residual_isolates": affected_residual_isolates,
+            "t_miss": total_missed_replicons,
+            "full_missed": full_missed,
+            "partial_missed": partial_missed,
+            "affected_replicon_isolates": affected_replicon_isolates,
+            "reasons": reasons,
+            "warnings": warnings,
+            "is_near_tie": False,
+            "raw_group": isolate_metrics,
+        }
+
+        if is_eligible:
+            eligible_records.append(item)
+        else:
+            excluded_records.append(item)
+
+    # Sort eligible by full precision overall_score descending, then combo
+    eligible_records.sort(key=lambda r: (-r["overall_score"], r["combo"]))
+
+    # Competition ranking
+    for idx, rec in enumerate(eligible_records):
+        if idx == 0:
+            rec["rank"] = 1
+        else:
+            prev = eligible_records[idx - 1]
+            if abs(rec["overall_score"] - prev["overall_score"]) < 1e-9:
+                rec["rank"] = prev["rank"]
+            else:
+                rec["rank"] = idx + 1
+
+    # Near tie calculation
+    for idx in range(len(eligible_records) - 1):
+        if abs(eligible_records[idx]["overall_score"] - eligible_records[idx + 1]["overall_score"]) < 1.0:
+            eligible_records[idx]["is_near_tie"] = True
+            eligible_records[idx + 1]["is_near_tie"] = True
+
+    return eligible_records, excluded_records
 
 def server(input, output, session):
 
@@ -238,7 +396,7 @@ def server(input, output, session):
                 return pd.read_csv(open_url("logbook/assembly_metrics.csv"))
             except Exception:
                 pass
-            pinned_url = "https://raw.githubusercontent.com/adimascf/biox7021/4d6b8cb1d482e5066f9ca575ebd3b67af4a32562/logbook/assembly_metrics.csv"
+            pinned_url = app_config.data_url()
             return pd.read_csv(open_url(pinned_url))
         except ImportError:
             for path in [
@@ -309,116 +467,17 @@ def server(input, output, session):
             return [], []
 
         df = load_metrics_data()
-        subset = df[(df["model"] == m) & (df["depth"] == d)]
-
-        gate_complete = input.gate_complete()
-        gate_zero_hits = input.gate_zero_hits()
-
-        w_acc = (input.w_acc() or 0) / 100.0
-        w_cont = (input.w_cont() or 0) / 100.0
-        w_res = (input.w_res() or 0) / 100.0
-        w_rep = (input.w_rep() or 0) / 100.0
-
-        eligible_records = []
-        excluded_records = []
-
-        for combo, isolate_metrics in subset.groupby("combo"):
-            mean_cont = float(np.mean(np.maximum(0.0, 1.0 - np.abs(isolate_metrics["auNGA_ratio"] - 1.0)) * 100.0))
-            mean_acc = float(np.mean(np.clip(1.0 - (isolate_metrics["Mismatches per 100kbp"] + isolate_metrics["Indels per 100kbp"]) / 10.0, 0.0, 1.0) * 100.0))
-            clean_pct = float(np.mean(isolate_metrics["contamination_count"] == 0) * 100.0)
-            total_residual_hits = int(isolate_metrics["contamination_count"].sum())
-            clean_isolates = int((isolate_metrics["contamination_count"] == 0).sum())
-            affected_residual_isolates = int((isolate_metrics["contamination_count"] > 0).sum())
-            total_missed_replicons = int(isolate_metrics["total_missed"].sum())
-            full_missed = int(isolate_metrics["full_missed"].sum())
-            partial_missed = int(isolate_metrics["partial_missed"].sum())
-            affected_replicon_isolates = int((isolate_metrics["total_missed"] > 0).sum())
-            score_rep = float(max(0.0, 1.0 - total_missed_replicons / 3.0) * 100.0)
-
-            mean_error_rate = float(np.mean(isolate_metrics["Mismatches per 100kbp"] + isolate_metrics["Indels per 100kbp"]))
-            mean_mismatches = float(np.mean(isolate_metrics["Mismatches per 100kbp"]))
-            mean_indels = float(np.mean(isolate_metrics["Indels per 100kbp"]))
-            mean_aunga = float(np.mean(isolate_metrics["auNGA_ratio"]))
-
-            overall_score = (w_acc * mean_acc + w_cont * mean_cont + w_res * clean_pct + w_rep * score_rep)
-
-            is_eligible = True
-            reasons = []
-
-            if gate_complete and total_missed_replicons > 0:
-                is_eligible = False
-                reasons.append("fails complete-recovery gate (<95% coverage on at least one replicon)")
-
-            if gate_zero_hits and total_residual_hits > 0:
-                is_eligible = False
-                reasons.append(f"fails zero-residual-hits gate ({total_residual_hits} hit(s) detected)")
-
-            # Warnings
-            warnings = []
-            if total_residual_hits > 0:
-                warnings.append(f"{total_residual_hits} residual hit(s) across {affected_residual_isolates} isolate(s)")
-            if total_missed_replicons > 0:
-                warnings.append(f"{total_missed_replicons} missed replicon(s) across {affected_replicon_isolates} isolate(s) ({full_missed} full, {partial_missed} partial)")
-
-            iso_acc = np.clip(1.0 - (isolate_metrics["Mismatches per 100kbp"] + isolate_metrics["Indels per 100kbp"]) / 10.0, 0.0, 1.0) * 100.0
-            if (mean_acc - float(np.min(iso_acc))) >= 25.0:
-                warnings.append("Variable sequence accuracy across isolates (lowest isolate is ≥25 pts below mean)")
-
-            iso_cont = np.maximum(0.0, 1.0 - np.abs(isolate_metrics["auNGA_ratio"] - 1.0)) * 100.0
-            if (mean_cont - float(np.min(iso_cont))) >= 25.0:
-                warnings.append("Variable contiguity across isolates (lowest isolate is ≥25 pts below mean)")
-
-            item = {
-                "combo": str(combo),
-                "overall_score": overall_score,
-                "display_score": round(overall_score, 1),
-                "contiguity": round(mean_cont, 1),
-                "accuracy": round(mean_acc, 1),
-                "residual": round(clean_pct, 1),
-                "replicon": round(score_rep, 1),
-                "mean_error_rate": mean_error_rate,
-                "mean_mismatches": mean_mismatches,
-                "mean_indels": mean_indels,
-                "mean_aunga": mean_aunga,
-                "t_hits": total_residual_hits,
-                "clean_isolates": clean_isolates,
-                "affected_residual_isolates": affected_residual_isolates,
-                "t_miss": total_missed_replicons,
-                "full_missed": full_missed,
-                "partial_missed": partial_missed,
-                "affected_replicon_isolates": affected_replicon_isolates,
-                "reasons": reasons,
-                "warnings": warnings,
-                "is_near_tie": False,
-                "raw_group": isolate_metrics,
-            }
-
-            if is_eligible:
-                eligible_records.append(item)
-            else:
-                excluded_records.append(item)
-
-        # Sort eligible by full precision overall_score descending, then combo
-        eligible_records.sort(key=lambda r: (-r["overall_score"], r["combo"]))
-
-        # Competition ranking
-        for idx, rec in enumerate(eligible_records):
-            if idx == 0:
-                rec["rank"] = 1
-            else:
-                prev = eligible_records[idx - 1]
-                if abs(rec["overall_score"] - prev["overall_score"]) < 1e-9:
-                    rec["rank"] = prev["rank"]
-                else:
-                    rec["rank"] = idx + 1
-
-        # Near tie calculation
-        for idx in range(len(eligible_records) - 1):
-            if abs(eligible_records[idx]["overall_score"] - eligible_records[idx + 1]["overall_score"]) < 1.0:
-                eligible_records[idx]["is_near_tie"] = True
-                eligible_records[idx + 1]["is_near_tie"] = True
-
-        return eligible_records, excluded_records
+        return calculate_scenario_rankings(
+            df=df,
+            model=m,
+            depth=d,
+            weight_accuracy=input.w_acc() or 0,
+            weight_contiguity=input.w_cont() or 0,
+            weight_residual=input.w_res() or 0,
+            weight_replicon=input.w_rep() or 0,
+            gate_complete=input.gate_complete(),
+            gate_zero_hits=input.gate_zero_hits(),
+        )
 
     @output
     @render.ui

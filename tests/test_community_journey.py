@@ -126,6 +126,7 @@ def test_dashboard_evaluated_results_parity():
     scope = {}
     exec(clean_code, scope)
 
+    calc_func = scope["calculate_scenario_rankings"]
     df = pd.read_csv("assets/data/assembly_metrics.csv")
     preset = get_preset(PresetName.COMMUNITY_BALANCED)
 
@@ -133,9 +134,35 @@ def test_dashboard_evaluated_results_parity():
         for depth in ["20x", "100x"]:
             sc = Scenario(model=model, depth=depth)
             canonical_res = score_benchmark(df, sc, weights=preset.weights, gates=preset.gates)
-            leading = canonical_res.leading_recommendation
-            assert leading is not None
-            assert leading.rank == 1
+            dash_eligible, dash_excluded = calc_func(
+                df,
+                model=model,
+                depth=depth,
+                weight_accuracy=preset.weights.accuracy,
+                weight_contiguity=preset.weights.contiguity,
+                weight_residual=preset.weights.residual,
+                weight_replicon=preset.weights.replicon,
+                gate_complete=preset.gates.complete_recovery,
+                gate_zero_hits=preset.gates.zero_residual_hits,
+            )
+            assert len(dash_eligible) == 17
+            assert len(dash_excluded) == 0
+
+            for idx in range(17):
+                can_rec = canonical_res.recommendations[idx]
+                dash_rec = dash_eligible[idx]
+                assert dash_rec["combo"] == can_rec.combo
+                assert dash_rec["rank"] == can_rec.rank
+                assert abs(dash_rec["overall_score"] - can_rec.overall_score) < 1e-6
+                assert dash_rec["display_score"] == can_rec.display_score
+                assert dash_rec["accuracy"] == round(can_rec.score_accuracy, 1)
+                assert dash_rec["contiguity"] == round(can_rec.score_contiguity, 1)
+                assert dash_rec["residual"] == round(can_rec.score_residual, 1)
+                assert dash_rec["replicon"] == round(can_rec.score_replicon, 1)
+                assert abs(dash_rec["mean_error_rate"] - can_rec.mean_error_rate) < 1e-4
+                assert abs(dash_rec["mean_aunga"] - can_rec.mean_auNGA_ratio) < 1e-4
+                assert dash_rec["t_hits"] == can_rec.residual_total_hits
+                assert dash_rec["t_miss"] == can_rec.replicon_total_missed
 
 
 # 4. Browser-level acceptance check with Playwright (synchronous)
@@ -188,6 +215,11 @@ def test_browser_acceptance_community_journey(tmp_path):
 
             page.wait_for_selector("#region-scenario")
 
+            # Verify configured provenance in page text (repository independence check)
+            methodology_text = page.text_content("#region-methodology")
+            assert f"{repo_owner}/{repo_name}" in methodology_text, "Configured repository identity must appear in methodology provenance"
+            assert config.pinned_commit[:7] in methodology_text, "Pinned commit must appear in methodology provenance"
+
             # 1. Verify model and depth begin unset
             model_val = page.input_value("#model_select")
             depth_val = page.input_value("#depth_select")
@@ -227,8 +259,11 @@ def test_browser_acceptance_community_journey(tmp_path):
                 assert expected_combo in first_row_text
                 assert expected_score in first_row_text
 
-                assert "auNGA" in first_row_text or "err" in first_row_text
-                assert "hit" in first_row_text or "clean" in first_row_text
+                # Verify all four raw summaries exist in the leading row
+                assert "err/100kbp" in first_row_text
+                assert "auNGA:" in first_row_text
+                assert "hit(s)" in first_row_text
+                assert "missed" in first_row_text
 
                 initial_count = page.locator("#region-shortlist table tbody tr").count()
                 assert initial_count == 5, f"Expected 5 initial rows, got {initial_count}"
