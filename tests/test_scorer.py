@@ -219,3 +219,121 @@ def test_export_recommendations_csv():
     assert "overall_score" in export_df.columns
     assert "scoring_version" in export_df.columns
     assert "source_data_commit" in export_df.columns
+
+
+def test_complete_replicon_recovery_preset_and_gate():
+    df = pd.read_csv("assets/data/assembly_metrics.csv")
+    preset = get_preset(PresetName.COMPLETE_REPLICON_RECOVERY)
+    assert preset.weights == WeightsConfig(accuracy=43.0, contiguity=31.0, residual=26.0, replicon=0.0)
+    assert preset.gates == GateConfig(complete_recovery=True, zero_residual_hits=False)
+
+    res = score_benchmark(df, Scenario(model="hac", depth="100x"), weights=preset.weights, gates=preset.gates)
+    assert res.eligible_count == 7
+    assert res.ineligible_count == 10
+    leader = res.leading_recommendation
+    assert leader is not None
+    assert leader.combo == "seqkit-barbell"
+    assert leader.rank == 1
+    assert leader.display_score == 98.0
+
+    # Ineligible combinations must receive rank=None and exact failure reasons
+    for rec in res.recommendations:
+        if not rec.is_eligible:
+            assert rec.rank is None
+            assert "fails complete-recovery gate (<95% coverage on at least one replicon)" in (rec.ineligible_reason or "")
+
+
+def test_sequence_accurate_assembly_preset_and_ranking():
+    df = pd.read_csv("assets/data/assembly_metrics.csv")
+    preset = get_preset(PresetName.SEQUENCE_ACCURATE_ASSEMBLY)
+    assert preset.weights == WeightsConfig(accuracy=50.0, contiguity=14.0, residual=12.0, replicon=24.0)
+    assert preset.gates == GateConfig(complete_recovery=False, zero_residual_hits=False)
+
+    res = score_benchmark(df, Scenario(model="hac", depth="100x"), weights=preset.weights, gates=preset.gates)
+    assert res.eligible_count == 17
+    assert res.ineligible_count == 0
+    leader = res.leading_recommendation
+    assert leader is not None
+    assert leader.combo == "seqkit-barbell"
+    assert leader.rank == 1
+    assert leader.display_score == 97.6
+
+
+def test_custom_decimal_percentages_and_edge_cases():
+    # Valid decimal percentages totaling exactly 100.0
+    w_dec = WeightsConfig(accuracy=33.3, contiguity=33.3, residual=16.7, replicon=16.7)
+    validate_weights(w_dec)
+
+    # Valid with single non-zero weight
+    w_single = WeightsConfig(accuracy=100.0, contiguity=0.0, residual=0.0, replicon=0.0)
+    validate_weights(w_single)
+
+    # Valid with zeros in other fields
+    w_zero = WeightsConfig(accuracy=43.0, contiguity=31.0, residual=26.0, replicon=0.0)
+    validate_weights(w_zero)
+
+    # Invalid: total is 99.9 (fails exact 100)
+    with pytest.raises(InvalidWeightsError):
+        validate_weights(WeightsConfig(accuracy=33.3, contiguity=33.3, residual=16.6, replicon=16.7))
+
+    # Invalid: total is 100.1
+    with pytest.raises(InvalidWeightsError):
+        validate_weights(WeightsConfig(accuracy=33.3, contiguity=33.4, residual=16.7, replicon=16.7))
+
+    # Invalid: negative decimal
+    with pytest.raises(InvalidWeightsError):
+        validate_weights(WeightsConfig(accuracy=-0.5, contiguity=50.5, residual=25.0, replicon=25.0))
+
+
+def test_multiple_exclusion_reasons_and_reasons_format():
+    # Load benchmark data and apply both gates
+    df = pd.read_csv("assets/data/assembly_metrics.csv")
+    res = score_benchmark(
+        df,
+        Scenario(model="hac", depth="100x"),
+        weights=WeightsConfig(accuracy=28.0, contiguity=20.0, residual=17.0, replicon=35.0),
+        gates=GateConfig(complete_recovery=True, zero_residual_hits=True),
+    )
+    # Find unprocessed-dorado which has both residual hits and sub-95% replicons
+    rec = [r for r in res.recommendations if r.combo == "unprocessed-dorado"][0]
+    assert rec.is_eligible is False
+    assert rec.rank is None
+    reason = rec.ineligible_reason or ""
+    assert "fails complete-recovery gate (<95% coverage on at least one replicon)" in reason
+    assert "fails zero-residual-hits gate" in reason
+
+
+def test_complete_recovery_sub_95_gate_edge_case():
+    # Construct a case where total_missed == 0 (no replicon < 50%), but one replicon has 94.0% coverage (< 95%)
+    sample_list = sorted(EXPECTED_SAMPLES)
+    records = []
+    for idx, sample in enumerate(sample_list):
+        # 12 isolates have 100% cov, 1 isolate has 94.0% cov on plasmid
+        cov_str = "chr (1000000bp, 100.0% cov); plas (50000bp, 94.0% cov)" if idx == 0 else "chr (1000000bp, 100.0% cov)"
+        records.append({
+            "combo": "seqkit-dorado",
+            "depth": "100x",
+            "sample": sample,
+            "model": "hac",
+            "Mismatches per 100kbp": 1.0,
+            "Indels per 100kbp": 0.0,
+            "auNGA_ratio": 1.0,
+            "contamination_count": 0,
+            "full_missed": 0,
+            "partial_missed": 0,
+            "total_missed": 0,
+            "all_contigs_coverage": cov_str,
+        })
+    df_edge = pd.DataFrame(records)
+    res = score_benchmark(
+        df_edge,
+        Scenario(model="hac", depth="100x"),
+        weights=WeightsConfig(accuracy=43.0, contiguity=31.0, residual=26.0, replicon=0.0),
+        gates=GateConfig(complete_recovery=True, zero_residual_hits=False),
+    )
+    rec = [r for r in res.recommendations if r.combo == "seqkit-dorado"][0]
+    # Even though total_missed == 0, 94.0% is < 95.0%, so it must FAIL the complete recovery gate!
+    assert rec.is_eligible is False
+    assert rec.rank is None
+    assert "fails complete-recovery gate (<95% coverage on at least one replicon)" in (rec.ineligible_reason or "")
+

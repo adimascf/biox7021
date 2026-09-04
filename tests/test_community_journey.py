@@ -134,7 +134,7 @@ def test_dashboard_evaluated_results_parity():
         for depth in ["20x", "100x"]:
             sc = Scenario(model=model, depth=depth)
             canonical_res = score_benchmark(df, sc, weights=preset.weights, gates=preset.gates)
-            dash_eligible, dash_excluded = calc_func(
+            dash_eligible, dash_excluded, *dash_insufficient_rest = calc_func(
                 df,
                 model=model,
                 depth=depth,
