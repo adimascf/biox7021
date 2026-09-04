@@ -22,6 +22,9 @@ from shiny import App, render, ui, reactive
 import pandas as pd
 import numpy as np
 import re
+import io
+import hashlib
+from datetime import datetime, timezone
 
 def _load_app_config():
     try:
@@ -489,6 +492,10 @@ def calculate_scenario_rankings(
             "accuracy": round(mean_acc, 1),
             "residual": round(clean_pct, 1),
             "replicon": round(score_rep, 1),
+            "score_contiguity": mean_cont,
+            "score_accuracy": mean_acc,
+            "score_residual": clean_pct,
+            "score_replicon": score_rep,
             "mean_error_rate": mean_error_rate,
             "mean_mismatches": mean_mismatches,
             "mean_indels": mean_indels,
@@ -539,6 +546,140 @@ def calculate_scenario_rankings(
     insufficient_records.sort(key=lambda r: r["combo"])
 
     return eligible_records, excluded_records, insufficient_records
+
+def generate_dashboard_csv_export(
+    df: pd.DataFrame,
+    model: str,
+    depth: str,
+    preset: str,
+    weight_accuracy: float,
+    weight_contiguity: float,
+    weight_residual: float,
+    weight_replicon: float,
+    gate_complete: bool = False,
+    gate_zero_hits: bool = False,
+    config=None,
+) -> str:
+    if not model or not depth:
+        raise ValueError("Cannot generate CSV export: Scenario must be selected (basecalling model and depth).")
+
+    w_acc = float(weight_accuracy)
+    w_cont = float(weight_contiguity)
+    w_res = float(weight_residual)
+    w_rep = float(weight_replicon)
+    if w_acc < 0 or w_cont < 0 or w_res < 0 or w_rep < 0:
+        raise ValueError("Cannot generate CSV export: Weights must be non-negative.")
+    total = w_acc + w_cont + w_res + w_rep
+    if abs(total - 100.0) > 1e-4 or total == 0:
+        raise ValueError("Cannot generate CSV export: Weights must total exactly 100%.")
+
+    eligible, excluded, insufficient = calculate_scenario_rankings(
+        df=df,
+        model=model,
+        depth=depth,
+        weight_accuracy=w_acc,
+        weight_contiguity=w_cont,
+        weight_residual=w_res,
+        weight_replicon=w_rep,
+        gate_complete=gate_complete,
+        gate_zero_hits=gate_zero_hits,
+    )
+
+    csv_bytes = df.to_csv(index=False).encode("utf-8")
+    content_hash = hashlib.sha256(csv_bytes).hexdigest()
+    now_iso = datetime.now(timezone.utc).isoformat()
+
+    scoring_version = getattr(config, "scoring_version", "1.0") if config else "1.0"
+    source_commit = getattr(config, "pinned_commit", "4d6b8cb1d482e5066f9ca575ebd3b67af4a32562") if config else "4d6b8cb1d482e5066f9ca575ebd3b67af4a32562"
+
+    def _build_row(r, rank_val, is_elig, is_insuff, inelig_reason, is_nt, nt_label, disp_score):
+        return {
+            "rank": rank_val,
+            "combo": r["combo"],
+            "overall_score": r["overall_score"] if not is_insuff else 0.0,
+            "display_score": disp_score,
+            "is_eligible": is_elig,
+            "is_insufficient_data": is_insuff,
+            "ineligible_reason": inelig_reason,
+            "is_near_tie": is_nt,
+            "near_tie_label": nt_label,
+            "score_contiguity": r["score_contiguity"] if not is_insuff else 0.0,
+            "score_accuracy": r["score_accuracy"] if not is_insuff else 0.0,
+            "score_residual": r["score_residual"] if not is_insuff else 0.0,
+            "score_replicon": r["score_replicon"] if not is_insuff else 0.0,
+            "mean_auNGA_ratio": r["mean_aunga"] if not is_insuff else 0.0,
+            "mean_error_rate": r["mean_error_rate"] if not is_insuff else 0.0,
+            "mean_mismatches": r["mean_mismatches"] if not is_insuff else 0.0,
+            "mean_indels": r["mean_indels"] if not is_insuff else 0.0,
+            "residual_total_hits": r["t_hits"] if not is_insuff else 0,
+            "residual_clean_isolates": r["clean_isolates"] if not is_insuff else 0,
+            "residual_affected_isolates": r["affected_residual_isolates"] if not is_insuff else 0,
+            "replicon_total_missed": r["t_miss"] if not is_insuff else 0,
+            "replicon_full_missed": r["full_missed"] if not is_insuff else 0,
+            "replicon_partial_missed": r["partial_missed"] if not is_insuff else 0,
+            "replicon_affected_isolates": r["affected_replicon_isolates"] if not is_insuff else 0,
+            "mean_duplication_ratio": r["mean_duplication_ratio"] if not is_insuff else 0.0,
+            "total_misassemblies": r["total_misassemblies"] if not is_insuff else 0,
+            "warnings": "; ".join(r["warnings"]),
+            "preset": preset,
+            "scenario_model": model,
+            "scenario_depth": depth,
+            "weight_accuracy": w_acc,
+            "weight_contiguity": w_cont,
+            "weight_residual": w_res,
+            "weight_replicon": w_rep,
+            "gate_complete_recovery": bool(gate_complete),
+            "gate_zero_residual_hits": bool(gate_zero_hits),
+            "scoring_version": scoring_version,
+            "source_data_commit": source_commit,
+            "source_data_hash": content_hash,
+            "generated_at": now_iso,
+        }
+
+    rows = []
+    # 1. Eligible combinations in displayed ranking order
+    for r in eligible:
+        rows.append(_build_row(
+            r,
+            rank_val=r["rank"] if r["rank"] is not None else "",
+            is_elig=True,
+            is_insuff=False,
+            inelig_reason="",
+            is_nt=r["is_near_tie"],
+            nt_label="similar overall scores" if r["is_near_tie"] else "",
+            disp_score=r["display_score"] if r["display_score"] is not None else "",
+        ))
+
+    # 2. Excluded combinations in displayed order
+    for r in excluded:
+        rows.append(_build_row(
+            r,
+            rank_val="",
+            is_elig=False,
+            is_insuff=False,
+            inelig_reason="; ".join(r["reasons"]),
+            is_nt=r["is_near_tie"],
+            nt_label="similar overall scores" if r["is_near_tie"] else "",
+            disp_score=r["display_score"] if r["display_score"] is not None else "",
+        ))
+
+    # 3. Insufficient data combinations in displayed order
+    for r in insufficient:
+        rows.append(_build_row(
+            r,
+            rank_val="",
+            is_elig=False,
+            is_insuff=True,
+            inelig_reason="; ".join(r["reasons"]),
+            is_nt=False,
+            nt_label="",
+            disp_score="",
+        ))
+
+    export_df = pd.DataFrame(rows)
+    buf = io.StringIO()
+    export_df.to_csv(buf, index=False)
+    return buf.getvalue()
 
 def server(input, output, session):
 
@@ -790,6 +931,11 @@ def server(input, output, session):
                 <div class='alert alert-warning' role='status' id='no-eligible-msg'>
                     <strong>No combinations meet requirements:</strong> No evaluated combination meets the active eligibility requirements. All gates have been preserved; requirements are not automatically relaxed.
                 </div>
+                <div style='margin-bottom: 12px;'>
+                    <a id='download_recommendations_csv' class='btn btn-sm btn-outline-success shiny-download-link' href='' target='_blank' download='' role='button' title='Download complete reproducible recommendation state CSV'>
+                        📥 Download CSV Export (All 17 Combinations)
+                    </a>
+                </div>
                 {excluded_html}
                 {insufficient_html}
             """)
@@ -841,8 +987,11 @@ def server(input, output, session):
         tbody_html = "".join(table_rows)
 
         return ui.HTML(f"""
-            <div style='margin-bottom: 12px;'>
+            <div style='margin-bottom: 12px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap;'>
                 <button id='btn_reveal_all' type='button' class='btn btn-sm btn-outline-primary action-button'>{btn_label}</button>
+                <a id='download_recommendations_csv' class='btn btn-sm btn-outline-success shiny-download-link' href='' target='_blank' download='' role='button' title='Download complete reproducible recommendation state CSV'>
+                    📥 Download CSV Export (All 17 Combinations)
+                </a>
             </div>
             <div class='table-responsive'>
                 <table class='table table-hover table-striped table-bordered ranking-table align-middle' aria-label='Recommendation Shortlist'>
@@ -1142,6 +1291,32 @@ def server(input, output, session):
                 </div>
             </details>
         """)
+
+    @render.download(
+        filename=lambda: f"qc_trimming_recommendations_{input.model_select()}_{input.depth_select()}_{input.preset_select()}.csv",
+        media_type="text/csv"
+    )
+    def download_recommendations_csv():
+        m = input.model_select()
+        d = input.depth_select()
+        if not m or not d or not weights_valid():
+            raise ValueError("Cannot generate CSV export: Scenario must be selected and weights must total 100%.")
+
+        df = load_metrics_data()
+        csv_content = generate_dashboard_csv_export(
+            df=df,
+            model=m,
+            depth=d,
+            preset=input.preset_select(),
+            weight_accuracy=input.w_acc() or 0,
+            weight_contiguity=input.w_cont() or 0,
+            weight_residual=input.w_res() or 0,
+            weight_replicon=input.w_rep() or 0,
+            gate_complete=input.gate_complete(),
+            gate_zero_hits=input.gate_zero_hits(),
+            config=app_config,
+        )
+        yield csv_content
 
 app = App(app_ui, server)
 ```

@@ -23,6 +23,7 @@ class Provenance:
     weights: Dict[str, float]
     gates: Dict[str, bool]
     generated_at: str
+    preset: Optional[str] = None
 
 
 @dataclass
@@ -37,6 +38,7 @@ class CombinationRecommendation:
     cohort: CohortCriteriaResult
 
     warnings: List[str] = field(default_factory=list)
+    is_insufficient_data: bool = False
 
     # Delegation properties for convenience
     @property
@@ -136,6 +138,7 @@ class ScoringResult:
     gates: GateConfig
     recommendations: List[CombinationRecommendation]
     provenance: Provenance
+    preset: Optional[str] = None
 
     @property
     def eligible_count(self) -> int:
@@ -162,6 +165,7 @@ def score_benchmark(
     weights: WeightsConfig,
     gates: Optional[GateConfig] = None,
     source_data_commit: Optional[str] = SOURCE_DATA_BASELINE_COMMIT,
+    preset: Optional[str] = None,
 ) -> ScoringResult:
     if gates is None:
         gates = GateConfig()
@@ -169,8 +173,25 @@ def score_benchmark(
     validate_weights(weights)
     filtered_df, incomplete_reasons = filter_scenario_data(df, scenario)
 
+    if preset is None:
+        from qc_scoring.preferences import PRESETS
+        for p_name, p_def in PRESETS.items():
+            if (
+                abs(weights.accuracy - p_def.weights.accuracy) < 1e-4
+                and abs(weights.contiguity - p_def.weights.contiguity) < 1e-4
+                and abs(weights.residual - p_def.weights.residual) < 1e-4
+                and abs(weights.replicon - p_def.weights.replicon) < 1e-4
+                and gates.complete_recovery == p_def.gates.complete_recovery
+                and gates.zero_residual_hits == p_def.gates.zero_residual_hits
+            ):
+                preset = p_name.value
+                break
+        if preset is None:
+            preset = "custom"
+
     eligible_recs: List[CombinationRecommendation] = []
-    ineligible_recs: List[CombinationRecommendation] = []
+    excluded_recs: List[CombinationRecommendation] = []
+    insufficient_recs: List[CombinationRecommendation] = []
 
     # Process complete combinations
     grouped = filtered_df.groupby("combo", observed=True)
@@ -237,7 +258,7 @@ def score_benchmark(
             ineligible_reason="; ".join(fail_reasons) if fail_reasons else None,
             is_near_tie=False,
             overall_score=overall,
-            display_score=round(overall, 1) if is_eligible else round(overall, 1),
+            display_score=round(overall, 1),
             cohort=cohort,
             warnings=warnings,
         )
@@ -245,7 +266,7 @@ def score_benchmark(
         if is_eligible:
             eligible_recs.append(rec)
         else:
-            ineligible_recs.append(rec)
+            excluded_recs.append(rec)
 
     # Process combinations with insufficient data
     empty_cohort = CohortCriteriaResult(
@@ -278,8 +299,9 @@ def score_benchmark(
             display_score=None,
             cohort=empty_cohort,
             warnings=["Insufficient benchmark data"],
+            is_insufficient_data=True,
         )
-        ineligible_recs.append(rec)
+        insufficient_recs.append(rec)
 
     # Rank eligible combinations: higher overall_score first, stable alphabetical combo sort
     eligible_recs.sort(key=lambda r: (-r.overall_score, r.combo))
@@ -302,10 +324,13 @@ def score_benchmark(
             eligible_recs[idx].is_near_tie = True
             eligible_recs[idx + 1].is_near_tie = True
 
-    # Order ineligible combinations by overall score descending (or combo name)
-    ineligible_recs.sort(key=lambda r: (-r.overall_score, r.combo))
+    # Order excluded combinations by overall score descending (then combo name)
+    excluded_recs.sort(key=lambda r: (-r.overall_score, r.combo))
 
-    all_recommendations = eligible_recs + ineligible_recs
+    # Order insufficient combinations alphabetically by combo name
+    insufficient_recs.sort(key=lambda r: r.combo)
+
+    all_recommendations = eligible_recs + excluded_recs + insufficient_recs
 
     now_iso = datetime.now(timezone.utc).isoformat()
     content_hash = _calculate_content_hash(df)
@@ -316,6 +341,7 @@ def score_benchmark(
         source_data_commit=source_data_commit,
         scenario_model=scenario.model,
         scenario_depth=scenario.depth,
+        preset=preset,
         weights=weights.as_dict(),
         gates=gates.as_dict(),
         generated_at=now_iso,
@@ -328,6 +354,7 @@ def score_benchmark(
         gates=gates,
         recommendations=all_recommendations,
         provenance=provenance,
+        preset=preset,
     )
 
 
@@ -340,6 +367,7 @@ def recommendations_to_dataframe(result: ScoringResult) -> pd.DataFrame:
             "overall_score": r.overall_score,
             "display_score": r.display_score if r.display_score is not None else "",
             "is_eligible": r.is_eligible,
+            "is_insufficient_data": r.is_insufficient_data,
             "ineligible_reason": r.ineligible_reason or "",
             "is_near_tie": r.is_near_tie,
             "near_tie_label": r.near_tie_label or "",
@@ -361,6 +389,7 @@ def recommendations_to_dataframe(result: ScoringResult) -> pd.DataFrame:
             "mean_duplication_ratio": r.mean_duplication_ratio,
             "total_misassemblies": r.total_misassemblies,
             "warnings": "; ".join(r.warnings),
+            "preset": result.preset or "custom",
             "scenario_model": result.scenario.model,
             "scenario_depth": result.scenario.depth,
             "weight_accuracy": result.weights.accuracy,

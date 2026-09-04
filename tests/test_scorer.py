@@ -510,3 +510,89 @@ def test_supporting_metrics_duplication_ratio_and_misassemblies():
             assert r.total_misassemblies >= 0
 
 
+def test_export_recommendations_csv_contract():
+    import io
+    from qc_scoring.scorer import export_recommendations_csv, recommendations_to_dataframe
+    from qc_scoring.validation import UnsupportedScenarioError
+
+    df = pd.read_csv("assets/data/assembly_metrics.csv")
+    scenario = Scenario(model="hac", depth="100x")
+    weights = WeightsConfig(accuracy=28.0, contiguity=20.0, residual=17.0, replicon=35.0)
+
+    # 1. Community-balanced export test
+    result = score_benchmark(df, scenario, weights=weights, preset="community_balanced")
+    assert result.preset == "community_balanced"
+    assert result.provenance.preset == "community_balanced"
+
+    csv_text = export_recommendations_csv(result)
+    export_df = pd.read_csv(io.StringIO(csv_text), keep_default_na=False)
+
+    assert len(export_df) == 17, "Export must contain all 17 combinations"
+    
+    # Check all required columns
+    required_cols = [
+        "rank", "combo", "overall_score", "display_score", "is_eligible", "is_insufficient_data",
+        "ineligible_reason", "is_near_tie", "near_tie_label",
+        "score_contiguity", "score_accuracy", "score_residual", "score_replicon",
+        "mean_auNGA_ratio", "mean_error_rate", "mean_mismatches", "mean_indels",
+        "residual_total_hits", "residual_clean_isolates", "residual_affected_isolates",
+        "replicon_total_missed", "replicon_full_missed", "replicon_partial_missed", "replicon_affected_isolates",
+        "mean_duplication_ratio", "total_misassemblies",
+        "warnings", "preset", "scenario_model", "scenario_depth",
+        "weight_accuracy", "weight_contiguity", "weight_residual", "weight_replicon",
+        "gate_complete_recovery", "gate_zero_residual_hits",
+        "scoring_version", "source_data_commit", "source_data_hash", "generated_at"
+    ]
+    for col in required_cols:
+        assert col in export_df.columns, f"Missing required column: {col}"
+
+    # Order matches result.recommendations
+    for idx, r in enumerate(result.recommendations):
+        row = export_df.iloc[idx]
+        assert row["combo"] == r.combo
+        if r.is_eligible:
+            assert int(row["rank"]) == r.rank
+            assert float(row["display_score"]) == r.display_score
+        else:
+            assert row["rank"] == ""
+        assert abs(float(row["overall_score"]) - r.overall_score) < 1e-6
+        assert row["preset"] == "community_balanced"
+        assert row["scenario_model"] == "hac"
+        assert row["scenario_depth"] == "100x"
+        assert str(row["scoring_version"]) == "1.0"
+        assert row["source_data_commit"] == "4d6b8cb1d482e5066f9ca575ebd3b67af4a32562"
+        # No mutable branch head URL
+        for val in row.values:
+            assert "raw.githubusercontent.com" not in str(val)
+            assert "/main/" not in str(val)
+
+    # 2. Gate exclusion ordering: ranked eligible first, excluded second with blank rank
+    res_gated = score_benchmark(
+        df, scenario, weights=weights, gates=GateConfig(complete_recovery=True), preset="complete_replicon_recovery"
+    )
+    assert res_gated.eligible_count == 7
+    assert res_gated.ineligible_count == 10
+    gated_csv = export_recommendations_csv(res_gated)
+    gated_df = pd.read_csv(io.StringIO(gated_csv), keep_default_na=False)
+
+    assert len(gated_df) == 17
+    # First 7 rows must be eligible with integer ranks 1..7
+    for i in range(7):
+        assert str(gated_df.iloc[i]["is_eligible"]).lower() == "true"
+        assert int(gated_df.iloc[i]["rank"]) >= 1
+        assert gated_df.iloc[i]["ineligible_reason"] == ""
+    # Next 10 rows must be excluded with blank rank and explicit reason
+    for i in range(7, 17):
+        assert str(gated_df.iloc[i]["is_eligible"]).lower() == "false"
+        assert gated_df.iloc[i]["rank"] == ""
+        assert "complete-recovery gate" in gated_df.iloc[i]["ineligible_reason"]
+
+    # 3. Invalid weights and invalid scenario prevent producing a misleading export
+    with pytest.raises(InvalidWeightsError):
+        score_benchmark(df, scenario, weights=WeightsConfig(accuracy=50, contiguity=50, residual=10, replicon=0))
+
+    with pytest.raises(UnsupportedScenarioError):
+        score_benchmark(df, Scenario(model="unknown", depth="20x"), weights=weights)
+
+
+
