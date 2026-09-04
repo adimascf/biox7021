@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>qc-tool-weighting-design-tradeoffs – BIOX7021 LOGBOOK - 2026</title>
+<title>canonical-scoring-fixed-rulers-and-arithmetic-aggregation – BIOX7021 LOGBOOK - 2026</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -397,7 +397,7 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#qc-tool-weighting-architecture-pitfalls-and-refinement-roadmap" id="toc-qc-tool-weighting-architecture-pitfalls-and-refinement-roadmap" class="nav-link active" data-scroll-target="#qc-tool-weighting-architecture-pitfalls-and-refinement-roadmap">QC Tool Weighting Architecture, Pitfalls, and Refinement Roadmap</a></li>
+  <li><a href="#canonical-scoring-via-fixed-value-rulers-eligibility-gates-and-weighted-arithmetic-mean" id="toc-canonical-scoring-via-fixed-value-rulers-eligibility-gates-and-weighted-arithmetic-mean" class="nav-link active" data-scroll-target="#canonical-scoring-via-fixed-value-rulers-eligibility-gates-and-weighted-arithmetic-mean">Canonical Scoring via Fixed Value Rulers, Eligibility Gates, and Weighted Arithmetic Mean</a></li>
   </ul>
 </nav>
     </div>
@@ -408,9 +408,9 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<section id="qc-tool-weighting-architecture-pitfalls-and-refinement-roadmap" class="level1">
-<h1>QC Tool Weighting Architecture, Pitfalls, and Refinement Roadmap</h1>
-<p>The current <code>tool_weighting.qmd</code> system uses dynamic min-max normalisation and a weighted geometric mean inspired by Filtlong to balance assembly trade-offs (structural contiguity, sequence accuracy, contamination, and missed plasmids). While geometric aggregation successfully avoids compensatory masking, min-max rescaling introduces vulnerability to noise magnification and rank reversal, and zero-score near-annihilation requires mathematical smoothing (e.g., shifted power mean and asymmetric contiguity functions) before final thesis presentation.</p>
+<section id="canonical-scoring-via-fixed-value-rulers-eligibility-gates-and-weighted-arithmetic-mean" class="level1">
+<h1>Canonical Scoring via Fixed Value Rulers, Eligibility Gates, and Weighted Arithmetic Mean</h1>
+<p>Adopted Specification 1.0 (<code>docs/qc-trimming-recommendation-system-specification.md</code>) following supervisory review, replacing dynamic min-max rescaling and geometric mean aggregation. Dynamic min-max was replaced with fixed, scenario-independent value functions (symmetric linear auNGA distance, clipped error-rate scale with denominator 10, binary clean-isolate rate for residual hits, and absolute cohort replicon loss with denominator 3) to prevent rank reversal and noise magnification. Aggregation was refactored into a two-tier model: non-compensatory requirements are enforced strictly as pre-ranking eligibility gates (complete replicon recovery and zero residual hits), while compensatory trade-offs among eligible pipelines are evaluated via a normalized weighted arithmetic mean. This provides linear, communicable weights and eliminates zero-score mathematical anomalies without artificial epsilon or shift workarounds.</p>
 
 
 </section>

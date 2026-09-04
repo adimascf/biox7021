@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>qc-tool-weighting-design-tradeoffs – BIOX7021 LOGBOOK - 2026</title>
+<title>Week 03: Project Plan Preparation and Pipeline Development – BIOX7021 LOGBOOK - 2026</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -47,6 +47,9 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/bootstrap/bootstrap-2e07afffe0e1d027e310c816153ddb72.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
 <link href="../site_libs/bootstrap/bootstrap-dark-52489e3bfee96bc9e30fc12a283dda77.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="../site_libs/bootstrap/bootstrap-2e07afffe0e1d027e310c816153ddb72.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -397,20 +400,50 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#qc-tool-weighting-architecture-pitfalls-and-refinement-roadmap" id="toc-qc-tool-weighting-architecture-pitfalls-and-refinement-roadmap" class="nav-link active" data-scroll-target="#qc-tool-weighting-architecture-pitfalls-and-refinement-roadmap">QC Tool Weighting Architecture, Pitfalls, and Refinement Roadmap</a></li>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#weekly-meeting-and-action-items-11-03-2026" id="toc-weekly-meeting-and-action-items-11-03-2026" class="nav-link" data-scroll-target="#weekly-meeting-and-action-items-11-03-2026">Weekly meeting and action items (11-03-2026)</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Week 03: Project Plan Preparation and Pipeline Development</h1>
+</div>
 
 
 
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
 
 
-<section id="qc-tool-weighting-architecture-pitfalls-and-refinement-roadmap" class="level1">
-<h1>QC Tool Weighting Architecture, Pitfalls, and Refinement Roadmap</h1>
-<p>The current <code>tool_weighting.qmd</code> system uses dynamic min-max normalisation and a weighted geometric mean inspired by Filtlong to balance assembly trade-offs (structural contiguity, sequence accuracy, contamination, and missed plasmids). While geometric aggregation successfully avoids compensatory masking, min-max rescaling introduces vulnerability to noise magnification and rank reversal, and zero-score near-annihilation requires mathematical smoothing (e.g., shifted power mean and asymmetric contiguity functions) before final thesis presentation.</p>
+</header>
+
+
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<hr>
+</section>
+<section id="weekly-meeting-and-action-items-11-03-2026" class="level2">
+<h2 class="anchored" data-anchor-id="weekly-meeting-and-action-items-11-03-2026">Weekly meeting and action items (11-03-2026)</h2>
+<ul>
+<li>We will be using Snakemake as worklfow management system</li>
+<li>Dimas will go through the documentation and tutorials of snakemake</li>
+<li>Use <code>dorado</code> as our solely demultiplexer (with option <code>–-no-trim</code>), and we put barbell in the QC step as read trimming tool</li>
+<li>include <code>porcechop_ABI</code> in the QC option</li>
+<li>Dimas created shareable project plan draft on overleaf, draft needs to be ready on 21 April</li>
+<li>Week 3 Checkpoint Submission due on 16 March</li>
+</ul>
+<p>Current rulegraph:</p>
+<p><a href="images/rulegraph.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="images/rulegraph.png" class="img-fluid"></a></p>
 
 
 </section>
@@ -848,6 +881,38 @@ ul.task-list li input[type="checkbox"] {
     </div>
   </div>
 </footer>
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
 
 
 

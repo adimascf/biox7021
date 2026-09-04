@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>qc-tool-weighting-design-tradeoffs – BIOX7021 LOGBOOK - 2026</title>
+<title>dashboard – BIOX7021 LOGBOOK - 2026</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -22,6 +22,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -397,7 +432,17 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#qc-tool-weighting-architecture-pitfalls-and-refinement-roadmap" id="toc-qc-tool-weighting-architecture-pitfalls-and-refinement-roadmap" class="nav-link active" data-scroll-target="#qc-tool-weighting-architecture-pitfalls-and-refinement-roadmap">QC Tool Weighting Architecture, Pitfalls, and Refinement Roadmap</a></li>
+  <li><a href="#dashboard-source-and-site-architecture" id="toc-dashboard-source-and-site-architecture" class="nav-link active" data-scroll-target="#dashboard-source-and-site-architecture">Dashboard Source and Site Architecture</a>
+  <ul class="collapse">
+  <li><a href="#responsibilities-source-vs.-generated-artifacts" id="toc-responsibilities-source-vs.-generated-artifacts" class="nav-link" data-scroll-target="#responsibilities-source-vs.-generated-artifacts">1. Responsibilities: Source vs.&nbsp;Generated Artifacts</a>
+  <ul class="collapse">
+  <li><a href="#human-editable-source-version-controlled-on-default-branch" id="toc-human-editable-source-version-controlled-on-default-branch" class="nav-link" data-scroll-target="#human-editable-source-version-controlled-on-default-branch">Human-Editable Source (Version-Controlled on Default Branch)</a></li>
+  <li><a href="#generated-artifacts-never-edit-directly" id="toc-generated-artifacts-never-edit-directly" class="nav-link" data-scroll-target="#generated-artifacts-never-edit-directly">Generated Artifacts (Never Edit Directly)</a></li>
+  </ul></li>
+  <li><a href="#pinned-evidence-and-offline-execution" id="toc-pinned-evidence-and-offline-execution" class="nav-link" data-scroll-target="#pinned-evidence-and-offline-execution">2. Pinned Evidence and Offline Execution</a></li>
+  <li><a href="#one-page-flow-regions" id="toc-one-page-flow-regions" class="nav-link" data-scroll-target="#one-page-flow-regions">3. One-Page Flow Regions</a></li>
+  <li><a href="#verification-build-commands" id="toc-verification-build-commands" class="nav-link" data-scroll-target="#verification-build-commands">4. Verification &amp; Build Commands</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -408,11 +453,46 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<section id="qc-tool-weighting-architecture-pitfalls-and-refinement-roadmap" class="level1">
-<h1>QC Tool Weighting Architecture, Pitfalls, and Refinement Roadmap</h1>
-<p>The current <code>tool_weighting.qmd</code> system uses dynamic min-max normalisation and a weighted geometric mean inspired by Filtlong to balance assembly trade-offs (structural contiguity, sequence accuracy, contamination, and missed plasmids). While geometric aggregation successfully avoids compensatory masking, min-max rescaling introduces vulnerability to noise magnification and rank reversal, and zero-score near-annihilation requires mathematical smoothing (e.g., shifted power mean and asymmetric contiguity functions) before final thesis presentation.</p>
+<section id="dashboard-source-and-site-architecture" class="level1">
+<h1>Dashboard Source and Site Architecture</h1>
+<p>This document describes the maintainable source files, configuration, and generated site responsibilities for the interactive QC-trimming recommendation dashboard.</p>
+<section id="responsibilities-source-vs.-generated-artifacts" class="level2">
+<h2 class="anchored" data-anchor-id="responsibilities-source-vs.-generated-artifacts">1. Responsibilities: Source vs.&nbsp;Generated Artifacts</h2>
+<section id="human-editable-source-version-controlled-on-default-branch" class="level3">
+<h3 class="anchored" data-anchor-id="human-editable-source-version-controlled-on-default-branch">Human-Editable Source (Version-Controlled on Default Branch)</h3>
+<p>Future contributors and maintainers must edit only these source files: - <strong><code>tool_weighting.qmd</code></strong>: The primary Quarto/Shinylive human-editable dashboard source document. Contains page markup, flow regions, UI components, and client-side reactive logic. - <strong><code>config/dashboard_config.yaml</code></strong>: The configuration for repository provenance, evidence location, pinned commit/content hashes, and site base URLs. Editing this file configures provenance and repo renames without altering scoring equations or application logic. - <strong><code>src/qc_scoring/</code></strong>: The pure Python canonical scoring library (models, validation, criteria value functions, preferences, gates, warnings, and ranking). - <strong><code>_quarto.yml</code></strong>: The Quarto site configuration and navigation bar links. - <strong><code>assets/data/assembly_metrics.csv</code></strong>: Bundled and pinned benchmark metrics CSV (884 observations at commit <code>4d6b8cb1d482e5066f9ca575ebd3b67af4a32562</code>).</p>
+</section>
+<section id="generated-artifacts-never-edit-directly" class="level3">
+<h3 class="anchored" data-anchor-id="generated-artifacts-never-edit-directly">Generated Artifacts (Never Edit Directly)</h3>
+<ul>
+<li><strong><code>_site/</code></strong>: Output directory generated by <code>quarto render</code>. Contains compiled HTML, bundled JS/CSS, and WebAssembly runtime files.</li>
+<li>Compiled files like <code>_site/tool_weighting.html</code> are transient publication targets, NOT sources of truth. They must not be edited by hand.</li>
+</ul>
+</section>
+</section>
+<section id="pinned-evidence-and-offline-execution" class="level2">
+<h2 class="anchored" data-anchor-id="pinned-evidence-and-offline-execution">2. Pinned Evidence and Offline Execution</h2>
+<p>The dashboard does not read from the moving <code>HEAD</code> of a branch. Benchmark evidence is pinned to commit <code>4d6b8cb1d482e5066f9ca575ebd3b67af4a32562</code> and bundled directly with the application source, allowing full offline rendering and execution without network requests.</p>
+</section>
+<section id="one-page-flow-regions" class="level2">
+<h2 class="anchored" data-anchor-id="one-page-flow-regions">3. One-Page Flow Regions</h2>
+<p>The dashboard UI is structured into five sequential, keyboard-accessible flow regions: 1. <strong>Scenario Selection (<code>region-scenario</code>)</strong>: Basecalling model (<code>hac</code> or <code>sup</code>) and sequencing depth (<code>20x</code> or <code>100x</code>). Selections start unset. 2. <strong>Priorities &amp; Weights (<code>region-priorities</code>)</strong>: Presets (Community-balanced, Complete-replicon-recovery, Sequence-accurate-assembly, Custom), percentage sliders totaling 100%, and optional eligibility gates. 3. <strong>Recommendation Shortlist (<code>region-shortlist</code>)</strong>: Top 5 eligible recommendations ordered by preference-alignment score, button to reveal all 17, and collapsed container for excluded alternatives with reasons. 4. <strong>Selected Combination Detail (<code>region-detail</code>)</strong>: Detailed breakdown of raw metrics, per-isolate diagnostics, and warnings. 5. <strong>Concise Methodology &amp; Provenance (<code>region-methodology</code>)</strong>: Value function definitions, aggregation rules, link to Methods &amp; robustness, and configured repository provenance metadata.</p>
+</section>
+<section id="verification-build-commands" class="level2">
+<h2 class="anchored" data-anchor-id="verification-build-commands">4. Verification &amp; Build Commands</h2>
+<ul>
+<li><p><strong>Run Unit Tests &amp; Smoke Checks</strong>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pytest</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<li><p><strong>Typecheck Library</strong>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mypy</span> src/qc_scoring</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<li><p><strong>Render Dashboard</strong>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> render tool_weighting.qmd</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<li><p><strong>Preview Site Locally</strong>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> preview</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+</ul>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

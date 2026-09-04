@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>qc-tool-weighting-design-tradeoffs – BIOX7021 LOGBOOK - 2026</title>
+<title>handoff-qc-scoring-system – BIOX7021 LOGBOOK - 2026</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -26,27 +26,27 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../">
-<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/popper.min.js"></script>
-<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-adfb2833bc15652ec5881dc6381ea988.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-60eb8141d3f50090c0f52d36a83ed331.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-adfb2833bc15652ec5881dc6381ea988.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
-<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-2e07afffe0e1d027e310c816153ddb72.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-52489e3bfee96bc9e30fc12a283dda77.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-2e07afffe0e1d027e310c816153ddb72.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-adfb2833bc15652ec5881dc6381ea988.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-60eb8141d3f50090c0f52d36a83ed331.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-adfb2833bc15652ec5881dc6381ea988.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-2e07afffe0e1d027e310c816153ddb72.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-52489e3bfee96bc9e30fc12a283dda77.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-2e07afffe0e1d027e310c816153ddb72.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -76,6 +76,35 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -248,7 +277,7 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../index.html">
+    <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">BIOX7021 LOGBOOK - 2026</span>
     </a>
   </div>
@@ -259,11 +288,11 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../home.html"> 
+    <a class="nav-link" href="./home.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../tool_weighting.html"> 
+    <a class="nav-link" href="./tool_weighting.html"> 
 <span class="menu-text">QC Tool Selection</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -272,75 +301,75 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-semester-1">    
         <li>
-    <a class="dropdown-item" href="../logbook/semester1/week01.html">
+    <a class="dropdown-item" href="./logbook/semester1/week01.html">
  <span class="dropdown-text">Week 1</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../logbook/semester1/week02.qmd">
+    <a class="dropdown-item" href="./logbook/semester1/week02.qmd">
  <span class="dropdown-text">Week 2</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../logbook/semester1/week03.qmd">
+    <a class="dropdown-item" href="./logbook/semester1/week03.qmd">
  <span class="dropdown-text">Week 3</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../logbook/semester1/week04.qmd">
+    <a class="dropdown-item" href="./logbook/semester1/week04.qmd">
  <span class="dropdown-text">Week 4</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../logbook/semester1/week05.qmd">
+    <a class="dropdown-item" href="./logbook/semester1/week05.qmd">
  <span class="dropdown-text">Week 5</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../logbook/semester1/week06.qmd">
+    <a class="dropdown-item" href="./logbook/semester1/week06.qmd">
  <span class="dropdown-text">Week 6</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../logbook/semester1/week07.qmd">
+    <a class="dropdown-item" href="./logbook/semester1/week07.qmd">
  <span class="dropdown-text">Week 7</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../logbook/semester1/week08.qmd">
+    <a class="dropdown-item" href="./logbook/semester1/week08.qmd">
  <span class="dropdown-text">Week 8</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../logbook/semester1/week09.qmd">
+    <a class="dropdown-item" href="./logbook/semester1/week09.qmd">
  <span class="dropdown-text">Week 9</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../logbook/semester1/week10.qmd">
+    <a class="dropdown-item" href="./logbook/semester1/week10.qmd">
  <span class="dropdown-text">Week 10</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../logbook/semester1/week11.html">
+    <a class="dropdown-item" href="./logbook/semester1/week11.html">
  <span class="dropdown-text">Week 11</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../logbook/semester1/week12.html">
+    <a class="dropdown-item" href="./logbook/semester1/week12.html">
  <span class="dropdown-text">Week 12</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../logbook/semester1/week13.qmd">
+    <a class="dropdown-item" href="./logbook/semester1/week13.qmd">
  <span class="dropdown-text">Week 13</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../logbook/semester1/week14.qmd">
+    <a class="dropdown-item" href="./logbook/semester1/week14.qmd">
  <span class="dropdown-text">Week 14</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../logbook/semester1/week15.qmd">
+    <a class="dropdown-item" href="./logbook/semester1/week15.qmd">
  <span class="dropdown-text">Week 15</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../logbook/semester1/week16.html">
+    <a class="dropdown-item" href="./logbook/semester1/week16.html">
  <span class="dropdown-text">Week 16</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../logbook/semester1/week17.html">
+    <a class="dropdown-item" href="./logbook/semester1/week17.html">
  <span class="dropdown-text">Week 17</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../logbook/semester1/week18.qmd">
+    <a class="dropdown-item" href="./logbook/semester1/week18.qmd">
  <span class="dropdown-text">Week 18</span></a>
   </li>  
     </ul>
@@ -351,33 +380,33 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-semester-2">    
         <li>
-    <a class="dropdown-item" href="../logbook/semester2/week01.html">
+    <a class="dropdown-item" href="./logbook/semester2/week01.html">
  <span class="dropdown-text">Week 01</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../logbook/semester2/week02.html">
+    <a class="dropdown-item" href="./logbook/semester2/week02.html">
  <span class="dropdown-text">Week 02</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../logbook/semester2/week03.html">
+    <a class="dropdown-item" href="./logbook/semester2/week03.html">
  <span class="dropdown-text">Week 03</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../logbook/semester2/week04.html">
+    <a class="dropdown-item" href="./logbook/semester2/week04.html">
  <span class="dropdown-text">Week 04</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../logbook/semester2/week05.html">
+    <a class="dropdown-item" href="./logbook/semester2/week05.html">
  <span class="dropdown-text">Week 05</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../logbook/semester2/week06.html">
+    <a class="dropdown-item" href="./logbook/semester2/week06.html">
  <span class="dropdown-text">Week 06</span></a>
   </li>  
     </ul>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="../summary.html" target="_blank"> 
+    <a class="nav-link" href="./summary.html" target="_blank"> 
 <span class="menu-text">Summary</span></a>
   </li>  
 </ul>
@@ -397,7 +426,20 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#qc-tool-weighting-architecture-pitfalls-and-refinement-roadmap" id="toc-qc-tool-weighting-architecture-pitfalls-and-refinement-roadmap" class="nav-link active" data-scroll-target="#qc-tool-weighting-architecture-pitfalls-and-refinement-roadmap">QC Tool Weighting Architecture, Pitfalls, and Refinement Roadmap</a></li>
+  <li><a href="#handoff-evaluation-design-of-ont-qc-preprocessing-scoring-system-and-dashboard" id="toc-handoff-evaluation-design-of-ont-qc-preprocessing-scoring-system-and-dashboard" class="nav-link active" data-scroll-target="#handoff-evaluation-design-of-ont-qc-preprocessing-scoring-system-and-dashboard">Handoff: Evaluation &amp; Design of ONT QC Preprocessing Scoring System and Dashboard</a>
+  <ul class="collapse">
+  <li><a href="#context-research-problem" id="toc-context-research-problem" class="nav-link" data-scroll-target="#context-research-problem">1. Context &amp; Research Problem</a></li>
+  <li><a href="#key-codebase-artifacts-references" id="toc-key-codebase-artifacts-references" class="nav-link" data-scroll-target="#key-codebase-artifacts-references">2. Key Codebase Artifacts &amp; References</a></li>
+  <li><a href="#current-mathematical-architecture-implementation-details" id="toc-current-mathematical-architecture-implementation-details" class="nav-link" data-scroll-target="#current-mathematical-architecture-implementation-details">3. Current Mathematical Architecture &amp; Implementation Details</a>
+  <ul class="collapse">
+  <li><a href="#a.-sub-score-normalisation-0-to-100-scale" id="toc-a.-sub-score-normalisation-0-to-100-scale" class="nav-link" data-scroll-target="#a.-sub-score-normalisation-0-to-100-scale">A. Sub-Score Normalisation (0 to 100 scale)</a></li>
+  <li><a href="#b.-aggregation-formulations-toggleable-in-ui" id="toc-b.-aggregation-formulations-toggleable-in-ui" class="nav-link" data-scroll-target="#b.-aggregation-formulations-toggleable-in-ui">B. Aggregation Formulations (Toggleable in UI)</a></li>
+  <li><a href="#c.-webassembly-performance-design" id="toc-c.-webassembly-performance-design" class="nav-link" data-scroll-target="#c.-webassembly-performance-design">C. WebAssembly / Performance Design</a></li>
+  </ul></li>
+  <li><a href="#specific-assumptions-to-critically-evaluate" id="toc-specific-assumptions-to-critically-evaluate" class="nav-link" data-scroll-target="#specific-assumptions-to-critically-evaluate">4. Specific Assumptions to Critically Evaluate</a></li>
+  <li><a href="#suggested-skills" id="toc-suggested-skills" class="nav-link" data-scroll-target="#suggested-skills">5. Suggested Skills</a></li>
+  <li><a href="#immediate-recommended-tasks-for-next-agent" id="toc-immediate-recommended-tasks-for-next-agent" class="nav-link" data-scroll-target="#immediate-recommended-tasks-for-next-agent">6. Immediate Recommended Tasks for Next Agent</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -408,11 +450,120 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<section id="qc-tool-weighting-architecture-pitfalls-and-refinement-roadmap" class="level1">
-<h1>QC Tool Weighting Architecture, Pitfalls, and Refinement Roadmap</h1>
-<p>The current <code>tool_weighting.qmd</code> system uses dynamic min-max normalisation and a weighted geometric mean inspired by Filtlong to balance assembly trade-offs (structural contiguity, sequence accuracy, contamination, and missed plasmids). While geometric aggregation successfully avoids compensatory masking, min-max rescaling introduces vulnerability to noise magnification and rank reversal, and zero-score near-annihilation requires mathematical smoothing (e.g., shifted power mean and asymmetric contiguity functions) before final thesis presentation.</p>
+<section id="handoff-evaluation-design-of-ont-qc-preprocessing-scoring-system-and-dashboard" class="level1">
+<h1>Handoff: Evaluation &amp; Design of ONT QC Preprocessing Scoring System and Dashboard</h1>
+<section id="context-research-problem" class="level2">
+<h2 class="anchored" data-anchor-id="context-research-problem">1. Context &amp; Research Problem</h2>
+<ul>
+<li><strong>Project:</strong> BIOX7021 Master of Bioinformatics Final Project (Oxford Nanopore Technologies / ONT Quality Control Preprocessing Benchmarking).</li>
+<li><strong>Core Phenomenon:</strong> Empirical benchmarking across 13 bacterial reference genomes (Hall et al.&nbsp;2024 dataset) across basecalling models (<code>hac</code>, <code>sup</code>) and depths (<code>20x</code>, <code>50x</code>, <code>100x</code>) reveals that <strong>no single QC pipeline wins across all assembly dimensions</strong>:
+<ul>
+<li><strong>Filtlong</strong> combinations maximize sequence accuracy (minimizing indels/mismatches) but discard reads from small, low-copy plasmids.</li>
+<li><strong>Raw / Untrimmed</strong> datasets retain 100% of small plasmids and chromosomal contiguity, but carry residual adapter/barcode contamination and higher base errors.</li>
+<li><strong>Chopper / Dorado</strong> provides a balanced compromise.</li>
+</ul></li>
+<li><strong>Goal for Next Session:</strong> Rigorously evaluate, critique, and refine the multi-criteria scoring system and interactive Quarto Shinylive dashboard (<code>tool_weighting.qmd</code>), verifying whether current mathematical assumptions are biologically and statistically appropriate.</li>
+</ul>
+<hr>
+</section>
+<section id="key-codebase-artifacts-references" class="level2">
+<h2 class="anchored" data-anchor-id="key-codebase-artifacts-references">2. Key Codebase Artifacts &amp; References</h2>
+<ul>
+<li><strong>Main Interactive App:</strong> <a href="./Users/adimascf/UQ/SEM3/final-project/biox7021-logbook/tool_weighting.qmd"><code>tool_weighting.qmd</code></a> (Quarto document with embedded client-side Python Shinylive via WebAssembly Pyodide).</li>
+<li><strong>Benchmark Metrics Dataset:</strong> <a href="./Users/adimascf/UQ/SEM3/final-project/biox7021-logbook/logbook/assembly_metrics.csv"><code>logbook/assembly_metrics.csv</code></a> (Compiled QUAST, contaminant counts, and missed contig counts across all 13 bacterial samples, 2 models, 3 depths, and all QC pairs).</li>
+<li><strong>Project Overview &amp; Logbook:</strong>
+<ul>
+<li><a href="./Users/adimascf/UQ/SEM3/final-project/biox7021-logbook/summary.qmd"><code>summary.qmd</code></a> (Progress slides &amp; figures)</li>
+<li><a href="./Users/adimascf/UQ/SEM3/final-project/biox7021-logbook/MISSION.md"><code>MISSION.md</code></a> (Research objectives and constraints)</li>
+<li><a href="./Users/adimascf/UQ/SEM3/final-project/biox7021-logbook/RESOURCES.md"><code>RESOURCES.md</code></a> (Citations and high-trust sources)</li>
+</ul></li>
+<li><strong>Architectural Learning Records:</strong>
+<ul>
+<li><a href="./Users/adimascf/UQ/SEM3/final-project/biox7021-logbook/learning-records/0001-qc-tool-weighting-design-tradeoffs.md"><code>learning-records/0001-qc-tool-weighting-design-tradeoffs.md</code></a></li>
+<li><a href="./Users/adimascf/UQ/SEM3/final-project/biox7021-logbook/learning-records/0002-dual-formula-geometric-mean.md"><code>learning-records/0002-dual-formula-geometric-mean.md</code></a></li>
+</ul></li>
+<li><strong>Supervisor Presentation Dossier:</strong>
+<ul>
+<li><a href="./Users/adimascf/UQ/SEM3/final-project/biox7021-logbook/lessons/0001-qc-tool-weighting-evaluation-and-improvements.html"><code>lessons/0001-qc-tool-weighting-evaluation-and-improvements.html</code></a> (Stand-alone interactive HTML report with KaTeX math and embedded JS simulator).</li>
+</ul></li>
+</ul>
+<hr>
+</section>
+<section id="current-mathematical-architecture-implementation-details" class="level2">
+<h2 class="anchored" data-anchor-id="current-mathematical-architecture-implementation-details">3. Current Mathematical Architecture &amp; Implementation Details</h2>
+<section id="a.-sub-score-normalisation-0-to-100-scale" class="level3">
+<h3 class="anchored" data-anchor-id="a.-sub-score-normalisation-0-to-100-scale">A. Sub-Score Normalisation (0 to 100 scale)</h3>
+<ol type="1">
+<li><strong>Structural Contiguity (<span class="math inline">\(S_{\text{aungar}}\)</span>):</strong> Symmetrical linear deviation from the ideal <span class="math inline">\(1.0\)</span> reference ratio: <span class="math display">\[S_{\text{aungar}} = \max(0, 1 - |x - 1|) \times 100\]</span></li>
+<li><strong>Sequence Error (<span class="math inline">\(S_{\text{err}}\)</span>):</strong> Inverted min-max scaling of Mismatches and Indels per 100 kbp, pooled equally: <span class="math display">\[S_{\text{mismatches}} = \frac{\max(M) - x_M}{\max(M) - \min(M)} \times 100, \quad S_{\text{indels}} = \frac{\max(I) - x_I}{\max(I) - \min(I)} \times 100\]</span> <span class="math display">\[S_{\text{err}} = \frac{S_{\text{mismatches}} + S_{\text{indels}}}{2}\]</span></li>
+<li><strong>Contamination (<span class="math inline">\(S_{\text{cont}}\)</span>) &amp; Missed Contigs (<span class="math inline">\(S_{\text{miss}}\)</span>):</strong> Inverted min-max scaling: <span class="math display">\[S = \frac{\max(x) - x}{\max(x) - \min(x)} \times 100\]</span></li>
+</ol>
+</section>
+<section id="b.-aggregation-formulations-toggleable-in-ui" class="level3">
+<h3 class="anchored" data-anchor-id="b.-aggregation-formulations-toggleable-in-ui">B. Aggregation Formulations (Toggleable in UI)</h3>
+<ul>
+<li><strong>Option 1 (Default &amp; Recommended) — Shifted Zero-Safe Geometric Mean:</strong> <span class="math display">\[\text{Final Score} = \left( (S_{\text{aungar}} + 1)^{w_n} \times (S_{\text{err}} + 1)^{w_e} \times (S_{\text{cont}} + 1)^{w_c} \times (S_{\text{miss}} + 1)^{w_m} \right)^{\frac{1}{\sum w}} - 1\]</span></li>
+<li><strong>Option 2 — Original Geometric Mean with <span class="math inline">\(\epsilon = 10^{-5}\)</span> Floor:</strong> <span class="math display">\[\text{Final Score} = \left( \prod S_{i, \text{safe}}^{w_i} \right)^{\frac{1}{\sum w}}, \quad \text{where } S_{\text{safe}} = \max(S, 10^{-5})\]</span></li>
+<li><strong>Default Survey Weights:</strong> Informed by the <a href="https://microbial-qc-survey.streamlit.app/">Microbial QC Survey</a>: <span class="math display">\[w_{\text{miss}} = 0.35, \quad w_{\text{err}} = 0.28, \quad w_{\text{aungar}} = 0.20, \quad w_{\text{cont}} = 0.17\]</span></li>
+</ul>
+</section>
+<section id="c.-webassembly-performance-design" class="level3">
+<h3 class="anchored" data-anchor-id="c.-webassembly-performance-design">C. WebAssembly / Performance Design</h3>
+<ul>
+<li>The app runs in-browser via Pyodide (<code>shinylive-python</code>).</li>
+<li>Dataset loading is cached in <code>@reactive.Calc def load_metrics_data()</code> to prevent redundant HTTP requests when sliders move.</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="specific-assumptions-to-critically-evaluate" class="level2">
+<h2 class="anchored" data-anchor-id="specific-assumptions-to-critically-evaluate">4. Specific Assumptions to Critically Evaluate</h2>
+<p>The incoming agent should assess the validity and potential refinements of the following assumptions:</p>
+<ol type="1">
+<li><strong>Min-Max Scaling vs.&nbsp;Absolute Biological Thresholds (Noise Magnification &amp; Rank Reversal):</strong>
+<ul>
+<li><em>Issue:</em> Min-max bounds change dynamically when filtering by depth (<code>20x</code> vs <code>100x</code>). At 100x depth, mismatch rates are tiny across all tools (e.g.&nbsp;0.010 vs 0.012/100kb), yet min-max assigns a 100-point penalty for a 0.002 biological difference.</li>
+<li><em>Question:</em> Should we introduce absolute sigmoid decay curves (<span class="math inline">\(S = 100 / (1 + e^{(x-\theta)/\sigma})\)</span>) or keep min-max for relative benchmarking?</li>
+</ul></li>
+<li><strong>Symmetric auNGA Penalty (<span class="math inline">\(|x - 1|\)</span>):</strong>
+<ul>
+<li><em>Issue:</em> An auNGA of <span class="math inline">\(0.6\)</span> (severe chromosomal fragmentation) is penalized equally to <span class="math inline">\(1.4\)</span> (minor repeat duplication / end overlap). In assembly practice, fragmentation is far worse.</li>
+<li><em>Question:</em> Should an asymmetric piecewise function (e.g.&nbsp;harsher penalty for <span class="math inline">\(x &lt; 1.0\)</span>) be adopted?</li>
+</ul></li>
+<li><strong>Indel vs Mismatch 50/50 Pooling in <span class="math inline">\(S_{\text{err}}\)</span>:</strong>
+<ul>
+<li><em>Issue:</em> Nanopore R10.4.1 errors are mostly homopolymer indels that cause CDS frameshifts, whereas substitution mismatches are rare.</li>
+<li><em>Question:</em> Should separate sliders/weights be exposed for indels vs mismatches?</li>
+</ul></li>
+<li><strong>Shift Parameter Magnitude (<span class="math inline">\(+1\)</span> offset on <span class="math inline">\(0-100\)</span> scale):</strong>
+<ul>
+<li><em>Issue:</em> The <span class="math inline">\(+1\)</span> offset on a scale of <span class="math inline">\(100\)</span> means <span class="math inline">\(S \in [1, 101]\)</span>. If one score is 0 and three are 100 (equal weights), the score is <span class="math inline">\((101^3 \times 1)^{1/4} - 1 \approx 30.8\)</span>.</li>
+<li><em>Question:</em> Is this non-compensatory penalty level well-calibrated, or should the shift be scaled relative to the domain (e.g., scoring on <span class="math inline">\([0, 1]\)</span> with offset <span class="math inline">\(+c\)</span>)?</li>
+</ul></li>
+<li><strong>Loss of Sample Variance in Group Means:</strong>
+<ul>
+<li><em>Issue:</em> <code>df.groupby().mean()</code> calculates an average across all 13 bacterial species. Outliers (e.g.&nbsp;low GC vs high GC genomes) are obscured.</li>
+<li><em>Question:</em> How should within-cohort rank variance or error bars be visualized in the Shinylive dashboard?</li>
+</ul></li>
+</ol>
+<hr>
+</section>
+<section id="suggested-skills" class="level2">
+<h2 class="anchored" data-anchor-id="suggested-skills">5. Suggested Skills</h2>
+<p>The next agent should call the <code>Skill</code> tool for: * <strong><code>teach</code></strong>: To maintain and update the interactive HTML lessons in <code>./lessons/</code>, learning records in <code>./learning-records/</code>, and reference docs. * <strong><code>domain-modeling</code></strong>: To formalize the scoring definitions, ADRs, and MCDA domain concepts in <code>CONTEXT.md</code> or thesis chapters. * <strong><code>code-review</code></strong>: To verify numerical stability, edge cases, and performance of the Shinylive implementation in <code>tool_weighting.qmd</code>. * <strong><code>research</code></strong>: To cross-reference external multi-criteria decision analysis literature (e.g., TOPSIS, PROMETHEE, VIKOR) against the current geometric formulation.</p>
+<hr>
+</section>
+<section id="immediate-recommended-tasks-for-next-agent" class="level2">
+<h2 class="anchored" data-anchor-id="immediate-recommended-tasks-for-next-agent">6. Immediate Recommended Tasks for Next Agent</h2>
+<ol type="1">
+<li>Inspect <code>logbook/assembly_metrics.csv</code> to run a distribution analysis (min, max, std, skew) across depths and models.</li>
+<li>Conduct a sensitivity analysis comparing tool rankings under Min-Max vs Sigmoidal scaling.</li>
+<li>Test if the supervisor preferences lean towards adding an asymmetric auNGA curve or keeping the current symmetric <span class="math inline">\(|x - 1|\)</span> formulation.</li>
+<li>Enhance the Shinylive app in <code>tool_weighting.qmd</code> with a radar chart or sample-level stability indicator if requested.</li>
+</ol>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -852,5 +1003,5 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>

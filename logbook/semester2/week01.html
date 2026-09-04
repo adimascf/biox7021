@@ -314,39 +314,39 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="dropdown-text">Week 1</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../logbook/semester1/week02.html">
+    <a class="dropdown-item" href="../../logbook/semester1/week02.qmd">
  <span class="dropdown-text">Week 2</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../logbook/semester1/week03.html">
+    <a class="dropdown-item" href="../../logbook/semester1/week03.qmd">
  <span class="dropdown-text">Week 3</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../logbook/semester1/week04.html">
+    <a class="dropdown-item" href="../../logbook/semester1/week04.qmd">
  <span class="dropdown-text">Week 4</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../logbook/semester1/week05.html">
+    <a class="dropdown-item" href="../../logbook/semester1/week05.qmd">
  <span class="dropdown-text">Week 5</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../logbook/semester1/week06.html">
+    <a class="dropdown-item" href="../../logbook/semester1/week06.qmd">
  <span class="dropdown-text">Week 6</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../logbook/semester1/week07.html">
+    <a class="dropdown-item" href="../../logbook/semester1/week07.qmd">
  <span class="dropdown-text">Week 7</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../logbook/semester1/week08.html">
+    <a class="dropdown-item" href="../../logbook/semester1/week08.qmd">
  <span class="dropdown-text">Week 8</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../logbook/semester1/week09.html">
+    <a class="dropdown-item" href="../../logbook/semester1/week09.qmd">
  <span class="dropdown-text">Week 9</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../logbook/semester1/week10.html">
+    <a class="dropdown-item" href="../../logbook/semester1/week10.qmd">
  <span class="dropdown-text">Week 10</span></a>
   </li>  
         <li>
@@ -358,15 +358,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="dropdown-text">Week 12</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../logbook/semester1/week13.html">
+    <a class="dropdown-item" href="../../logbook/semester1/week13.qmd">
  <span class="dropdown-text">Week 13</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../logbook/semester1/week14.html">
+    <a class="dropdown-item" href="../../logbook/semester1/week14.qmd">
  <span class="dropdown-text">Week 14</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../logbook/semester1/week15.html">
+    <a class="dropdown-item" href="../../logbook/semester1/week15.qmd">
  <span class="dropdown-text">Week 15</span></a>
   </li>  
         <li>
@@ -378,7 +378,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="dropdown-text">Week 17</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../logbook/semester1/week18.html">
+    <a class="dropdown-item" href="../../logbook/semester1/week18.qmd">
  <span class="dropdown-text">Week 18</span></a>
   </li>  
     </ul>
@@ -555,7 +555,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="identifying-concatemer-read-ids" class="level4">
 <h4 class="anchored" data-anchor-id="identifying-concatemer-read-ids">Identifying Concatemer Read IDs</h4>
 <p>To determine if concatemer reads are driving the successful assembly of small plasmids, the first step was to identify the read IDs of potential dimers/trimers. Raw reads were mapped to the assembled plasmid sequence, and awk was used to filter for reads with alignment lengths greater than 2001 bp (exceeding the 1919 bp monomer length).</p>
-<div id="1cfc3fcb" class="cell" data-execution_count="1">
+<div id="c766e108" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Map raw untrimmed reads to the assembled plasmid_4 sequence and extract read IDs for concatemers (&gt;2001 bp alignment)</span></span>
@@ -567,7 +567,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="comparing-concatemer-integrity-before-and-after-adapter-trimming" class="level4">
 <h4 class="anchored" data-anchor-id="comparing-concatemer-integrity-before-and-after-adapter-trimming">Comparing Concatemer Integrity Before and After Adapter Trimming</h4>
-<div id="1f9ec2b4" class="cell" data-execution_count="2">
+<div id="2c7f581d" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract concatemer reads from the untrimmed dataset</span></span>
@@ -588,7 +588,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="experimental-depletion-of-concatemers" class="level4">
 <h4 class="anchored" data-anchor-id="experimental-depletion-of-concatemers">Experimental Depletion of Concatemers</h4>
-<div id="68f8569f" class="cell" data-execution_count="3">
+<div id="28ff9655" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove concatemer reads from the seqkit-untrimmed and chopper-untrimmed datasets</span></span>
@@ -609,7 +609,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="community-survey" class="level2">
 <h2 class="anchored" data-anchor-id="community-survey">Community survey</h2>
 <p>Because every respondent in the survey gave 100 points across the four parameters.I think we can use arithmetic mean:</p>
-<div id="89130b3d" class="cell" data-execution_count="4">
+<div id="b8e425a7" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
