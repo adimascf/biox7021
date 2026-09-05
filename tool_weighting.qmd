@@ -11,7 +11,8 @@ filters:
 ::: {.callout-note appearance="simple" icon=false}
 **Scoring Specification:** 1.0 &nbsp;|&nbsp;
 **Benchmark Scope:** 13 reference bacterial isolates &times; 17 combinations &times; HAC/SUP &times; 20&times;/100&times; (884 observations) &nbsp;|&nbsp;
-**Provenance:** [adimascf/biox7021](https://github.com/adimascf/biox7021) @ [`4d6b8cb`](https://github.com/adimascf/biox7021/commit/4d6b8cb1d482e5066f9ca575ebd3b67af4a32562)
+**Provenance:** [adimascf/biox7021](https://github.com/adimascf/biox7021) @ [`4d6b8cb`](https://github.com/adimascf/biox7021/commit/4d6b8cb1d482e5066f9ca575ebd3b67af4a32562) &nbsp;|&nbsp;
+[Methods &amp; Robustness Documentation &rarr;](methods_and_robustness.html)
 :::
 
 ```{shinylive-python}
@@ -268,7 +269,19 @@ app_ui = ui.page_fluid(
         ),
         ui.tags.p(
             ui.tags.a(
-                "Full Methodology & Robustness Specification →",
+                "Full Methods & Robustness Documentation →",
+                href="methods_and_robustness.html",
+                target="_blank"
+            ),
+            " | ",
+            ui.tags.a(
+                "Specification #10 →",
+                href="https://github.com/adimascf/biox7021/issues/10",
+                target="_blank"
+            ),
+            " | ",
+            ui.tags.a(
+                "Technical Specification Document →",
                 href="docs/qc-trimming-recommendation-system-specification.md",
                 target="_blank"
             )
@@ -512,6 +525,7 @@ def calculate_scenario_rankings(
             "partial_missed": partial_missed,
             "affected_replicon_isolates": affected_replicon_isolates,
             "reasons": reasons,
+            "ineligible_reason": "; ".join(reasons) if reasons else None,
             "warnings": warnings,
             "is_near_tie": False,
             "raw_group": isolate_metrics,

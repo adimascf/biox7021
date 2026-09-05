@@ -11,8 +11,6 @@ data/
 logs/
 tmp/
 logbook/images/
-home.qmd
-_quarto.yml
 .pytest_cache/
 .mypy_cache/
 *.egg-info/

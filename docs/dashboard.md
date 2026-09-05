@@ -1,12 +1,15 @@
 # Dashboard Source and Site Architecture
 
-This document describes the maintainable source files, configuration, and generated site responsibilities for the interactive QC-trimming recommendation dashboard.
+**Scoring Specification:** 1.0 &nbsp;|&nbsp; **Specification Issue:** [GitHub Issue #10](https://github.com/adimascf/biox7021/issues/10) &nbsp;|&nbsp; **Specification Doc:** [`docs/qc-trimming-recommendation-system-specification.md`](qc-trimming-recommendation-system-specification.md)
+
+This document describes the maintainable source files, configuration, and generated site responsibilities for the interactive QC-trimming recommendation dashboard and Methods & robustness documentation.
 
 ## 1. Responsibilities: Source vs. Generated Artifacts
 
 ### Human-Editable Source (Version-Controlled on Default Branch)
 Future contributors and maintainers must edit only these source files:
 - **`tool_weighting.qmd`**: The primary Quarto/Shinylive human-editable dashboard source document. Contains page markup, flow regions, UI components, and client-side reactive logic.
+- **`methods_and_robustness.qmd`**: The Quarto Methods & robustness reference page documenting equations, assumptions, policy anchors, provenance, and repository-only stability results.
 - **`config/dashboard_config.yaml`**: The configuration for repository provenance, evidence location, pinned commit/content hashes, and site base URLs. Editing this file configures provenance and repo renames without altering scoring equations or application logic.
 - **`src/qc_scoring/`**: The pure Python canonical scoring library (models, validation, criteria value functions, preferences, gates, warnings, and ranking).
 - **`_quarto.yml`**: The Quarto site configuration and navigation bar links.

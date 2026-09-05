@@ -2,6 +2,8 @@
 
 **Scoring specification:** 1.0
 
+**Parent Specification:** [GitHub Issue #10](https://github.com/adimascf/biox7021/issues/10)
+
 **Status:** Proposed for coauthor review
 
 **Benchmark scope:** 13 bacterial reference isolates, 17 QC–trimming combinations, HAC/SUP basecalling, and 20×/100× depth
