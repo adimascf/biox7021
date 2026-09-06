@@ -76,6 +76,35 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -266,6 +295,10 @@ ul.task-list li input[type="checkbox"] {
     <a class="nav-link" href="./tool_weighting.html"> 
 <span class="menu-text">QC Tool Selection</span></a>
   </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./methods_and_robustness.html"> 
+<span class="menu-text">Methods &amp; Robustness</span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-semester-1" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Semester 1</span>
@@ -400,7 +433,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#teaching-notes-user-preferences" id="toc-teaching-notes-user-preferences" class="nav-link active" data-scroll-target="#teaching-notes-user-preferences">Teaching Notes &amp; User Preferences</a>
   <ul class="collapse">
   <li><a href="#learner-profile" id="toc-learner-profile" class="nav-link" data-scroll-target="#learner-profile">Learner Profile</a></li>
-  <li><a href="#working-context-chronology" id="toc-working-context-chronology" class="nav-link" data-scroll-target="#working-context-chronology">Working Context &amp; Chronology</a></li>
+  <li><a href="#key-pedagogical-concepts-to-retain-defend" id="toc-key-pedagogical-concepts-to-retain-defend" class="nav-link" data-scroll-target="#key-pedagogical-concepts-to-retain-defend">Key Pedagogical Concepts to Retain &amp; Defend</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -417,24 +450,35 @@ ul.task-list li input[type="checkbox"] {
 <section id="learner-profile" class="level2">
 <h2 class="anchored" data-anchor-id="learner-profile">Learner Profile</h2>
 <ul>
-<li><strong>User:</strong> Dimas (<span class="citation" data-cites="adimascf">@adimascf</span>)</li>
-<li><strong>Course/Project:</strong> BIOX7021 Final Project (Master of Bioinformatics, UQ)</li>
-<li><strong>Topic:</strong> Oxford Nanopore (ONT) read quality-control and adapter-trimming recommendation system for bacterial genome assembly.</li>
-<li><strong>Key Collaborator/Supervisor:</strong> Michael.</li>
-</ul>
-</section>
-<section id="working-context-chronology" class="level2">
-<h2 class="anchored" data-anchor-id="working-context-chronology">Working Context &amp; Chronology</h2>
+<li><p><strong>User:</strong> Dimas (<span class="citation" data-cites="adimascf">@adimascf</span>)</p></li>
+<li><p><strong>Course/Project:</strong> BIOX7021 Final Project (Master of Bioinformatics, UQ)</p></li>
+<li><p><strong>Topic:</strong> Oxford Nanopore (ONT) read quality-control and adapter-trimming recommendation system for bacterial genome assembly.</p></li>
+<li><p><strong>Key Collaborator/Supervisor:</strong> Michael.</p></li>
+<li><p><strong>2026-09-03 to 2026-09-06:</strong> Implementation sprint with coding agents resolving issues #11 through #19:</p>
 <ul>
-<li><strong>2026-09-02 (Yesterday):</strong> Grilling session with Michael evaluating the scoring architecture and dashboard in <code>tool_weighting.qmd</code>.</li>
-<li><strong>2026-09-03 (Today):</strong> Michael sent PR with formal specification (<code>docs/qc-trimming-recommendation-system-specification.md</code>, Version 1.0), merged today.</li>
-<li><strong>Key Architectural Shift:</strong>
+<li>Built canonical scoring v1 contract in <code>src/qc_scoring/</code> (pure Python boundary).</li>
+<li>Restored human-editable dashboard source in <code>tool_weighting.qmd</code> with dynamic configuration (<code>config/dashboard_config.yaml</code>).</li>
+<li>Delivered Community-balanced journey, named presets (Community-balanced, Complete-recovery, Sequence-accurate), exact-100 custom sliders, eligibility gates (replicon <span class="math inline">\(\ge 95\%\)</span>, zero residual hits), warnings (near-ties <span class="math inline">\(&lt; 1.0\)</span>, isolate variability <span class="math inline">\(\ge 25\)</span> pts), and ordered reproducible CSV exports.</li>
+<li>Published Methods &amp; robustness page (<code>methods_and_robustness.qmd</code>) and generated repository robustness evidence (<code>results/robustness/</code>).</li>
+<li>Migrated paper composite analysis (<code>workflow/scripts/plot_assembly_aggregate_score.py</code>) to scoring v1 with 100% numerical and categorical parity.</li>
+</ul></li>
+<li><p><strong>2026-09-07 (Today):</strong></p>
 <ul>
-<li>Replaced dynamic min-max normalization with <strong>fixed value functions (rulers)</strong> anchored to benchmark policy thresholds.</li>
-<li>Replaced offset geometric mean with <strong>eligibility gates (hard constraints)</strong> + <strong>normalized weighted arithmetic mean (compensatory preferences)</strong>.</li>
-<li>Discarded unsupported scenarios (50x depth, aggregate “all” scenarios); focused on 20x/100x and HAC/SUP.</li>
+<li>Conducted two-axis code review (<code>origin/main...HEAD</code>) covering repo standards and specification compliance.</li>
+<li>Successfully closed GitHub issues #11, #12, #14, #15, #16, and #17 referencing commit SHAs.</li>
+<li>Next operational step: Execute Snakemake pipeline on Bunya HPC cluster to update raw assembly metrics and generate final paper figures (closing Issue #6).</li>
 </ul></li>
 </ul>
+</section>
+<section id="key-pedagogical-concepts-to-retain-defend" class="level2">
+<h2 class="anchored" data-anchor-id="key-pedagogical-concepts-to-retain-defend">Key Pedagogical Concepts to Retain &amp; Defend</h2>
+<ol type="1">
+<li><strong>Tool Trade-offs:</strong> No single QC pipeline is optimal. Aggressive length/quality filtering (Filtlong, Chopper) boosts base accuracy at the expense of small plasmids; gentle or no trimming retains replicons but risks residual ONT adapters and barcodes.</li>
+<li><strong>Two-Tier MCDA:</strong> Strict separation of non-compensatory requirements (pre-ranking gates) from compensatory trade-offs (linear weighted arithmetic mean).</li>
+<li><strong>Double-Counting Avoidance:</strong> Why Complete-recovery preset sets replicon weight to 0% (the gate already enforces 100% recovery; weighting it would double-count).</li>
+<li><strong>Isolate Failure Detection:</strong> Why isolate variability warnings (<span class="math inline">\(\ge 25\)</span> points below mean) and dot plots are essential (cohort averages mask single-isolate disasters).</li>
+<li><strong>Reproducibility &amp; Provenance:</strong> Why exports freeze the git commit hash and exact display order.</li>
+</ol>
 
 
 </section>

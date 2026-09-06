@@ -76,6 +76,35 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -266,6 +295,10 @@ ul.task-list li input[type="checkbox"] {
     <a class="nav-link" href="./tool_weighting.html"> 
 <span class="menu-text">QC Tool Selection</span></a>
   </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./methods_and_robustness.html"> 
+<span class="menu-text">Methods &amp; Robustness</span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-semester-1" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Semester 1</span>
@@ -423,17 +456,20 @@ ul.task-list li input[type="checkbox"] {
 <section id="success-looks-like" class="level2">
 <h2 class="anchored" data-anchor-id="success-looks-like">Success looks like</h2>
 <ul>
-<li>Articulate the exact mathematical and algorithmic mechanics of the current <code>tool_weighting.qmd</code> Shinylive implementation.</li>
-<li>Clearly defend the strengths (e.g., non-compensatory geometric aggregation, community-grounded weights) to supervisors and reviewers.</li>
-<li>Identify and demonstrate critical edge-case pitfalls (min-max rank reversal, zero-score collapse, contiguity asymmetry).</li>
-<li>Present actionable, mathematically validated improvements (offset geometric mean, biological sigmoid scaling, asymmetric contiguity curves, variance reporting) in an interactive discussion document.</li>
+<li>Articulate the exact mathematical and algorithmic mechanics of Scoring Specification 1.0 implemented across <code>src/qc_scoring/</code>, the interactive Shinylive dashboard (<code>tool_weighting.qmd</code>), and the paper composite analysis (<code>workflow/scripts/plot_assembly_aggregate_score.py</code>).</li>
+<li>Defend the two-tier Multi-Criteria Decision Analysis (MCDA) architecture: hard pre-ranking eligibility gates for non-compensatory constraints (complete replicon recovery <span class="math inline">\(\ge 95\%\)</span>, zero residual hits) paired with normalized weighted arithmetic mean for compensatory trade-offs.</li>
+<li>Explain why fixed value rulers (symmetric auNGA penalty, error rate clipped at 10/100 kbp, binary clean-isolate rate, absolute cohort replicon loss) prevent dynamic min-max rank reversal and noise magnification.</li>
+<li>Justify the canonical presets (Community-balanced 28/20/17/35, Complete-replicon-recovery 43/31/26 with gate, Sequence-accurate 50/14/12/24) and why non-compensatory gates set corresponding criterion weights to 0% to prevent double-counting.</li>
+<li>Explain the role of qualification warnings (near-ties <span class="math inline">\(&lt; 1.0\)</span> point, isolate variability <span class="math inline">\(\ge 25\)</span> points below cohort mean) and reproducible CSV export with provenance commit hashes.</li>
+<li>Defend repository-only robustness evaluations (replicon denominator sensitivity <span class="math inline">\(B=2,3,4\)</span>, leave-one-isolate-out stability, and the 22 observed respondent preference distributions).</li>
 </ul>
 </section>
 <section id="constraints" class="level2">
 <h2 class="anchored" data-anchor-id="constraints">Constraints</h2>
 <ul>
 <li>Must remain deployable via static Quarto / Shinylive (WebAssembly Pyodide) without backend server requirements.</li>
-<li>Must accurately reflect benchmark data from 13 diverse bacterial reference datasets across ONT R10.4.1 basecalling models (<code>hac</code>, <code>sup</code>) and depths (<code>20x</code>, <code>50x</code>, <code>100x</code>).</li>
+<li>Supported benchmark scope is strictly 13 named bacterial reference isolates, 17 QC–trimming combinations, ONT R10.4.1 basecalling models (<code>hac</code>, <code>sup</code>), and depths (<code>20x</code>, <code>100x</code>) comprising exactly 884 complete observations.</li>
+<li>Numerical and categorical results between the paper composite analysis and the interactive dashboard must maintain 100% parity from pinned benchmark evidence.</li>
 </ul>
 </section>
 <section id="out-of-scope" class="level2">
@@ -441,6 +477,8 @@ ul.task-list li input[type="checkbox"] {
 <ul>
 <li>Basecaller neural network architecture retraining.</li>
 <li>Re-running entire raw POD5 basecalling pipelines from scratch.</li>
+<li>Unsupported scenarios (e.g., 50× depth, cross-depth / cross-model aggregation).</li>
+<li>Extrapolating recommendations beyond the 13 reference isolates or asserting universal pipeline rankings.</li>
 </ul>
 
 

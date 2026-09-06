@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Week 09: Project Plan Writing – BIOX7021 LOGBOOK - 2026</title>
+<title>summary – BIOX7021 LOGBOOK - 2026</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -76,6 +76,35 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -266,6 +295,10 @@ ul.task-list li input[type="checkbox"] {
     <a class="nav-link" href="../../tool_weighting.html"> 
 <span class="menu-text">QC Tool Selection</span></a>
   </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../methods_and_robustness.html"> 
+<span class="menu-text">Methods &amp; Robustness</span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-semester-1" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Semester 1</span>
@@ -276,39 +309,39 @@ ul.task-list li input[type="checkbox"] {
  <span class="dropdown-text">Week 1</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../logbook/semester1/week02.html">
+    <a class="dropdown-item" href="../../logbook/semester1/week02.qmd">
  <span class="dropdown-text">Week 2</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../logbook/semester1/week03.html">
+    <a class="dropdown-item" href="../../logbook/semester1/week03.qmd">
  <span class="dropdown-text">Week 3</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../logbook/semester1/week04.html">
+    <a class="dropdown-item" href="../../logbook/semester1/week04.qmd">
  <span class="dropdown-text">Week 4</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../logbook/semester1/week05.html">
+    <a class="dropdown-item" href="../../logbook/semester1/week05.qmd">
  <span class="dropdown-text">Week 5</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../logbook/semester1/week06.html">
+    <a class="dropdown-item" href="../../logbook/semester1/week06.qmd">
  <span class="dropdown-text">Week 6</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../logbook/semester1/week07.html">
+    <a class="dropdown-item" href="../../logbook/semester1/week07.qmd">
  <span class="dropdown-text">Week 7</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../logbook/semester1/week08.html">
+    <a class="dropdown-item" href="../../logbook/semester1/week08.qmd">
  <span class="dropdown-text">Week 8</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../logbook/semester1/week09.html">
+    <a class="dropdown-item" href="../../logbook/semester1/week09.qmd">
  <span class="dropdown-text">Week 9</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../logbook/semester1/week10.html">
+    <a class="dropdown-item" href="../../logbook/semester1/week10.qmd">
  <span class="dropdown-text">Week 10</span></a>
   </li>  
         <li>
@@ -320,15 +353,15 @@ ul.task-list li input[type="checkbox"] {
  <span class="dropdown-text">Week 12</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../logbook/semester1/week13.html">
+    <a class="dropdown-item" href="../../logbook/semester1/week13.qmd">
  <span class="dropdown-text">Week 13</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../logbook/semester1/week14.html">
+    <a class="dropdown-item" href="../../logbook/semester1/week14.qmd">
  <span class="dropdown-text">Week 14</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../logbook/semester1/week15.html">
+    <a class="dropdown-item" href="../../logbook/semester1/week15.qmd">
  <span class="dropdown-text">Week 15</span></a>
   </li>  
         <li>
@@ -340,7 +373,7 @@ ul.task-list li input[type="checkbox"] {
  <span class="dropdown-text">Week 17</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../logbook/semester1/week18.html">
+    <a class="dropdown-item" href="../../logbook/semester1/week18.qmd">
  <span class="dropdown-text">Week 18</span></a>
   </li>  
     </ul>
@@ -397,49 +430,368 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
-  <li><a href="#weekly-meeting-and-action-items-22-04-2026" id="toc-weekly-meeting-and-action-items-22-04-2026" class="nav-link" data-scroll-target="#weekly-meeting-and-action-items-22-04-2026">Weekly meeting and action items (22-04-2026)</a></li>
+  <li><a href="#scoring-v1-robustness-evidence-summary" id="toc-scoring-v1-robustness-evidence-summary" class="nav-link active" data-scroll-target="#scoring-v1-robustness-evidence-summary">Scoring v1 Robustness Evidence Summary</a>
+  <ul class="collapse">
+  <li><a href="#provenance-metadata" id="toc-provenance-metadata" class="nav-link" data-scroll-target="#provenance-metadata">Provenance &amp; Metadata</a></li>
+  <li><a href="#methodological-scope-and-boundary-disclosures" id="toc-methodological-scope-and-boundary-disclosures" class="nav-link" data-scroll-target="#methodological-scope-and-boundary-disclosures">Methodological Scope and Boundary Disclosures</a></li>
+  <li><a href="#replicon-calibration-denominator-sensitivity-b-in-2-3-4" id="toc-replicon-calibration-denominator-sensitivity-b-in-2-3-4" class="nav-link" data-scroll-target="#replicon-calibration-denominator-sensitivity-b-in-2-3-4">1. Replicon Calibration Denominator Sensitivity (<span class="math inline">\(B \in \{2, 3, 4\}\)</span>)</a></li>
+  <li><a href="#leave-one-isolate-out-stability-13-isolates" id="toc-leave-one-isolate-out-stability-13-isolates" class="nav-link" data-scroll-target="#leave-one-isolate-out-stability-13-isolates">2. Leave-One-Isolate-Out Stability (13 Isolates)</a></li>
+  <li><a href="#observed-respondent-weight-profiles-22-respondents" id="toc-observed-respondent-weight-profiles-22-respondents" class="nav-link" data-scroll-target="#observed-respondent-weight-profiles-22-respondents">3. Observed Respondent Weight Profiles (22 Respondents)</a>
+  <ul class="collapse">
+  <li><a href="#top-combinations-rank-variation-across-observed-profiles" id="toc-top-combinations-rank-variation-across-observed-profiles" class="nav-link" data-scroll-target="#top-combinations-rank-variation-across-observed-profiles">Top Combinations Rank Variation Across Observed Profiles</a></li>
+  </ul></li>
+  <li><a href="#artifact-manifest" id="toc-artifact-manifest" class="nav-link" data-scroll-target="#artifact-manifest">Artifact Manifest</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Week 09: Project Plan Writing</h1>
-</div>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
 
 
 
-<div class="quarto-title-meta">
-
-    
-  
-    
-  </div>
-  
 
 
-</header>
-
-
-<section id="overview" class="level2">
-<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<section id="scoring-v1-robustness-evidence-summary" class="level1">
+<h1>Scoring v1 Robustness Evidence Summary</h1>
+<section id="provenance-metadata" class="level2">
+<h2 class="anchored" data-anchor-id="provenance-metadata">Provenance &amp; Metadata</h2>
+<ul>
+<li><strong>Scoring Version</strong>: 1.0</li>
+<li><strong>Benchmark Source Commit</strong>: <code>4d6b8cb1d482e5066f9ca575ebd3b67af4a32562</code></li>
+<li><strong>Benchmark Source Data Hash (SHA-256)</strong>: <code>ee7a50a277fef6153a1cc05f9cc2afd227e940efbd36a4c2b0abe9a57580901b</code></li>
+<li><strong>Survey Data Hash (SHA-256)</strong>: <code>3e7cfddea1d70f28dbf0ec0a605e0a0e4201d8a77c82fc3d93e97e30380c297f</code></li>
+<li><strong>Supported Scenarios</strong>: HAC 20×, HAC 100×, SUP 20×, SUP 100×</li>
+</ul>
 </section>
-<section id="weekly-meeting-and-action-items-22-04-2026" class="level2">
-<h2 class="anchored" data-anchor-id="weekly-meeting-and-action-items-22-04-2026">Weekly meeting and action items (22-04-2026)</h2>
+<section id="methodological-scope-and-boundary-disclosures" class="level2">
+<h2 class="anchored" data-anchor-id="methodological-scope-and-boundary-disclosures">Methodological Scope and Boundary Disclosures</h2>
 <ul>
-<li>I have made project plan draft and sent it to Michael and Leah</li>
-<li>I will get the feedback by next week</li>
-<li>Discussed about the decision whether we put the downsampling step before or after trimming:
+<li><strong>Descriptive Non-Inferential Scope</strong>: Respondent-specific results are explicitly descriptive of the 22 observed responses in the microbial QC survey. They make no inference that these 22 respondents represent a wider population of bioinformaticians or microbiologists.</li>
+<li><strong>No Re-survey</strong>: No respondents were re-contacted and no new survey was required.</li>
+<li><strong>Superseded Formulations Excluded</strong>: This analysis does not compare against the superseded dynamic min–max or geometric mean scoring systems.</li>
+<li><strong>Fixed Warning Threshold</strong>: The accepted 25-point isolate-variability warning threshold is preserved unchanged.</li>
+<li><strong>Outcome Interpretation</strong>: A changed winner under alternative denominators, sub-cohorts, or preferences is reported as an empirical robustness result, not treated as a failed test.</li>
+</ul>
+</section>
+<section id="replicon-calibration-denominator-sensitivity-b-in-2-3-4" class="level2">
+<h2 class="anchored" data-anchor-id="replicon-calibration-denominator-sensitivity-b-in-2-3-4">1. Replicon Calibration Denominator Sensitivity (<span class="math inline">\(B \in \{2, 3, 4\}\)</span>)</h2>
+<p>Rankings were recomputed with replicon-loss denominators <span class="math inline">\(B = 2.0, 3.0, 4.0\)</span> while holding every other scoring-v1 decision fixed under Community-balanced weights (accuracy: 28%, contiguity: 20%, residual: 17%, replicon: 35%).</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 15%">
+<col style="width: 15%">
+<col style="width: 15%">
+<col style="width: 15%">
+<col style="width: 19%">
+<col style="width: 19%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Scenario</th>
+<th style="text-align: left;">Winner (<span class="math inline">\(B=2\)</span>)</th>
+<th style="text-align: left;">Winner (<span class="math inline">\(B=3\)</span>, Canonical)</th>
+<th style="text-align: left;">Winner (<span class="math inline">\(B=4\)</span>)</th>
+<th style="text-align: center;">Winner Stable?</th>
+<th style="text-align: center;">Max Rank Shift</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">HAC 20x</td>
+<td style="text-align: left;"><code>seqkit-dorado</code></td>
+<td style="text-align: left;"><code>seqkit-dorado</code></td>
+<td style="text-align: left;"><code>seqkit-dorado</code></td>
+<td style="text-align: center;">Yes</td>
+<td style="text-align: center;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HAC 100x</td>
+<td style="text-align: left;"><code>seqkit-barbell</code></td>
+<td style="text-align: left;"><code>seqkit-barbell</code></td>
+<td style="text-align: left;"><code>seqkit-barbell</code></td>
+<td style="text-align: center;">Yes</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SUP 20x</td>
+<td style="text-align: left;"><code>chopper-porechop_abi</code></td>
+<td style="text-align: left;"><code>chopper-porechop_abi</code></td>
+<td style="text-align: left;"><code>chopper-porechop_abi</code></td>
+<td style="text-align: center;">Yes</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SUP 100x</td>
+<td style="text-align: left;"><code>chopper-porechop_abi</code></td>
+<td style="text-align: left;"><code>chopper-porechop_abi</code></td>
+<td style="text-align: left;"><code>chopper-porechop_abi</code></td>
+<td style="text-align: center;">Yes</td>
+<td style="text-align: center;">3</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="leave-one-isolate-out-stability-13-isolates" class="level2">
+<h2 class="anchored" data-anchor-id="leave-one-isolate-out-stability-13-isolates">2. Leave-One-Isolate-Out Stability (13 Isolates)</h2>
+<p>Rankings were recomputed leaving out one of the 13 reference isolates at a time for all 4 supported scenarios (52 sub-cohort evaluations total).</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 17%">
+<col style="width: 17%">
+<col style="width: 21%">
+<col style="width: 21%">
+<col style="width: 21%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Scenario</th>
+<th style="text-align: left;">Canonical Winner</th>
+<th style="text-align: center;">LOO Winner Match Frequency</th>
+<th style="text-align: center;">Winner Stable Across All 13?</th>
+<th style="text-align: center;">Max Rank Shift Across Combinations</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">HAC 20x</td>
+<td style="text-align: left;"><code>seqkit-dorado</code></td>
+<td style="text-align: center;">13/13 (100.0%)</td>
+<td style="text-align: center;">Yes</td>
+<td style="text-align: center;">11</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HAC 100x</td>
+<td style="text-align: left;"><code>seqkit-barbell</code></td>
+<td style="text-align: center;">10/13 (76.9%)</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">16</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SUP 20x</td>
+<td style="text-align: left;"><code>chopper-porechop_abi</code></td>
+<td style="text-align: center;">13/13 (100.0%)</td>
+<td style="text-align: center;">Yes</td>
+<td style="text-align: center;">7</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SUP 100x</td>
+<td style="text-align: left;"><code>chopper-porechop_abi</code></td>
+<td style="text-align: center;">13/13 (100.0%)</td>
+<td style="text-align: center;">Yes</td>
+<td style="text-align: center;">12</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="observed-respondent-weight-profiles-22-respondents" class="level2">
+<h2 class="anchored" data-anchor-id="observed-respondent-weight-profiles-22-respondents">3. Observed Respondent Weight Profiles (22 Respondents)</h2>
+<p>The 22 observed respondent preference profiles from <code>microbial-qc-survey.csv</code> were applied directly to the canonical cohort criterion scores.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Scenario</th>
+<th style="text-align: left;">Leading Combination(s)</th>
+<th style="text-align: left;">Winner Frequency among Observed Respondents</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">HAC 20x</td>
+<td style="text-align: left;"><code>seqkit-dorado</code>: 22/22 (100.0%)</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HAC 100x</td>
+<td style="text-align: left;"><code>seqkit-barbell</code>: 21/22 (95.5%), <code>unprocessed-barbell</code>: 1/22 (4.5%)</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SUP 20x</td>
+<td style="text-align: left;"><code>chopper-porechop_abi</code>: 21/22 (95.5%), <code>unprocessed-porechop_abi</code>: 1/22 (4.5%)</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SUP 100x</td>
+<td style="text-align: left;"><code>chopper-porechop_abi</code>: 21/22 (95.5%), <code>seqkit-porechop_abi</code>: 1/22 (4.5%)</td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<section id="top-combinations-rank-variation-across-observed-profiles" class="level3">
+<h3 class="anchored" data-anchor-id="top-combinations-rank-variation-across-observed-profiles">Top Combinations Rank Variation Across Observed Profiles</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Scenario</th>
+<th style="text-align: left;">Combination</th>
+<th style="text-align: center;">Min Rank</th>
+<th style="text-align: center;">Max Rank</th>
+<th style="text-align: center;">Mean Rank</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">HAC 20x</td>
+<td style="text-align: left;"><code>seqkit-dorado</code></td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HAC 20x</td>
+<td style="text-align: left;"><code>chopper-dorado</code></td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">2.05</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HAC 20x</td>
+<td style="text-align: left;"><code>unprocessed-porechop_abi</code></td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">2.95</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HAC 20x</td>
+<td style="text-align: left;"><code>unprocessed-dorado</code></td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">4.14</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HAC 20x</td>
+<td style="text-align: left;"><code>seqkit-barbell</code></td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">6.09</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HAC 100x</td>
+<td style="text-align: left;"><code>seqkit-barbell</code></td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">1.09</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HAC 100x</td>
+<td style="text-align: left;"><code>seqkit-dorado</code></td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">2.14</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HAC 100x</td>
+<td style="text-align: left;"><code>chopper-barbell</code></td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">3.05</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HAC 100x</td>
+<td style="text-align: left;"><code>chopper-dorado</code></td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">4.09</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HAC 100x</td>
+<td style="text-align: left;"><code>seqkit-porechop_abi</code></td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">4.86</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SUP 20x</td>
+<td style="text-align: left;"><code>chopper-porechop_abi</code></td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">1.09</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SUP 20x</td>
+<td style="text-align: left;"><code>chopper-dorado</code></td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">2.09</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SUP 20x</td>
+<td style="text-align: left;"><code>unprocessed-dorado</code></td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">2.95</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SUP 20x</td>
+<td style="text-align: left;"><code>unprocessed-porechop_abi</code></td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">3.86</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SUP 20x</td>
+<td style="text-align: left;"><code>fastplong-all</code></td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">5.32</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SUP 100x</td>
+<td style="text-align: left;"><code>chopper-porechop_abi</code></td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">1.09</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SUP 100x</td>
+<td style="text-align: left;"><code>fastplong-all</code></td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">2.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SUP 100x</td>
+<td style="text-align: left;"><code>unprocessed-dorado</code></td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">3.05</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SUP 100x</td>
+<td style="text-align: left;"><code>seqkit-porechop_abi</code></td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">3.86</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SUP 100x</td>
+<td style="text-align: left;"><code>chopper-barbell</code></td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">5.00</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="artifact-manifest" class="level2">
+<h2 class="anchored" data-anchor-id="artifact-manifest">Artifact Manifest</h2>
 <ul>
-<li>And we can argue that: Although downsampling before trimming might mimic a true low depth sequencing run better, we decided to downsample after trimming fo the current pipeline. We treat 20x downsampling as the low depth samples. Also, we can argue that this keeps the post trimming depth consistent across tools, allowing more controlled or fairer comparison of the performance preprocessing tools. This design focuses on the quality and composition of reads that are retained after preprocessng steps, while eliminateing the cofunding effect of different depth across tools.</li>
-</ul></li>
+<li><code>denominator_sensitivity.csv</code>: 204 records covering all 4 scenarios × 3 denominators × 17 combinations.</li>
+<li><code>leave_one_out.csv</code>: 884 records covering all 4 scenarios × 13 isolate omissions × 17 combinations.</li>
+<li><code>respondent_profiles.csv</code>: 1,496 records covering all 4 scenarios × 22 observed survey respondents × 17 combinations.</li>
+<li><code>evidence_summary.json</code>: Machine-readable structured provenance and stability summaries.</li>
+<li><code>summary.md</code>: Human-readable summary report (this file).</li>
 </ul>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

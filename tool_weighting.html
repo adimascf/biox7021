@@ -271,6 +271,10 @@ ul.task-list li input[type="checkbox"] {
     <a class="nav-link active" href="./tool_weighting.html" aria-current="page"> 
 <span class="menu-text">QC Tool Selection</span></a>
   </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./methods_and_robustness.html"> 
+<span class="menu-text">Methods &amp; Robustness</span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-semester-1" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Semester 1</span>
@@ -429,7 +433,7 @@ ul.task-list li input[type="checkbox"] {
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-body-container">
-<p><strong>Scoring Specification:</strong> 1.0 &nbsp;|&nbsp; <strong>Benchmark Scope:</strong> 13 reference bacterial isolates × 17 combinations × HAC/SUP × 20×/100× (884 observations) &nbsp;|&nbsp; <strong>Provenance:</strong> <a href="https://github.com/adimascf/biox7021">adimascf/biox7021</a> @ <a href="https://github.com/adimascf/biox7021/commit/4d6b8cb1d482e5066f9ca575ebd3b67af4a32562"><code>4d6b8cb</code></a></p>
+<p><strong>Scoring Specification:</strong> 1.0 &nbsp;|&nbsp; <strong>Benchmark Scope:</strong> 13 reference bacterial isolates × 17 combinations × HAC/SUP × 20×/100× (884 observations) &nbsp;|&nbsp; <strong>Provenance:</strong> <a href="https://github.com/adimascf/biox7021">adimascf/biox7021</a> @ <a href="https://github.com/adimascf/biox7021/commit/4d6b8cb1d482e5066f9ca575ebd3b67af4a32562"><code>4d6b8cb</code></a> &nbsp;|&nbsp; <a href="methods_and_robustness.html">Methods &amp; Robustness Documentation →</a></p>
 </div>
 </div>
 </div>
@@ -689,7 +693,19 @@ app_ui = ui.page_fluid(
         ),
         ui.tags.p(
             ui.tags.a(
-                "Full Methodology &amp; Robustness Specification →",
+                "Full Methods &amp; Robustness Documentation →",
+                href="methods_and_robustness.html",
+                target="_blank"
+            ),
+            " | ",
+            ui.tags.a(
+                "Specification #10 →",
+                href="https://github.com/adimascf/biox7021/issues/10",
+                target="_blank"
+            ),
+            " | ",
+            ui.tags.a(
+                "Technical Specification Document →",
                 href="docs/qc-trimming-recommendation-system-specification.md",
                 target="_blank"
             )
@@ -933,6 +949,7 @@ def calculate_scenario_rankings(
             "partial_missed": partial_missed,
             "affected_replicon_isolates": affected_replicon_isolates,
             "reasons": reasons,
+            "ineligible_reason": "; ".join(reasons) if reasons else None,
             "warnings": warnings,
             "is_near_tie": False,
             "raw_group": isolate_metrics,

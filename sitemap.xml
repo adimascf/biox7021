@@ -6,115 +6,127 @@
   </url>
   <url>
     <loc>https://adimascf.github.io/biox7021/tool_weighting.html</loc>
-    <lastmod>2026-09-04T11:15:28.040Z</lastmod>
+    <lastmod>2026-09-05T22:40:18.897Z</lastmod>
   </url>
   <url>
-    <loc>https://adimascf.github.io/biox7021/summary.html</loc>
-    <lastmod>2026-07-28T23:15:23.788Z</lastmod>
+    <loc>https://adimascf.github.io/biox7021/results/robustness/summary.html</loc>
+    <lastmod>2026-09-04T12:06:35.491Z</lastmod>
   </url>
   <url>
-    <loc>https://adimascf.github.io/biox7021/docs/agents/triage-labels.html</loc>
-    <lastmod>2026-09-03T01:40:14.603Z</lastmod>
-  </url>
-  <url>
-    <loc>https://adimascf.github.io/biox7021/docs/qc-trimming-recommendation-system-specification.html</loc>
-    <lastmod>2026-09-03T05:22:56.345Z</lastmod>
-  </url>
-  <url>
-    <loc>https://adimascf.github.io/biox7021/learning-records/0001-qc-tool-weighting-design-tradeoffs.html</loc>
-    <lastmod>2026-09-02T02:50:51.757Z</lastmod>
-  </url>
-  <url>
-    <loc>https://adimascf.github.io/biox7021/learning-records/0002-dual-formula-geometric-mean.html</loc>
-    <lastmod>2026-09-02T03:19:07.979Z</lastmod>
-  </url>
-  <url>
-    <loc>https://adimascf.github.io/biox7021/logbook/week02.html</loc>
-    <lastmod>2026-09-03T03:01:36.073Z</lastmod>
-  </url>
-  <url>
-    <loc>https://adimascf.github.io/biox7021/logbook/semester1/week16.html</loc>
-    <lastmod>2026-09-03T03:01:36.087Z</lastmod>
-  </url>
-  <url>
-    <loc>https://adimascf.github.io/biox7021/logbook/semester1/week01.html</loc>
-    <lastmod>2026-09-03T03:01:36.086Z</lastmod>
-  </url>
-  <url>
-    <loc>https://adimascf.github.io/biox7021/logbook/semester1/week12.html</loc>
-    <lastmod>2026-09-03T03:01:36.086Z</lastmod>
-  </url>
-  <url>
-    <loc>https://adimascf.github.io/biox7021/logbook/semester2/week03.html</loc>
-    <lastmod>2026-08-04T10:27:55.045Z</lastmod>
-  </url>
-  <url>
-    <loc>https://adimascf.github.io/biox7021/logbook/semester2/drafting.html</loc>
-    <lastmod>2026-08-16T05:35:35.386Z</lastmod>
-  </url>
-  <url>
-    <loc>https://adimascf.github.io/biox7021/logbook/semester2/week05.html</loc>
-    <lastmod>2026-08-31T04:23:12.632Z</lastmod>
-  </url>
-  <url>
-    <loc>https://adimascf.github.io/biox7021/logbook/semester2/week06.html</loc>
-    <lastmod>2026-09-01T06:19:20.260Z</lastmod>
-  </url>
-  <url>
-    <loc>https://adimascf.github.io/biox7021/RESOURCES.html</loc>
-    <lastmod>2026-09-02T02:50:46.091Z</lastmod>
-  </url>
-  <url>
-    <loc>https://adimascf.github.io/biox7021/MISSION.html</loc>
-    <lastmod>2026-09-02T02:50:39.422Z</lastmod>
-  </url>
-  <url>
-    <loc>https://adimascf.github.io/biox7021/logbook/semester2/week07.html</loc>
-    <lastmod>2026-09-02T11:02:57.623Z</lastmod>
-  </url>
-  <url>
-    <loc>https://adimascf.github.io/biox7021/logbook/semester2/week04.html</loc>
-    <lastmod>2026-09-01T06:38:07.734Z</lastmod>
-  </url>
-  <url>
-    <loc>https://adimascf.github.io/biox7021/logbook/semester2/week01.html</loc>
-    <lastmod>2026-09-03T03:01:36.088Z</lastmod>
-  </url>
-  <url>
-    <loc>https://adimascf.github.io/biox7021/logbook/semester2/week02.html</loc>
-    <lastmod>2026-08-02T04:42:35.793Z</lastmod>
-  </url>
-  <url>
-    <loc>https://adimascf.github.io/biox7021/logbook/semester1/week11.html</loc>
-    <lastmod>2026-09-03T03:01:36.086Z</lastmod>
-  </url>
-  <url>
-    <loc>https://adimascf.github.io/biox7021/logbook/semester1/week17.html</loc>
-    <lastmod>2026-09-03T03:01:36.087Z</lastmod>
-  </url>
-  <url>
-    <loc>https://adimascf.github.io/biox7021/logbook/week03.html</loc>
-    <lastmod>2026-09-03T03:01:36.074Z</lastmod>
-  </url>
-  <url>
-    <loc>https://adimascf.github.io/biox7021/home.html</loc>
-    <lastmod>2026-07-26T02:06:10.255Z</lastmod>
-  </url>
-  <url>
-    <loc>https://adimascf.github.io/biox7021/learning-records/0003-canonical-scoring-fixed-rulers-and-arithmetic-aggregation.html</loc>
-    <lastmod>2026-09-03T10:19:08.302Z</lastmod>
-  </url>
-  <url>
-    <loc>https://adimascf.github.io/biox7021/docs/dashboard.html</loc>
-    <lastmod>2026-09-03T05:40:36.622Z</lastmod>
+    <loc>https://adimascf.github.io/biox7021/docs/agents/issue-tracker.html</loc>
+    <lastmod>2026-09-03T01:40:06.055Z</lastmod>
   </url>
   <url>
     <loc>https://adimascf.github.io/biox7021/docs/agents/domain.html</loc>
     <lastmod>2026-09-03T01:40:22.640Z</lastmod>
   </url>
   <url>
-    <loc>https://adimascf.github.io/biox7021/docs/agents/issue-tracker.html</loc>
-    <lastmod>2026-09-03T01:40:06.055Z</lastmod>
+    <loc>https://adimascf.github.io/biox7021/docs/dashboard.html</loc>
+    <lastmod>2026-09-05T22:47:28.082Z</lastmod>
+  </url>
+  <url>
+    <loc>https://adimascf.github.io/biox7021/learning-records/0004-eligibility-gates-presets-and-isolate-variability.html</loc>
+    <lastmod>2026-09-06T22:56:42.837Z</lastmod>
+  </url>
+  <url>
+    <loc>https://adimascf.github.io/biox7021/learning-records/0002-dual-formula-geometric-mean.html</loc>
+    <lastmod>2026-09-02T03:19:07.979Z</lastmod>
+  </url>
+  <url>
+    <loc>https://adimascf.github.io/biox7021/home.html</loc>
+    <lastmod>2026-09-05T22:48:47.140Z</lastmod>
+  </url>
+  <url>
+    <loc>https://adimascf.github.io/biox7021/logbook/week03.html</loc>
+    <lastmod>2026-09-03T03:01:36.074Z</lastmod>
+  </url>
+  <url>
+    <loc>https://adimascf.github.io/biox7021/logbook/semester1/week17.html</loc>
+    <lastmod>2026-09-03T03:01:36.087Z</lastmod>
+  </url>
+  <url>
+    <loc>https://adimascf.github.io/biox7021/logbook/semester1/week11.html</loc>
+    <lastmod>2026-09-03T03:01:36.086Z</lastmod>
+  </url>
+  <url>
+    <loc>https://adimascf.github.io/biox7021/logbook/semester2/week02.html</loc>
+    <lastmod>2026-08-02T04:42:35.793Z</lastmod>
+  </url>
+  <url>
+    <loc>https://adimascf.github.io/biox7021/logbook/semester2/week01.html</loc>
+    <lastmod>2026-09-03T03:01:36.088Z</lastmod>
+  </url>
+  <url>
+    <loc>https://adimascf.github.io/biox7021/logbook/semester2/week04.html</loc>
+    <lastmod>2026-09-01T06:38:07.734Z</lastmod>
+  </url>
+  <url>
+    <loc>https://adimascf.github.io/biox7021/logbook/semester2/week07.html</loc>
+    <lastmod>2026-09-02T11:02:57.623Z</lastmod>
+  </url>
+  <url>
+    <loc>https://adimascf.github.io/biox7021/MISSION.html</loc>
+    <lastmod>2026-09-06T22:56:13.021Z</lastmod>
+  </url>
+  <url>
+    <loc>https://adimascf.github.io/biox7021/RESOURCES.html</loc>
+    <lastmod>2026-09-02T02:50:46.091Z</lastmod>
+  </url>
+  <url>
+    <loc>https://adimascf.github.io/biox7021/logbook/semester2/week06.html</loc>
+    <lastmod>2026-09-01T06:19:20.260Z</lastmod>
+  </url>
+  <url>
+    <loc>https://adimascf.github.io/biox7021/logbook/semester2/week05.html</loc>
+    <lastmod>2026-08-31T04:23:12.632Z</lastmod>
+  </url>
+  <url>
+    <loc>https://adimascf.github.io/biox7021/logbook/semester2/drafting.html</loc>
+    <lastmod>2026-08-16T05:35:35.386Z</lastmod>
+  </url>
+  <url>
+    <loc>https://adimascf.github.io/biox7021/logbook/semester2/week03.html</loc>
+    <lastmod>2026-08-04T10:27:55.045Z</lastmod>
+  </url>
+  <url>
+    <loc>https://adimascf.github.io/biox7021/logbook/semester1/week12.html</loc>
+    <lastmod>2026-09-03T03:01:36.086Z</lastmod>
+  </url>
+  <url>
+    <loc>https://adimascf.github.io/biox7021/logbook/semester1/week01.html</loc>
+    <lastmod>2026-09-03T03:01:36.086Z</lastmod>
+  </url>
+  <url>
+    <loc>https://adimascf.github.io/biox7021/logbook/semester1/week16.html</loc>
+    <lastmod>2026-09-03T03:01:36.087Z</lastmod>
+  </url>
+  <url>
+    <loc>https://adimascf.github.io/biox7021/logbook/week02.html</loc>
+    <lastmod>2026-09-03T03:01:36.073Z</lastmod>
+  </url>
+  <url>
+    <loc>https://adimascf.github.io/biox7021/methods_and_robustness.html</loc>
+    <lastmod>2026-09-05T22:37:38.817Z</lastmod>
+  </url>
+  <url>
+    <loc>https://adimascf.github.io/biox7021/learning-records/0003-canonical-scoring-fixed-rulers-and-arithmetic-aggregation.html</loc>
+    <lastmod>2026-09-03T10:19:08.302Z</lastmod>
+  </url>
+  <url>
+    <loc>https://adimascf.github.io/biox7021/learning-records/0001-qc-tool-weighting-design-tradeoffs.html</loc>
+    <lastmod>2026-09-02T02:50:51.757Z</lastmod>
+  </url>
+  <url>
+    <loc>https://adimascf.github.io/biox7021/docs/qc-trimming-recommendation-system-specification.html</loc>
+    <lastmod>2026-09-05T22:47:01.837Z</lastmod>
+  </url>
+  <url>
+    <loc>https://adimascf.github.io/biox7021/docs/agents/triage-labels.html</loc>
+    <lastmod>2026-09-03T01:40:14.603Z</lastmod>
+  </url>
+  <url>
+    <loc>https://adimascf.github.io/biox7021/summary.html</loc>
+    <lastmod>2026-07-28T23:15:23.788Z</lastmod>
   </url>
   <url>
     <loc>https://adimascf.github.io/biox7021/weekly-logbook/week01.html</loc>
@@ -122,6 +134,6 @@
   </url>
   <url>
     <loc>https://adimascf.github.io/biox7021/NOTES.html</loc>
-    <lastmod>2026-09-03T10:19:00.370Z</lastmod>
+    <lastmod>2026-09-06T22:56:26.660Z</lastmod>
   </url>
 </urlset>

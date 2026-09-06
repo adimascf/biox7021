@@ -301,6 +301,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="nav-link" href="../tool_weighting.html"> 
 <span class="menu-text">QC Tool Selection</span></a>
   </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../methods_and_robustness.html"> 
+<span class="menu-text">Methods &amp; Robustness</span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-semester-1" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Semester 1</span>
@@ -455,12 +459,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="dashboard-source-and-site-architecture" class="level1">
 <h1>Dashboard Source and Site Architecture</h1>
-<p>This document describes the maintainable source files, configuration, and generated site responsibilities for the interactive QC-trimming recommendation dashboard.</p>
+<p><strong>Scoring Specification:</strong> 1.0 &nbsp;|&nbsp; <strong>Specification Issue:</strong> <a href="https://github.com/adimascf/biox7021/issues/10">GitHub Issue #10</a> &nbsp;|&nbsp; <strong>Specification Doc:</strong> <a href="../docs/qc-trimming-recommendation-system-specification.html"><code>docs/qc-trimming-recommendation-system-specification.md</code></a></p>
+<p>This document describes the maintainable source files, configuration, and generated site responsibilities for the interactive QC-trimming recommendation dashboard and Methods &amp; robustness documentation.</p>
 <section id="responsibilities-source-vs.-generated-artifacts" class="level2">
 <h2 class="anchored" data-anchor-id="responsibilities-source-vs.-generated-artifacts">1. Responsibilities: Source vs.&nbsp;Generated Artifacts</h2>
 <section id="human-editable-source-version-controlled-on-default-branch" class="level3">
 <h3 class="anchored" data-anchor-id="human-editable-source-version-controlled-on-default-branch">Human-Editable Source (Version-Controlled on Default Branch)</h3>
-<p>Future contributors and maintainers must edit only these source files: - <strong><code>tool_weighting.qmd</code></strong>: The primary Quarto/Shinylive human-editable dashboard source document. Contains page markup, flow regions, UI components, and client-side reactive logic. - <strong><code>config/dashboard_config.yaml</code></strong>: The configuration for repository provenance, evidence location, pinned commit/content hashes, and site base URLs. Editing this file configures provenance and repo renames without altering scoring equations or application logic. - <strong><code>src/qc_scoring/</code></strong>: The pure Python canonical scoring library (models, validation, criteria value functions, preferences, gates, warnings, and ranking). - <strong><code>_quarto.yml</code></strong>: The Quarto site configuration and navigation bar links. - <strong><code>assets/data/assembly_metrics.csv</code></strong>: Bundled and pinned benchmark metrics CSV (884 observations at commit <code>4d6b8cb1d482e5066f9ca575ebd3b67af4a32562</code>).</p>
+<p>Future contributors and maintainers must edit only these source files: - <strong><code>tool_weighting.qmd</code></strong>: The primary Quarto/Shinylive human-editable dashboard source document. Contains page markup, flow regions, UI components, and client-side reactive logic. - <strong><code>methods_and_robustness.qmd</code></strong>: The Quarto Methods &amp; robustness reference page documenting equations, assumptions, policy anchors, provenance, and repository-only stability results. - <strong><code>config/dashboard_config.yaml</code></strong>: The configuration for repository provenance, evidence location, pinned commit/content hashes, and site base URLs. Editing this file configures provenance and repo renames without altering scoring equations or application logic. - <strong><code>src/qc_scoring/</code></strong>: The pure Python canonical scoring library (models, validation, criteria value functions, preferences, gates, warnings, and ranking). - <strong><code>_quarto.yml</code></strong>: The Quarto site configuration and navigation bar links. - <strong><code>assets/data/assembly_metrics.csv</code></strong>: Bundled and pinned benchmark metrics CSV (884 observations at commit <code>4d6b8cb1d482e5066f9ca575ebd3b67af4a32562</code>).</p>
 </section>
 <section id="generated-artifacts-never-edit-directly" class="level3">
 <h3 class="anchored" data-anchor-id="generated-artifacts-never-edit-directly">Generated Artifacts (Never Edit Directly)</h3>
