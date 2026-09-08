@@ -124,6 +124,9 @@ rule all:
 		FIGURES / "assess/assembly/metrics/combo_assembly_aggregate_score_perdepth_hac.png",
 		TABLES / "assess/assembly/metrics/combo_assembly_survey_scores_perdepth.csv",
 		TABLES / "assess/assembly/metrics/combo_assembly_survey_ranking_summary_perdepth.csv",
+		TABLES / "assess/assembly/metrics/combo_assembly_survey_ranking_summary.csv",
+		FIGURES / "assess/assembly/metrics/combo_assembly_aggregate_score_sup.png",
+		FIGURES / "assess/assembly/metrics/combo_assembly_aggregate_score_hac.png",
 
 		TABLES / "assess/call/metrics/combo_f1_score_significance.csv",
 		TABLES / "assess/call/metrics/combo_prec_significance.csv",
