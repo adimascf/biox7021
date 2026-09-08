@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Week 06: Dorado trim impact and survey weighted assembly plot – BIOX7021 LOGBOOK - 2026</title>
+<title>Week 07: Aggreagate asssembly score and the interactive dashboard – BIOX7021 LOGBOOK - 2026</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -47,6 +47,9 @@ ul.task-list li input[type="checkbox"] {
 <link href="../../site_libs/bootstrap/bootstrap-2e07afffe0e1d027e310c816153ddb72.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
 <link href="../../site_libs/bootstrap/bootstrap-dark-52489e3bfee96bc9e30fc12a283dda77.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="../../site_libs/bootstrap/bootstrap-2e07afffe0e1d027e310c816153ddb72.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -378,6 +381,10 @@ ul.task-list li input[type="checkbox"] {
     <a class="dropdown-item" href="../../logbook/semester2/week06.html">
  <span class="dropdown-text">Week 06</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../logbook/semester2/week07.html">
+ <span class="dropdown-text">Week 07</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item">
@@ -396,8 +403,15 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#assembly-aggregate-score-for-the-main-figure" id="toc-assembly-aggregate-score-for-the-main-figure" class="nav-link" data-scroll-target="#assembly-aggregate-score-for-the-main-figure">Assembly aggregate score for the main figure</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -405,7 +419,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Week 06: Dorado trim impact and survey weighted assembly plot</h1>
+<h1 class="title">Week 07: Aggreagate asssembly score and the interactive dashboard</h1>
 </div>
 
 
@@ -422,9 +436,32 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sagittis posuere ligula sit amet lacinia. Duis dignissim pellentesque magna, rhoncus congue sapien finibus mollis. Ut eu sem laoreet, vehicula ipsum in, convallis erat. Vestibulum magna sem, blandit pulvinar augue sit amet, auctor malesuada sapien. Nullam faucibus leo eget eros hendrerit, non laoreet ipsum lacinia. Curabitur cursus diam elit, non tempus ante volutpat a. Quisque hendrerit blandit purus non fringilla. Integer sit amet elit viverra ante dapibus semper. Vestibulum viverra rutrum enim, at luctus enim posuere eu. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+</section>
+<section id="assembly-aggregate-score-for-the-main-figure" class="level2">
+<h2 class="anchored" data-anchor-id="assembly-aggregate-score-for-the-main-figure">Assembly aggregate score for the main figure</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../../results/figures/main_figures/combo_assembly_aggregate_score_perdepth_sup_updated.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Assembly aggregate score SUP"><img src="../../results/figures/main_figures/combo_assembly_aggregate_score_perdepth_sup_updated.png" class="img-fluid figure-img" alt="Assembly aggregate score SUP"></a></p>
+<figcaption>Assembly aggregate score SUP</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../../results/figures/main_figures/combo_assembly_aggregate_score_perdepth_hac_updated.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Assembly aggregate score HAC"><img src="../../results/figures/main_figures/combo_assembly_aggregate_score_perdepth_hac_updated.png" class="img-fluid figure-img" alt="Assembly aggregate score HAC"></a></p>
+<figcaption>Assembly aggregate score HAC</figcaption>
+</figure>
+</div>
+<ul>
+<li>Except filtlong, all the QC tool combination scores don’t really differ by much</li>
+<li>porechop trimmed reads combined with chopper extract produced the highest score still at both 100x and 20x SUP</li>
+<li>Using trimmer built in on dorado (unprocessed-dorado) is enough as it rank as third on SUP both 100x and 20x, and second 20X HAC</li>
+<li>All in one tool fastplong came as in the second place on 100x SUP</li>
+</ul>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -859,6 +896,38 @@ ul.task-list li input[type="checkbox"] {
     </div>
   </div>
 </footer>
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
 
 
 
