@@ -136,11 +136,14 @@ def main():
     )
 
     # --- Plot C: Missed Contigs ---
-    df_missed_agg = df_missed.groupby(["combo", "depth"], as_index=False)["full_missed"].sum()
-    order_missed = df_missed_agg.groupby("combo")["full_missed"].sum().sort_values(ascending=True).index.tolist()
+    if "total_missed" not in df_missed.columns and "full_missed" in df_missed.columns:
+        df_missed["total_missed"] = df_missed["full_missed"] + df_missed.get("partial_missed", 0)
+
+    df_missed_agg = df_missed.groupby(["combo", "depth"], as_index=False)["total_missed"].sum()
+    order_missed = df_missed_agg.groupby("combo")["total_missed"].sum().sort_values(ascending=True).index.tolist()
     plot_metric(
-        axes[2], df_missed_agg, "combo", "full_missed", 
-        "Total Full Missed Contigs", "C. Missed Contigs", 
+        axes[2], df_missed_agg, "combo", "total_missed", 
+        "Total Missed Contigs", "C. Missed Contigs", 
         order_missed, np.mean, is_strip_only=True
     )
     axes[2].yaxis.set_major_locator(MaxNLocator(integer=True))
