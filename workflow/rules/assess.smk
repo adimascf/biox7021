@@ -100,6 +100,22 @@ rule assess_variant_fnfp:
 	script:
 		"../scripts/extract_plot_fnfp.py"
 
+rule assess_variant_sample_fnfp:
+	input:
+		csv=rules.assess_variant_plot.output.csv
+	log:
+		LOGS / "assess_mutref_calls/trimming_variant_sample_fnfp.log"
+	resources:
+		mem="4GiB",
+		runtime="10m"
+	conda:
+		ENVS / "generate_figure_python.yaml"
+	output:
+		csv=TABLES / "assess/call/metrics/combo_variant_sample_fnfp.csv"
+	script:
+		"../scripts/extract_fnfp_numbers.py"
+
+
 rule assess_assembly_quast:
 	input:
 		assembly=rules.reorient_assembly_sample.output.assembly,

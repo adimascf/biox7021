@@ -84,6 +84,7 @@ rule all:
 		TABLES / "assess/call/metrics/combo_variant_summary.csv",
 		TABLES / "assess/call/metrics/combo_variant_summary_averages.csv",
 		TABLES / "assess/call/metrics/combo_variant_fnfp.csv",
+		TABLES / "assess/call/metrics/combo_variant_sample_fnfp.csv",
 		FIGURES / "assess/call/metrics/combo_variant_fp.png",
 		FIGURES / "assess/call/metrics/combo_variant_fn.png",
 
