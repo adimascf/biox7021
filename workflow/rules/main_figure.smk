@@ -32,6 +32,22 @@ rule plot_main_figure_call:
 		"../scripts/plot_main_figure_call.py"
 
 
+rule plot_supp_figure_call:
+	input:
+		csv=TABLES / "assess/call/metrics/combo_variant_summary.csv"
+	log:
+		LOGS / "assess/call/plot_supp_figure_call_{model}.log"
+	resources:
+		mem="16GiB",
+		runtime="20m"
+	conda:
+		ENVS / "generate_figure_python.yaml"
+	output:
+		figure=FIGURES / "assess/call/metrics/combo_supp_figure_call_{model}.png"
+	script:
+		"../scripts/plot_supp_figure_call.py"
+
+
 rule compile_assembly_metrics_master:
 	input:
 		quast=rules.compile_quast_metrics.output.csv,
