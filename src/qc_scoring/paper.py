@@ -9,6 +9,7 @@ from typing import Dict, List, Optional, Union
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+import seaborn as sns
 
 from qc_scoring.models import Scenario
 from qc_scoring.preferences import GateConfig, WeightsConfig
@@ -181,7 +182,10 @@ def plot_paper_composite_figure(
     else:
         results_dict = paper_results
 
+    sns.set_theme(style="whitegrid")
+
     depth_order = ["100x", "20x"]
+    panel_letters = ["A", "B"]
     palette = ["#56b4e9", "#d55e00"]  # skyblue for 100x, vermilion for 20x
 
     fig, axes = plt.subplots(nrows=1, ncols=len(depth_order), figsize=(20, 7), dpi=300, sharey=True)
@@ -208,12 +212,11 @@ def plot_paper_composite_figure(
             scores,
             color=depth_color,
             edgecolor="black",
-            linewidth=0.8,
-            alpha=0.85,
+            linewidth=0.5,
             zorder=2,
         )
 
-        ax.set_title(f"{depth} Sequencing Depth", fontsize=13, pad=10, fontweight="bold")
+        ax.set_title(f"{panel_letters[d_idx]}. Depth: {depth}", fontsize=14, pad=10)
         if d_idx == 0:
             ax.set_ylabel("Preference Alignment Score (0–100)", fontsize=12)
         else:
@@ -222,51 +225,14 @@ def plot_paper_composite_figure(
         ax.set_xlabel("")
         ax.set_xticks(range(len(combos)))
         ax.set_xticklabels(combos, rotation=45, ha="right", rotation_mode="anchor", fontsize=11)
+        ax.set_xlim(-0.5, len(combos) - 0.5)
         ax.set_ylim(0, 105)
         ax.xaxis.grid(True, linestyle="--", color="lightgrey", zorder=0)
         ax.yaxis.grid(True, linestyle="--", color="lightgrey", zorder=0)
 
-        # Display leading combination's four criterion scores (Decision 30)
-        if recs:
-            leading = recs[0]
-            leader_info = (
-                f"Leader: {leading.combo} (Score: {leading.display_score:.1f})\n"
-                f"Accuracy: {leading.score_accuracy:.1f} | Contiguity: {leading.score_contiguity:.1f}\n"
-                f"Residual-clean: {leading.score_residual:.1f}% | Replicon: {leading.score_replicon:.1f}"
-            )
-            ax.text(
-                0.98,
-                0.96,
-                leader_info,
-                transform=ax.transAxes,
-                fontsize=9.5,
-                verticalalignment="top",
-                horizontalalignment="right",
-                bbox=dict(boxstyle="round,pad=0.5", facecolor="white", edgecolor="grey", alpha=0.9),
-                zorder=3,
-            )
-
-    fig.suptitle(
-        f"Survey-Weighted Assembly Decision Analysis - {model_norm.upper()} Model",
-        fontsize=15,
-        fontweight="bold",
-        y=0.98,
-    )
-
-    fig.text(
-        0.5,
-        0.01,
-        "Note: Survey-weighted preference alignment (rounded priorities from 22 community respondents: "
-        "28% accuracy, 20% contiguity, 17% residual-hit removal, 35% replicon recovery) across 13 benchmark isolates; "
-        "not a universal assembly-quality score.",
-        ha="center",
-        fontsize=10,
-        style="italic",
-    )
-
     target_path = Path(out_path)
     target_path.parent.mkdir(parents=True, exist_ok=True)
-    plt.tight_layout(rect=(0.0, 0.04, 1.0, 0.95))
+    plt.tight_layout()
     fig.savefig(target_path, bbox_inches="tight")
     plt.close(fig)
     return fig
