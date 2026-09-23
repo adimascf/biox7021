@@ -144,7 +144,7 @@ def main():
     plot_metric(
         axes[2], df_missed_agg, "combo", "total_missed", 
         "Total Missed Contigs", "C. Missed Contigs", 
-        order_missed, np.mean, is_strip_only=True
+        order_missed, np.mean, is_bar=True
     )
     axes[2].yaxis.set_major_locator(MaxNLocator(integer=True))
 
@@ -153,7 +153,7 @@ def main():
     plot_metric(
         axes[3], df_contam_agg, "combo", "contamination_count", 
         "Total Contaminants", "D. Contamination Count", 
-        order_contam, np.mean, is_strip_only=True
+        order_contam, np.mean, is_bar=True
     )
     axes[3].yaxis.set_major_locator(MaxNLocator(integer=True))
 
